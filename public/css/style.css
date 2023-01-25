@@ -141,6 +141,30 @@ strong {
   background: linear-gradient(-135deg, #899FD4 0%, #A389D4 100%);
 }
 
+.theme-bg3 {
+    background: linear-gradient(-135deg, #c19918 0%, #d56234 100%);
+  }
+
+.theme-bg4 {
+    background: linear-gradient(-135deg, #c11886 0%, #6434d5 100%);
+}
+
+.theme-bg5 {
+    background: #01a9ac;
+}
+
+.theme-bg6 {
+    background: #d41818e0;
+}
+
+.theme-bg7 {
+    background: #e69f1ce0;
+}
+
+.theme-bg8 {
+    background: #089276e0;
+}
+
 /* ==========  card css start  =========== */
 .anim-rotate {
   -webkit-animation: anim-rotate 1s linear infinite;
@@ -7774,12 +7798,12 @@ a.btn-theme.active {
 
 .btn-success {
   color: #fff;
-  background-color: #1de9b6;
+  background-color: #3CB371;
   border-color: #1de9b6;
 }
 .btn-success:hover {
   color: #fff;
-  background-color: #14cc9e;
+  background-color: #2E8B57;
   border-color: #13c095;
 }
 .btn-success.disabled, .btn-success:disabled {

@@ -10,20 +10,22 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             //set mixins
             .mixin({
-                //method "hasAnyPermission"
-                hasAnyPermission: function (permissions){
-                    //get permissions from props
-                    let allPermissions = this.$page.props.auth.permissions;
-                    let hasPermission = false;
-                    permissions.forEach(function(item){
-                        if(allPermissions[item]) hasPermission = true;
-                    });
-                    return hasPermission;
+                methods: {
+                    //method "hasAnyPermission"
+                    hasAnyPermission: function (permissions) {
+                        //get permissions from props
+                        let allPermissions = this.$page.props.auth.permissions;
+                        let hasPermission = false;
+                        permissions.forEach(function(item){
+                            if(allPermissions[item]) hasPermission = true;
+                        });
+                        return hasPermission;
+                    }
                 },
             })
             .use(plugin)
             .mount(el)
-        },
+    },
 });
 
 InertiaProgress.init()
