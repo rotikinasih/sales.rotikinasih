@@ -10,6 +10,7 @@ use App\Models\MasterPerusahaan;
 use App\Models\RiwayatOrganisasi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 class KaryawanController extends Controller
 {
@@ -74,7 +75,6 @@ class KaryawanController extends Controller
             'status_kerja'                  => 'required',
             'divisi_id'                     => 'required',
             'pt_id'                         => 'required',
-            // 'foto'                          => 'required',
             'tanggal_masuk'                 => 'required',
             'tanggal_kontrak'               => 'required',
             'no_kk'                         => 'required',
@@ -83,8 +83,6 @@ class KaryawanController extends Controller
             'jabatan'                       => 'required',
             'no_hp'                         => 'required',
             'no_wa'                         => 'required',
-            // 'no_bpjs_kesehatan'             => 'required',
-            // 'no_bpjs_ketenagakerjaan'       => 'required',
             'gol_darah'                     => 'required',
             'email'                         => 'required',
             'tempat_lahir'                  => 'required',
@@ -96,20 +94,18 @@ class KaryawanController extends Controller
             'pendidikan'                    => 'required',
             'nama_sekolah'                  => 'required',
             'kab_penugasan'                 => 'required',
-            // 'rekening'                      => 'required',
             'ukuran_baju'                   => 'required',
             'no_sdr'                        => 'required',
             'hubungan'                      => 'required',
         ]);
 
         //create karyawan
-        Karyawan::create([
+        $karyawan = Karyawan::create([
             'nama_karyawan'             => $request->nama_karyawan,
             'nik_karyawan'              => $request->nik_karyawan,
             'status_kerja'              => $request->status_kerja,
             'divisi_id'                 => $request->divisi_id,
             'pt_id'                     => $request->pt_id,
-            'foto'                      => $request->foto,
             'tanggal_masuk'             => $request->tanggal_masuk,
             'tanggal_kontrak'           => $request->tanggal_kontrak,
             'no_kk'                     => $request->no_kk,
@@ -136,16 +132,18 @@ class KaryawanController extends Controller
             'no_sdr'                    => $request->no_sdr,
             'hubungan'                  => $request->hubungan
         ]);
-        //upload image CEK BUKU DI CRUD KATEGORII YAAA
-        // $image = $request->file('foto');
-        // $image->storeAs('public/categories', $image->hashName());
 
-        // if($request->file('image')->store('image', 'public'));
+        if($request->task_file){
+            $extension = substr($request->nama_file, -3);
+            $nama_file = $karyawan->nik_karyawan.'.'.$extension;
+            Storage::putFileAs('public', $request->task_file, $nama_file);
+            $karyawan->update([
+                'foto'  => $nama_file
+            ]);
+        }else{
+            $nama_file = null;
+        }
 
-        // $karyawan->update([
-        //     'qr_code'   => $file_name
-        // ]);
-        // $request->file('foto')->store('pictures');
         return redirect()->route('apps.karyawan.index');
     }
 
@@ -155,7 +153,7 @@ class KaryawanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(karyawan $karyawan)
+    public function edit(Karyawan $karyawan)
     {
         //get PT
         $perusahaan = MasterPerusahaan::where('status', 1)->get();
@@ -177,7 +175,7 @@ class KaryawanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, karyawan $karyawan)
+    public function update(Request $request, Karyawan $karyawan)
     {
         /**
          * validate
@@ -188,7 +186,6 @@ class KaryawanController extends Controller
             'status_kerja'                  => 'required',
             'divisi_id'                     => 'required',
             'pt_id'                         => 'required',
-            // 'foto'                          => 'required',
             'tanggal_masuk'                 => 'required',
             'tanggal_kontrak'               => 'required',
             'no_kk'                         => 'required',
@@ -197,8 +194,6 @@ class KaryawanController extends Controller
             'jabatan'                       => 'required',
             'no_hp'                         => 'required',
             'no_wa'                         => 'required',
-            // 'no_bpjs_kesehatan'             => 'required',
-            // 'no_bpjs_ketenagakerjaan'       => 'required',
             'gol_darah'                     => 'required',
             'email'                         => 'required',
             'tempat_lahir'                  => 'required',
@@ -210,12 +205,23 @@ class KaryawanController extends Controller
             'pendidikan'                    => 'required',
             'nama_sekolah'                  => 'required',
             'kab_penugasan'                 => 'required',
-            // 'rekening'                      => 'required',
             'ukuran_baju'                   => 'required',
             'no_sdr'                        => 'required',
             'hubungan'                      => 'required',
         ]);
-
+        //
+        if($request->task_file){
+            //mengambil extension file
+            $extension = substr($request->nama_file, -3);
+            $nama_file = $karyawan->nik_karyawan.'.'.$extension;
+            Storage::putFileAs('public', $request->task_file, $nama_file);
+            //delete gambar di storage
+            $foto = $karyawan->foto;
+            //hapus di storage link
+            Storage::disk('public')->delete('storage/', $foto);
+        }else{
+            $nama_file = $karyawan->foto;
+        }
         //update karyawan
         $karyawan->update([
             'nama_karyawan'             => $request->nama_karyawan,
@@ -223,7 +229,7 @@ class KaryawanController extends Controller
             'status_kerja'              => $request->status_kerja,
             'divisi_id'                 => $request->divisi_id,
             'pt_id'                     => $request->pt_id,
-            'foto'                      => $request->foto,
+            'foto'                      => $nama_file,
             'tanggal_masuk'             => $request->tanggal_masuk,
             'tanggal_kontrak'           => $request->tanggal_kontrak,
             'no_kk'                     => $request->no_kk,
@@ -251,7 +257,6 @@ class KaryawanController extends Controller
             'hubungan'                  => $request->hubungan
         ]);
 
-        // if($request->file('foto')->store('image', 'public'));
         //redirect
         return redirect()->route('apps.karyawan.index');
     }
@@ -267,16 +272,9 @@ class KaryawanController extends Controller
         //find karyawan by ID
         $karyawan = Karyawan::findOrFail($id);
         //delete gambar di storage
-        // $gambar_qrcode = $karyawan->qr_code;
-        // //mengubah qrcode menjadi tulisan kecil dan menghilangkan .png
-        // $lower_format = Str::lower($gambar_qrcode);
-        // $new_format = substr($lower_format,0, -4);
-        // // hapus salinan dari milon barcode
-        // Storage::disk('local')->delete('public'.$new_format.'qrcode'.'.png');
-        // Storage::disk('public')->delete('storage/','public'.$new_format.'qrcode'.'.png');
-        // //hapus di storage link
-        // Storage::disk('public')->delete('storage/', $gambar_qrcode);
-
+        $gambar_qrcode = $karyawan->foto;
+        //hapus di storage link
+        Storage::disk('public')->delete('storage/', $gambar_qrcode);
         //delete karyawan
         $karyawan->delete();
         //redirect
@@ -306,41 +304,6 @@ class KaryawanController extends Controller
 
         //redirect
         return redirect()->route('apps.karyawan.index');
-    }
-
-    //list karir
-    public function listKarir($id){
-        // $lists = RiwayatOrganisasi::with('karyawan','divisi')->where('karyawan_id', $id)->latest()->get();
-
-
-        // if($lists) {
-        //     // return response()->json([
-        //     //     'success' => true,
-        //     //     'data'    => $list
-        //     // ]);
-        //     return Inertia::render('Apps/Karyawan/ListOrganisasi', [
-        //         'lists'         => $lists,
-        //         'nama'          => $nama_karyawan
-        //     ]);
-        // }
-
-        // return response()->json([
-        //     'success' => false,
-        //     'data'    => null
-        // ]);
-
-        $search = request()->search;
-        //get list
-        // $lists = RiwayatOrganisasi::with('karyawan', 'divisi')->whereHas('divisi', function($q) use($search, $id){
-        //     $q->where('nama_divisi', 'like', '%'. $search . '%');
-        //     })->where('karyawan_id', $id)->latest()->paginate(10)->onEachSide(1);
-
-        // $nama_karyawan = Karyawan::where('id', $id)->first()->nama_karyawan;
-
-        // return Inertia::render('Apps/Karyawan/ListOrganisasi', [
-        //     'lists'         => $lists,
-        //     'nama'          => $nama_karyawan
-        // ]);
     }
 
     public function storePelanggaran(Request $request)

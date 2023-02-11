@@ -15,7 +15,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <template id="user_detail1" v-if="activePhase == 1">
-                                    <!-- <h1>Step 1</h1>{{ divisi }} {{ perusahaan }} -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -31,12 +30,12 @@
                                                     track-by="value"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
-                                                    placeholder="Select Status kerja"
+                                                    placeholder="Select Employment Status"
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label" name="foto">Photo</label><br>
-                                                <input type="file" name="foto" @change="fileImage" >
+                                                <input type="file" id="task_file" @change="selectedTaskFile">
                                             </div>
                                             <div class="mb-3">
                                                 <div class="preview" v-show="preview">
@@ -76,14 +75,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{ user_detail1 }}
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)">Next</button>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right">Next</button>
+                                        </div>
                                     </div>
                                 </template>
 
                                 <template id="user_detail2" v-if="activePhase == 2">
-                                    <!-- <h1>Step 2</h1> -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -99,12 +99,12 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Tanggal Masuk</label>
+                                                <label class="fw-bold">Entry Date</label>
                                                 <input type="date" class="form-control" v-model="user_detail2.tanggal_masuk" placeholder="Entry Date">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">NIK Penduduk</label>
-                                                <input type="text" class="form-control" v-model="user_detail2.nik_penduduk" placeholder="NIK (Population)">
+                                                <label class="fw-bold">Resident Number (NIK)</label>
+                                                <input type="text" class="form-control" v-model="user_detail2.nik_penduduk" placeholder="Resident Number (NIK)">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -114,42 +114,44 @@
                                                     v-model="user_detail2.jabatan"
                                                     :options="jabatan"
                                                     label="name"
-                                                    track-by="value"
+                                                    track-by="name"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
                                                     placeholder="Select Jabatan"
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Tanggal Contrak</label>
+                                                <label class="fw-bold">Contract Date</label>
                                                 <input type="date" class="form-control" v-model="user_detail2.tanggal_kontrak" placeholder="Contract Date">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">No KK</label>
-                                                <input type="text" class="form-control" v-model="user_detail2.no_kk" placeholder="No KK">
+                                                <label class="fw-bold">KK Number</label>
+                                                <input type="text" class="form-control" v-model="user_detail2.no_kk" placeholder="KK Number">
                                             </div>
                                         </div>
-                                    </div>{{ user_detail2 }}
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(1)">Previous</button>
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)">Next</button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(1)" style="float:right">Previous</button>
+                                        </div>
                                     </div>
                                 </template>
 
                                 <template id="user_detail3" v-if="activePhase == 3">
-                                    <!-- <h1>Step 3</h1> -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">No HP</label>
-                                                <input type="text" class="form-control" v-model="user_detail3.no_hp" placeholder="No HP">
+                                                <label class="fw-bold">HP Number</label>
+                                                <input type="text" class="form-control" v-model="user_detail3.no_hp" placeholder="HP Number">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">No BPJS Kesehatan</label>
-                                                <input type="text" class="form-control" v-model="user_detail3.no_bpjs_kesehatan" placeholder="Healthy BPJS">
+                                                <label class="fw-bold">Health BPJS</label>
+                                                <input type="text" class="form-control" v-model="user_detail3.no_bpjs_kesehatan" placeholder="Health BPJS">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Golongan Darah</label>
+                                                <label class="fw-bold">Blood Group</label>
                                                 <VueMultiselect
                                                     v-model="user_detail3.gol_darah"
                                                     :options="golongan_darah"
@@ -163,11 +165,11 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">No WA</label>
+                                                <label class="fw-bold">WA Number</label>
                                                 <input type="text" class="form-control" v-model="user_detail3.no_wa" placeholder="WA Number">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">No BPJS Ketenagakerjaan</label>
+                                                <label class="fw-bold">BPJS of Employment</label>
                                                 <input type="text" class="form-control" v-model="user_detail3.no_bpjs_ketenagakerjaan" placeholder="BPJS of Employment">
                                             </div>
                                             <div class="mb-3">
@@ -175,27 +177,29 @@
                                                 <input type="email" class="form-control" v-model="user_detail3.email" placeholder="Email">
                                             </div>
                                         </div>
-                                    </div>{{ user_detail3 }}
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)">Previous</button>
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)">Next</button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right">Previous</button>
+                                        </div>
                                     </div>
                                 </template>
 
                                 <template id="user_detail4" v-if="activePhase == 4">
-                                    <!-- <h1>Step 3</h1> -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">Tempat Lahir</label>
-                                                <input type="text" class="form-control" v-model="user_detail4.tempat_lahir" placeholder="Tempat Lahir">
+                                                <label class="fw-bold">Place of Birth</label>
+                                                <input type="text" class="form-control" v-model="user_detail4.tempat_lahir" placeholder="Place of Birth">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Alamat KTP</label>
-                                                <textarea type="text" class="form-control" v-model="user_detail4.alamat_ktp" placeholder="Alamat KTP"></textarea>
+                                                <label class="fw-bold">KTP Address</label>
+                                                <textarea type="text" class="form-control" v-model="user_detail4.alamat_ktp" placeholder="KTP Address"></textarea>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Jenis Kelamin</label>
+                                                <label class="fw-bold">Gender</label>
                                                 <VueMultiselect
                                                     v-model="user_detail4.jenis_kelamin"
                                                     :options="jenis_kelamin"
@@ -209,15 +213,15 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">Tanggal Lahir</label>
-                                                <input type="date" class="form-control" v-model="user_detail4.tanggal_lahir" placeholder="Tanggal Lahir">
+                                                <label class="fw-bold">Date of Birth</label>
+                                                <input type="date" class="form-control" v-model="user_detail4.tanggal_lahir" placeholder="Date of Birth">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Alamat Domisili</label>
-                                                <textarea class="form-control" v-model="user_detail4.alamat_domisili" placeholder="Alamat Domisili"></textarea>
+                                                <label class="fw-bold">Residence Address</label>
+                                                <textarea class="form-control" v-model="user_detail4.alamat_domisili" placeholder="Residence Address"></textarea>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Status Pernikahan</label>
+                                                <label class="fw-bold">Married Status</label>
                                                 <VueMultiselect
                                                     v-model="user_detail4.status_pernikahan"
                                                     :options="status_pernikahan"
@@ -225,23 +229,25 @@
                                                     track-by="value"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
-                                                    placeholder="Select Gender"
+                                                    placeholder="Select Married Status"
                                                 ></VueMultiselect>
                                             </div>
                                         </div>
-                                    </div>{{ user_detail4 }}
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)">Previous</button>
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(5)">Next</button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(5)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right">Previous</button>
+                                        </div>
                                     </div>
                                 </template>
 
                                 <template id="user_detail4" v-if="activePhase == 5">
-                                    <!-- <h1>Step 3</h1> -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">Pendidikan</label>
+                                                <label class="fw-bold">Education</label>
                                                 <VueMultiselect
                                                     v-model="user_detail5.pendidikan"
                                                     :options="pendidikan"
@@ -249,29 +255,29 @@
                                                     track-by="value"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
-                                                    placeholder="Select pendidikan"
+                                                    placeholder="Select Education"
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Sekolah</label>
-                                                <input type="text" class="form-control" v-model="user_detail5.nama_sekolah" placeholder="Sekolah">
+                                                <label class="fw-bold">School Name</label>
+                                                <input type="text" class="form-control" v-model="user_detail5.nama_sekolah" placeholder="School Name">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">No SDR</label>
-                                                <input type="text" class="form-control" v-model="user_detail5.no_sdr" placeholder="NO SDR">
+                                                <label class="fw-bold">Contact Number Family</label>
+                                                <input type="text" class="form-control" v-model="user_detail5.no_sdr" placeholder="Contact Number Family">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Hubungan</label>
-                                                <input type="text" class="form-control" v-model="user_detail5.hubungan" placeholder="Hubungan">
+                                                <label class="fw-bold">Family Relationship</label>
+                                                <input type="text" class="form-control" v-model="user_detail5.hubungan" placeholder="Family Relationship">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">Rekening</label>
-                                                <input type="text" class="form-control" v-model="user_detail5.rekening" placeholder="Rekening">
+                                                <label class="fw-bold">Rekening Bank</label>
+                                                <input type="text" class="form-control" v-model="user_detail5.rekening" placeholder="Rekening Bank">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Ukuran Baju</label>
+                                                <label class="fw-bold">Clothes Size</label>
                                                 <VueMultiselect
                                                     v-model="user_detail5.ukuran_baju"
                                                     :options="ukuran_baju"
@@ -279,18 +285,21 @@
                                                     track-by="value"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
-                                                    placeholder="Select Ukuran Baju"
+                                                    placeholder="Select Clothes Size"
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Kab Penugasan</label>
-                                                <input type="text" class="form-control" v-model="user_detail5.kab_penugasan" placeholder="Kab Penugasan">
+                                                <label class="fw-bold">Assignment District</label>
+                                                <input type="text" class="form-control" v-model="user_detail5.kab_penugasan" placeholder="Assignment District">
                                             </div>
                                         </div>
-                                    </div>{{ user_detail5 }}
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)">Previous</button>
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="storeData">Finish</button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="storeData" style="float:right">Finish</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Previous</button>
+                                        </div>
                                     </div>
                                 </template>
                             </div>
@@ -347,8 +356,8 @@
             ];
 
             const jenis_kelamin = [
-                { name: 'Laki-laki', value: 0 },
-                { name: 'Perempuan', value: 1 }
+                { name: 'Male', value: 0 },
+                { name: 'Female', value: 1 }
             ];
 
             const status_kerja = [
@@ -357,8 +366,8 @@
             ];
 
             const status_pernikahan = [
-                { name: 'Belum Menikah', value: 0 },
-                { name: 'Sudah Menikah', value: 1 }
+                { name: 'Single', value: 0 },
+                { name: 'Married', value: 1 }
             ];
 
             const ukuran_baju = [
@@ -422,7 +431,10 @@
                 status_kerja: '',
                 divisi: '',
                 pt: '',
-                image:''
+                image:'',
+                // UJI COBA
+                file:'',
+                task_file:'',
             });
 
             const user_detail2 = reactive({
@@ -471,9 +483,9 @@
             }
 
             const fileImage = (event) => {
-                user_detail1.image = event.target.files[0];
-                console.log(user_detail1.image.name)
-                if (user_detail1.image.size > 2048 * 2048) {
+                user_detail1.task_file = event.target.files[0];
+                console.log(user_detail1.task_file)
+                if (user_detail1.task_file.size > 2048 * 2048) {
                     event.preventDefault();
                     alert('File too big (> 2MB)');
                     return;
@@ -482,15 +494,29 @@
                 }
             }
 
+            const selectedTaskFile = (e) => {
+                user_detail1.task_file = e.target.files[0];
+                if (user_detail1.task_file.size > 2048 * 2048) {
+                    e.preventDefault();
+                    alert('File too big (> 2MB)');
+                    return;
+                } else {
+                    preview.value = URL.createObjectURL(e.target.files[0]);
+                }
+                // console.log(user_detail1.task_file.name);
+            }
+
             const storeData = () => {
-                // console.log(user_detail1.status_kerja.value);
+                // console.log(user_detail1.file.value);
                 Inertia.post('/apps/karyawan',{
                     nama_karyawan: user_detail1.nama_karyawan,
                     nik_karyawan: user_detail1.nik_karyawan,
                     status_kerja: user_detail1.status_kerja.value,
                     divisi_id: user_detail1.divisi.id,
                     pt_id: user_detail1.pt.id,
-                    foto: user_detail1.image.name,
+                    task_file: user_detail1.task_file,
+                    nama_file: user_detail1.task_file.name,
+                    file: user_detail1.file.value,
                     tanggal_masuk: user_detail2.tanggal_masuk,
                     tanggal_kontrak: user_detail2.tanggal_kontrak,
                     no_kk: user_detail2.no_kk,
@@ -534,7 +560,8 @@
                 activePhase, user_detail1, user_detail2, user_detail3, user_detail4, user_detail5,
                 goToStep, finish, foto,
                 fileImage, preview, golongan_darah, jenis_kelamin, status_pernikahan,
-                ukuran_baju, status_kerja, pendidikan, jabatan, grade, storeData
+                ukuran_baju, status_kerja, pendidikan, jabatan, grade, storeData,
+                selectedTaskFile,
             }
         }
     }

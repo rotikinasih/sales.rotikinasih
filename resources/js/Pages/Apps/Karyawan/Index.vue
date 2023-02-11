@@ -33,13 +33,13 @@
                                     <td v-else><a class="label theme-bg text-white f-12" style="border-radius:10px">Fixed</a></td>
                                     <td class="text-center">
                                         <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
-                                        <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg2 text-white f-12" style="cursor:pointer" title="Delete" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
-                                        <a @click.prevent="detail(kar)" class="label theme-bg2 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-info"></i></a>
+                                        <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer" title="Delete" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
+                                        <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-info"></i></a>
                                         <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Add Historical Organization" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-user-plus"></i></a>
-                                        <!-- <a @click.prevent="listKarir(kar.id)" class="label theme-bg2 text-white f-12" title="Historical Organization" data-toggle="tooltip" style="cursor:pointer"><i class="fa fa-users"></i></a> -->
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
                                         <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-bell-slash"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-low-vision"></i></Link>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-low-vision"></i></Link>
+                                        <Link class="label theme-bg8 text-white f-12 me-2" style="cursor:pointer" title="Print" data-toggle="tooltip-inner"><i class="fa fa-print"></i></Link>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -73,8 +73,7 @@
                 <template #body>
                     <div class="mb-3">
                         <div class="form-group mb-3">
-                            <!-- <label class="col-form-label">Photo</label> -->
-                            <input type="text" class="form-control" v-model="foto" readonly>
+                            <img :src="`/storage/${foto}`" alt="photo" style="width:20%"><br>
                         </div>
                     </div>
                     <div class="row">
@@ -360,7 +359,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Group Joining Date : </label>{{ tgl_gabung_grup }}
+                                <label class="col-form-label">Group Joining Date : </label>
                                 <input type="date" class="form-control" placeholder="Group Joining Date" v-model="tgl_gabung_grup" required>
                             </div>
                         </div>
@@ -371,7 +370,7 @@
                                     v-model="divisi_id"
                                     :options="divisi"
                                     label="nama_divisi"
-                                    track-by="value"
+                                    track-by="id"
                                     :allow-empty="false"
                                     deselect-label="Can't remove this value"
                                     placeholder="Select Division"
@@ -382,13 +381,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Date of Entry : </label>{{ tgl_masuk }}
+                                <label class="col-form-label">Date of Entry : </label>
                                 <input type="date" class="form-control" placeholder="Date of Entry" v-model="tgl_masuk" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">End Date : </label>{{ tgl_berakhir }}
+                                <label class="col-form-label">End Date : </label>
                                 <input type="date" class="form-control" placeholder="End Date" v-model="tgl_berakhir" required>
                             </div>
                         </div>
@@ -645,7 +644,9 @@
                 status_kerja.value = kar['status_kerja']
                 divisi_id.value = kar['divisi']['nama_divisi']
                 pt_id.value = kar['perusahaan']['nama_pt']
-                foto.value = kar['image.name']
+                // foto.value = kar['image.name']
+                // console.log(kar['foto'])
+                foto.value = kar['foto']
                 tanggal_masuk.value = kar['tanggal_masuk']
                 tanggal_kontrak.value = kar['tanggal_kontrak']
                 no_kk.value = kar['no_kk']

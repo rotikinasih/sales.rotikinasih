@@ -16,7 +16,7 @@ class CreateKaryawanTable extends Migration
         Schema::create('karyawan', function (Blueprint $table) {
             $table->id();
             $table->string('nama_karyawan');
-            $table->integer('nik_karyawan');
+            $table->integer('nik_karyawan')->unique();
             $table->tinyInteger('status_kerja')->comment('0 = Kontrak, 1 = Tetap');
             $table->unsignedBigInteger('divisi_id');
             $table->unsignedBigInteger('pt_id');
@@ -24,7 +24,7 @@ class CreateKaryawanTable extends Migration
             $table->date('tanggal_masuk');
             $table->date('tanggal_kontrak');
             $table->string('no_kk');
-            $table->string('nik_penduduk');
+            $table->string('nik_penduduk')->unique();
             $table->string('grade');
             $table->string('jabatan');
             $table->string('no_hp');

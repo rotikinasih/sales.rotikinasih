@@ -15,14 +15,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <template id="user_detail1" v-if="activePhase == 1">
-                                    <!-- <h1>Step 1</h1>{{ divisi }} {{ perusahaan }} -->{{ form.status_kerja }}
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="fw-bold">Employee Name</label>
                                                 <input class="form-control" v-model="form.nama_karyawan" type="text" placeholder="Employee Name">
                                             </div>
-                                            <div class="mb-3">{{ form.status_kerja }}
+                                            <div class="mb-3">
                                                 <label class="fw-bold">Employment Status</label>
                                                 <VueMultiselect
                                                     v-model="form.status_kerja"
@@ -34,15 +33,18 @@
                                                     placeholder="Select Status kerja"
                                                 ></VueMultiselect>
                                             </div>
+
                                             <div class="mb-3">
                                                 <label class="form-label" name="foto">Photo</label><br>
-                                                <input type="file" name="foto" @change="fileImage" >
+                                                <input type="file" name="foto" @change="fileImage">
                                             </div>
+                                            <label class="form-label">{{ form['foto'] }}</label><br>
                                             <div class="mb-3">
                                                 <div class="preview" v-show="preview">
                                                     <label class="form-label" name="preview">Preview</label><br>
                                                     <img :src="preview" width="200" height="150">
                                                 </div>
+                                                <img v-if="form['foto'] != null && foto == null" :src="`/storage/${form['foto']}`" alt="photo" style="width:20%"><br>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -76,14 +78,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- {{ user_detail1 }} -->
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)">Next</button>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right">Next</button>
+                                        </div>
                                     </div>
                                 </template>
 
                                 <template id="user_detail2" v-if="activePhase == 2">
-                                    <!-- <h1>Step 2</h1> -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -99,11 +102,11 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Tanggal Masuk</label>
+                                                <label class="fw-bold">Entry Date</label>
                                                 <input type="date" class="form-control" v-model="form.tanggal_masuk" placeholder="Entry Date">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">NIK Penduduk</label>
+                                                <label class="fw-bold">Resident Number (NIK)</label>
                                                 <input type="text" class="form-control" v-model="form.nik_penduduk" placeholder="NIK (Population)">
                                             </div>
                                         </div>
@@ -114,43 +117,44 @@
                                                     v-model="form.jabatan"
                                                     :options="data_jabatan"
                                                     label="name"
-                                                    track-by="value"
+                                                    track-by="name"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
                                                     placeholder="Select Jabatan"
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Tanggal Contrak</label>
+                                                <label class="fw-bold">Contract Date</label>
                                                 <input type="date" class="form-control" v-model="form.tanggal_kontrak" placeholder="Contract Date">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">No KK</label>
+                                                <label class="fw-bold">KK Number</label>
                                                 <input type="text" class="form-control" v-model="form.no_kk" placeholder="No KK">
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- {{ user_detail2 }} -->
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(1)">Previous</button>
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)">Next</button>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(1)" style="float:right">Previous</button>
+                                        </div>
                                     </div>
                                 </template>
 
                                 <template id="user_detail3" v-if="activePhase == 3">
-                                    <!-- <h1>Step 3</h1> -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">No HP</label>
+                                                <label class="fw-bold">HP Number</label>
                                                 <input type="text" class="form-control" v-model="form.no_hp" placeholder="No HP">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">No BPJS Kesehatan</label>
+                                                <label class="fw-bold">Health BPJS</label>
                                                 <input type="text" class="form-control" v-model="form.no_bpjs_kesehatan" placeholder="Healthy BPJS">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Golongan Darah</label>
+                                                <label class="fw-bold">Blood Group</label>
                                                 <VueMultiselect
                                                     v-model="form.gol_darah"
                                                     :options="data_golongan_darah"
@@ -164,11 +168,11 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">No WA</label>
+                                                <label class="fw-bold">WA Number</label>
                                                 <input type="text" class="form-control" v-model="form.no_wa" placeholder="WA Number">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">No BPJS Ketenagakerjaan</label>
+                                                <label class="fw-bold">BPJS of Employment</label>
                                                 <input type="text" class="form-control" v-model="form.no_bpjs_ketenagakerjaan" placeholder="BPJS of Employment">
                                             </div>
                                             <div class="mb-3">
@@ -177,27 +181,28 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- {{ user_detail3 }} -->
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)">Previous</button>
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)">Next</button>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right">Previous</button>
+                                        </div>
                                     </div>
                                 </template>
 
                                 <template id="user_detail4" v-if="activePhase == 4">
-                                    <!-- <h1>Step 3</h1> -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">Tempat Lahir</label>
+                                                <label class="fw-bold">Place of Birth</label>
                                                 <input type="text" class="form-control" v-model="form.tempat_lahir" placeholder="Tempat Lahir">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Alamat KTP</label>
+                                                <label class="fw-bold">KTP Address</label>
                                                 <textarea type="text" class="form-control" v-model="form.alamat_ktp" placeholder="Alamat KTP"></textarea>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Jenis Kelamin</label>
+                                                <label class="fw-bold">Gender</label>
                                                 <VueMultiselect
                                                     v-model="form.jenis_kelamin"
                                                     :options="data_jenis_kelamin"
@@ -211,15 +216,15 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">Tanggal Lahir</label>
+                                                <label class="fw-bold">Date of Birth</label>
                                                 <input type="date" class="form-control" v-model="form.tanggal_lahir" placeholder="Tanggal Lahir">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Alamat Domisili</label>
+                                                <label class="fw-bold">Residence Address</label>
                                                 <textarea class="form-control" v-model="form.alamat_domisili" placeholder="Alamat Domisili"></textarea>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Status Pernikahan</label>
+                                                <label class="fw-bold">Married Status</label>
                                                 <VueMultiselect
                                                     v-model="form.status_pernikahan"
                                                     :options="data_status_pernikahan"
@@ -232,19 +237,20 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- {{ user_detail4 }} -->
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)">Previous</button>
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(5)">Next</button>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(5)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right">Previous</button>
+                                        </div>
                                     </div>
                                 </template>
 
                                 <template id="user_detail4" v-if="activePhase == 5">
-                                    <!-- <h1>Step 3</h1> -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">Pendidikan</label>
+                                                <label class="fw-bold">Education</label>
                                                 <VueMultiselect
                                                     v-model="form.pendidikan"
                                                     :options="data_pendidikan"
@@ -256,25 +262,25 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Sekolah</label>
+                                                <label class="fw-bold">School Name</label>
                                                 <input type="text" class="form-control" v-model="form.nama_sekolah" placeholder="Sekolah">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">No SDR</label>
+                                                <label class="fw-bold">Contact Number Family</label>
                                                 <input type="text" class="form-control" v-model="form.no_sdr" placeholder="NO SDR">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Hubungan</label>
+                                                <label class="fw-bold">Family Relationship</label>
                                                 <input type="text" class="form-control" v-model="form.hubungan" placeholder="Hubungan">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="fw-bold">Rekening</label>
+                                                <label class="fw-bold">Rekening Bank</label>
                                                 <input type="text" class="form-control" v-model="form.rekening" placeholder="Rekening">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Ukuran Baju</label>
+                                                <label class="fw-bold">Clothes Size</label>
                                                 <VueMultiselect
                                                     v-model="form.ukuran_baju"
                                                     :options="data_ukuran_baju"
@@ -286,15 +292,17 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Kab Penugasan</label>
+                                                <label class="fw-bold">Assignment District</label>
                                                 <input type="text" class="form-control" v-model="form.kab_penugasan" placeholder="Kab Penugasan">
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- {{ user_detail5 }} -->
-                                    <div style="float:right">
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)">Previous</button>
-                                        <button type="button" class="btn btn-primary mt-3" @click.prevent="storeData">Finish</button>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
+                                            <button type="submit" class="btn btn-primary mt-3" @click.prevent="storeData" style="float:right">Finish</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Previous</button>
+                                        </div>
                                     </div>
                                 </template>
                             </div>
@@ -358,13 +366,13 @@
             ];
 
             const data_jenis_kelamin = [
-                { name: 'Laki-laki', value: 0 },
-                { name: 'Perempuan', value: 1 }
+                { name: 'Male', value: 0 },
+                { name: 'Female', value: 1 }
             ];
 
             const data_status_pernikahan = [
-                { name: 'Belum Menikah', value: 0 },
-                { name: 'Sudah Menikah', value: 1 }
+                { name: 'Single', value: 0 },
+                { name: 'Married', value: 1 }
             ];
 
             const data_ukuran_baju = [
@@ -423,7 +431,6 @@
 
             onMounted(() => {
                 getData()
-                // console.log(props.perusahaan);
             })
 
             //mendapatkan object dari masing2 FK
@@ -548,14 +555,10 @@
                 activePhase.value = step
             }
 
-            // const finish = () => {
-            //     console.log(user_detail5.pendidikan, user_detail5.ukuran_baju.value)
-            // }
-
             const fileImage = (event) => {
-                image.value = event.target.files[0];
+                foto.value = event.target.files[0];
                 // console.log(user_detail1.image.name)
-                if (image.size > 2048 * 2048) {
+                if (foto.size > 2048 * 2048) {
                     event.preventDefault();
                     alert('File too big (> 2MB)');
                     return;
@@ -565,61 +568,108 @@
             }
 
             const storeData = () => {
-                console.log(image.value);
-                Inertia.put(`/apps/karyawan/${props.karyawan.id}`, {
-                    nama_karyawan: form.nama_karyawan,
-                    nik_karyawan: form.nik_karyawan,
-                    status_kerja: form.status_kerja.value,
-                    divisi_id: form.divisi_id.id,
-                    pt_id: form.pt_id.id,
-                    foto: image.value.name,
-                    tanggal_masuk: form.tanggal_masuk,
-                    tanggal_kontrak: form.tanggal_kontrak,
-                    no_kk: form.no_kk,
-                    nik_penduduk: form.nik_penduduk,
-                    grade: form.grade.name,
-                    jabatan: form.jabatan.name,
-                    no_hp: form.no_hp,
-                    no_wa: form.no_wa,
-                    no_bpjs_kesehatan: form.no_bpjs_kesehatan,
-                    no_bpjs_ketenagakerjaan: form.no_bpjs_ketenagakerjaan,
-                    gol_darah: form.gol_darah.value,
-                    email: form.email,
-                    tempat_lahir: form.tempat_lahir,
-                    tanggal_lahir: form.tanggal_lahir,
-                    alamat_ktp: form.alamat_ktp,
-                    alamat_domisili: form.alamat_domisili,
-                    jenis_kelamin: form.jenis_kelamin.value,
-                    status_pernikahan: form.status_pernikahan.value,
-                    pendidikan: form.pendidikan.value,
-                    nama_sekolah: form.nama_sekolah,
-                    kab_penugasan: form.kab_penugasan,
-                    rekening: form.rekening,
-                    ukuran_baju: form.ukuran_baju.value,
-                    no_sdr:form.no_sdr,
-                    hubungan: form.hubungan
-                },{
-                    onSuccess: () => {
-                        //show success alert
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Employee updated successfully.',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    },
-                });
+                if(foto.value == undefined){
+                    Inertia.post(`/apps/karyawan/${props.karyawan.id}`, {
+                        _method: 'put',
+                        nama_karyawan: form.nama_karyawan,
+                        nik_karyawan: form.nik_karyawan,
+                        status_kerja: form.status_kerja.value,
+                        divisi_id: form.divisi_id.id,
+                        pt_id: form.pt_id.id,
+                        tanggal_masuk: form.tanggal_masuk,
+                        tanggal_kontrak: form.tanggal_kontrak,
+                        no_kk: form.no_kk,
+                        nik_penduduk: form.nik_penduduk,
+                        grade: form.grade.name,
+                        jabatan: form.jabatan.name,
+                        no_hp: form.no_hp,
+                        no_wa: form.no_wa,
+                        no_bpjs_kesehatan: form.no_bpjs_kesehatan,
+                        no_bpjs_ketenagakerjaan: form.no_bpjs_ketenagakerjaan,
+                        gol_darah: form.gol_darah.value,
+                        email: form.email,
+                        tempat_lahir: form.tempat_lahir,
+                        tanggal_lahir: form.tanggal_lahir,
+                        alamat_ktp: form.alamat_ktp,
+                        alamat_domisili: form.alamat_domisili,
+                        jenis_kelamin: form.jenis_kelamin.value,
+                        status_pernikahan: form.status_pernikahan.value,
+                        pendidikan: form.pendidikan.value,
+                        nama_sekolah: form.nama_sekolah,
+                        kab_penugasan: form.kab_penugasan,
+                        rekening: form.rekening,
+                        ukuran_baju: form.ukuran_baju.value,
+                        no_sdr:form.no_sdr,
+                        hubungan: form.hubungan
+                    },{
+                        onSuccess: () => {
+                            //show success alert
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Employee updated successfully.',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        },
+                    });
+                }else{
+                    Inertia.post(`/apps/karyawan/${props.karyawan.id}`, {
+                        _method: 'put',
+                        nama_karyawan: form.nama_karyawan,
+                        nik_karyawan: form.nik_karyawan,
+                        status_kerja: form.status_kerja.value,
+                        divisi_id: form.divisi_id.id,
+                        pt_id: form.pt_id.id,
+                        task_file: foto.value,
+                        nama_file: foto.value.name,
+                        tanggal_masuk: form.tanggal_masuk,
+                        tanggal_kontrak: form.tanggal_kontrak,
+                        no_kk: form.no_kk,
+                        nik_penduduk: form.nik_penduduk,
+                        grade: form.grade.name,
+                        jabatan: form.jabatan.name,
+                        no_hp: form.no_hp,
+                        no_wa: form.no_wa,
+                        no_bpjs_kesehatan: form.no_bpjs_kesehatan,
+                        no_bpjs_ketenagakerjaan: form.no_bpjs_ketenagakerjaan,
+                        gol_darah: form.gol_darah.value,
+                        email: form.email,
+                        tempat_lahir: form.tempat_lahir,
+                        tanggal_lahir: form.tanggal_lahir,
+                        alamat_ktp: form.alamat_ktp,
+                        alamat_domisili: form.alamat_domisili,
+                        jenis_kelamin: form.jenis_kelamin.value,
+                        status_pernikahan: form.status_pernikahan.value,
+                        pendidikan: form.pendidikan.value,
+                        nama_sekolah: form.nama_sekolah,
+                        kab_penugasan: form.kab_penugasan,
+                        rekening: form.rekening,
+                        ukuran_baju: form.ukuran_baju.value,
+                        no_sdr:form.no_sdr,
+                        hubungan: form.hubungan
+                    },{
+                        onSuccess: () => {
+                            //show success alert
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Employee updated successfully.',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        },
+                    });
+                }
             }
 
             return {
                 activePhase,
                 goToStep, foto,
-                // fileImage,
                 preview,
                 data_golongan_darah, data_jenis_kelamin, data_status_pernikahan,
                 data_ukuran_baju, data_status_kerja, data_pendidikan, data_jabatan, data_grade,
-                storeData, form, fileImage
+                storeData, form, fileImage,
             }
         }
     }
