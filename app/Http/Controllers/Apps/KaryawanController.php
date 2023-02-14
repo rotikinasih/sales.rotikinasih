@@ -8,7 +8,9 @@ use App\Models\Karyawan;
 use App\Models\MasterDivisi;
 use App\Models\MasterPerusahaan;
 use App\Models\RiwayatOrganisasi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,6 +33,12 @@ class KaryawanController extends Controller
         $divisi = MasterDivisi::where('status', 1)->get();
         //get data PT
         $perusahaan = MasterPerusahaan::where('status', 1)->get();
+
+        //menghitung umur
+        $now = Carbon::now()->isoFormat('Y-MM-D');
+        $tanggal_lahir = Karyawan::get()->first()->tanggal_lahir;
+        $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
+        DB::table('karyawan')->update(['umur' => $age]);
 
         //return inertia
         return Inertia::render('Apps/Karyawan/Index', [
@@ -133,15 +141,37 @@ class KaryawanController extends Controller
             'hubungan'                  => $request->hubungan
         ]);
 
+        //update umur
+        $now = Carbon::now()->isoFormat('Y-MM-D');
+        $tanggal_lahir = $karyawan->tanggal_lahir;
+        $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
         if($request->task_file){
             $extension = substr($request->nama_file, -3);
             $nama_file = $karyawan->nik_karyawan.'.'.$extension;
             Storage::putFileAs('public', $request->task_file, $nama_file);
-            $karyawan->update([
-                'foto'  => $nama_file
-            ]);
+            //cek status kerja
+            if($request->status_kerja == 0){
+                $awal_kontrak = $karyawan->tanggal_kontrak;
+                $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime( $awal_kontrak )));
+            //     // $sisa_kontrak = Carbon::parse($now)->diffInYears($akhir_kontrak);
+                $karyawan->update([
+                    'foto'  => $nama_file,
+                    'umur'  => $age,
+                    'akhir_kontrak' => $akhir_kontrak
+                ]);
+            }else{
+                $karyawan->update([
+                    'foto'  => $nama_file,
+                    'umur'  => $age,
+                    'akhir_kontrak' => null
+                ]);
+            }
+
         }else{
             $nama_file = null;
+            $karyawan->update([
+                'umur'  => $age
+            ]);
         }
 
         return redirect()->route('apps.karyawan.index');
@@ -256,6 +286,24 @@ class KaryawanController extends Controller
             'no_sdr'                    => $request->no_sdr,
             'hubungan'                  => $request->hubungan
         ]);
+
+        //update umur
+        $now = Carbon::now()->isoFormat('Y-MM-D');
+        $tanggal_lahir = $karyawan->tanggal_lahir;
+        $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
+        if($request->status_kerja == 0){
+            $awal_kontrak = $karyawan->tanggal_kontrak;
+            $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime( $awal_kontrak )));
+            $karyawan->update([
+                'umur'  => $age,
+                'akhir_kontrak' => $akhir_kontrak
+            ]);
+        }else{
+            $karyawan->update([
+                'umur'  => $age,
+                'akhir_kontrak' => null
+            ]);
+        }
 
         //redirect
         return redirect()->route('apps.karyawan.index');

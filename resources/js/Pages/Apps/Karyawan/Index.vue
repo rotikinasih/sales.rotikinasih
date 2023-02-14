@@ -73,7 +73,7 @@
                 <template #body>
                     <div class="mb-3">
                         <div class="form-group mb-3">
-                            <img :src="`/storage/${foto}`" alt="photo" style="width:20%"><br>
+                            <img v-if="foto != null" :src="`/storage/${foto}`" alt="photo" style="width:20%"><br>
                         </div>
                     </div>
                     <div class="row">
@@ -135,7 +135,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <div class="form-group mb-3">
-                                    <label class="col-form-label">Contract Date :</label>
+                                    <label class="col-form-label">Start of Contract :</label>
                                     <input type="date" class="form-control" v-model="tanggal_kontrak" readonly>
                                 </div>
                             </div>
@@ -143,8 +143,8 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <div class="form-group mb-3">
-                                    <label class="col-form-label">KK Number :</label>
-                                    <input type="text" class="form-control" v-model="no_kk" readonly>
+                                    <label class="col-form-label">End of Contract :</label>
+                                    <input type="date" class="form-control" v-model="akhir_kontrak" readonly>
                                 </div>
                             </div>
                         </div>
@@ -153,16 +153,16 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <div class="form-group mb-3">
-                                    <label class="col-form-label">Resident Number (NIK)  :</label>
-                                    <input type="text" class="form-control" v-model="nik_penduduk" readonly>
+                                    <label class="col-form-label">KK Number :</label>
+                                    <input type="text" class="form-control" v-model="no_kk" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <div class="form-group mb-3">
-                                    <label class="col-form-label">Grade :</label>
-                                    <input type="text" class="form-control" v-model="grade" readonly>
+                                    <label class="col-form-label">Resident Number (NIK)  :</label>
+                                    <input type="text" class="form-control" v-model="nik_penduduk" readonly>
                                 </div>
                             </div>
                         </div>
@@ -236,9 +236,30 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <div class="form-group mb-3">
+                                    <label class="col-form-label">Age :</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" v-model="umur" readonly>
+                                        <span class="input-group-text">years old</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <div class="form-group mb-3">
+                                    <label class="col-form-label">Grade :</label>
+                                    <input type="text" class="form-control" v-model="grade" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <div class="form-group mb-3">
                                     <label class="col-form-label">Gender :</label>
-                                    <input v-if="jenis_kelamin == 0" type="text" class="form-control" value="Laki-laki" readonly>
-                                    <input v-if="jenis_kelamin == 1" type="text" class="form-control" value="Perempuan" readonly>
+                                    <input v-if="jenis_kelamin == 0" type="text" class="form-control" value="Male" readonly>
+                                    <input v-if="jenis_kelamin == 1" type="text" class="form-control" value="Female" readonly>
                                 </div>
                             </div>
                         </div>
@@ -260,8 +281,8 @@
                             <div class="mb-3">
                                 <div class="form-group mb-3">
                                     <label class="col-form-label">Married Status :</label>
-                                    <input v-if="status_pernikahan == 0" type="text" class="form-control" value="Belum Menikah" readonly>
-                                    <input v-if="status_pernikahan == 1" type="text" class="form-control" value="Sudah Menikah" readonly>
+                                    <input v-if="status_pernikahan == 0" type="text" class="form-control" value="Single" readonly>
+                                    <input v-if="status_pernikahan == 1" type="text" class="form-control" value="Married" readonly>
                                 </div>
                             </div>
                         </div>
@@ -403,45 +424,6 @@
                 </template>
             </modal>
         </Teleport>
-        <!-- untuk modal list karir
-        <Teleport to="body">
-            <modalScroll :show="showListKarir" @close="showListKarir = false">
-                <template #header>
-                    <h5 class="modal-title">List Maintenance</h5>
-                </template>
-                <template #body>
-                    <table class="table table-striped table-bordered table-hover table-responsive-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Asset Name</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Maintenance</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(lis, index) in listperbaikan" :key="index">
-                                    <td>{{ index + 1 }}</td>
-                                    <td>{{ lis['asset']['nama_asset'] }}</td>
-                                    <td>{{ lis['tanggal'] }}</td>
-                                    <td>{{ lis['keterangan'] }}</td>
-                                </tr>
-                                <tr v-if="listperbaikan[0] == undefined">
-                                    <td colspan="4" class="text-center">
-                                    <br>
-                                    <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                        No Data To Display
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                </template>
-                <template #footer>
-                    <button
-                        class="btn btn-secondary m-2" @click="tutupListKarir">Close</button>
-                </template>
-            </modalScroll>
-        </Teleport> -->
         <!-- untuk catatan pelanggaran -->
         <Teleport to="body">
             <modal :show="showModalPelanggaran" @close="showModalPelanggaran = false">
@@ -568,6 +550,8 @@
             const ukuran_baju = ref();
             const no_sdr = ref();
             const hubungan = ref();
+            const umur = ref();
+            const akhir_kontrak = ref();
             //save nama karyawan di add history organisasi
             const idnya = ref();
             const nama = ref();
@@ -578,6 +562,7 @@
             const catatan = ref();
             const tanggal = ref();
             const tingkatan = ref();
+
             // define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
 
@@ -593,10 +578,6 @@
             const tutupModal = () => {
                 showModalKarir.value = false;
             }
-
-            // const tutupListKarir = () => {
-            //     showListKarir.value = false;
-            // }
 
             const daftar_tingkatan = [
                 { name: 'Misdemeanor', value: 0 },
@@ -639,16 +620,20 @@
 
             //method "detail"
             const detail = (kar) => {
+                // console.log(kar)
+                var lahir = new Date(kar['tanggal_lahir'])
+                var today = new Date();
+		        var age = Math.floor((today-lahir) / (365.25 * 24 * 60 * 60 * 1000));
+                umur.value = age
                 nama_karyawan.value = kar['nama_karyawan']
                 nik_karyawan.value = kar['nik_karyawan']
                 status_kerja.value = kar['status_kerja']
                 divisi_id.value = kar['divisi']['nama_divisi']
                 pt_id.value = kar['perusahaan']['nama_pt']
-                // foto.value = kar['image.name']
-                // console.log(kar['foto'])
                 foto.value = kar['foto']
                 tanggal_masuk.value = kar['tanggal_masuk']
                 tanggal_kontrak.value = kar['tanggal_kontrak']
+                akhir_kontrak.value = kar['akhir_kontrak']
                 no_kk.value = kar['no_kk']
                 nik_penduduk.value = kar['nik_penduduk']
                 grade.value = kar['grade']
@@ -681,7 +666,6 @@
             const addKarir = (kar) => {
                 nama.value = kar['nama_karyawan']
                 idnya.value = kar['id']
-                console.log(kar['nama_karyawan'])
                 showModalKarir.value = true
             }
 
@@ -691,7 +675,6 @@
                 idnya.value = kar['id']
                 console.log(kar['nama_karyawan'])
                 showModalPelanggaran.value = true
-                // console.log(kar)
             }
 
             //method "storeKarir"
@@ -720,7 +703,6 @@
 
             //method "storePelanggaran"
             const storePelanggaran = () => {
-                // console.log(tingkatan.value.value)
                 Inertia.post('/apps/karyawan/storePelanggaran', {
                     //data
                     karyawan_id : idnya.value,
@@ -742,35 +724,19 @@
                 });
             }
 
-            //method "listKarir"
-            // const listKarir = (id) => {
-            //     // console.log('list' + kar)
-            //     axios.post('/apps/karyawan/listKarir', {
-            //         karyawan_id: id
-            //     }).then(response => {
-            //         if(response.data.success){
-            //             // listperbaikan.value = response.data.data
-            //             // console.log(listperbaikan.value)
-            //             // showListKarir.value = true
-            //             console.log('berhasil')
-            //         }
-            //     })
-            // }
-
             //return
             return {
                 search,
                 handleSearch,
                 destroy,
                 detail, showModalKarir, tutupModalDetail, showModalKarirDetail, addKarir, tutupModal,
-                nama_karyawan, nik_karyawan, status_kerja, divisi_id,
+                nama_karyawan, nik_karyawan, status_kerja, divisi_id, umur, akhir_kontrak,
                 pt_id, foto, tanggal_masuk, tanggal_kontrak, no_kk, nik_penduduk, grade,
                 jabatan, no_hp, no_wa, no_bpjs_kesehatan, no_bpjs_ketenagakerjaan, gol_darah,
                 email, tempat_lahir, tanggal_lahir, alamat_ktp, alamat_domisili,
                 jenis_kelamin, status_pernikahan, pendidikan, nama_sekolah, kab_penugasan,
                 rekening, ukuran_baju, no_sdr, hubungan,
                 idnya, nama, tgl_gabung_grup, tgl_masuk, tgl_berakhir, storeKarir,
-                // listKarir, showListKarir, tutupListKarir,
                 showModalPelanggaran, addPelanggaran, tutupModalPelanggaran, storePelanggaran, catatan, tanggal, tingkatan, daftar_tingkatan
             }
 

@@ -11,9 +11,9 @@
         <meta name="author" content="CodedThemes"/>
         <script src="{{ mix('/js/app.js') }}" defer></script>
         <link rel="icon" href="{{ asset('/images/favicon.ico') }}" type="image/ico" />
-        <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('/fonts/fontawesome/css/fontawesome-all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/plugins/animation/css/animate.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
         <script src="{{ asset('/js/vendor-all.min.js') }}"></script>
         <script src="{{ asset('/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('/js/pcoded.min.js') }}"></script>

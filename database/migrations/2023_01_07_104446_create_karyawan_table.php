@@ -23,6 +23,7 @@ class CreateKaryawanTable extends Migration
             $table->string('foto')->nullable();
             $table->date('tanggal_masuk');
             $table->date('tanggal_kontrak');
+            $table->date('akhir_kontrak')->nullable();
             $table->string('no_kk');
             $table->string('nik_penduduk')->unique();
             $table->string('grade');
@@ -35,6 +36,7 @@ class CreateKaryawanTable extends Migration
             $table->string('email');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
+            $table->integer('umur')->nullable();
             // $table->string('masa_kerja');
             $table->text('alamat_ktp');
             $table->text('alamat_domisili');

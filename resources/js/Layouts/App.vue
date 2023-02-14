@@ -5,15 +5,11 @@
         </div>
     </div>
 
-    <!-- sidebar -->
-        <Sidebar/>
-    <!-- end sidebar -->
+    <!-- sidebar header -->
+        <Sidehead/>
+    <!-- end sidebar header -->
 
-    <!-- header -->
-        <Header/>
-    <!-- end header -->
-
-    <section class="pcoded-main-container">
+    <div class="pcoded-main-container">
         <div class="pcoded-wrapper">
             <div class="pcoded-content">
                 <div class="pcoded-inner-content">
@@ -22,17 +18,15 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </template>
 
 <script>
-    import Header from '../Components/Header.vue';
-    import Sidebar from '../Components/Sidebar.vue';
+    import Sidehead from '../Components/Sidehead.vue';
 
     export default {
         components:{
-            Header,
-            Sidebar
+            Sidehead
         }
     }
 </script>
