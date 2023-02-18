@@ -16,6 +16,15 @@
                             <input type="text" class="form-control" v-model="search" placeholder="search by Employees name..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" @click="handleSearch"> <i class="fa fa-search me-2"></i></button>
                         </div>
+                        <div class="d-flex flex-row-reverse bd-highlight mb-3">
+                            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-file-excel"></i> Excel
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a  :href="`/apps/karyawan/export`" target="_blank" class="dropdown-item">Export</a>
+                                <button @click="importExcel" target="_blank" class="dropdown-item">Import</button>
+                            </div>
+                        </div>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -37,9 +46,8 @@
                                         <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-info"></i></a>
                                         <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Add Historical Organization" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-user-plus"></i></a>
                                         <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
-                                        <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-bell-slash"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-low-vision"></i></Link>
-                                        <Link class="label theme-bg8 text-white f-12 me-2" style="cursor:pointer" title="Print" data-toggle="tooltip-inner"><i class="fa fa-print"></i></Link>
+                                        <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-exclamation-triangle"></i></a>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -125,8 +133,8 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <div class="form-group mb-3">
-                                    <label class="col-form-label">Entry Date :</label>
-                                    <input type="date" class="form-control" v-model="tanggal_masuk" readonly>
+                                    <label class="col-form-label">Position :</label>
+                                    <input type="text" class="form-control" v-model="jabatan_id" readonly>
                                 </div>
                             </div>
                         </div>
@@ -135,16 +143,37 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <div class="form-group mb-3">
-                                    <label class="col-form-label">Start of Contract :</label>
-                                    <input type="date" class="form-control" v-model="tanggal_kontrak" readonly>
+                                    <label class="col-form-label">Entry Date :</label>
+                                    <input type="date" class="form-control" v-model="tanggal_masuk" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <div class="form-group mb-3">
+                                    <label class="col-form-label">Start of Contract :</label>
+                                    <input type="date" class="form-control" v-model="tanggal_kontrak" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <div class="form-group mb-3">
                                     <label class="col-form-label">End of Contract :</label>
                                     <input type="date" class="form-control" v-model="akhir_kontrak" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <div class="form-group mb-3">
+                                    <label class="col-form-label">Blood Group :</label>
+                                    <input v-if="gol_darah == 0" type="text" class="form-control" value="A" readonly>
+                                    <input v-else-if="gol_darah == 1" type="text" class="form-control" value="B" readonly>
+                                    <input v-else-if="status_kerja == 2" type="text" class="form-control" value="O" readonly>
+                                    <input v-else-if="status_kerja == 3" type="text" class="form-control" value="AB" readonly>
                                 </div>
                             </div>
                         </div>
@@ -197,11 +226,8 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <div class="form-group mb-3">
-                                    <label class="col-form-label">Blood Group :</label>
-                                    <input v-if="gol_darah == 0" type="text" class="form-control" value="A" readonly>
-                                    <input v-else-if="gol_darah == 1" type="text" class="form-control" value="B" readonly>
-                                    <input v-else-if="status_kerja == 2" type="text" class="form-control" value="O" readonly>
-                                    <input v-else-if="status_kerja == 3" type="text" class="form-control" value="AB" readonly>
+                                    <label class="col-form-label">BPJS of Health:</label>
+                                    <input type="text" class="form-control" v-model="no_bpjs_kesehatan" readonly>
                                 </div>
                             </div>
                         </div>
@@ -417,7 +443,6 @@
                 <template #footer>
 					<form @submit.prevent="storeKarir">
 						<button type="submit" class="btn btn-success text-white m-2">Save</button>
-						<!-- <button type="button" v-show="updateSubmit" @click="updateData()" class="btn btn-success text-white m-2">Update</button> -->
 					</form>
                     <button
                         class="btn btn-secondary m-2" @click="tutupModal">Close</button>
@@ -471,6 +496,27 @@
                 </template>
             </modal>
         </Teleport>
+        <!-- modal import excel -->
+        <Teleport to="body">
+            <modal :show="showModalImport" @close="showModalImport = false">
+                <template #header>
+                    <h5 class="modal-title">Import Excel</h5>
+                </template>
+                <template #body>
+                    <div class="form-group mb-3">
+                        <label class="col-form-label">File :</label><br>
+                        <input type="file" id="task_file" @change="selectedTaskFile" required>
+                    </div>
+                </template>
+                <template #footer>
+					<form @submit.prevent="storeExcel">
+						<button type="submit" class="btn btn-success text-white m-2" :disabled="!file_excel">Import</button>
+					</form>
+                    <button
+                        class="btn btn-secondary m-2" @click="tutupModalImport">Close</button>
+                </template>
+            </modal>
+        </Teleport>
     </main>
 </template>
 
@@ -504,7 +550,8 @@
             Pagination,
             ModalScroll,
             Modal,
-            VueMultiselect
+            VueMultiselect,
+            Swal
         },
 
         //props
@@ -516,8 +563,8 @@
         setup() {
             const showModalKarirDetail = ref(false);
             const showModalKarir = ref(false);
-            // const showListKarir = ref(false);
             const showModalPelanggaran = ref(false);
+            const showModalImport = ref(false);
             //untuk detail
             const nama_karyawan = ref();
             const nik_karyawan = ref();
@@ -552,6 +599,7 @@
             const hubungan = ref();
             const umur = ref();
             const akhir_kontrak = ref();
+            const jabatan_id = ref();
             //save nama karyawan di add history organisasi
             const idnya = ref();
             const nama = ref();
@@ -562,6 +610,8 @@
             const catatan = ref();
             const tanggal = ref();
             const tingkatan = ref();
+            //import excel
+            const file_excel = ref();
 
             // define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
@@ -577,6 +627,36 @@
 
             const tutupModal = () => {
                 showModalKarir.value = false;
+            }
+
+            const tutupModalImport = () => {
+                showModalImport.value = false;
+            }
+
+            const importExcel = () => {
+                showModalImport.value = true
+            }
+
+            const selectedTaskFile = (e) => {
+                file_excel.value = e.target.files[0];
+            }
+
+            const storeExcel = () => {
+                Inertia.post('/apps/karyawan/import',{
+                    file: file_excel.value
+                },{
+                    onSuccess: () => {
+                        tutupModalImport();
+                        //show success alert
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Excel Saved Successfully.',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    },
+                });
             }
 
             const daftar_tingkatan = [
@@ -620,7 +700,6 @@
 
             //method "detail"
             const detail = (kar) => {
-                // console.log(kar)
                 var lahir = new Date(kar['tanggal_lahir'])
                 var today = new Date();
 		        var age = Math.floor((today-lahir) / (365.25 * 24 * 60 * 60 * 1000));
@@ -630,6 +709,7 @@
                 status_kerja.value = kar['status_kerja']
                 divisi_id.value = kar['divisi']['nama_divisi']
                 pt_id.value = kar['perusahaan']['nama_pt']
+                jabatan_id.value = kar['jabatan']['nama_jabatan']
                 foto.value = kar['foto']
                 tanggal_masuk.value = kar['tanggal_masuk']
                 tanggal_kontrak.value = kar['tanggal_kontrak']
@@ -659,7 +739,6 @@
                 hubungan.value = kar['hubungan']
                 //menampilkan modal
                 showModalKarirDetail.value = true
-                // console.log(kar)
             }
 
             //method tambah riwayat organisasi
@@ -726,18 +805,17 @@
 
             //return
             return {
-                search,
-                handleSearch,
-                destroy,
+                search, handleSearch, destroy,
                 detail, showModalKarir, tutupModalDetail, showModalKarirDetail, addKarir, tutupModal,
                 nama_karyawan, nik_karyawan, status_kerja, divisi_id, umur, akhir_kontrak,
                 pt_id, foto, tanggal_masuk, tanggal_kontrak, no_kk, nik_penduduk, grade,
                 jabatan, no_hp, no_wa, no_bpjs_kesehatan, no_bpjs_ketenagakerjaan, gol_darah,
                 email, tempat_lahir, tanggal_lahir, alamat_ktp, alamat_domisili,
                 jenis_kelamin, status_pernikahan, pendidikan, nama_sekolah, kab_penugasan,
-                rekening, ukuran_baju, no_sdr, hubungan,
+                rekening, ukuran_baju, no_sdr, hubungan, jabatan_id,
                 idnya, nama, tgl_gabung_grup, tgl_masuk, tgl_berakhir, storeKarir,
-                showModalPelanggaran, addPelanggaran, tutupModalPelanggaran, storePelanggaran, catatan, tanggal, tingkatan, daftar_tingkatan
+                showModalPelanggaran, addPelanggaran, tutupModalPelanggaran, storePelanggaran, catatan, tanggal, tingkatan, daftar_tingkatan,
+                showModalImport, tutupModalImport, importExcel, selectedTaskFile, file_excel, storeExcel
             }
 
         }

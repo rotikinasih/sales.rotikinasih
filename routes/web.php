@@ -45,6 +45,19 @@ Route::prefix('apps')->group(function() {
             ]
         ]);
 
+        //route jabatan
+        Route::resource('/position', App\Http\Controllers\Apps\JabatanController::class, [
+            'names' => [
+                'index' => 'apps.jabatan.index'
+            ]
+        ]);
+
+        //route karyawan export excel
+        Route::get('/karyawan/export', [App\Http\Controllers\Apps\KaryawanController::class, 'export'])->name('apps.karyawan.export');
+
+         //route karyawan import excel
+         Route::post('/karyawan/import', [App\Http\Controllers\Apps\KaryawanController::class, 'import'])->name('apps.karyawan.import');
+
         //route karyawan show detail
         Route::get('/karyawan/detail', [App\Http\Controllers\Apps\KaryawanController::class, 'detail'])->name('apps.karyawan.detail');
 
@@ -65,6 +78,7 @@ Route::prefix('apps')->group(function() {
 
         //route update listPelanggaran
         Route::put('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.pelanggaran.update');
+
 
         //route karyawan
         Route::resource('/karyawan', App\Http\Controllers\Apps\KaryawanController::class, [

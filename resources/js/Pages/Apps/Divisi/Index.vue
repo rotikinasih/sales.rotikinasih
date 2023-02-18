@@ -172,36 +172,29 @@
                 tampilModal()
             }
 
+            const peringatan = () => {
+                Swal.fire({
+                    title: 'Please complete all entries',
+                    width: 600,
+                    padding: '3em',
+                    color: '#716add',
+                    backdrop: `
+                        rgba(0,0,123,0.4)
+                        left top
+                        no-repeat
+                    `
+                })
+            }
+
             //method update data
             const updateData = () => {
                 if(nama_divisi.value == null || status.value == null){
                     if(nama_divisi.value == null && status.value == null){
-
                         tutupModal();
-                        Swal.fire({
-                            title: 'Please complete all entries',
-                            width: 600,
-                            padding: '3em',
-                            color: '#716add',
-                            backdrop: `
-                                rgba(0,0,123,0.4)
-                                left top
-                                no-repeat
-                            `
-                        })
+                        peringatan();
                     }
                     tutupModal();
-                    Swal.fire({
-                        title: 'Please complete all entries',
-                        width: 600,
-                        padding: '3em',
-                        color: '#716add',
-                        backdrop: `
-                            rgba(0,0,123,0.4)
-                            left top
-                            no-repeat
-                        `
-                    })
+                    peringatan();
                 }else{
                     //send data to server
                     Inertia.put(`/apps/divisi/${id.value}`, {
@@ -228,21 +221,8 @@
             const storeData = () => {
                 if(nama_divisi.value == null || status.value == null){
                     tutupModal();
-                    Swal.fire({
-                        title: 'Please complete all entries',
-                        width: 600,
-                        padding: '3em',
-                        color: '#716add',
-                        backdrop: `
-                            rgba(0,0,123,0.4)
-                            left top
-                            no-repeat
-                        `
-                    })
-                }
-                else{
-
-                    console.log(status.value)
+                    peringatan();
+                }else{
                     //send data to server
                     Inertia.post('/apps/divisi', {
                         //data
@@ -274,7 +254,7 @@
                 updateSubmit,
                 nama_divisi, status, id,
                 tutupModal, buatBaruKategori, updateData,
-                storeData
+                storeData, peringatan
             }
         }
     }

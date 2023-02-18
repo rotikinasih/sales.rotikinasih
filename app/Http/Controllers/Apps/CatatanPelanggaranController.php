@@ -16,7 +16,7 @@ class CatatanPelanggaranController extends Controller
         // $ringan =
         //get list
         $lists = CatatanPelanggaran::with('karyawan')->whereHas('karyawan', function($q) use($search){
-            $q->where('nama_karyawan', 'like', '%'. $search . '%');
+            $q->where('catatan', 'like', '%'. $search . '%');
             })->where('karyawan_id', $id)->latest()->paginate(10)->onEachSide(1);
 
         $nama_karyawan = Karyawan::where('id', $id)->first()->nama_karyawan;

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Apps;
 
+use App\Exports\KaryawanExport;
 use App\Http\Controllers\Controller;
+use App\Imports\KaryawanImport;
 use App\Models\CatatanPelanggaran;
 use App\Models\Karyawan;
 use App\Models\MasterDivisi;
+use App\Models\MasterJabatan;
 use App\Models\MasterPerusahaan;
 use App\Models\RiwayatOrganisasi;
 use Carbon\Carbon;
@@ -13,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class KaryawanController extends Controller
 {
@@ -25,7 +30,7 @@ class KaryawanController extends Controller
     {
         $search = request()->search;
         //get karyawan
-        $karyawan = Karyawan::with('perusahaan', 'divisi')->when($search, function($karyawan, $search) {
+        $karyawan = Karyawan::with('perusahaan', 'divisi', 'jabatan')->when($search, function($karyawan, $search) {
             $karyawan = $karyawan->where('nama_karyawan', 'like', '%'. $search . '%');
         })->latest()->paginate(10)->onEachSide(1);
 
@@ -33,18 +38,23 @@ class KaryawanController extends Controller
         $divisi = MasterDivisi::where('status', 1)->get();
         //get data PT
         $perusahaan = MasterPerusahaan::where('status', 1)->get();
+        //get data master jabatan
+        $jabatan = MasterJabatan::where('status', 1)->get();
 
         //menghitung umur
-        $now = Carbon::now()->isoFormat('Y-MM-D');
-        $tanggal_lahir = Karyawan::get()->first()->tanggal_lahir;
-        $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
-        DB::table('karyawan')->update(['umur' => $age]);
+        if($karyawan->isNotEmpty()){
+            $now = Carbon::now()->isoFormat('Y-MM-D');
+            $tanggal_lahir = Karyawan::get()->first()->tanggal_lahir;
+            $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
+            DB::table('karyawan')->update(['umur' => $age]);
+        }
 
         //return inertia
         return Inertia::render('Apps/Karyawan/Index', [
             'karyawan'  => $karyawan,
             'divisi'    => $divisi,
-            'pt'        => $perusahaan
+            'pt'        => $perusahaan,
+            'jabatan'   => $jabatan
         ]);
     }
 
@@ -59,10 +69,13 @@ class KaryawanController extends Controller
         $perusahaan = MasterPerusahaan::where('status', 1)->get();
         //get divisi
         $divisi = MasterDivisi::where('status', 1)->get();
+        //get data master jabatan
+        $jabatan = MasterJabatan::where('status', 1)->get();
 
         return Inertia::render('Apps/Karyawan/Create', [
             'perusahaan'        => $perusahaan,
             'divisi'            => $divisi,
+            'jabatan'           => $jabatan
         ]);
     }
 
@@ -84,11 +97,10 @@ class KaryawanController extends Controller
             'divisi_id'                     => 'required',
             'pt_id'                         => 'required',
             'tanggal_masuk'                 => 'required',
-            'tanggal_kontrak'               => 'required',
             'no_kk'                         => 'required',
             'nik_penduduk'                  => 'required',
             'grade'                         => 'required',
-            'jabatan'                       => 'required',
+            'jabatan_id'                    => 'required',
             'no_hp'                         => 'required',
             'no_wa'                         => 'required',
             'gol_darah'                     => 'required',
@@ -119,7 +131,7 @@ class KaryawanController extends Controller
             'no_kk'                     => $request->no_kk,
             'nik_penduduk'              => $request->nik_penduduk,
             'grade'                     => $request->grade,
-            'jabatan'                   => $request->jabatan,
+            'jabatan_id'                => $request->jabatan_id,
             'no_hp'                     => $request->no_hp,
             'no_wa'                     => $request->no_wa,
             'no_bpjs_kesehatan'         => $request->no_bpjs_kesehatan,
@@ -153,7 +165,6 @@ class KaryawanController extends Controller
             if($request->status_kerja == 0){
                 $awal_kontrak = $karyawan->tanggal_kontrak;
                 $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime( $awal_kontrak )));
-            //     // $sisa_kontrak = Carbon::parse($now)->diffInYears($akhir_kontrak);
                 $karyawan->update([
                     'foto'  => $nama_file,
                     'umur'  => $age,
@@ -189,11 +200,14 @@ class KaryawanController extends Controller
         $perusahaan = MasterPerusahaan::where('status', 1)->get();
         //get divisi
         $divisi = MasterDivisi::where('status', 1)->get();
+        //get data master jabatan
+        $jabatan = MasterJabatan::where('status', 1)->get();
 
         return Inertia::render('Apps/Karyawan/Edit', [
             'karyawan'          => $karyawan,
             'perusahaan'        => $perusahaan,
             'divisi'            => $divisi,
+            'jabatan'           => $jabatan
         ]);
     }
 
@@ -217,11 +231,10 @@ class KaryawanController extends Controller
             'divisi_id'                     => 'required',
             'pt_id'                         => 'required',
             'tanggal_masuk'                 => 'required',
-            'tanggal_kontrak'               => 'required',
             'no_kk'                         => 'required',
             'nik_penduduk'                  => 'required',
             'grade'                         => 'required',
-            'jabatan'                       => 'required',
+            'jabatan_id'                    => 'required',
             'no_hp'                         => 'required',
             'no_wa'                         => 'required',
             'gol_darah'                     => 'required',
@@ -265,7 +278,7 @@ class KaryawanController extends Controller
             'no_kk'                     => $request->no_kk,
             'nik_penduduk'              => $request->nik_penduduk,
             'grade'                     => $request->grade,
-            'jabatan'                   => $request->jabatan,
+            'jabatan_id'                => $request->jabatan_id,
             'no_hp'                     => $request->no_hp,
             'no_wa'                     => $request->no_wa,
             'no_bpjs_kesehatan'         => $request->no_bpjs_kesehatan,
@@ -377,4 +390,46 @@ class KaryawanController extends Controller
         //redirect
         return redirect()->route('apps.karyawan.index');
     }
+
+    /**
+     * export
+     *
+     * @param mixed
+     * @return void
+     */
+    public function export(){
+        $tanggal = date("d");
+        $bulan = date("M");
+        $tahun = date("Y");
+        $jam = date("H:i:s");
+        $response = Excel::download(new KaryawanExport, 'Karyawan '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
+        ob_end_clean();
+        return $response;
+    }
+
+    public function import(Request $request)
+	{
+		// validasi
+		$this->validate($request, [
+			'file' => 'required|mimes:csv,xls,xlsx'
+		]);
+
+		// menangkap file excel
+		$file = $request->file('file');
+
+		// membuat nama file unik
+		$nama_file = rand().$file->getClientOriginalName();
+
+		// upload ke folder file_karyawan di dalam folder public
+		$file->move('file_karyawan',$nama_file);
+
+		// import data
+		Excel::import(new KaryawanImport, public_path('/file_karyawan/'.$nama_file));
+
+		// notifikasi dengan session
+		// Session::flash('sukses','Data Siswa Berhasil Diimport!');
+
+		//redirect
+        return redirect()->route('apps.karyawan.index');
+	}
 }

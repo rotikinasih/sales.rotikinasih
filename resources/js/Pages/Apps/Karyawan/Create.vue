@@ -78,7 +78,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right" :disabled="cekData1">Next</button>
                                         </div>
                                     </div>
                                 </template>
@@ -113,11 +113,11 @@
                                                 <VueMultiselect
                                                     v-model="user_detail2.jabatan"
                                                     :options="jabatan"
-                                                    label="name"
-                                                    track-by="name"
+                                                    label="nama_jabatan"
+                                                    track-by="nama_jabatan"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
-                                                    placeholder="Select Jabatan"
+                                                    placeholder="Select Position"
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
@@ -133,7 +133,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right" :disabled="cekData2">Next</button>
                                             <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(1)" style="float:right">Previous</button>
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right" :disabled="cekData3">Next</button>
                                             <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right">Previous</button>
                                         </div>
                                     </div>
@@ -237,7 +237,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(5)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(5)" style="float:right" :disabled="cekData4">Next</button>
                                             <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right">Previous</button>
                                         </div>
                                     </div>
@@ -297,7 +297,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="storeData" style="float:right">Finish</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="storeData" style="float:right" :disabled="cekData5">Finish</button>
                                             <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Previous</button>
                                         </div>
                                     </div>
@@ -327,6 +327,7 @@
     //import vuemultiselect
     import VueMultiselect from 'vue-multiselect';
     import 'vue-multiselect/dist/vue-multiselect.css';
+    import { computed } from '@vue/runtime-core';
 
     export default {
         //layout
@@ -341,13 +342,15 @@
         //props
         props: {
             divisi: Array,
-            perusahaan: Array
+            perusahaan: Array,
+            jabatan: Array
         },
         setup() {
             //define state search
             const activePhase = ref(1);
             const foto = ref();
-            // const image = ref();
+            //cek kelengkapan data
+            const terms = ref(false);
             const golongan_darah = [
                 { name: 'A', value: 0 },
                 { name: 'B', value: 1 },
@@ -377,15 +380,6 @@
                 { name: 'XL', value: 3 },
                 { name: 'XXL', value: 4 },
                 { name: 'Jumbo', value: 5 },
-            ];
-
-            const jabatan = [
-                { name: 'Director' },
-                { name: 'Div Head' },
-                { name: 'Dept Head' },
-                { name: 'Sect Head' },
-                { name: 'Head' },
-                { name: 'Staff' },
             ];
 
             const grade = [
@@ -424,15 +418,34 @@
                 { name: 'S3', value: 5 },
             ];
 
+            const cekData1 = computed(() => {
+                return user_detail1.nama_karyawan.length == 0 || user_detail1.status_kerja.length == 0 || user_detail1.nik_karyawan.length == 0 || user_detail1.pt.length == 0 || user_detail1.divisi.length == 0;
+            })
+
+            const cekData2 = computed(() => {
+                return user_detail2.grade.length == 0 || user_detail2.tanggal_masuk.length == 0 || user_detail2.nik_penduduk.length == 0 || user_detail2.jabatan.length == 0 || user_detail2.no_kk.length == 0;
+            })
+
+            const cekData3 = computed(() => {
+                return user_detail3.no_hp.length == 0 || user_detail3.no_wa.length == 0 || user_detail3.gol_darah.length == 0 || user_detail3.email.length == 0;
+            })
+
+            const cekData4 = computed(() => {
+                return user_detail4.tempat_lahir.length == 0 || user_detail4.tanggal_lahir.length == 0 || user_detail4.alamat_ktp.length == 0 || user_detail4.alamat_domisili.length == 0 || user_detail4.jenis_kelamin.length == 0 || user_detail4.status_pernikahan.length == 0;
+            })
+
+            const cekData5 = computed(() => {
+                return user_detail5.pendidikan.length == 0 || user_detail5.nama_sekolah.length == 0 || user_detail5.kab_penugasan.length == 0 || user_detail5.ukuran_baju.length == 0 || user_detail5.no_sdr.length == 0 || user_detail5.hubungan.length == 0;
+            })
+
             const preview = ref();
             const user_detail1 = reactive({
-                nama_karyawan: null,
+                nama_karyawan: '',
                 nik_karyawan: '',
                 status_kerja: '',
                 divisi: '',
                 pt: '',
                 image:'',
-                // UJI COBA
                 file:'',
                 task_file:'',
             });
@@ -482,17 +495,17 @@
                 console.log(user_detail5.pendidikan, user_detail5.ukuran_baju.value)
             }
 
-            const fileImage = (event) => {
-                user_detail1.task_file = event.target.files[0];
-                console.log(user_detail1.task_file)
-                if (user_detail1.task_file.size > 2048 * 2048) {
-                    event.preventDefault();
-                    alert('File too big (> 2MB)');
-                    return;
-                } else {
-                    preview.value = URL.createObjectURL(event.target.files[0]);
-                }
-            }
+            // const fileImage = (event) => {
+            //     user_detail1.task_file = event.target.files[0];
+            //     console.log(user_detail1.task_file)
+            //     if (user_detail1.task_file.size > 2048 * 2048) {
+            //         event.preventDefault();
+            //         alert('File too big (> 2MB)');
+            //         return;
+            //     } else {
+            //         preview.value = URL.createObjectURL(event.target.files[0]);
+            //     }
+            // }
 
             const selectedTaskFile = (e) => {
                 user_detail1.task_file = e.target.files[0];
@@ -503,11 +516,9 @@
                 } else {
                     preview.value = URL.createObjectURL(e.target.files[0]);
                 }
-                // console.log(user_detail1.task_file.name);
             }
 
             const storeData = () => {
-                // console.log(user_detail1.file.value);
                 Inertia.post('/apps/karyawan',{
                     nama_karyawan: user_detail1.nama_karyawan,
                     nik_karyawan: user_detail1.nik_karyawan,
@@ -522,7 +533,7 @@
                     no_kk: user_detail2.no_kk,
                     nik_penduduk: user_detail2.nik_penduduk,
                     grade: user_detail2.grade.name,
-                    jabatan: user_detail2.jabatan.name,
+                    jabatan_id: user_detail2.jabatan.id,
                     no_hp: user_detail3.no_hp,
                     no_wa: user_detail3.no_wa,
                     no_bpjs_kesehatan: user_detail3.no_bpjs_kesehatan,
@@ -559,9 +570,11 @@
             return {
                 activePhase, user_detail1, user_detail2, user_detail3, user_detail4, user_detail5,
                 goToStep, finish, foto,
-                fileImage, preview, golongan_darah, jenis_kelamin, status_pernikahan,
-                ukuran_baju, status_kerja, pendidikan, jabatan, grade, storeData,
-                selectedTaskFile,
+                // fileImage,
+                preview, golongan_darah, jenis_kelamin, status_pernikahan,
+                ukuran_baju, status_kerja, pendidikan,
+                grade, storeData,
+                selectedTaskFile, terms, cekData1, cekData2, cekData3, cekData4, cekData5
             }
         }
     }

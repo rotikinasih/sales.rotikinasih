@@ -12,7 +12,7 @@
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="search by level..." @keyup="handleSearch">
+                            <input type="text" class="form-control" v-model="search" placeholder="search by notes..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" @click="handleSearch"> <i class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-striped table-bordered table-hover">
@@ -197,7 +197,7 @@
                     id : id_list.value,
                     karyawan_id : parseInt(props.id_karyawan),
                     catatan : catatan.value,
-                    tingkatan: tingkatan.value,
+                    tingkatan: tingkatan.value.value,
                     tanggal: tanggal.value,
                 },{
                     onSuccess: () => {

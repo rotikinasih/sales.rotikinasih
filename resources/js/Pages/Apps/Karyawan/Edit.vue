@@ -14,7 +14,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-12">
-                                <template id="user_detail1" v-if="activePhase == 1">
+                                <template id="form" v-if="activePhase == 1">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -81,12 +81,12 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right" :disabled="cekData1">Next</button>
                                         </div>
                                     </div>
                                 </template>
 
-                                <template id="user_detail2" v-if="activePhase == 2">
+                                <template id="form" v-if="activePhase == 2">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -114,13 +114,13 @@
                                             <div class="mb-3">
                                                 <label class="fw-bold">Position</label>
                                                 <VueMultiselect
-                                                    v-model="form.jabatan"
-                                                    :options="data_jabatan"
-                                                    label="name"
-                                                    track-by="name"
+                                                    v-model="form.jabatan_id"
+                                                    :options="jabatan"
+                                                    label="nama_jabatan"
+                                                    track-by="id"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
-                                                    placeholder="Select Jabatan"
+                                                    placeholder="Select Position"
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
@@ -136,13 +136,13 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right" :disabled="cekData2">Next</button>
                                             <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(1)" style="float:right">Previous</button>
                                         </div>
                                     </div>
                                 </template>
 
-                                <template id="user_detail3" v-if="activePhase == 3">
+                                <template id="form" v-if="activePhase == 3">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -184,13 +184,13 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right" :disabled="cekData3">Next</button>
                                             <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(2)" style="float:right">Previous</button>
                                         </div>
                                     </div>
                                 </template>
 
-                                <template id="user_detail4" v-if="activePhase == 4">
+                                <template id="form" v-if="activePhase == 4">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -240,13 +240,13 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(5)" style="float:right">Next</button>
+                                            <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(5)" style="float:right" :disabled="cekData4">Next</button>
                                             <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(3)" style="float:right">Previous</button>
                                         </div>
                                     </div>
                                 </template>
 
-                                <template id="user_detail4" v-if="activePhase == 5">
+                                <template id="form" v-if="activePhase == 5">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -300,7 +300,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">BACK</Link>
-                                            <button type="submit" class="btn btn-primary mt-3" @click.prevent="storeData" style="float:right">Finish</button>
+                                            <button type="submit" class="btn btn-primary mt-3" @click.prevent="storeData" style="float:right" :disabled="cekData5">Finish</button>
                                             <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Previous</button>
                                         </div>
                                     </div>
@@ -330,7 +330,7 @@
     //import vuemultiselect
     import VueMultiselect from 'vue-multiselect';
     import 'vue-multiselect/dist/vue-multiselect.css';
-    import { onMounted } from '@vue/runtime-core';
+    import { onMounted, computed } from '@vue/runtime-core';
 
     export default {
         //layout
@@ -346,7 +346,8 @@
         props: {
             divisi: Array,
             perusahaan: Array,
-            karyawan: Object
+            karyawan: Object,
+            jabatan: Array
         },
         setup(props) {
             //define state search
@@ -382,15 +383,6 @@
                 { name: 'XL', value: 3 },
                 { name: 'XXL', value: 4 },
                 { name: 'Jumbo', value: 5 },
-            ];
-
-            const data_jabatan = [
-                { name: 'Director' },
-                { name: 'Div Head' },
-                { name: 'Dept Head' },
-                { name: 'Sect Head' },
-                { name: 'Head' },
-                { name: 'Staff' },
             ];
 
             const data_grade = [
@@ -449,7 +441,6 @@
                     if(props.karyawan.divisi_id == data.id){
                         props.karyawan.divisi_id = data
                         form.divisi_id = data
-                        // console.log(data)
                     }
                 })
 
@@ -460,11 +451,12 @@
                     }
                 })
 
-
                 //jabatan
-                data_jabatan.forEach(function (data) {
-                    if(data.name == props.karyawan.jabatan){
-                        form.jabatan = data
+                let datajb_nya = props.jabatan
+                datajb_nya.forEach(data => {
+                    if(props.karyawan.jabatan_id == data.id){
+                        props.karyawan.jabatan_id = data
+                        form.jabatan_id = data
                     }
                 })
 
@@ -511,9 +503,6 @@
                 })
             }
 
-            const image = ref();
-
-
             const preview = ref();
 
             //define form with reactive
@@ -526,7 +515,7 @@
                 gol_darah: props.karyawan.golongan_darah,
                 grade: props.karyawan.grade,
                 hubungan: props.karyawan.hubungan,
-                jabatan: props.karyawan.jabatan,
+                jabatan_id: props.karyawan.jabatan,
                 jenis_kelamin: props.karyawan.jenis_kelamin,
                 kab_penugasan: props.karyawan.kab_penugasan,
                 nama_karyawan: props.karyawan.nama_karyawan,
@@ -555,9 +544,28 @@
                 activePhase.value = step
             }
 
+            const cekData1 = computed(() => {
+                return form.nama_karyawan.length == 0 || form.status_kerja.length == 0 || form.nik_karyawan.length == 0 || form.pt_id.length == 0 || form.divisi_id.length == 0;
+            })
+
+            const cekData2 = computed(() => {
+                return form.grade.length == 0 || form.tanggal_masuk.length == 0 || form.nik_penduduk.length == 0 || form.jabatan_id.length == 0 || form.no_kk.length == 0;
+            })
+
+            const cekData3 = computed(() => {
+                return form.no_hp.length == 0 || form.no_wa.length == 0 || form.gol_darah.length == 0 || form.email.length == 0;
+            })
+
+            const cekData4 = computed(() => {
+                return form.tempat_lahir.length == 0 || form.tanggal_lahir.length == 0 || form.alamat_ktp.length == 0 || form.alamat_domisili.length == 0 || form.jenis_kelamin.length == 0 || form.status_pernikahan.length == 0;
+            })
+
+            const cekData5 = computed(() => {
+                return form.pendidikan.length == 0 || form.nama_sekolah.length == 0 || form.kab_penugasan.length == 0 || form.ukuran_baju.length == 0 || form.no_sdr.length == 0 || form.hubungan.length == 0;
+            })
+
             const fileImage = (event) => {
                 foto.value = event.target.files[0];
-                // console.log(user_detail1.image.name)
                 if (foto.size > 2048 * 2048) {
                     event.preventDefault();
                     alert('File too big (> 2MB)');
@@ -581,7 +589,7 @@
                         no_kk: form.no_kk,
                         nik_penduduk: form.nik_penduduk,
                         grade: form.grade.name,
-                        jabatan: form.jabatan.name,
+                        jabatan_id: form.jabatan_id.id,
                         no_hp: form.no_hp,
                         no_wa: form.no_wa,
                         no_bpjs_kesehatan: form.no_bpjs_kesehatan,
@@ -628,7 +636,7 @@
                         no_kk: form.no_kk,
                         nik_penduduk: form.nik_penduduk,
                         grade: form.grade.name,
-                        jabatan: form.jabatan.name,
+                        jabatan_id: form.jabatan_id.id,
                         no_hp: form.no_hp,
                         no_wa: form.no_wa,
                         no_bpjs_kesehatan: form.no_bpjs_kesehatan,
@@ -668,8 +676,8 @@
                 goToStep, foto,
                 preview,
                 data_golongan_darah, data_jenis_kelamin, data_status_pernikahan,
-                data_ukuran_baju, data_status_kerja, data_pendidikan, data_jabatan, data_grade,
-                storeData, form, fileImage,
+                data_ukuran_baju, data_status_kerja, data_pendidikan, data_grade,
+                storeData, form, fileImage, cekData1, cekData2, cekData3, cekData4, cekData5
             }
         }
     }

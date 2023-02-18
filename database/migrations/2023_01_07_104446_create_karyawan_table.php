@@ -22,12 +22,12 @@ class CreateKaryawanTable extends Migration
             $table->unsignedBigInteger('pt_id');
             $table->string('foto')->nullable();
             $table->date('tanggal_masuk');
-            $table->date('tanggal_kontrak');
+            $table->date('tanggal_kontrak')->nullable();
             $table->date('akhir_kontrak')->nullable();
             $table->string('no_kk');
             $table->string('nik_penduduk')->unique();
             $table->string('grade');
-            $table->string('jabatan');
+            $table->unsignedBigInteger('jabatan_id');
             $table->string('no_hp');
             $table->string('no_wa');
             $table->string('no_bpjs_kesehatan')->nullable();
@@ -37,7 +37,6 @@ class CreateKaryawanTable extends Migration
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->integer('umur')->nullable();
-            // $table->string('masa_kerja');
             $table->text('alamat_ktp');
             $table->text('alamat_domisili');
             $table->tinyInteger('jenis_kelamin')->comment('0 = Laki-laki, 1 = Perempuan');
@@ -49,7 +48,6 @@ class CreateKaryawanTable extends Migration
             $table->tinyInteger('ukuran_baju')->comment('0 = S, 1 = M, 2 = L, 3 = XL, 4 = XXL, 5 = Jumbo');
             $table->string('no_sdr');
             $table->string('hubungan');
-            // $table->string('umur');
             $table->timestamps();
         });
     }

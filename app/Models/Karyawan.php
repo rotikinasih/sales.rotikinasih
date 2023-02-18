@@ -12,7 +12,7 @@ class Karyawan extends Model
     protected $table = "karyawan";
 
     protected $fillable = [
-        'nama_karyawan', 'nik_karyawan', 'status_kerja', 'divisi_id', 'pt_id', 'foto', 'tanggal_masuk', 'tanggal_kontrak', 'akhir_kontrak', 'no_kk', 'nik_penduduk', 'grade', 'jabatan', 'no_hp', 'no_wa', 'no_bpjs_kesehatan', 'no_bpjs_ketenagakerjaan', 'gol_darah', 'email', 'tempat_lahir', 'tanggal_lahir', 'umur', 'alamat_ktp','alamat_domisili', 'jenis_kelamin', 'status_pernikahan', 'pendidikan', 'nama_sekolah', 'kab_penugasan', 'rekening', 'ukuran_baju', 'no_sdr', 'hubungan'
+        'nama_karyawan', 'nik_karyawan', 'status_kerja', 'divisi_id', 'pt_id', 'foto', 'tanggal_masuk', 'tanggal_kontrak', 'akhir_kontrak', 'no_kk', 'nik_penduduk', 'grade', 'jabatan_id', 'no_hp', 'no_wa', 'no_bpjs_kesehatan', 'no_bpjs_ketenagakerjaan', 'gol_darah', 'email', 'tempat_lahir', 'tanggal_lahir', 'umur', 'alamat_ktp','alamat_domisili', 'jenis_kelamin', 'status_pernikahan', 'pendidikan', 'nama_sekolah', 'kab_penugasan', 'rekening', 'ukuran_baju', 'no_sdr', 'hubungan'
     ];
 
     public function perusahaan()
@@ -33,5 +33,10 @@ class Karyawan extends Model
     public function pelanggaran()
     {
         return $this->hasMany(CatatanPelanggaran::class);
+    }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(MasterJabatan::class, 'jabatan_id', 'id');
     }
 }
