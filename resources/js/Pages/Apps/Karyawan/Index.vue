@@ -10,6 +10,12 @@
                     <span class="d-block m-t-5">Page to manage the <code> employees </code> data</span>
                 </div>
                 <div class="card-block table-border-style">
+                    <div v-if="session.error" class="alert alert-danger">
+                        {{ session.error }}
+                    </div>
+                    <div v-if="session.success" class="alert alert-success">
+                        {{ session.success }}
+                    </div>
                     <div class="table-responsive">
                         <div class="input-group mb-3">
                             <Link href="/apps/karyawan/create" v-if="hasAnyPermission(['karyawan.create'])"  class="btn theme-bg4 text-white f-12" style="cursor:pointer; border:none"><i class="fa fa-plus"></i> Add</Link>
@@ -172,8 +178,8 @@
                                     <label class="col-form-label">Blood Group :</label>
                                     <input v-if="gol_darah == 0" type="text" class="form-control" value="A" readonly>
                                     <input v-else-if="gol_darah == 1" type="text" class="form-control" value="B" readonly>
-                                    <input v-else-if="status_kerja == 2" type="text" class="form-control" value="O" readonly>
-                                    <input v-else-if="status_kerja == 3" type="text" class="form-control" value="AB" readonly>
+                                    <input v-else-if="gol_darah == 2" type="text" class="form-control" value="O" readonly>
+                                    <input v-else-if="gol_darah == 3" type="text" class="form-control" value="AB" readonly>
                                 </div>
                             </div>
                         </div>
@@ -503,6 +509,12 @@
                     <h5 class="modal-title">Import Excel</h5>
                 </template>
                 <template #body>
+                    <p class="text-warning">Make sure the data entered is in accordance with the existing format, the data imported is only new data</p>
+                    <p class="text-warning">Specifically for the column for employment status, gender, blood group, married status, education, clothes size according to the options in the exact same case</p>
+                    <div class="form-group mb-3">
+                        <label for="col-form-label">Format Example</label><br>
+                        <a :href="`/apps/karyawan/format`" target="_blank" class="btn btn-success text-white"><i class="fa fa-download me-2"></i>Download Format</a>
+                    </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">File :</label><br>
                         <input type="file" id="task_file" @change="selectedTaskFile" required>
@@ -557,7 +569,8 @@
         //props
         props: {
             karyawan: Object,
-            divisi: Array
+            divisi: Array,
+            session: Object,
         },
 
         setup() {
@@ -648,13 +661,13 @@
                     onSuccess: () => {
                         tutupModalImport();
                         //show success alert
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Excel Saved Successfully.',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
+                        // Swal.fire({
+                        //     title: 'Success!',
+                        //     text: 'Excel Saved Successfully.',
+                        //     icon: 'success',
+                        //     showConfirmButton: false,
+                        //     timer: 2000
+                        // });
                     },
                 });
             }

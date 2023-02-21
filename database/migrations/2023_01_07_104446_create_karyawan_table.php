@@ -32,7 +32,7 @@ class CreateKaryawanTable extends Migration
             $table->string('no_wa');
             $table->string('no_bpjs_kesehatan')->nullable();
             $table->string('no_bpjs_ketenagakerjaan')->nullable();
-            $table->tinyInteger('gol_darah')->comment('0 = A, 1 = B, 2 = O, 3 = AB')->nullable();
+            $table->tinyInteger('gol_darah')->comment('0 = A, 1 = B, 2 = O, 3 = AB');
             $table->string('email');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');

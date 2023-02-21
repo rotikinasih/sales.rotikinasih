@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Apps;
 
 use App\Exports\KaryawanExport;
+use App\Exports\KaryawanFormatExport;
 use App\Http\Controllers\Controller;
 use App\Imports\KaryawanImport;
 use App\Models\CatatanPelanggaran;
@@ -409,27 +410,40 @@ class KaryawanController extends Controller
 
     public function import(Request $request)
 	{
-		// validasi
-		$this->validate($request, [
-			'file' => 'required|mimes:csv,xls,xlsx'
-		]);
-
-		// menangkap file excel
-		$file = $request->file('file');
-
-		// membuat nama file unik
-		$nama_file = rand().$file->getClientOriginalName();
-
-		// upload ke folder file_karyawan di dalam folder public
-		$file->move('file_karyawan',$nama_file);
-
-		// import data
-		Excel::import(new KaryawanImport, public_path('/file_karyawan/'.$nama_file));
-
-		// notifikasi dengan session
-		// Session::flash('sukses','Data Siswa Berhasil Diimport!');
-
-		//redirect
-        return redirect()->route('apps.karyawan.index');
+        try {
+            // validasi
+            $this->validate($request, [
+                'file' => 'required|mimes:csv,xls,xlsx'
+            ]);
+            // menangkap file excel
+            $file = $request->file('file');
+            // membuat nama file unik
+            $nama_file = rand().$file->getClientOriginalName();
+            // upload ke folder file_karyawan di dalam folder public
+            $file->move('file_karyawan',$nama_file);
+            // import data
+            Excel::import(new KaryawanImport, public_path('/file_karyawan/'.$nama_file));
+            //redirect
+            return redirect()->back()->with('success', 'Import Data Saved Successfully');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            foreach ($failures as $failure) {
+                $failure->row(); // row that went wrong
+                $failure->attribute(); // either heading key (if using heading row concern) or column index
+                $failure->errors(); // Actual error messages from Laravel validator
+                $failure->values(); // The values of the row that has failed.
+             }
+             return redirect()->back()->with('error', $failures);
+        }
 	}
+
+    public function format(){
+        $tanggal = date("d");
+        $bulan = date("M");
+        $tahun = date("Y");
+        $jam = date("H:i:s");
+        $response = Excel::download(new KaryawanFormatExport, 'Format Karyawan '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
+        ob_end_clean();
+        return $response;
+    }
 }

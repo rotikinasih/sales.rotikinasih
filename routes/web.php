@@ -55,8 +55,11 @@ Route::prefix('apps')->group(function() {
         //route karyawan export excel
         Route::get('/karyawan/export', [App\Http\Controllers\Apps\KaryawanController::class, 'export'])->name('apps.karyawan.export');
 
-         //route karyawan import excel
-         Route::post('/karyawan/import', [App\Http\Controllers\Apps\KaryawanController::class, 'import'])->name('apps.karyawan.import');
+        //route karyawan import excel
+        Route::post('/karyawan/import', [App\Http\Controllers\Apps\KaryawanController::class, 'import'])->name('apps.karyawan.import');
+
+        //route karyawan format excel
+        Route::get('/karyawan/format', [App\Http\Controllers\Apps\KaryawanController::class, 'format'])->name('apps.karyawan.format');
 
         //route karyawan show detail
         Route::get('/karyawan/detail', [App\Http\Controllers\Apps\KaryawanController::class, 'detail'])->name('apps.karyawan.detail');

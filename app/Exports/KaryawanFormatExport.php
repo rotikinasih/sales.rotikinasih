@@ -3,14 +3,14 @@
 namespace App\Exports;
 
 use App\Models\Karyawan;
-use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Illuminate\Contracts\View\View;
 
-class KaryawanExport implements ShouldAutoSize, WithHeadings, WithEvents, FromView
+class KaryawanFormatExport implements ShouldAutoSize, WithHeadings, WithEvents, FromView
 {
     /**
      * view
@@ -19,7 +19,7 @@ class KaryawanExport implements ShouldAutoSize, WithHeadings, WithEvents, FromVi
      */
     public function view(): View
     {
-        return view('exports.karyawan', [
+        return view('exports.formatkaryawan', [
             'karyawan' => Karyawan::with('perusahaan', 'divisi', 'jabatan')->get()
         ]);
     }
@@ -42,7 +42,7 @@ class KaryawanExport implements ShouldAutoSize, WithHeadings, WithEvents, FromVi
             'Start of Contract',
             'End of Contract',
             'KK Number',
-            'Resident Number NIK',
+            'Resident Number (NIK)',
             'Grade',
             'Position',
             'HP Number',
@@ -82,8 +82,7 @@ class KaryawanExport implements ShouldAutoSize, WithHeadings, WithEvents, FromVi
                         ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                         ->getStartColor()
                         ->setARGB('c491d4');
-            }
+            },
         ];
     }
-
 }
