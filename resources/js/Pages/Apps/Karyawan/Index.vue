@@ -19,7 +19,7 @@
                     <div class="table-responsive">
                         <div class="input-group mb-3">
                             <Link href="/apps/karyawan/create" v-if="hasAnyPermission(['karyawan.create'])"  class="btn theme-bg4 text-white f-12" style="cursor:pointer; border:none"><i class="fa fa-plus"></i> Add</Link>
-                            <input type="text" class="form-control" v-model="search" placeholder="search by Employees name..." @keyup="handleSearch">
+                            <input type="text" class="form-control" v-model="search" placeholder="search by Employees name or Employment Identity Number or Resident Number NIK..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" @click="handleSearch"> <i class="fa fa-search me-2"></i></button>
                         </div>
                         <div class="d-flex flex-row-reverse bd-highlight mb-3">
@@ -36,6 +36,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Employees Name</th>
+                                    <th>Position</th>
+                                    <th>Employment Identity Number</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -44,6 +46,8 @@
                                 <tr v-for="(kar, index) in karyawan.data" :key="index">
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ kar.nama_karyawan }}</td>
+                                    <td>{{ kar.jabatan.nama_jabatan }}</td>
+                                    <td>{{ kar.nik_karyawan }}</td>
                                     <td v-if="(kar.status_kerja == 0)"><a class="label theme-bg2 text-white f-12" style="border-radius:10px">Contract</a></td>
                                     <td v-else><a class="label theme-bg text-white f-12" style="border-radius:10px">Fixed</a></td>
                                     <td class="text-center">
@@ -660,14 +664,6 @@
                 },{
                     onSuccess: () => {
                         tutupModalImport();
-                        //show success alert
-                        // Swal.fire({
-                        //     title: 'Success!',
-                        //     text: 'Excel Saved Successfully.',
-                        //     icon: 'success',
-                        //     showConfirmButton: false,
-                        //     timer: 2000
-                        // });
                     },
                 });
             }

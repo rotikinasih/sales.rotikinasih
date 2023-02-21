@@ -32,7 +32,7 @@ class KaryawanController extends Controller
         $search = request()->search;
         //get karyawan
         $karyawan = Karyawan::with('perusahaan', 'divisi', 'jabatan')->when($search, function($karyawan, $search) {
-            $karyawan = $karyawan->where('nama_karyawan', 'like', '%'. $search . '%');
+            $karyawan = $karyawan->where('nama_karyawan', 'like', '%'. $search . '%')->orWhere('nik_karyawan', 'like', '%'. $search . '%')->orWhere('nik_penduduk', 'like', '%'. $search . '%');
         })->latest()->paginate(10)->onEachSide(1);
 
         //get data divisi

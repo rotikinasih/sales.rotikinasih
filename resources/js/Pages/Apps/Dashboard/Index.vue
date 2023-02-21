@@ -131,7 +131,7 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>Employees with the most violations</h5>
+                        <h5>Employees that has 3 violations or more</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
@@ -142,11 +142,9 @@
                                         <th>Photo</th>
                                         <th>Employees Name</th>
                                         <th>Amount of Violations</th>
-                                        <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- {{ data_pelanggaran }} -->
                                     <tr class="unread" v-for="(pl, index) in data_pelanggaran" :key="index">
                                         <td>{{ index + 1 }}</td>
                                         <td><img class="rounded-circle" style="width:40px;" v-if="pl.foto != null" :src="`/storage/${pl.foto}`" alt="activity-user"></td>
@@ -155,7 +153,6 @@
                                             <p class="m-0">{{ pl.nik_penduduk }}</p>
                                         </td>
                                         <td><h6 class="text-muted"><span class="label theme-bg3 text-white f-12">{{ pl.jumlah_pelanggaran }}</span></h6></td>
-                                        <!-- <td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td> -->
                                     </tr>
                                     <!-- jika data kosong -->
                                     <tr v-if="data_pelanggaran[0] == undefined">

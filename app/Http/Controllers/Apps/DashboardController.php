@@ -81,7 +81,7 @@ class DashboardController extends Controller
         $dua_bulan = date('Y-m-d', strtotime('-2 months'));
         $karyawan_kontrak = Karyawan::where('akhir_kontrak', '>=', $dua_bulan)->latest()->paginate(10)->onEachSide(1);
 
-        //menampilkan data karyawan yang banyak mempunyai pelanggaran
+        //menampilkan data karyawan yang mempunyai 3 pelanggaran atau lebih
         $data_pelanggaran = DB::table('karyawan')
                 ->join('catatan_pelanggaran', 'karyawan.id', '=', 'catatan_pelanggaran.karyawan_id')
                 ->select('karyawan.*', DB::raw('count(karyawan.id) as jumlah_pelanggaran'), 'catatan_pelanggaran.karyawan_id')
