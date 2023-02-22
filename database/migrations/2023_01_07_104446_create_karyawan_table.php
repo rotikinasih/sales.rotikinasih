@@ -24,7 +24,7 @@ class CreateKaryawanTable extends Migration
             $table->date('tanggal_masuk');
             $table->date('tanggal_kontrak')->nullable();
             $table->date('akhir_kontrak')->nullable();
-            $table->string('no_kk');
+            $table->string('no_kk')->nullable();
             $table->string('nik_penduduk')->unique();
             $table->string('grade');
             $table->unsignedBigInteger('jabatan_id');

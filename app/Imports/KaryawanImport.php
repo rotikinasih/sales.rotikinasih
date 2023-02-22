@@ -31,7 +31,7 @@ class KaryawanImport implements WithStartRow, WithValidation, ToCollection, With
 
     public function startRow(): int
     {
-        return 3;
+        return 4;
     }
 
     public function collection(Collection $rows)
@@ -90,7 +90,7 @@ class KaryawanImport implements WithStartRow, WithValidation, ToCollection, With
             '*.division' => 'required|exists:master_divisi,nama_divisi',
             '*.pt' => 'required|exists:master_perusahaan,nama_pt',
             '*.entry_date' => 'required|max:255',
-            '*.kk_number' => 'required|max:255',
+            '*.kk_number' => 'nullable',
             '*.resident_number_nik' => 'required|max:255',
             '*.grade' => 'required|max:255',
             '*.position' => 'required|exists:master_jabatan,nama_jabatan',

@@ -35,20 +35,20 @@
             <th scope="col">Contact Number Family</th>
             <th scope="col">Family Relationship</th>
         </tr>
-        <tr style="background-color:blueviolet;font-size:large">
+        <tr style="background-color:blueviolet">
             <th scope="col">Nomor urut</th>
             <th scope="col">Nama Karyawan</th>
             <th scope="col">NIK Karyawan tanpa titik</th>
             <th scope="col">Contract / Fixed</th>
-            <th scope="col">Nama Divisi</th>
-            <th scope="col">Nama PT</th>
-            <th scope="col">ex 2023-02-17</th>
-            <th scope="col">ex 2023-02-17 (boleh kosong)</th>
-            <th scope="col">ex 2023-02-17 (boleh kosong)</th>
-            <th scope="col">No KK</th>
+            <th scope="col">Nama Divisi (Sesuaikan dengan data master)</th>
+            <th scope="col">Nama PT (Sesuaikan dengan data master)</th>
+            <th scope="col">tahun-bulan-tanggal</th>
+            <th scope="col">tahun-bulan-tanggal (boleh kosong)</th>
+            <th scope="col">tahun-bulan-tanggal (boleh kosong)</th>
+            <th scope="col">No KK (boleh kosong)</th>
             <th scope="col">NIK</th>
             <th scope="col">1A / 1B / 1C / 2A / 2B / 2C / 2D / 2E / 2F / 3A / 3B / 3C / 3D / 3E / 4A / 4B / 4C / 4D / 5A / 5B / 5C / 6A / 6B / 6C</th>
-            <th scope="col">Nama Jabatan</th>
+            <th scope="col">Nama Jabatan (Sesuaikan dengan data master)</th>
             <th scope="col">No HP</th>
             <th scope="col">No WA</th>
             <th scope="col">BPJS Kesehatan (boleh kosong)</th>
@@ -56,7 +56,7 @@
             <th scope="col">A / B / O / AB</th>
             <th scope="col">Email</th>
             <th scope="col">Tempat Lahir</th>
-            <th scope="col">Tanggal Lahir</th>
+            <th scope="col">tahun-bulan-tanggal</th>
             <th scope="col">Umur</th>
             <th scope="col">Alamat KTP</th>
             <th scope="col">Alamat Domisili</th>
@@ -69,6 +69,41 @@
             <th scope="col">S / M / L / XL / XXL / Jumbo</th>
             <th scope="col">No HP Keluarga</th>
             <th scope="col">Hubungan Keluarga</th>
+        </tr>
+        <tr  style="background-color:blueviolet">
+            <th scope="col">1</th>
+            <th scope="col">Ani</th>
+            <th scope="col">21991356</th>
+            <th scope="col">Contract</th>
+            <th scope="col">DSS</th>
+            <th scope="col">RLA</th>
+            <th scope="col">2023-01-22</th>
+            <th scope="col">2023-02-22</th>
+            <th scope="col">2024-02-22</th>
+            <th scope="col">1234567891234567</th>
+            <th scope="col">2345678912345678</th>
+            <th scope="col">2B</th>
+            <th scope="col">Staff Store</th>
+            <th scope="col">089651354874</th>
+            <th scope="col">089651354874</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col">AB</th>
+            <th scope="col">ani@gmail.com</th>
+            <th scope="col">Karanganyar</th>
+            <th scope="col">1998-01-15</th>
+            <th scope="col">25</th>
+            <th scope="col">Karanganyar</th>
+            <th scope="col">Karanganyar</th>
+            <th scope="col">Female</th>
+            <th scope="col">Single</th>
+            <th scope="col">SMA</th>
+            <th scope="col">SMAN 1 Karanganyar</th>
+            <th scope="col">Karanganyar</th>
+            <th scope="col"></th>
+            <th scope="col">L</th>
+            <th scope="col">089478569712</th>
+            <th scope="col">Ibu</th>
         </tr>
     </thead>
     <tbody>

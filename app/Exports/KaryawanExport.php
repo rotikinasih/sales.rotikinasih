@@ -82,6 +82,7 @@ class KaryawanExport implements ShouldAutoSize, WithHeadings, WithEvents, FromVi
                         ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                         ->getStartColor()
                         ->setARGB('c491d4');
+                $event->sheet->getDelegate()->getStyle('A1:AG1')->getFont()->setBold(true);
             }
         ];
     }

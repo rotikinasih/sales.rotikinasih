@@ -77,11 +77,16 @@ class KaryawanFormatExport implements ShouldAutoSize, WithHeadings, WithEvents, 
     {
         return [
             AfterSheet::class => function(AfterSheet $event) {
-                $event->sheet->getDelegate()->getStyle('A1:AG1')
+                $event->sheet->getDelegate()->getStyle('A1:AG3')
                         ->getFill()
                         ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                         ->getStartColor()
                         ->setARGB('c491d4');
+                $event->sheet->getDelegate()->getStyle('A1:AG1')
+                        ->getBorders()->getOutline()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
+                $event->sheet->getDelegate()->getStyle('A2:AG3')
+                        ->getBorders()->getOutline()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
+                $event->sheet->getDelegate()->getStyle('A1:AG1')->getFont()->setBold(true);
             },
         ];
     }

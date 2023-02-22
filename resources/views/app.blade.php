@@ -9,13 +9,13 @@
         <meta name="keywords" content="admin templates, bootstrap admin templates, bootstrap 4, dashboard, dashboard templets, sass admin templets, html admin templates, responsive, bootstrap admin templates free download,premium bootstrap admin templates, datta able, datta able bootstrap admin template, free admin theme, free dashboard template"/>
         <meta name="author" content="CodedThemes"/>
         <script src="{{ mix('/js/app.js') }}" defer></script>
-        <link rel="icon" href="{{ asset('/images/favicon.ico') }}" type="image/ico" />
         <link rel="stylesheet" href="{{ asset('/fonts/fontawesome/css/fontawesome-all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/plugins/animation/css/animate.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
         <script src="{{ asset('/js/vendor-all.min.js') }}"></script>
         <script src="{{ asset('/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('/js/pcoded.min.js') }}"></script>
+        <link rel="icon" href="{{ asset('/images/logo.png') }}" type="image/ico" />
     </head>
     <body>
         @inertia

@@ -515,6 +515,7 @@
                 <template #body>
                     <p class="text-warning">Make sure the data entered is in accordance with the existing format, the data imported is only new data</p>
                     <p class="text-warning">Specifically for the column for employment status, gender, blood group, married status, education, clothes size according to the options in the exact same case</p>
+                    <p class="text-warning">Do not change the existing template</p>
                     <div class="form-group mb-3">
                         <label for="col-form-label">Format Example</label><br>
                         <a :href="`/apps/karyawan/format`" target="_blank" class="btn btn-success text-white"><i class="fa fa-download me-2"></i>Download Format</a>
