@@ -17,7 +17,7 @@ class CreateKaryawanTable extends Migration
             $table->id();
             $table->string('nama_karyawan');
             $table->integer('nik_karyawan')->unique();
-            $table->tinyInteger('status_kerja')->comment('0 = Kontrak, 1 = Tetap');
+            $table->tinyInteger('status_kerja')->comment('0 = Kontrak, 1 = Tetap, 2 = Training');
             $table->unsignedBigInteger('divisi_id');
             $table->unsignedBigInteger('pt_id');
             $table->string('foto')->nullable();

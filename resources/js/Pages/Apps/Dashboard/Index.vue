@@ -3,53 +3,25 @@
         <title>Dashboard</title>
     </Head>
     <main>
-        <!-- <div class="row">
-            <div class="col-md-6 col-xl-4">
-                <div class="card daily-sales">
-                    <div class="card-block">
-                        <h6 class="mb-4">Total Employees by PT</h6>
-                        <div class="row d-flex align-items-center">
-                            <div class="col-9">
-                                <h3 class="f-w-300 d-flex align-items-center m-b-0"><BarChart :chartData="chartKaryawanPT" :options="options"/></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-4">
-                <div class="card daily-sales">
-                    <div class="card-block">
-                        <h6 class="mb-4">Total Employees by Division</h6>
-                        <div class="row d-flex align-items-center">
-                            <div class="col-9">
-                                <h3 class="f-w-300 d-flex align-items-center m-b-0"><BarChart :chartData="chartKaryawanDivisi" :options="options"/></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-4">
-                <div class="card daily-sales">
-                    <div class="card-block">
-                        <h6 class="mb-4">Total Employees by Position</h6>
-                        <div class="row d-flex align-items-center">
-                            <div class="col-9">
-                                <h3 class="f-w-300 d-flex align-items-center m-b-0"><BarChart :chartData="chartKaryawanJabatan" :options="options"/></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="row">
             <div class="col-xl-8 col-md-6">
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Employees by Division</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKaryawanDivisi" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
                         <h5>Total Employees by Position</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartKaryawanJabatan" :options="options"/>
+                            <BarChart :chartData="chartKaryawanJabatan" :options="options" style="height: 200px;"/>
                         </div>
                     </div>
                 </div>
@@ -88,6 +60,14 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="row" style="max-width:100%; overflow-x:hidden">
+                                <div class="col-md-4">
+                                    <label v-if="karyawan_baru.data[0] != undefined" align="start">Showing {{ karyawan_baru.from }} to {{ karyawan_baru.to }} of {{ karyawan_baru.total }} items</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <Pagination v-if="karyawan_baru.data[0] != undefined" :links="karyawan_baru.links" align="end"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -126,6 +106,14 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="row" style="max-width:100%; overflow-x:hidden">
+                                <div class="col-md-4">
+                                    <label v-if="karyawan_kontrak.data[0] != undefined" align="start">Showing {{ karyawan_kontrak.from }} to {{ karyawan_kontrak.to }} of {{ karyawan_kontrak.total }} items</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <Pagination v-if="karyawan_kontrak.data[0] != undefined" :links="karyawan_kontrak.links" align="end"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -176,17 +164,7 @@
                             <div class="col">
                                 <h5 class="m-0">Total Employees by PT</h5>
                             </div>
-                            <BarChart :chartData="chartKaryawanPT" :options="options"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-event">
-                    <div class="card-block">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col">
-                                <h5 class="m-0">Total Employees by Division</h5>
-                            </div>
-                            <BarChart :chartData="chartKaryawanDivisi" :options="options"/>
+                            <BarChart :chartData="chartKaryawanPT" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -261,6 +239,8 @@
     import { Chart, registerables } from "chart.js";
     //register chart
     Chart.register(...registerables);
+    //import component pagination
+    import Pagination from '../../../Components/Pagination.vue';
 
     export default {
         //layout
@@ -269,7 +249,8 @@
         components:{
             Head,
             BarChart,
-            DoughnutChart
+            DoughnutChart,
+            Pagination
         },
         //props
         props:{

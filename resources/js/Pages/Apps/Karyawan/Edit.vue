@@ -356,7 +356,8 @@
 
             const data_status_kerja = [
                 { name: 'Kontrak', value: 0 },
-                { name: 'Tetap', value: 1 }
+                { name: 'Tetap', value: 1 },
+                { name: 'Training', value: 2 }
             ];
 
             const data_golongan_darah = [
@@ -549,7 +550,7 @@
             })
 
             const cekData2 = computed(() => {
-                return form.grade.length == 0 || form.tanggal_masuk.length == 0 || form.nik_penduduk.length == 0 || form.jabatan_id.length == 0 || form.no_kk.length == 0;
+                return form.grade.length == 0 || form.tanggal_masuk.length == 0 || form.nik_penduduk.length == 0 || form.jabatan_id.length == 0;
             })
 
             const cekData3 = computed(() => {

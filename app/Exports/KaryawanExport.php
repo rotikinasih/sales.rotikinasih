@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
 class KaryawanExport implements ShouldAutoSize, WithHeadings, WithEvents, FromView
 {
@@ -20,7 +21,7 @@ class KaryawanExport implements ShouldAutoSize, WithHeadings, WithEvents, FromVi
     public function view(): View
     {
         return view('exports.karyawan', [
-            'karyawan' => Karyawan::with('perusahaan', 'divisi', 'jabatan')->get()
+            'karyawan' => Karyawan::with('perusahaan', 'divisi', 'jabatan')->orderBy('pt_id','ASC')->orderBy('divisi_id','ASC')->orderBy('jabatan_id','ASC')->get()
         ]);
     }
 

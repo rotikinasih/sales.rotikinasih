@@ -49,7 +49,8 @@
                                     <td>{{ kar.jabatan.nama_jabatan }}</td>
                                     <td>{{ kar.nik_karyawan }}</td>
                                     <td v-if="(kar.status_kerja == 0)"><a class="label theme-bg2 text-white f-12" style="border-radius:10px">Contract</a></td>
-                                    <td v-else><a class="label theme-bg text-white f-12" style="border-radius:10px">Fixed</a></td>
+                                    <td v-else-if="(kar.status_kerja == 1)"><a class="label theme-bg text-white f-12" style="border-radius:10px">Fixed</a></td>
+                                    <td v-else><a class="label theme-bg3 text-white f-12" style="border-radius:10px">Training</a></td>
                                     <td class="text-center">
                                         <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
                                         <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer" title="Delete" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
@@ -119,6 +120,7 @@
                                     <label class="col-form-label">Employment Status :</label>
                                     <input v-if="status_kerja == 0" type="text" class="form-control" value="Contract" readonly>
                                     <input v-if="status_kerja == 1" type="text" class="form-control" value="Fixed" readonly>
+                                    <input v-if="status_kerja == 2" type="text" class="form-control" value="Training" readonly>
                                 </div>
                             </div>
                         </div>

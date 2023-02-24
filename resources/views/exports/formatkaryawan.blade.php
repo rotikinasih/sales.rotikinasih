@@ -39,7 +39,7 @@
             <th scope="col">Nomor urut</th>
             <th scope="col">Nama Karyawan</th>
             <th scope="col">NIK Karyawan tanpa titik</th>
-            <th scope="col">Contract / Fixed</th>
+            <th scope="col">Contract / Fixed / Training</th>
             <th scope="col">Nama Divisi (Sesuaikan dengan data master)</th>
             <th scope="col">Nama PT (Sesuaikan dengan data master)</th>
             <th scope="col">tahun-bulan-tanggal</th>

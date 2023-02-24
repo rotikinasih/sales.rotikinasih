@@ -44,10 +44,13 @@ class KaryawanController extends Controller
 
         //menghitung umur
         if($karyawan->isNotEmpty()){
-            $now = Carbon::now()->isoFormat('Y-MM-D');
-            $tanggal_lahir = Karyawan::get()->first()->tanggal_lahir;
-            $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
-            DB::table('karyawan')->update(['umur' => $age]);
+            foreach ($karyawan as $k){
+                $now = Carbon::now()->isoFormat('Y-MM-D');
+                $tanggal_lahir = $k->tanggal_lahir;
+                $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
+                $k->update(['umur' => $age]);
+            }
+
         }
 
         //return inertia

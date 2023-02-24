@@ -40,6 +40,7 @@
     <tbody>
         @php $i=1 @endphp
         @foreach($karyawan as $k)
+        
         <tr>
             <td>{{ $i++ }}</td>
             <td>{{ $k->nama_karyawan }}</td>

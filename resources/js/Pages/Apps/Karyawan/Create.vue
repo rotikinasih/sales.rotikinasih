@@ -365,7 +365,8 @@
 
             const status_kerja = [
                 { name: 'Kontrak', value: 0 },
-                { name: 'Tetap', value: 1 }
+                { name: 'Tetap', value: 1 },
+                { name: 'Training', value: 2 }
             ];
 
             const status_pernikahan = [
@@ -423,7 +424,7 @@
             })
 
             const cekData2 = computed(() => {
-                return user_detail2.grade.length == 0 || user_detail2.tanggal_masuk.length == 0 || user_detail2.nik_penduduk.length == 0 || user_detail2.jabatan.length == 0 || user_detail2.no_kk.length == 0;
+                return user_detail2.grade.length == 0 || user_detail2.tanggal_masuk.length == 0 || user_detail2.nik_penduduk.length == 0 || user_detail2.jabatan.length == 0;
             })
 
             const cekData3 = computed(() => {

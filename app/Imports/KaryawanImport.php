@@ -22,7 +22,7 @@ class KaryawanImport implements WithStartRow, WithValidation, ToCollection, With
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     private $errors = []; // array to accumulate errors
-    private $status_kerja = ['Contract' => 0, 'Fixed' => 1];
+    private $status_kerja = ['Contract' => 0, 'Fixed' => 1, 'Training' => 2];
     private $jenis_kelamin = ['Male' => 0, 'Female' => 1];
     private $gol_darah = ['A' => 0, 'B' => 1, 'O' => 2, 'AB' => 3];
     private $status_pernikahan = ['Single' => 0, 'Married' => 1];
@@ -86,7 +86,7 @@ class KaryawanImport implements WithStartRow, WithValidation, ToCollection, With
         return [
             '*.employee_name' => 'required|max:255',
             '*.employment_identity_number' => 'required|max:255',
-            '*.employment_status' => 'required|in:Contract,Fixed',
+            '*.employment_status' => 'required|in:Contract,Fixed,Training',
             '*.division' => 'required|exists:master_divisi,nama_divisi',
             '*.pt' => 'required|exists:master_perusahaan,nama_pt',
             '*.entry_date' => 'required|max:255',
