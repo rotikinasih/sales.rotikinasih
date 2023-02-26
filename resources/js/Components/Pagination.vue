@@ -35,5 +35,11 @@
 </script>
 
 <style>
-
+    @media only screen and (max-width: 575px) {
+        .pagination{
+            width: fit-content;
+            overflow:visible;
+            overflow-x: visible;
+        }
+    }
 </style>

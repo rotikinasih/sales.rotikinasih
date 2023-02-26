@@ -113,25 +113,14 @@
                 <li><a href="javascript:" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a></li>
             </ul>
             <ul class="navbar-nav ml-auto">
+                <i class="fas fa-circle text-c-green f-10 m-r-15"></i>
+                <img src="/images/user/avatar-2.jpg" class="img-radius m-r-15" alt="User-Profile-Image" style="height: 40px; width:auto ">
+                <span class="b-title" style="color:black">{{ $page.props.auth.user.name }}</span>
                 <li>
-                    <div class="dropdown drp-user">
-                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon feather icon-settings"></i>
+                    <div class="dropdown drp-user" style="color:black">
+                        <a @click="logout" class="dud-logout" title="Logout" style="cursor:pointer;">
+                        <i class="feather icon-log-out"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right profile-notification">
-                        <div class="pro-head">
-                                <!-- <img src="/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image"> -->
-                                <span>{{ $page.props.auth.user.name }}</span>
-                                <a @click="logout" class="dud-logout" title="Logout" style="cursor:pointer">
-                                    <i class="feather icon-log-out"></i>
-                                </a>
-                            </div>
-                            <!-- <ul class="pro-body"> -->
-                                <!-- <li><a @click="logout" class="dropdown-item" title="Logout" style="cursor:pointer">
-                                    <i class="feather icon-log-out"></i> Logout
-                                </a></li> -->
-                            <!-- </ul> -->
-                        </div>
                     </div>
                 </li>
             </ul>

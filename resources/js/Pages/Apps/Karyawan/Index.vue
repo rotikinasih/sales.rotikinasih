@@ -71,7 +71,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="row" style="max-width:100%; overflow-x:hidden">
+                        <div class="row">
                             <div class="col-md-4">
                                 <label v-if="karyawan.data[0] != undefined" align="start">Showing {{ karyawan.from }} to {{ karyawan.to }} of {{ karyawan.total }} items</label>
                             </div>
