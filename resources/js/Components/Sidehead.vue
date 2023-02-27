@@ -60,7 +60,7 @@
                         <span class="pcoded-mtext">Employees</span></Link>
                     </li>
 
-                    <li class="nav-item pcoded-menu-caption">
+                    <li class="nav-item pcoded-menu-caption" v-if="hasAnyPermission(['roles.index']) || hasAnyPermission(['permissions.index'] || hasAnyPermission(['users.index']))">
                         <label>User Management</label>
                     </li>
 

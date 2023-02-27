@@ -33,7 +33,7 @@
                                     <td v-if="(jb.status == 0)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">Inactive</a></td>
                                     <td v-else><a class="label theme-bg8 text-white f-12" style="border-radius:10px">Active</a></td>
                                     <td>
-                                        <a @click="editData(jb)" class="label theme-bg3 text-white f-12" style="cursor:pointer"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="editData(jb)" v-if="hasAnyPermission(['jabatan.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
