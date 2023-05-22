@@ -6,6 +6,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
+                    <Link href="/apps/karyawan/create" v-if="hasAnyPermission(['karyawan.create'])" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Add</Link>
                     <h5>Employees</h5>
                     <span class="d-block m-t-5">Page to manage the <code> employees </code> data</span>
                 </div>
@@ -16,21 +17,11 @@
                     <div v-if="session.success" class="alert alert-success">
                         {{ session.success }}
                     </div>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" v-model="search" placeholder="search by Employees name or Employment Identity Number or Resident Number NIK..." style="width: 0%" @keyup="handleSearch">
+                        <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
+                    </div>
                     <div class="table-responsive">
-                        <div class="input-group mb-3">
-                            <Link href="/apps/karyawan/create" v-if="hasAnyPermission(['karyawan.create'])"  class="btn theme-bg4 text-white f-12" style="cursor:pointer; border:none"><i class="fa fa-plus"></i> Add</Link>
-                            <input type="text" class="form-control" v-model="search" placeholder="search by Employees name or Employment Identity Number or Resident Number NIK..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" @click="handleSearch"> <i class="fa fa-search me-2"></i></button>
-                        </div>
-                        <div class="d-flex flex-row-reverse bd-highlight mb-3">
-                            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-file-excel"></i> Excel
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a  :href="`/apps/karyawan/export`" target="_blank" class="dropdown-item">Export</a>
-                                <button @click="importExcel" target="_blank" class="dropdown-item">Import</button>
-                            </div>
-                        </div>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -52,18 +43,18 @@
                                     <td v-else-if="(kar.status_kerja == 1)"><a class="label theme-bg text-white f-12" style="border-radius:10px">Fixed</a></td>
                                     <td v-else><a class="label theme-bg3 text-white f-12" style="border-radius:10px">Training</a></td>
                                     <td class="text-center">
-                                        <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
-                                        <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer" title="Delete" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
-                                        <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-info"></i></a>
-                                        <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Add Historical Organization" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-user-plus"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
-                                        <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer"><i class="fa fa-exclamation-triangle"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
+                                        <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
+                                        <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px" title="Delete" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
+                                        <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-info"></i></a>
+                                        <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Add Historical Organization" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
+                                        <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-exclamation-triangle"></i></a>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="karyawan.data[0] == undefined">
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="6" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             No Data To Display
@@ -79,6 +70,15 @@
                                 <Pagination v-if="karyawan.data[0] != undefined" :links="karyawan.links" align="end"/>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-row-reverse bd-highlight mb-3">
+                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 25px; margin-top: 2px;">
+                        <i class="fa fa-file-excel"></i> Excel
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a  :href="`/apps/karyawan/export`" target="_blank" class="dropdown-item">Export</a>
+                        <button @click="importExcel" target="_blank" class="dropdown-item">Import</button>
                     </div>
                 </div>
             </div>
@@ -331,6 +331,7 @@
                                     <input v-if="pendidikan == 0" type="text" class="form-control" value="SD" readonly>
                                     <input v-else-if="pendidikan == 1" type="text" class="form-control" value="SMP" readonly>
                                     <input v-else-if="pendidikan == 2" type="text" class="form-control" value="SMA" readonly>
+                                    <input v-else-if="pendidikan == 2" type="text" class="form-control" value="D3" readonly>
                                     <input v-else-if="pendidikan == 3" type="text" class="form-control" value="S1" readonly>
                                     <input v-else-if="pendidikan == 4" type="text" class="form-control" value="S2" readonly>
                                     <input v-else-if="pendidikan == 5" type="text" class="form-control" value="S3" readonly>

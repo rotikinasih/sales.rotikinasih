@@ -31,8 +31,8 @@ class KaryawanController extends Controller
     {
         $search = request()->search;
         //get karyawan
-        $karyawan = Karyawan::with('perusahaan', 'divisi', 'jabatan')->when($search, function ($karyawan, $search) {
-            $karyawan = $karyawan->where('nama_karyawan', 'like', '%' . $search . '%')->orWhere('nik_karyawan', 'like', '%' . $search . '%')->orWhere('nik_penduduk', 'like', '%' . $search . '%');
+        $karyawan = Karyawan::with('perusahaan', 'divisi', 'jabatan')->when($search, function($karyawan, $search) {
+            $karyawan = $karyawan->where('nama_karyawan', 'like', '%'. $search . '%')->orWhere('nik_karyawan', 'like', '%'. $search . '%')->orWhere('nik_penduduk', 'like', '%'. $search . '%');
         })->latest()->paginate(10)->onEachSide(1);
 
         //get data divisi
@@ -43,13 +43,14 @@ class KaryawanController extends Controller
         $jabatan = MasterJabatan::where('status', 1)->get();
 
         //menghitung umur
-        if ($karyawan->isNotEmpty()) {
-            foreach ($karyawan as $k) {
+        if($karyawan->isNotEmpty()){
+            foreach ($karyawan as $k){
                 $now = Carbon::now()->isoFormat('Y-MM-D');
                 $tanggal_lahir = $k->tanggal_lahir;
                 $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
                 $k->update(['umur' => $age]);
             }
+
         }
 
         //return inertia
@@ -159,27 +160,28 @@ class KaryawanController extends Controller
         $now = Carbon::now()->isoFormat('Y-MM-D');
         $tanggal_lahir = $karyawan->tanggal_lahir;
         $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
-        if ($request->task_file) {
+        if($request->task_file){
             $extension = substr($request->nama_file, -3);
-            $nama_file = $karyawan->nik_karyawan . '.' . $extension;
+            $nama_file = $karyawan->nik_karyawan.'.'.$extension;
             Storage::putFileAs('public', $request->task_file, $nama_file);
             //cek status kerja
-            if ($request->status_kerja == 0) {
+            if($request->status_kerja == 0){
                 $awal_kontrak = $karyawan->tanggal_kontrak;
-                $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime($awal_kontrak)));
+                $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime( $awal_kontrak )));
                 $karyawan->update([
                     'foto'  => $nama_file,
                     'umur'  => $age,
                     'akhir_kontrak' => $akhir_kontrak
                 ]);
-            } else {
+            }else{
                 $karyawan->update([
                     'foto'  => $nama_file,
                     'umur'  => $age,
                     'akhir_kontrak' => null
                 ]);
             }
-        } else {
+
+        }else{
             $nama_file = null;
             $karyawan->update([
                 'umur'  => $age
@@ -253,16 +255,16 @@ class KaryawanController extends Controller
             'hubungan'                      => 'required',
         ]);
         //
-        if ($request->task_file) {
+        if($request->task_file){
             //mengambil extension file
             $extension = substr($request->nama_file, -3);
-            $nama_file = $karyawan->nik_karyawan . '.' . $extension;
+            $nama_file = $karyawan->nik_karyawan.'.'.$extension;
             Storage::putFileAs('public', $request->task_file, $nama_file);
             //delete gambar di storage
             $foto = $karyawan->foto;
             //hapus di storage link
             Storage::disk('public')->delete('storage/', $foto);
-        } else {
+        }else{
             $nama_file = $karyawan->foto;
         }
         //update karyawan
@@ -304,14 +306,14 @@ class KaryawanController extends Controller
         $now = Carbon::now()->isoFormat('Y-MM-D');
         $tanggal_lahir = $karyawan->tanggal_lahir;
         $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
-        if ($request->status_kerja == 0) {
+        if($request->status_kerja == 0){
             $awal_kontrak = $karyawan->tanggal_kontrak;
-            $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime($awal_kontrak)));
+            $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime( $awal_kontrak )));
             $karyawan->update([
                 'umur'  => $age,
                 'akhir_kontrak' => $akhir_kontrak
             ]);
-        } else {
+        }else{
             $karyawan->update([
                 'umur'  => $age,
                 'akhir_kontrak' => null
@@ -397,20 +399,19 @@ class KaryawanController extends Controller
      * @param mixed
      * @return void
      */
-    public function export()
-    {
+    public function export(){
         $tanggal = date("d");
         $bulan = date("M");
         $tahun = date("Y");
         $jam = date("H:i:s");
-        $response = Excel::download(new KaryawanExport, 'Karyawan ' . $tanggal . " " . $bulan . " " . Str::upper($tahun) . " " . Str::upper($jam) . " WIB" . '.xlsx');
+        $response = Excel::download(new KaryawanExport, 'Karyawan '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
         ob_end_clean();
         return $response;
     }
 
     public function import(Request $request)
-    {
-        try {
+	{
+        // try {
             // validasi
             $this->validate($request, [
                 'file' => 'required|mimes:csv,xls,xlsx'
@@ -418,32 +419,31 @@ class KaryawanController extends Controller
             // menangkap file excel
             $file = $request->file('file');
             // membuat nama file unik
-            $nama_file = rand() . $file->getClientOriginalName();
+            $nama_file = rand().$file->getClientOriginalName();
             // upload ke folder file_karyawan di dalam folder public
-            $file->move('file_karyawan', $nama_file);
+            $file->move('file_karyawan',$nama_file);
             // import data
-            Excel::import(new KaryawanImport, public_path('/file_karyawan/' . $nama_file));
-            //redirect to
+            Excel::import(new KaryawanImport, public_path('/file_karyawan/'.$nama_file));
+            //redirect
             return redirect()->back()->with('success', 'Import Data Saved Successfully');
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            foreach ($failures as $failure) {
-                $failure->row(); // row that went wrong
-                $failure->attribute(); // either heading key (if using heading row concern) or column index
-                $failure->errors(); // Actual error messages from Laravel validator
-                $failure->values(); // The values of the row that has failed.
-            }
-            return redirect()->back()->with('error', $failures);
-        }
-    }
+        // } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+        //     $failures = $e->failures();
+        //     foreach ($failures as $failure) {
+        //         $failure->row(); // row that went wrong
+        //         $failure->attribute(); // either heading key (if using heading row concern) or column index
+        //         $failure->errors(); // Actual error messages from Laravel validator
+        //         $failure->values(); // The values of the row that has failed.
+        //      }
+        //      return redirect()->back()->with('error', $failures);
+        // }
+	}
 
-    public function format()
-    {
+    public function format(){
         $tanggal = date("d");
         $bulan = date("M");
         $tahun = date("Y");
         $jam = date("H:i:s");
-        $response = Excel::download(new KaryawanFormatExport, 'Format Karyawan ' . $tanggal . " " . $bulan . " " . Str::upper($tahun) . " " . Str::upper($jam) . " WIB" . '.xlsx');
+        $response = Excel::download(new KaryawanFormatExport, 'Format Karyawan '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
         ob_end_clean();
         return $response;
     }

@@ -6,16 +6,15 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
+                    <Link href="/apps/roles/create" v-if="hasAnyPermission(['roles.create'])" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Add</Link>
                     <h5>Roles</h5>
                     <span class="d-block m-t-5">Page to manage the <code> roles </code> data</span>
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
-
                         <div class="input-group mb-3">
-                            <Link href="/apps/roles/create" v-if="hasAnyPermission(['roles.create'])" class="btn theme-bg4 text-white f-12" style="cursor:pointer; border:none"><i class="fa fa-plus"></i> Add</Link>
                             <input type="text" class="form-control" v-model="search" placeholder="search by roles Name..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" @click="handleSearch"> <i class="fa fa-search me-2"></i></button>
+                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-hover">
                             <thead>
@@ -36,8 +35,8 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <Link :href="`/apps/roles/${role.id}/edit`" v-if="hasAnyPermission(['roles.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer"><i class="fa fa-pencil-alt me-1"></i></Link>
-                                        <a @click.prevent="destroy(role.id)" v-if="hasAnyPermission(['roles.delete'])" class="label theme-bg2 text-white f-12" style="cursor:pointer"><i class="fa fa-trash"></i></a>
+                                        <Link :href="`/apps/roles/${role.id}/edit`" v-if="hasAnyPermission(['roles.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt me-1"></i></Link>
+                                        <a @click.prevent="destroy(role.id)" v-if="hasAnyPermission(['roles.delete'])" class="label theme-bg2 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
