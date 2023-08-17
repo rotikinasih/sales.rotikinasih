@@ -88,7 +88,7 @@ class DashboardController extends Controller
                 // ->select(array('catatan_pelanggaran.catatan'))
                 ->having(DB::raw('count(karyawan.id)'), '>=', 3)
                 ->groupBy('karyawan.id')
-                ->orderBy('karyawan.nama_karyawan', 'desc')
+                ->orderBy('karyawan.nama_lengkap', 'desc')
                 ->get();
 
         //menampilkan data karyawan termuda

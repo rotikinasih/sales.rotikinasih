@@ -13,9 +13,8 @@
                     <div class="table-responsive">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" v-model="search" placeholder="search by notes..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" @click="handleSearch"> <i class="fa fa-search me-2"></i></button>
-                        </div>
-                        <table class="table table-striped table-bordered table-hover">
+                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        </div>
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -36,7 +35,7 @@
                                     <td>{{ list.catatan }}</td>
                                     <td>{{ list.tanggal }}</td>
                                     <td class="text-center">
-                                        <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->

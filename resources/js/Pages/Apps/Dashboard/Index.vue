@@ -7,7 +7,17 @@
             <div class="col-xl-8 col-md-6">
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>Total Employees by Division</h5>
+                        <h5>Total Karyawan berdasarkan Entitas</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKaryawanPT" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan berdasarkan Divisi</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
@@ -17,7 +27,7 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>Total Employees by Position</h5>
+                        <h5>Total Karyawan Berdasarkan Jabatan</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
@@ -27,7 +37,7 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>New employee this month</h5>
+                        <h5>Karyawan Baru di Bulan ini</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
@@ -35,9 +45,9 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Photo</th>
-                                        <th>Employees Name</th>
-                                        <th>Entry Date</th>
+                                        <th>Foto</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Tanggal Masuk</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -45,7 +55,7 @@
                                         <td>{{ index + 1 }}</td>
                                         <td><img class="rounded-circle" style="width:40px;" v-if="baru.foto != null" :src="`/storage/${baru.foto}`" alt="activity-user"></td>
                                         <td>
-                                            <h6 class="mb-1">{{ baru.nama_karyawan }}</h6>
+                                            <h6 class="mb-1">{{ baru.nama_lengkap }}</h6>
                                             <p class="m-0">{{ baru.nik_penduduk }}</p>
                                         </td>
                                         <td><h6 class="text-muted"><span class="label theme-bg text-white f-12">{{ baru.tanggal_masuk }}</span></h6></td>
@@ -55,7 +65,7 @@
                                         <td colspan="4" class="text-center">
                                             <br>
                                             <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                                No Data To Display
+                                                Data Kosong
                                         </td>
                                     </tr>
                                 </tbody>
@@ -73,7 +83,8 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>The employee is approaching the end of the 2 month contract</h5>
+                        <!-- <h5>The employee is approaching the end of the 2 month contract</h5> -->
+                        <h5>Karyawan Mendekati Akhir Kontrak 2 Bulan</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
@@ -81,9 +92,9 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Photo</th>
-                                        <th>Employees Name</th>
-                                        <th>End of Contract</th>
+                                        <th>Foto</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Akhir Kontrak</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,7 +102,7 @@
                                         <td>{{ index + 1 }}</td>
                                         <td><img class="rounded-circle" style="width:40px;" v-if="kontrak.foto != null" :src="`/storage/${kontrak.foto}`" alt="activity-user"></td>
                                         <td>
-                                            <h6 class="mb-1">{{ kontrak.nama_karyawan }}</h6>
+                                            <h6 class="mb-1">{{ kontrak.nama_lengkap }}</h6>
                                             <p class="m-0">{{ kontrak.nik_penduduk }}</p>
                                         </td>
                                         <td><span class="label theme-bg2 text-white f-12">{{ kontrak.akhir_kontrak }}</span></td>
@@ -101,7 +112,7 @@
                                         <td colspan="4" class="text-center">
                                             <br>
                                             <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                                No Data To Display
+                                                Data Kosong
                                         </td>
                                     </tr>
                                 </tbody>
@@ -119,7 +130,8 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>Employees that has 3 violations or more</h5>
+                        <!-- <h5>Employees that has 3 violations or more</h5> -->
+                        <h5>Karyawan yang melakukan 3 kali pelanggaran atau lebih</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
@@ -127,9 +139,9 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Photo</th>
-                                        <th>Employees Name</th>
-                                        <th>Amount of Violations</th>
+                                        <th>Foto</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Jumlah Pelanggaran</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -137,7 +149,7 @@
                                         <td>{{ index + 1 }}</td>
                                         <td><img class="rounded-circle" style="width:40px;" v-if="pl.foto != null" :src="`/storage/${pl.foto}`" alt="activity-user"></td>
                                         <td>
-                                            <h6 class="mb-1">{{ pl.nama_karyawan }}</h6>
+                                            <h6 class="mb-1">{{ pl.nama_lengkap }}</h6>
                                             <p class="m-0">{{ pl.nik_penduduk }}</p>
                                         </td>
                                         <td><h6 class="text-muted"><span class="label theme-bg3 text-white f-12">{{ pl.jumlah_pelanggaran }}</span></h6></td>
@@ -147,7 +159,7 @@
                                         <td colspan="4" class="text-center">
                                             <br>
                                             <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                                No Data To Display
+                                                Data Kosong
                                         </td>
                                     </tr>
                                 </tbody>
@@ -158,7 +170,7 @@
             </div>
             <!-- sisi kanan -->
             <div class="col-xl-4 col-md-6">
-                <div class="card card-event">
+                <!-- <div class="card card-event">
                     <div class="card-block">
                         <div class="row align-items-center justify-content-center">
                             <div class="col">
@@ -167,7 +179,7 @@
                             <BarChart :chartData="chartKaryawanPT" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="card card-event">
                     <div class="card-block" v-if="termuda != undefined">
                         <div class="row align-items-center justify-content-center">
@@ -179,7 +191,7 @@
                             </div>
                         </div>
                         <h2 class="mt-3 f-w-300">{{ termuda.umur }}<sub class="text-muted f-14"> years old</sub></h2>
-                        <h6 class="text-muted mt-4 mb-0">{{ termuda.nama_karyawan }}</h6>
+                        <h6 class="text-muted mt-4 mb-0">{{ termuda.nama_lengkap }}</h6>
                         <i class="fab fa-angellist text-c-purple f-50"></i>
                     </div>
                     <div class="card-block" v-else>
@@ -206,7 +218,7 @@
                             </div>
                         </div>
                         <h2 class="mt-3 f-w-300">{{ tertua.umur }}<sub class="text-muted f-14"> years old</sub></h2>
-                        <h6 class="text-muted mt-4 mb-0">{{ tertua.nama_karyawan }}</h6>
+                        <h6 class="text-muted mt-4 mb-0">{{ tertua.nama_lengkap }}</h6>
                         <i class="fab fa-angellist text-c-purple f-50"></i>
                     </div>
                     <div class="card-block" v-else>

@@ -13,4 +13,9 @@ class MasterPerusahaan extends Model
     protected $fillable = [
         'nama_pt', 'status'
     ];
+
+    public function karyawan()
+    {
+        return $this->hasMany(Karyawan::class);
+    }
 }

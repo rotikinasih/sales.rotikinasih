@@ -1,14 +1,14 @@
 <template>
     <Head>
-        <title>Division</title>
+        <title>Divisi</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Add</button>
-                    <h5>Division</h5>
-                    <span class="d-block m-t-5">Page to manage the <code> division </code> data</span>
+                    <h5>Daftar Divisi</h5>
+                    <!-- <span class="d-block m-t-5">Page to manage the <code> division </code> data</span> -->
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
@@ -21,19 +21,19 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Division Name</th>
+                                    <th>Nama Divisi</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(dv, index) in divisi.data" :key="index">
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ dv.nama_divisi }}</td>
-                                    <td v-if="(dv.status == 0)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">Inactive</a></td>
-                                    <td v-else><a class="label theme-bg8 text-white f-12" style="border-radius:10px">Active</a></td>
+                                    <td v-if="(dv.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
+                                    <td v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
                                     <td>
-                                        <a @click="editData(dv)" v-if="hasAnyPermission(['divisi.edit'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="editData(dv)" v-if="hasAnyPermission(['divisi.edit'])" class="label theme-bg3 text-white f-17" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -41,7 +41,7 @@
                                     <td colspan="4" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                            No Data To Display
+                                            Data Kosong
                                     </td>
                                 </tr>
                             </tbody>
@@ -66,25 +66,25 @@
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Division Name :</label>
+                        <label class="col-form-label">Nama Divisi :</label>
                         <input type="text" class="form-control" placeholder="Division Name" v-model="nama_divisi" required>
                     </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Status :</label>
                         <select class="form-control" aria-label="Default select example" v-model="status" required>
-                            <option :value="null">Select Status</option>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
+                            <option :value="null">pilih Status</option>
+                            <option value="1">Aktif</option>
+                            <option value="0">Nonaktif</option>
                         </select>
                     </div>
                 </template>
                 <template #footer>
 					<form @submit.prevent="storeData">
-						<button type="submit" v-show="!updateSubmit" class="btn btn-success text-white m-2">Save</button>
-						<button type="button" v-show="updateSubmit" @click="updateData()" class="btn btn-success text-white m-2">Update</button>
+						<button type="submit" v-show="!updateSubmit" class="btn btn-success text-white m-2">Simpan</button>
+						<button type="button" v-show="updateSubmit" @click="updateData()" class="btn btn-warning text-white m-2">Edit</button>
 					</form>
                     <button
-                        class="btn btn-secondary m-2" @click="tutupModal">Close</button>
+                        class="btn btn-secondary m-2" @click="tutupModal">Keluar</button>
                 </template>
             </modal>
         </Teleport>
@@ -154,7 +154,7 @@
                 if(updateSubmit.value == true){
 				    updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Create Division'
+                judul.value = 'Tambah Divisi'
                 id.value = null
                 nama_divisi.value = null
                 status.value = null
@@ -165,7 +165,7 @@
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Edit Division'
+                judul.value = 'Edit Divisi'
                 id.value = pe.id
                 nama_divisi.value = pe.nama_divisi
                 status.value = pe.status

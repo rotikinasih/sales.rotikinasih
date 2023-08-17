@@ -45,32 +45,54 @@
             <td>{{ $i++ }}</td>
             <td>{{ $k->nama_karyawan }}</td>
             <td>{{ $k->nik_karyawan }}</td>
-            @if ($k->status_kerja == 0)
-            <td>Contract</td>
-            @else
-            <td>Fixed</td>
+            @if ($k->status_kerja == null)
+                <td></td>
+            @elseif ($k->status_kerja == 0)
+                <td>Contract</td>
+            @elseif ($k->status_kerja == 1)
+                <td>Fixed</td>
             @endif
-            <td>{{ $k->divisi->nama_divisi }}</td>
-            <td>{{ $k->perusahaan->nama_pt }}</td>
+            <td>
+                @if ($k->divisi)
+                    {{ $k->divisi->nama_divisi }}
+                @else
+                    
+                @endif
+            </td>
+            <td>
+                @if ($k->perusahaan)
+                    {{ $k->perusahaan->nama_pt }}
+                @else
+                    
+                @endif
+            </td>
             <td>{{ $k->tanggal_masuk }}</td>
             <td>{{ $k->tanggal_kontrak }}</td>
             <td>{{ $k->akhir_kontrak }}</td>
             <td>{{ $k->no_kk }}</td>
             <td>{{ $k->nik_penduduk }}</td>
             <td>{{ $k->grade }}</td>
-            <td>{{ $k->jabatan->nama_jabatan }}</td>
+            <td>
+                @if ($k->jabatan)
+                    {{ $k->jabatan->nama_jabatan }}
+                @else
+                    
+                @endif
+            </td>
             <td>{{ $k->no_hp }}</td>
             <td>{{ $k->no_wa }}</td>
             <td>{{ $k->no_bpjs_kesehatan }}</td>
             <td>{{ $k->no_bpjs_ketenagakerjaan }}</td>
-            @if ($k->gol_darah == 0)
-            <td>A</td>
+            @if ($k->gol_darah == null)
+                <td></td>
+            @elseif ($k->gol_darah == 0)
+                <td>A</td>
             @elseif ($k->gol_darah == 1)
-            <td>B</td>
+                <td>B</td>
             @elseif ($k->gol_darah == 2)
-            <td>O</td>
-            @else
-            <td>AB</td>
+                <td>O</td>
+            @elseif ($k->gol_darah == 3)
+                <td>AB</td>
             @endif
             <td>{{ $k->email }}</td>
             <td>{{ $k->tempat_lahir }}</td>
@@ -78,17 +100,23 @@
             <td>{{ $k->umur }} years old</td>
             <td>{{ $k->alamat_ktp }}</td>
             <td>{{ $k->alamat_domisili }}</td>
-            @if ($k->jenis_kelamin == 0)
-            <td>Male</td>
-            @else
-            <td>Female</td>
+            @if ($k->jenis_kelamin == null)
+                <td></td>
+            @elseif ($k->jenis_kelamin == 0)
+                <td>Male</td>
+            @elseif  ($k->jenis_kelamin == 1)
+                <td>Female</td>
             @endif
-            @if ($k->status_pernikahan == 0)
-            <td>Single</td>
+            @if ($k->status_pernikahan == null)
+                <td></td>
+            @elseif ($k->status_pernikahan == 0)
+                <td>Single</td>
             @else
-            <td>Married</td>
+                <td>Married</td>
             @endif
-            @if ($k->pendidikan == 0)
+            @if ($k->pendidikan == null)
+                <td></td>
+            @elseif ($k->pendidikan == 0)
             <td>SD</td>
             @elseif ($k->pendidikan == 1)
             <td>SMP</td>
@@ -104,18 +132,20 @@
             <td>{{ $k->nama_sekolah }}</td>
             <td>{{ $k->kab_penugasan }}</td>
             <td>{{ $k->rekening }}</td>
-            @if ($k->ukuran_baju == 0)
-            <td>S</td>
+            @if ($k->ukuran_baju == null)
+                <td></td>
+            @elseif ($k->ukuran_baju == 0)
+                <td>S</td>
             @elseif ($k->ukuran_baju == 1)
-            <td>M</td>
+                <td>M</td>
             @elseif ($k->ukuran_baju == 2)
-            <td>L</td>
+                <td>L</td>
             @elseif ($k->ukuran_baju == 3)
-            <td>XL</td>
+                <td>XL</td>
             @elseif ($k->ukuran_baju == 4)
-            <td>XXL</td>
+                <td>XXL</td>
             @else
-            <td>Jumbo</td>
+                <td>Jumbo</td>
             @endif
             <td>{{ $k->no_sdr }}</td>
             <td>{{ $k->hubungan }}</td>

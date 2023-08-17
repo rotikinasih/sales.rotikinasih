@@ -1,14 +1,21 @@
 <template>
-     <Head>
-        <title>Employees</title>
+    <Head>
+        <title>Karyawan</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <Link href="/apps/karyawan/create" v-if="hasAnyPermission(['karyawan.create'])" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Add</Link>
-                    <h5>Employees</h5>
-                    <span class="d-block m-t-5">Page to manage the <code> employees </code> data</span>
+                    <button class="btn btn-success dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                        <i class="fa fa-file-excel"></i> Excel
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a  :href="`/apps/karyawan/export`" target="_blank" class="dropdown-item">Export</a>
+                        <button @click="importExcel" target="_blank" class="dropdown-item">Import</button>
+                    </div>
+                    <h5>Daftar Karyawan</h5>
+                    <!-- <span class="d-block m-t-5">Page to manage the <code> employees </code> data</span> -->
                 </div>
                 <div class="card-block table-border-style">
                     <div v-if="session.error" class="alert alert-danger">
@@ -17,31 +24,39 @@
                     <div v-if="session.success" class="alert alert-success">
                         {{ session.success }}
                     </div>
-                    <div class="input-group mb-2">
-                        <input type="text" class="form-control" v-model="search" placeholder="search by Employees name or Employment Identity Number or Resident Number NIK..." style="width: 0%" @keyup="handleSearch">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan nama karyawan, nomor induk karyawan..." style="width: 0%" @keyup="handleSearch">
                         <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover">
-                            <thead>
+                            <thead style="">
                                 <tr>
-                                    <th>#</th>
-                                    <th>Employees Name</th>
-                                    <th>Position</th>
-                                    <th>Employment Identity Number</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th style="text-align: center;">#</th>
+                                    <th style="text-align: center;">Nama Lengkap</th>
+                                    <th style="text-align: center;">NIK (Karyawan)</th>
+                                    <th style="text-align: center;">Entitas</th>
+                                    <th style="text-align: center;">Divisi</th>
+                                    <th style="text-align: center;">Posisi</th>
+                                    <th style="text-align: center;">Status</th>
+                                    <th style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(kar, index) in karyawan.data" :key="index">
-                                    <td>{{ index + 1 }}</td>
-                                    <td>{{ kar.nama_karyawan }}</td>
-                                    <td>{{ kar.jabatan.nama_jabatan }}</td>
+                                    <td style="text-align: center;">{{ index + 1 }}</td>
+                                    <td>{{ kar.nama_lengkap }}</td>
                                     <td>{{ kar.nik_karyawan }}</td>
-                                    <td v-if="(kar.status_kerja == 0)"><a class="label theme-bg2 text-white f-12" style="border-radius:10px">Contract</a></td>
-                                    <td v-else-if="(kar.status_kerja == 1)"><a class="label theme-bg text-white f-12" style="border-radius:10px">Fixed</a></td>
-                                    <td v-else><a class="label theme-bg3 text-white f-12" style="border-radius:10px">Training</a></td>
+                                    <td v-if="(kar.perusahaan == null)"> </td>
+                                    <td v-else>{{ kar.perusahaan.nama_pt}}</td>
+                                    <td v-if="(kar.divisi == null)"> </td>
+                                    <td v-else>{{ kar.divisi.nama_divisi}}</td>                                    
+                                    <td v-if="(kar.jabatan == null)"> </td>
+                                    <td v-else>{{ kar.jabatan.nama_jabatan }}</td>
+                                    <td v-if="(kar.status_kerja == null)"></td>
+                                    <td v-else-if="(kar.status_kerja == 0)" style="text-align: center;"><b style="color: rgb(250, 213, 4);">Kontrak</b></td>
+                                    <td v-else-if="(kar.status_kerja == 1)" style="text-align: center;"><b style="color: rgb(45, 250, 4);">Tetap</b></td>
+                                    <td v-else><a class="label theme-bg3 text-white f-12" style="border-radius:10px; text-align: center;">Training</a></td>
                                     <td class="text-center">
                                         <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
                                         <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px" title="Delete" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
@@ -54,10 +69,10 @@
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="karyawan.data[0] == undefined">
-                                    <td colspan="6" class="text-center">
+                                    <td colspan="8" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                            No Data To Display
+                                            Data Kosong
                                     </td>
                                 </tr>
                             </tbody>
@@ -73,13 +88,13 @@
                     </div>
                 </div>
                 <div class="d-flex flex-row-reverse bd-highlight mb-3">
-                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 25px; margin-top: 2px;">
+                    <!-- <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 25px; margin-top: 2px;">
                         <i class="fa fa-file-excel"></i> Excel
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a  :href="`/apps/karyawan/export`" target="_blank" class="dropdown-item">Export</a>
                         <button @click="importExcel" target="_blank" class="dropdown-item">Import</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -118,6 +133,7 @@
                             <div class="mb-3">
                                 <div class="form-group mb-3">
                                     <label class="col-form-label">Employment Status :</label>
+                                    <input v-if="status_kerja == null" type="text" class="form-control" value=" " readonly>
                                     <input v-if="status_kerja == 0" type="text" class="form-control" value="Contract" readonly>
                                     <input v-if="status_kerja == 1" type="text" class="form-control" value="Fixed" readonly>
                                     <input v-if="status_kerja == 2" type="text" class="form-control" value="Training" readonly>
@@ -129,6 +145,7 @@
                                 <div class="form-group mb-3">
                                     <label class="col-form-label">Division :</label>
                                     <input type="text" class="form-control" v-model="divisi_id" readonly>
+                                    <!-- <input v-if="divisi_id == null" type="text" class="form-control" value="" readonly> -->
                                 </div>
                             </div>
                         </div>
@@ -182,6 +199,7 @@
                             <div class="mb-3">
                                 <div class="form-group mb-3">
                                     <label class="col-form-label">Blood Group :</label>
+                                    <input v-if="gol_darah == null" type="text" class="form-control" value=" " readonly>
                                     <input v-if="gol_darah == 0" type="text" class="form-control" value="A" readonly>
                                     <input v-else-if="gol_darah == 1" type="text" class="form-control" value="B" readonly>
                                     <input v-else-if="gol_darah == 2" type="text" class="form-control" value="O" readonly>
@@ -296,6 +314,7 @@
                             <div class="mb-3">
                                 <div class="form-group mb-3">
                                     <label class="col-form-label">Gender :</label>
+                                    <input v-if="jenis_kelamin == null" type="text" class="form-control" value=" " readonly>
                                     <input v-if="jenis_kelamin == 0" type="text" class="form-control" value="Male" readonly>
                                     <input v-if="jenis_kelamin == 1" type="text" class="form-control" value="Female" readonly>
                                 </div>
@@ -370,6 +389,7 @@
                             <div class="mb-3">
                                 <div class="form-group mb-3">
                                     <label class="col-form-label">Clothes Size :</label>
+                                    <input v-if="ukuran_baju == null" type="text" class="form-control" value=" " readonly>
                                     <input v-if="ukuran_baju == 0" type="text" class="form-control" value="S" readonly>
                                     <input v-else-if="ukuran_baju == 1" type="text" class="form-control" value="M" readonly>
                                     <input v-else-if="ukuran_baju == 2" type="text" class="form-control" value="L" readonly>
@@ -720,9 +740,9 @@
                 nama_karyawan.value = kar['nama_karyawan']
                 nik_karyawan.value = kar['nik_karyawan']
                 status_kerja.value = kar['status_kerja']
-                divisi_id.value = kar['divisi']['nama_divisi']
-                pt_id.value = kar['perusahaan']['nama_pt']
-                jabatan_id.value = kar['jabatan']['nama_jabatan']
+                divisi_id.value = kar['divisi'] == null ? "" : kar['divisi']['nama_divisi']
+                pt_id.value = kar['perusahaan'] == null ? "" : kar['perusahaan']['nama_pt']
+                jabatan_id.value = kar['jabatan'] == null ? "" : kar['jabatan']['nama_jabatan']
                 foto.value = kar['foto']
                 tanggal_masuk.value = kar['tanggal_masuk']
                 tanggal_kontrak.value = kar['tanggal_kontrak']

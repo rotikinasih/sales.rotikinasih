@@ -4,13 +4,9 @@ namespace App\Exports;
 
 use App\Models\Karyawan;
 use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithEvents;
 use Illuminate\Contracts\View\View;
 
-class KaryawanFormatExport implements ShouldAutoSize, WithHeadings, WithEvents, FromView
+class KaryawanFormatExport implements FromView
 {
     /**
      * view
@@ -22,72 +18,5 @@ class KaryawanFormatExport implements ShouldAutoSize, WithHeadings, WithEvents, 
         return view('exports.formatkaryawan', [
             'karyawan' => Karyawan::with('perusahaan', 'divisi', 'jabatan')->get()
         ]);
-    }
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function headings() :array
-    {
-        return [
-            'No',
-            'Employee Name',
-            'Employment Identity Number',
-            'Employment Status',
-            'Division',
-            'PT',
-            'Entry Date',
-            'Start of Contract',
-            'End of Contract',
-            'KK Number',
-            'Resident Number (NIK)',
-            'Grade',
-            'Position',
-            'HP Number',
-            'WA Number',
-            'BPJS of Health',
-            'BPJS of Employment',
-            'Blood Group',
-            'Email',
-            'Place of Birth',
-            'Date of Birth',
-            'Age',
-            'KTP Address',
-            'Residence Address',
-            'Gender',
-            'Married Status',
-            'Education',
-            'School Name',
-            'Assignment District',
-            'Rekening Bank',
-            'Clothes Size',
-            'Contact Number Family',
-            'Family Relationship'
-        ];
-    }
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function registerEvents(): array
-    {
-        return [
-            AfterSheet::class => function(AfterSheet $event) {
-                $event->sheet->getDelegate()->getStyle('A1:AG3')
-                        ->getFill()
-                        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                        ->getStartColor()
-                        ->setARGB('c491d4');
-                $event->sheet->getDelegate()->getStyle('A1:AG1')
-                        ->getBorders()->getOutline()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-                $event->sheet->getDelegate()->getStyle('A2:AG3')
-                        ->getBorders()->getOutline()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-                $event->sheet->getDelegate()->getStyle('A1:AG1')->getFont()->setBold(true);
-            },
-        ];
     }
 }

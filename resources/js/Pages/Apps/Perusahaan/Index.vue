@@ -1,14 +1,14 @@
 <template>
     <Head>
-        <title>PT</title>
+        <title>Entitas</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Add</button>
-                    <h5>PT</h5>
-                    <span class="d-block m-t-5">Page to manage the <code> company </code> data</span> 
+                    <h5>Daftar Entitas</h5>
+                    <!-- <span class="d-block m-t-5">Page to manage the <code> company </code> data</span>  -->
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
@@ -21,17 +21,17 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>PT Name</th>
+                                    <th>Nama Entitas</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(pe, index) in perusahaan.data" :key="index">
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ pe.nama_pt }}</td>
-                                    <td v-if="(pe.status == 0)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">Inactive</a></td>
-                                    <td v-else><a class="label theme-bg8 text-white f-12" style="border-radius:10px">Active</a></td>
+                                    <td v-if="(pe.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
+                                    <td v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
                                     <td>
                                         <a @click="editData(pe)" v-if="hasAnyPermission(['pt.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
@@ -66,25 +66,25 @@
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">PT Name :</label>
+                        <label class="col-form-label">Nama Entitas :</label>
                         <input type="text" class="form-control" placeholder="PT Name" v-model="nama_pt" required>
                     </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Status :</label>
                         <select class="form-control" aria-label="Default select example" v-model="status" required>
-                            <option :value="null">Select Status</option>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
+                            <option :value="null">Pilih Status</option>
+                            <option value="1">Aktif</option>
+                            <option value="0">Nonaktif</option>
                         </select>
                     </div>
                 </template>
                 <template #footer>
 					<form @submit.prevent="storeData">
-						<button type="submit" v-show="!updateSubmit" class="btn btn-success text-white m-2">Save</button>
-						<button type="button" v-show="updateSubmit" @click="updateData()" class="btn btn-success text-white m-2">Update</button>
+						<button type="submit" v-show="!updateSubmit" class="btn btn-success text-white m-2">Simpan</button>
+						<button type="button" v-show="updateSubmit" @click="updateData()" class="btn btn-warning text-white m-2">Edit</button>
 					</form>
                     <button
-                        class="btn btn-secondary m-2" @click="tutupModal">Close</button>
+                        class="btn btn-secondary m-2" @click="tutupModal">Keluar</button>
                 </template>
             </modal>
         </Teleport>
@@ -154,7 +154,7 @@
                 if(updateSubmit.value == true){
 				    updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Create PT'
+                judul.value = 'Tambah Entitas'
                 id.value = null
                 nama_pt.value = null
                 status.value = null
@@ -165,7 +165,7 @@
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Edit PT'
+                judul.value = 'Edit Entitas'
                 id.value = pe.id
                 nama_pt.value = pe.nama_pt
                 status.value = pe.status
