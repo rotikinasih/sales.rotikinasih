@@ -46,10 +46,32 @@ class KaryawanController extends Controller
         //menghitung umur
         if($karyawan->isNotEmpty()){
             foreach ($karyawan as $k){
+
+                //update umur karyawan
                 $now = Carbon::now()->isoFormat('Y-MM-D');
                 $tanggal_lahir = $k->tanggal_lahir;
                 $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
                 $k->update(['umur' => $age]);
+
+                //update komposisi generasi
+                $tahun_lahir = date('Y', strtotime($k->tanggal_lahir));
+                //gen Boomers (1946-1964)
+                if($tahun_lahir >= 1946 && $tahun_lahir <= 1964){
+                    $k->update(['komposisi_generasi' => 'Boomers']);
+                }
+                //gen X (1965-1976)
+                if($tahun_lahir >= 1965 && $tahun_lahir <= 1976){
+                    $k->update(['komposisi_generasi' => 'X']);
+                }
+                //gen Y atau Milenial(1977-1994)
+                if($tahun_lahir >= 1977 && $tahun_lahir <= 1994){
+                    $k->update(['komposisi_generasi' => 'Milenial']);
+                }
+                //gen Z (1995-2010)
+                if($tahun_lahir >= 1995 && $tahun_lahir <= 2010){
+                    $k->update(['komposisi_generasi' => 'Z']);
+                }
+                // dd($tahun_lahir);
             }
 
         }
@@ -295,13 +317,13 @@ class KaryawanController extends Controller
             'komposisi_peran' => $request->komposisi_peran,
             'kota_rekruitmen' => $request->kota_rekruitmen,
             'kota_penugasan' => $request->kota_penugasan,
-            'pengalaman_kerja_terakhir' => $request->pengalaman_kerja_terakhir,
             'rekening' => $request->rekening,
             'no_npwp' => $request->no_npwp,
-            'email_interanl' => $request->email_interanl,
+            'email_internal' => $request->email_internal,
             'no_bpjs_kesehatan' => $request->no_bpjs_kesehatan,
             'no_bpjs_ketenagakerjaan' => $request->no_bpjs_ketenagakerjaan,
             'ukuran_baju' => $request->ukuran_baju,
+            'pengalaman_kerja_terakhir' => $request->pengalaman_kerja_terakhir,
         ]);
 
         //update umur
@@ -420,6 +442,8 @@ class KaryawanController extends Controller
             ]);
             // menangkap file excel
             $file = $request->file('file');
+
+            // dd($file);
             // membuat nama file unik
             $nama_file = rand().$file->getClientOriginalName();
             // upload ke folder file_karyawan di dalam folder public

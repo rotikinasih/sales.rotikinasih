@@ -6,7 +6,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Add</button>
+                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
                     <h5>Daftar Entitas</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the <code> company </code> data</span>  -->
                 </div>
@@ -14,7 +14,7 @@
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="search by PT name..." @keyup="handleSearch">
+                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Entitas..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"> <i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-hover">
@@ -67,7 +67,7 @@
                 <template #body>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Nama Entitas :</label>
-                        <input type="text" class="form-control" placeholder="PT Name" v-model="nama_pt" required>
+                        <input type="text" class="form-control" placeholder="Masukkan Nama Entitas" v-model="nama_pt" required>
                     </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Status :</label>
@@ -81,7 +81,7 @@
                 <template #footer>
 					<form @submit.prevent="storeData">
 						<button type="submit" v-show="!updateSubmit" class="btn btn-success text-white m-2">Simpan</button>
-						<button type="button" v-show="updateSubmit" @click="updateData()" class="btn btn-warning text-white m-2">Edit</button>
+						<button type="button" v-show="updateSubmit" @click="updateData()" class="btn btn-warning text-white m-2">Update</button>
 					</form>
                     <button
                         class="btn btn-secondary m-2" @click="tutupModal">Keluar</button>
@@ -174,7 +174,7 @@
 
             const peringatan = () => {
                 Swal.fire({
-                    title: 'Please complete all entries',
+                    title: 'Harap lengkapi semua entri',
                     width: 600,
                     padding: '3em',
                     color: '#716add',
@@ -206,8 +206,8 @@
                             tutupModal()
                             //show success alert
                             Swal.fire({
-                                title: 'Success!',
-                                text: 'PT updated successfully.',
+                                title: 'Sukses!',
+                                text: 'Entitas berhasil disimpan.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000

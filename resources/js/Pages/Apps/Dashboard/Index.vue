@@ -184,13 +184,13 @@
                     <div class="card-block" v-if="termuda != undefined">
                         <div class="row align-items-center justify-content-center">
                             <div class="col">
-                                <h5 class="m-0">Youngest Employee</h5>
+                                <h5 class="m-0">Karyawan Termuda</h5>
                             </div>
                             <div class="col-auto">
                                 <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ termuda.nik_karyawan }}</label>
                             </div>
                         </div>
-                        <h2 class="mt-3 f-w-300">{{ termuda.umur }}<sub class="text-muted f-14"> years old</sub></h2>
+                        <h2 class="mt-3 f-w-300">{{ termuda.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
                         <h6 class="text-muted mt-4 mb-0">{{ termuda.nama_lengkap }}</h6>
                         <i class="fab fa-angellist text-c-purple f-50"></i>
                     </div>
@@ -203,7 +203,7 @@
                         <span class="text-muted mt-4 mb-0">
                             <br>
                             <i class="fa fa-file-excel fa-5x"></i><br><br>
-                            No Data To Display
+                            Data Kosong
                         </span>
                     </div>
                 </div>
@@ -211,13 +211,13 @@
                     <div class="card-block" v-if="tertua != undefined">
                         <div class="row align-items-center justify-content-center">
                             <div class="col">
-                                <h5 class="m-0">Oldest Employee</h5>
+                                <h5 class="m-0">Karyawan Tertua</h5>
                             </div>
                             <div class="col-auto">
                                 <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ tertua.nik_karyawan }}</label>
                             </div>
                         </div>
-                        <h2 class="mt-3 f-w-300">{{ tertua.umur }}<sub class="text-muted f-14"> years old</sub></h2>
+                        <h2 class="mt-3 f-w-300">{{ tertua.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
                         <h6 class="text-muted mt-4 mb-0">{{ tertua.nama_lengkap }}</h6>
                         <i class="fab fa-angellist text-c-purple f-50"></i>
                     </div>
@@ -230,7 +230,7 @@
                         <span class="text-muted mt-4 mb-0">
                             <br>
                             <i class="fa fa-file-excel fa-5x"></i><br><br>
-                            No Data To Display
+                            Data Kosong 
                         </span>
                     </div>
                 </div>

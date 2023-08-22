@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Carbon\Carbon;
 
 class KaryawanImport implements ToModel, WithStartRow
 {
@@ -22,12 +23,16 @@ class KaryawanImport implements ToModel, WithStartRow
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     private $errors = []; // array to accumulate errors
-    private $status_kerja = ['Contract' => 0, 'Fixed' => 1, 'Training' => 2];
-    private $jenis_kelamin = ['Male' => 0, 'Female' => 1];
-    private $gol_darah = ['A' => 0, 'B' => 1, 'O' => 2, 'AB' => 3];
-    private $status_pernikahan = ['Single' => 0, 'Married' => 1];
-    private $pendidikan = ['SD' => 0, 'SMP' => 1, 'SMA' => 2, 'S1' => 3, 'S2' => 4, 'S3' => 5];
-    private $ukuran_baju = ['S' => 0, 'M' => 1, 'L' => 2, 'XL' => 3, 'XXL' => 4, 'Jumbo' => 5];
+    private $status_kerja = ['Kontrak' => 1, 'Tetap' => 2, 'Training' => 3];
+    private $jenis_kelamin = ['Laki-laki' => 1, 'Perempuan' => 2];
+    private $komposisi_peran = ['Support' => 1, 'Core' => 2];
+    private $gol_darah = ['A' => 1, 'B' => 2, 'O' => 3, 'AB' => 4];
+    private $status_pernikahan = ['Belom Menikah' => 1, 'Menikah' => 2, 'Janda' => 3, 'Duda' => 4];
+    private $pendidikan = ['SD' => 1, 'SMP' => 2, 'SMA' => 3, 'D1' => 4, 'D2' => 5, 'D3' => 6, 'D4' => 7, 'S1' => 8, 'S2' => 9, 'S3' => 10];
+    private $ukuran_baju = ['S' => 1, 'M' => 2, 'L' => 3, 'XL' => 4, 'XXL' => 5, 'Jumbo' => 6];
+    private $jenis_sosmed = ['Instagram' => 1, 'Facebook' => 2, 'Tiktok' => 3, 'Youtube' => 4, 'Lainnya' => 5];
+    private $hubungan_keluarga = ['Suami/Istri' => 1, 'Ayah' => 2, 'Ibu' => 3, 'Kakak/Adik' => 4, 'Paman/Bibi' => 5, 'Kakek/Nenek' => 6];
+    private $status_keluarga = ['Kepala Keluarga' => 1, 'Istri' => 2, 'Anak ke 1' => 3, 'Anak ke 2' => 4, 'Anak ke 3' => 5, 'Lainnya' => 6];
     // private $setStartRow = 3;
 
     public function startRow(): int
@@ -37,42 +42,59 @@ class KaryawanImport implements ToModel, WithStartRow
     public function model(array $row)
     {
         // if (!isset($row[1])) {
-        //     return null;
-        // }
-
+            //     return null;
+            // }
+            
         return new Karyawan([
-            'nama_karyawan' => $row[1] == null ? null : $row[1],
-            'nik_karyawan' => $row[2],
-            'status_kerja' => $row[3] ?? null == null ? null : $this->status_kerja[$row[3]] ?? null, 
-            'divisi_id' => $row[6]  == null ? null : MasterDivisi::where('nama_divisi', $row[4])->firstOrFail()->id,
-            'pt_id' => $row[6]  == null ? null : MasterPerusahaan::where('nama_pt', $row[5])->firstOrFail()->id,
-            'tanggal_masuk' => $row[6]  == null ? null : $row[6],
-            'tanggal_kontrak' => $row[7]  == null ? null : $row[7],
-            'akhir_kontrak' => $row[8] == null ? null : $row[8],
-            'no_kk' => $row[9] == null ? null : $row[9],
-            'nik_penduduk' => $row[10] == null ? null : $row[10],
-            'grade' => $row[11] == null ? null : $row[11],
-            'jabatan_id' => $row[12] == null ? null : MasterJabatan::where('nama_jabatan', $row[12])->firstOrFail()->id,
-            'no_hp' => $row[13] == null ? null : $row[13],
-            'no_wa' => $row[14] == null ? null : $row[14],
-            'no_bpjs_kesehatan' => $row[15] ?? null == null ? null : $row[15],
-            'no_bpjs_ketenagakerjaan'   => $row[16] ?? null == null ? null : $row[16],
-            'gol_darah' => $row[17] ?? null == null ? null : $this->gol_darah[$row[17]],
-            'email' => $row[18],
-            'tempat_lahir'  => $row[19] == null ? null : $row[19],
-            'tanggal_lahir' => $row[20] == null ? null : $row[20],
-            'umur'  => $row[21] == null ? null : $row[21],
-            'alamat_ktp'    => $row[22] == null ? null : $row[22],
-            'alamat_domisili'   => $row[23] == null ? null : $row[23],
-            'jenis_kelamin' => $row[24] ?? null == null ? null : $this->jenis_kelamin[$row[24]],
-            'status_pernikahan' => $row[25] ?? null == null ? null : $this->status_pernikahan[$row[25]],
-            'pendidikan'    => $row[26] ?? null == null ? null : $this->pendidikan[$row[26]],
-            'nama_sekolah'  => $row[27] == null ? null : $row[27],
-            'kab_penugasan' => $row[28] == null ? null : $row[28],
-            'rekening'  => $row[29] == null ? null : $row[29],
-            'ukuran_baju' => $row[30] ?? null == null ? null : $this->ukuran_baju[$row[30]],
-            'no_sdr'    => $row[31] == null ? null : $row[31],
-            'hubungan'  => $row[32] == null ? null : $row[32],
+            //data pribadi
+            'nama_lengkap' => $row[1] == null ? null : $row[1],
+            'nama_panggilan' => $row[2] == null ? null : $row[2],
+            'tempat_lahir'  => $row[3] == null ? null : $row[3], 
+            'tanggal_lahir' => $row[4] == null ? null : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[4])->format('Y-m-d'),
+            'umur'  => $row[5] == null ? null : $row[5],
+            'agama'  => $row[6] == null ? null : $row[6],
+            'jenis_kelamin' => $row[7] == null ? null : $this->jenis_kelamin[$row[7]],
+            'gol_darah' => $row[8] == null ? null : $this->gol_darah[$row[8]],
+            'riwayat_penyakit' => $row[9] == null ? null : $row[9],
+            'no_kk' => $row[10] == null ? null : $row[10],
+            'nik_penduduk' => $row[11] == null ? null : $row[11],
+            'kode_pos' => $row[12] == null ? null : $row[12],
+            'alamat_ktp'    => $row[13] == null ? null : $row[13],
+            'alamat_domisili'   => $row[14] == null ? null : $row[14],
+            'pendidikan'    => $row[15] == null ? null : $this->pendidikan[$row[15]],
+            'nama_sekolah'  => $row[16] == null ? null : $row[16],
+            'jurusan'  => $row[17] == null ? null : $row[17],
+            'email_pribadi' => $row[18] == null ? null : $row[18],
+            'no_telp' => $row[19] == null ? null : $row[19],
+            'no_wa' => $row[20] == null ? null : $row[20],
+            'no_keluarga' => $row[21] == null ? null : $row[21],
+            'hubungan_keluarga' => $row[22] == null ? null : $this->hubungan_keluarga[$row[22]], 
+            'status_pernikahan' => $row[23] == null ? null : $this->status_pernikahan[$row[23]],
+            'status_keluarga' => $row[24] == null ? null : $this->status_keluarga[$row[24]],
+            'jenis_sosmed' => $row[25] == null ? null : $this->jenis_sosmed[$row[25]],
+            'nama_sosmed' => $row[26] == null ? null : $row[26],
+
+            //data di perusahaan
+            'nik_karyawan' => $row[27] == null ? null : $row[27],
+            'pt_id' => $row[28] == null ? null : MasterPerusahaan::where('nama_pt', $row[28])->firstOrFail()->id,
+            'divisi_id' => $row[29]  == null ? null : MasterDivisi::where('nama_divisi', $row[29])->firstOrFail()->id,
+            'jabatan_id' => $row[30] == null ? null : MasterJabatan::where('nama_jabatan', $row[30])->firstOrFail()->id,
+            'grade' => $row[31] == null ? null : $row[31],
+            'tanggal_masuk' => $row[32]  == null ? null : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[32])->format('Y-m-d'),
+            'status_kerja' => $row[33] == null ? null : $this->status_kerja[$row[33]], 
+            'komposisi_peran' => $row[34] == null ? null : $this->komposisi_peran[$row[34]], 
+            'tanggal_kontrak' => $row[35]  == null ? null : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[35])->format('Y-m-d'),
+            'akhir_kontrak' => $row[36] == null ? null : $row[36],
+            'masa_kontrak' => $row[37] == null ? null : $row[37],
+            'kota_rekruitmen' => $row[38] == null ? null : $row[38],
+            'kota_penugasan' => $row[39] == null ? null : $row[39],
+            'no_npwp' => $row[40] == null ? null : $row[40],
+            'no_bpjs_kesehatan' => $row[41] == null ? null : $row[41],
+            'no_bpjs_ketenagakerjaan' => $row[42] == null ? null : $row[42],
+            'email_internal'  => $row[43] == null ? null : $row[43],
+            'rekening'  => $row[44] == null ? null : $row[44],
+            'ukuran_baju' => $row[45] == null ? null : $this->ukuran_baju[$row[45]],
+            'pengalaman_kerja_terakhir' => $row[46] == null ? null : $row[46],
         ]);
     }
 

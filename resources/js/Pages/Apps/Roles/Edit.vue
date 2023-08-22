@@ -7,17 +7,17 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Role</h5>
+                        <h5>Edit Role</h5>
                     </div>
                     <div class="card-body">
-                        <h5>Edit Role</h5>
-                        <hr>
+                        <!-- <h5>Edit Role</h5>
+                        <hr> -->
                         <div class="row">
                             <div class="col-md-12">
                                 <form @submit.prevent="submit">
                                     <div class="form-group">
-                                        <label class="fw-bold">Role Name</label>
-                                        <input type="text" v-model="form.name" class="form-control" aria-describedby="usernameHelp" placeholder="Role Name" :class="{ 'is-invalid': errors.name }">
+                                        <label class="fw-bold">Nama Role</label>
+                                        <input type="text" v-model="form.name" class="form-control" aria-describedby="usernameHelp" placeholder="Masukkan Nama Role" :class="{ 'is-invalid': errors.name }">
                                         <div v-if="errors.name" class="alert alert-danger">
                                             {{ errors.name }}
                                         </div>
@@ -33,9 +33,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button class="btn btn-primary shadow-sm rounded-sm" type="submit">UPDATE</button>
-                                            <button class="btn btn-warning shadow-sm rounded-sm ms-3" type="reset">RESET</button>
-                                            <Link href="/apps/roles" class="btn btn-success shadow-sm rounded-sm-5" style="float:right">BACK</Link>
+                                            <button class="btn btn-warning shadow-sm rounded-sm" type="submit">Update</button>
+                                            <button class="btn btn-info shadow-sm rounded-sm ms-3" type="reset">Reset</button>
+                                            <Link href="/apps/roles" class="btn btn-success shadow-sm rounded-sm-5" style="float:right">Kembali</Link>
                                         </div>
                                     </div>
                                 </form>

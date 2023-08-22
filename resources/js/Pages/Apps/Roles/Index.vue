@@ -6,9 +6,9 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <Link href="/apps/roles/create" v-if="hasAnyPermission(['roles.create'])" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Add</Link>
+                    <Link href="/apps/roles/create" v-if="hasAnyPermission(['roles.create'])" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</Link>
                     <h5>Roles</h5>
-                    <span class="d-block m-t-5">Page to manage the <code> roles </code> data</span>
+                    <!-- <span class="d-block m-t-5">Page to manage the <code> roles </code> data</span> -->
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
@@ -19,10 +19,10 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th scope="col" style="width:20%">Role Name</th>
+                                    <th style="text-align:center">#</th>
+                                    <th scope="col" style="width:20%; text-align:center">Nama Role</th>
                                     <th>Permissions</th>
-                                    <th scope="col" style="width:20%">Action</th>
+                                    <th scope="col" style="width:20%; text-align:center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,7 +36,7 @@
                                     </td>
                                     <td class="text-center">
                                         <Link :href="`/apps/roles/${role.id}/edit`" v-if="hasAnyPermission(['roles.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt me-1"></i></Link>
-                                        <a @click.prevent="destroy(role.id)" v-if="hasAnyPermission(['roles.delete'])" class="label theme-bg2 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-trash"></i></a>
+                                        <a @click.prevent="destroy(role.id)" v-if="hasAnyPermission(['roles.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -44,7 +44,7 @@
                                     <td colspan="4" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                            No Data To Display
+                                            Data Kosong
                                     </td>
                                 </tr>
                             </tbody>
@@ -115,13 +115,14 @@
             //define method destroy
             const destroy = (id) => {
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: 'Apakah Anda Yakin?',
+                    text: "Anda tidak akan dapat mengembalikan ini!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Ya!',
+                    cancelButtonText: 'Batal'
                 })
                 .then((result) => {
                     if (result.isConfirmed) {
@@ -129,8 +130,8 @@
                         Inertia.delete(`/apps/roles/${id}`);
 
                         Swal.fire({
-                            title: 'Deleted!',
-                            text: 'Role deleted successfully.',
+                            title: 'Sukses!',
+                            text: 'Role berhasil dihapus.',
                             icon: 'success',
                             timer: 2000,
                             showConfirmButton: false,

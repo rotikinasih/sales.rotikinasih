@@ -7,20 +7,20 @@
             <div class="card">
                 <div class="card-header">
                     <h5>Permissions</h5>
-                    <span class="d-block m-t-5">Page to manage the <code> permission </code> data</span>
+                    <!-- <span class="d-block m-t-5">Page to manage the <code> permission </code> data</span> -->
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="search by Permissions name..." @keyup="handleSearch">
+                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan nama permission..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Permission Name</th>
+                                    <th>Name Permission</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,7 +33,7 @@
                                     <td colspan="4" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                            No Data To Display
+                                            Data Kosong
                                     </td>
                                 </tr>
                             </tbody>

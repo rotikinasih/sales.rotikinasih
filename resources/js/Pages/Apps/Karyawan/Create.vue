@@ -382,68 +382,68 @@
             //cek kelengkapan data
             const terms = ref(false);
             const golongan_darah = [
-                { name: 'A', value: 0 },
-                { name: 'B', value: 1 },
-                { name: 'O', value: 2 },
-                { name: 'AB', value: 3 }
+                { name: 'A', value: 1 },
+                { name: 'B', value: 2 },
+                { name: 'O', value: 3 },
+                { name: 'AB', value: 4 }
             ];
 
             const jenis_kelamin = [
-                { name: 'Laki-laki', value: 0 },
-                { name: 'Perempuan', value: 1 }
+                { name: 'Laki-laki', value: 1 },
+                { name: 'Perempuan', value: 2 }
             ];
 
             const komposisi_peran = [
-                { name: 'Support', value: 0 },
-                { name: 'Core', value: 1 }
+                { name: 'Support', value: 1 },
+                { name: 'Core', value: 2 }
             ];
 
             const status_kerja = [
-                { name: 'Kontrak', value: 0 },
-                { name: 'Tetap', value: 1 },
-                { name: 'Training', value: 2 }
+                { name: 'Kontrak', value: 1 },
+                { name: 'Tetap', value: 2 },
+                { name: 'Training', value: 3 }
             ];
 
             const status_pernikahan = [
-                { name: 'Belom Menikah', value: 0 },
-                { name: 'Menikah', value: 1 },
-                { name: 'Janda', value: 2},
-                { name: 'Duda', value: 3 },
+                { name: 'Belom Menikah', value: 1 },
+                { name: 'Menikah', value: 2 },
+                { name: 'Janda', value: 3 },
+                { name: 'Duda', value: 4 },
             ];
 
             const status_keluarga = [
-                { name: 'Kepala Keluarga', value: 0 },
-                { name: 'Istri', value: 1 },
-                { name: 'Anak ke 1', value: 2},
-                { name: 'Anak ke 2', value: 3 },
-                { name: 'Anak ke 3', value: 4 },
-                { name: 'Lainnya', value: 5 },
+                { name: 'Kepala Keluarga', value: 1 },
+                { name: 'Istri', value: 2 },
+                { name: 'Anak ke 1', value: 3},
+                { name: 'Anak ke 2', value: 4 },
+                { name: 'Anak ke 3', value: 5 },
+                { name: 'Lainnya', value: 6 },
             ];
 
             const hubungan_keluarga = [
-                { name: 'Suami/Istri', value: 0 },
-                { name: 'Ayah', value: 1 },
-                { name: 'Ibu', value: 2},
-                { name: 'Kakak/Adik', value: 3 },
-                { name: 'Paman/Bibi', value: 4 },
-                { name: 'Kakek/Nenek', value: 5 },
+                { name: 'Suami/Istri', value: 1 },
+                { name: 'Ayah', value: 2 },
+                { name: 'Ibu', value: 3},
+                { name: 'Kakak/Adik', value: 4 },
+                { name: 'Paman/Bibi', value: 5 },
+                { name: 'Kakek/Nenek', value: 6 },
             ];
 
             const jenis_sosmed = [
-                { name: 'Instagram', value: 0 },
-                { name: 'Facebook', value: 1 },
-                { name: 'Tiktok', value: 2},
-                { name: 'Youtube', value: 3 },
-                { name: 'Lainnya', value: 4 },
+                { name: 'Instagram', value: 1 },
+                { name: 'Facebook', value: 2 },
+                { name: 'Tiktok', value: 3},
+                { name: 'Youtube', value: 4 },
+                { name: 'Lainnya', value: 5 },
             ];
 
             const ukuran_baju = [
-                { name: 'S', value: 0 },
-                { name: 'M', value: 1 },
-                { name: 'L', value: 2 },
-                { name: 'XL', value: 3 },
-                { name: 'XXL', value: 4 },
-                { name: 'Jumbo', value: 5 },
+                { name: 'S', value: 1 },
+                { name: 'M', value: 2 },
+                { name: 'L', value: 3 },
+                { name: 'XL', value: 4 },
+                { name: 'XXL', value: 5 },
+                { name: 'Jumbo', value: 6 },
             ];
 
             const grade = [
@@ -474,16 +474,16 @@
             ];
 
             const pendidikan = [
-                { name: 'SD', value: 0 },
-                { name: 'SMP', value: 1 },
-                { name: 'SMA', value: 2 },
-                { name: 'D1', value: 3 },
-                { name: 'D2', value: 4 },
-                { name: 'D3', value: 5 },
-                { name: 'D4', value: 6 },
-                { name: 'S1', value: 7 },
-                { name: 'S2', value: 8 },
-                { name: 'S3', value: 9 },
+                { name: 'SD', value: 1 },
+                { name: 'SMP', value: 2 },
+                { name: 'SMA', value: 3 },
+                { name: 'D1', value: 4 },
+                { name: 'D2', value: 5 },
+                { name: 'D3', value: 6 },
+                { name: 'D4', value: 7 },
+                { name: 'S1', value: 8 },
+                { name: 'S2', value: 9 },
+                { name: 'S3', value: 10 },
             ];
 
             const preview = ref();
@@ -627,7 +627,7 @@
                     onSuccess: () => {
                         //show success alert
                         Swal.fire({
-                            title: 'Success!',
+                            title: 'Sukses!',
                             text: 'Data Karyawan Berhasil Disimpan.',
                             icon: 'success',
                             showConfirmButton: false,
