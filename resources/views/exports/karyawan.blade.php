@@ -219,10 +219,10 @@
             <td>
                 @if ($k->komposisi_peran == null)
                 
-                @elseif ($k->jenis_kelamin == 1)
+                @elseif ($k->komposisi_peran == 1)
                     Support
-                @elseif  ($k->jenis_kelamin == 2)
-                Core
+                @elseif  ($k->komposisi_peran == 2)
+                    Core
                 @endif
             </td>      
             <td>{{ $k->komposisi_generasi }}</td>

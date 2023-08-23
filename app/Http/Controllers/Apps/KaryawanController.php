@@ -46,30 +46,38 @@ class KaryawanController extends Controller
         //menghitung umur
         if($karyawan->isNotEmpty()){
             foreach ($karyawan as $k){
-
                 //update umur karyawan
                 $now = Carbon::now()->isoFormat('Y-MM-D');
                 $tanggal_lahir = $k->tanggal_lahir;
                 $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
                 $k->update(['umur' => $age]);
 
-                //update komposisi generasi
-                $tahun_lahir = date('Y', strtotime($k->tanggal_lahir));
+                // cek tanggl lahir
+                if($tanggal_lahir == null){
+                    $tahun_lahir = 'null';
+                }else{
+                    $tahun_lahir = date('Y', strtotime($k->tanggal_lahir));
+                }
+
+                // update komposisi generasi
+                if($tahun_lahir == null){
+                    $k->update(['komposisi_generasi' => null]);
+                }
                 //gen Boomers (1946-1964)
                 if($tahun_lahir >= 1946 && $tahun_lahir <= 1964){
-                    $k->update(['komposisi_generasi' => 'Boomers']);
+                    $k->update(['komposisi_generasi' => 'Gen Boomers']);
                 }
                 //gen X (1965-1976)
                 if($tahun_lahir >= 1965 && $tahun_lahir <= 1976){
-                    $k->update(['komposisi_generasi' => 'X']);
+                    $k->update(['komposisi_generasi' => 'Gen X']);
                 }
                 //gen Y atau Milenial(1977-1994)
                 if($tahun_lahir >= 1977 && $tahun_lahir <= 1994){
-                    $k->update(['komposisi_generasi' => 'Milenial']);
+                    $k->update(['komposisi_generasi' => 'Gen Milenial']);
                 }
                 //gen Z (1995-2010)
                 if($tahun_lahir >= 1995 && $tahun_lahir <= 2010){
-                    $k->update(['komposisi_generasi' => 'Z']);
+                    $k->update(['komposisi_generasi' => 'Gen Z']);
                 }
                 // dd($tahun_lahir);
             }

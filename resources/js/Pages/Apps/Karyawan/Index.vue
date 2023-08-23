@@ -112,349 +112,250 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Nama Lengkap :</label>
-                                    <input type="text" class="form-control" v-model="nama_lengkap" readonly>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Nama Lengkap :</label>
+                                            <input type="text" class="form-control" v-model="nama_lengkap" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Nama Panggilan :</label><br>
+                                            <input type="text" class="form-control" v-model="nama_panggilan" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Tempat Lahir :</label>
+                                            <input type="text" class="form-control" v-model="tempat_lahir" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Tanggal Lahir :</label>
+                                            <input type="text" class="form-control" v-model="tanggal_lahir" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Umur (Tahun) :</label>
+                                            <input type="text" class="form-control" v-model="umur" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                                <label class="col-form-label">Jenis Kelamin :</label>
+                                                <input v-if="jenis_kelamin == null" type="text" class="form-control" value=" " readonly>
+                                                <input v-if="jenis_kelamin == 1" type="text" class="form-control" value="Laki-laki" readonly>
+                                                <input v-if="jenis_kelamin == 2" type="text" class="form-control" value="Perempuan" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Golongan Darah :</label>
+                                            <input v-if="gol_darah == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-if="gol_darah == 1" type="text" class="form-control" value="A" readonly>
+                                            <input v-else-if="gol_darah == 2" type="text" class="form-control" value="B" readonly>
+                                            <input v-else-if="gol_darah == 3" type="text" class="form-control" value="O" readonly>
+                                            <input v-else-if="gol_darah == 4" type="text" class="form-control" value="AB" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Riwayat Penyakit :</label>
+                                            <input type="text" class="form-control" v-model="riwayat_penyakit" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">No. KK :</label>
+                                            <input type="text" class="form-control" v-model="no_kk" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">No. KTP  :</label>
+                                            <input type="text" class="form-control" v-model="nik_penduduk" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Kode Pos  :</label>
+                                            <input type="text" class="form-control" v-model="kode_pos" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Alamat KTP :</label>
+                                            <input type="text" class="form-control" v-model="alamat_ktp" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Alamat Domisili :</label>
+                                            <input type="text" class="form-control" v-model="alamat_domisili" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Pendidikan :</label>
+                                            <input v-if="pendidikan == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-else-if="pendidikan == 1" type="text" class="form-control" value="SD" readonly>
+                                            <input v-else-if="pendidikan == 2" type="text" class="form-control" value="SMP" readonly>
+                                            <input v-else-if="pendidikan == 3" type="text" class="form-control" value="SMA" readonly>
+                                            <input v-else-if="pendidikan == 4" type="text" class="form-control" value="D1" readonly>
+                                            <input v-else-if="pendidikan == 5" type="text" class="form-control" value="D2" readonly>
+                                            <input v-else-if="pendidikan == 6" type="text" class="form-control" value="D3" readonly>
+                                            <input v-else-if="pendidikan == 7" type="text" class="form-control" value="D4" readonly>
+                                            <input v-else-if="pendidikan == 8" type="text" class="form-control" value="S1" readonly>
+                                            <input v-else-if="pendidikan == 9" type="text" class="form-control" value="S2" readonly>
+                                            <input v-else-if="pendidikan == 10" type="text" class="form-control" value="S3" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Nama Sekolah :</label>
+                                            <input type="text" class="form-control" v-model="nama_sekolah" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Jurusan :</label>
+                                            <input type="text" class="form-control" v-model="jurusan" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Email Pribadi :</label>
+                                            <input type="text" class="form-control" v-model="email_pribadi" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">No. Telp/HP :</label>
+                                            <input type="text" class="form-control" v-model="no_telp" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">No. WA :</label>
+                                            <input type="text" class="form-control" v-model="no_wa" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">No. Keluarga :</label>
+                                            <input type="text" class="form-control" v-model="no_keluarga" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Hubungan Keluarga :</label>
+                                            <input v-if="hubungan_keluarga == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-if="hubungan_keluarga == 1" type="text" class="form-control" value="Suami/Istri" readonly>
+                                            <input v-if="hubungan_keluarga == 2" type="text" class="form-control" value="Ayah" readonly>
+                                            <input v-if="hubungan_keluarga == 3" type="text" class="form-control" value="Ibu" readonly>
+                                            <input v-if="hubungan_keluarga == 4" type="text" class="form-control" value="Kakak/Adik" readonly>
+                                            <input v-if="hubungan_keluarga == 5" type="text" class="form-control" value="Paman/Bibi" readonly>
+                                            <input v-if="hubungan_keluarga == 6" type="text" class="form-control" value="Kakek/Nenek" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Status Pernikahan :</label>
+                                            <input v-if="status_pernikahan == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-if="status_pernikahan == 1" type="text" class="form-control" value="Belom Menikah" readonly>
+                                            <input v-if="status_pernikahan == 2" type="text" class="form-control" value="Menikah" readonly>
+                                            <input v-if="status_pernikahan == 3" type="text" class="form-control" value="Janda" readonly>
+                                            <input v-if="status_pernikahan == 4" type="text" class="form-control" value="Duda" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Status Keluarga :</label>
+                                            <input v-if="status_keluarga == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-if="status_keluarga == 1" type="text" class="form-control" value="Kepala Keluarga" readonly>
+                                            <input v-if="status_keluarga == 2" type="text" class="form-control" value="Istri" readonly>
+                                            <input v-if="status_keluarga == 3" type="text" class="form-control" value="Anak ke 1" readonly>
+                                            <input v-if="status_keluarga == 4" type="text" class="form-control" value="Anak ke 2" readonly>
+                                            <input v-if="status_keluarga == 5" type="text" class="form-control" value="Anak ke 3" readonly>
+                                            <input v-if="status_keluarga == 6" type="text" class="form-control" value="Lainnya" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Jenis Sosmed :</label>
+                                            <input v-if="jenis_sosmed == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-if="jenis_sosmed == 1" type="text" class="form-control" value="Instagram" readonly>
+                                            <input v-if="jenis_sosmed == 2" type="text" class="form-control" value="Facebook" readonly>
+                                            <input v-if="jenis_sosmed == 3" type="text" class="form-control" value="Tiktok" readonly>
+                                            <input v-if="jenis_sosmed == 4" type="text" class="form-control" value="Youtube" readonly>
+                                            <input v-if="jenis_sosmed == 5" type="text" class="form-control" value="Lainnya" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Nama Sosmed :</label>
+                                            <input type="text" class="form-control" v-model="nama_sosmed" readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Nama Panggilan :</label><br>
-                                    <input type="text" class="form-control" v-model="nama_panggilan" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Tempat Lahir :</label>
-                                    <input type="text" class="form-control" v-model="tempat_lahir" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Tanggal Lahir :</label>
-                                    <input type="text" class="form-control" v-model="tanggal_lahir" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="col-form-label">Umur (Tahun) :</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" v-model="umur" readonly>
-                                    <!-- <span class="input-group-text">years old</span> -->
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Jenis Kelamin :</label>
-                                    <input v-if="jenis_kelamin == null" type="text" class="form-control" value=" " readonly>
-                                    <input v-if="jenis_kelamin == 1" type="text" class="form-control" value="Laki-laki" readonly>
-                                    <input v-if="jenis_kelamin == 2" type="text" class="form-control" value="Perempuan" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Golongan Darah :</label>
-                                    <input v-if="gol_darah == null" type="text" class="form-control" value=" " readonly>
-                                    <input v-if="gol_darah == 1" type="text" class="form-control" value="A" readonly>
-                                    <input v-else-if="gol_darah == 2" type="text" class="form-control" value="B" readonly>
-                                    <input v-else-if="gol_darah == 3" type="text" class="form-control" value="O" readonly>
-                                    <input v-else-if="gol_darah == 4" type="text" class="form-control" value="AB" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">No. KK :</label>
-                                    <input type="text" class="form-control" v-model="no_kk" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">No. KTP  :</label>
-                                    <input type="text" class="form-control" v-model="nik_penduduk" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Kode Pos  :</label>
-                                    <input type="text" class="form-control" v-model="kode_pos" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Alamat KTP :</label>
-                                    <input type="text" class="form-control" v-model="alamat_ktp" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Alamat Domisili :</label>
-                                    <input type="text" class="form-control" v-model="alamat_domisili" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Pendidikan :</label>
-                                    <input v-if="pendidikan == null" type="text" class="form-control" value=" " readonly>
-                                    <input v-else-if="pendidikan == 1" type="text" class="form-control" value="SD" readonly>
-                                    <input v-else-if="pendidikan == 2" type="text" class="form-control" value="SMP" readonly>
-                                    <input v-else-if="pendidikan == 3" type="text" class="form-control" value="SMA" readonly>
-                                    <input v-else-if="pendidikan == 4" type="text" class="form-control" value="D1" readonly>
-                                    <input v-else-if="pendidikan == 5" type="text" class="form-control" value="D2" readonly>
-                                    <input v-else-if="pendidikan == 6" type="text" class="form-control" value="D3" readonly>
-                                    <input v-else-if="pendidikan == 7" type="text" class="form-control" value="D4" readonly>
-                                    <input v-else-if="pendidikan == 8" type="text" class="form-control" value="S1" readonly>
-                                    <input v-else-if="pendidikan == 9" type="text" class="form-control" value="S2" readonly>
-                                    <input v-else-if="pendidikan == 10" type="text" class="form-control" value="S3" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Nama Sekolah :</label>
-                                    <input type="text" class="form-control" v-model="nama_sekolah" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Jurusan :</label>
-                                    <input type="text" class="form-control" v-model="jurusan" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Email Pribadi :</label>
-                                    <input type="text" class="form-control" v-model="email_pribadi" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">No. Telp/HP :</label>
-                                    <input type="text" class="form-control" v-model="no_telp" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">No. WA :</label>
-                                    <input type="text" class="form-control" v-model="no_wa" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">No. Keluarga :</label>
-                                    <input type="text" class="form-control" v-model="no_keluarga" readonly>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Hubungan Keluarga :</label>
-                                    <input v-if="hubungan_keluarga == null" type="text" class="form-control" value=" " readonly>
-                                    <input v-if="hubungan_keluarga == 1" type="text" class="form-control" value="Suami/Istri" readonly>
-                                    <input v-if="hubungan_keluarga == 2" type="text" class="form-control" value="Ayah" readonly>
-                                    <input v-if="hubungan_keluarga == 3" type="text" class="form-control" value="Ibu" readonly>
-                                    <input v-if="hubungan_keluarga == 4" type="text" class="form-control" value="Kakak/Adik" readonly>
-                                    <input v-if="hubungan_keluarga == 5" type="text" class="form-control" value="Paman/Bibi" readonly>
-                                    <input v-if="hubungan_keluarga == 6" type="text" class="form-control" value="Kakek/Nenek" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Employment Status :</label>
-                                    <input v-if="status_kerja == null" type="text" class="form-control" value=" " readonly>
-                                    <input v-if="status_kerja == 0" type="text" class="form-control" value="Contract" readonly>
-                                    <input v-if="status_kerja == 1" type="text" class="form-control" value="Fixed" readonly>
-                                    <input v-if="status_kerja == 2" type="text" class="form-control" value="Training" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Division :</label>
-                                    <input type="text" class="form-control" v-model="divisi_id" readonly>
-                                    <!-- <input v-if="divisi_id == null" type="text" class="form-control" value="" readonly> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">PT :</label>
-                                    <input type="text" class="form-control" v-model="pt_id" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Position :</label>
-                                    <input type="text" class="form-control" v-model="jabatan_id" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Entry Date :</label>
-                                    <input type="date" class="form-control" v-model="tanggal_masuk" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Start of Contract :</label>
-                                    <input type="date" class="form-control" v-model="tanggal_kontrak" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">End of Contract :</label>
-                                    <input type="date" class="form-control" v-model="akhir_kontrak" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            
-                        </div>
-                        <div class="col-md-6">
-                            
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                           
-                        </div>
-                        <div class="col-md-6">
-                            
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">BPJS of Employment:</label>
-                                    <input type="text" class="form-control" v-model="no_bpjs_ketenagakerjaan" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">BPJS of Health:</label>
-                                    <input type="text" class="form-control" v-model="no_bpjs_kesehatan" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            
-                        </div>
-                        <div class="col-md-6">
-                            
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                           
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Grade :</label>
-                                    <input type="text" class="form-control" v-model="grade" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Married Status :</label>
-                                    <input v-if="status_pernikahan == 0" type="text" class="form-control" value="Single" readonly>
-                                    <input v-if="status_pernikahan == 1" type="text" class="form-control" value="Married" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Assignment District :</label>
-                                    <input type="text" class="form-control" v-model="kab_penugasan" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Rekening Bank:</label>
-                                    <input type="text" class="form-control" v-model="rekening" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Clothes Size :</label>
-                                    <input v-if="ukuran_baju == null" type="text" class="form-control" value=" " readonly>
-                                    <input v-if="ukuran_baju == 0" type="text" class="form-control" value="S" readonly>
-                                    <input v-else-if="ukuran_baju == 1" type="text" class="form-control" value="M" readonly>
-                                    <input v-else-if="ukuran_baju == 2" type="text" class="form-control" value="L" readonly>
-                                    <input v-else-if="ukuran_baju == 3" type="text" class="form-control" value="XL" readonly>
-                                    <input v-else-if="ukuran_baju == 4" type="text" class="form-control" value="XXL" readonly>
-                                    <input v-else-if="ukuran_baju == 5" type="text" class="form-control" value="Jumbo" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <div class="form-group mb-3">
-                                    <label class="col-form-label">Family Relationship :</label>
-                                    <input type="text" class="form-control" v-model="hubungan" readonly>
+
+                                <!-- data di perusahaan -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">NIK (Karyawan) :</label>
+                                            <input type="text" class="form-control" v-model="nik_karyawan" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Entitas :</label>
+                                            <input type="text" class="form-control" v-model="pt_id" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Divisi :</label>
+                                            <input type="text" class="form-control" v-model="divisi_id" readonly>
+                                            <!-- <input v-if="divisi_id == null" type="text" class="form-control" value="" readonly> -->
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Jabatan :</label>
+                                            <input type="text" class="form-control" v-model="jabatan_id" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Grade :</label>
+                                            <input type="text" class="form-control" v-model="grade" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Tanggal Masuk :</label>
+                                            <input type="date" class="form-control" v-model="tanggal_masuk" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Status Kerja :</label>
+                                            <input v-if="status_kerja == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-if="status_kerja == 1" type="text" class="form-control" value="Kontrak" readonly>
+                                            <input v-if="status_kerja == 2" type="text" class="form-control" value="Tetap" readonly>
+                                            <input v-if="status_kerja == 3" type="text" class="form-control" value="Training" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Komposisi Peran :</label>
+                                            <input v-if="komposisi_peran == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-if="komposisi_peran == 1" type="text" class="form-control" value="Support" readonly>
+                                            <input v-if="komposisi_peran == 2" type="text" class="form-control" value="Core" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Komposisi Generasi :</label>
+                                            <input type="text" class="form-control" v-model="komposisi_generasi" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Tanggal Kontrak :</label>
+                                            <input type="date" class="form-control" v-model="tanggal_kontrak" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Masa Kontrak :</label>
+                                            <input type="text" class="form-control" v-model="masa_kontrak" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Akhir Kontrak :</label>
+                                            <input type="date" class="form-control" v-model="akhir_kontrak" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-f orm-label">Kota Rekruitmen :</label>
+                                            <input type="text" class="form-control" v-model="kota_rekruitmen" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-f orm-label">Kota Penugasan :</label>
+                                            <input type="text" class="form-control" v-model="kota_penugasan" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">No. NPWP :</label>
+                                            <input type="text" class="form-control" v-model="no_npwp" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">No. BPJS Ketenagakerjaan :</label>
+                                            <input type="text" class="form-control" v-model="no_bpjs_ketenagakerjaan" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">No. BPJS Kesehatan :</label>
+                                            <input type="text" class="form-control" v-model="no_bpjs_kesehatan" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Email Internal :</label>
+                                            <input type="text" class="form-control" v-model="email_internal" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Rekening Bank :</label>
+                                            <input type="text" class="form-control" v-model="rekening" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Clothes Size :</label>
+                                            <input v-if="ukuran_baju == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-if="ukuran_baju == 0" type="text" class="form-control" value="S" readonly>
+                                            <input v-else-if="ukuran_baju == 1" type="text" class="form-control" value="M" readonly>
+                                            <input v-else-if="ukuran_baju == 2" type="text" class="form-control" value="L" readonly>
+                                            <input v-else-if="ukuran_baju == 3" type="text" class="form-control" value="XL" readonly>
+                                            <input v-else-if="ukuran_baju == 4" type="text" class="form-control" value="XXL" readonly>
+                                            <input v-else-if="ukuran_baju == 5" type="text" class="form-control" value="Jumbo" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Pengalaman Kerja Terakhir :</label>
+                                            <input type="text" class="form-control" v-model="pengalaman_kerja_terakhir" readonly>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -462,7 +363,7 @@
                 </template>
                 <template #footer>
                     <button
-                        class="btn btn-success m-2" @click="tutupModalDetail">Close</button>
+                        class="btn btn-success m-2" @click="tutupModalDetail">Keluar</button>
                 </template>
             </modalScroll>
         </Teleport>
@@ -635,72 +536,88 @@
             VueMultiselect,
             Swal
         },
-
+        
         //props
         props: {
             karyawan: Object,
             divisi: Array,
             session: Object,
         },
-
+        
         setup() {
             const showModalKarirDetail = ref(false);
             const showModalKarir = ref(false);
             const showModalPelanggaran = ref(false);
             const showModalImport = ref(false);
 
-            //untuk detail
+            //detail karyawandata pribadi
             const nama_lengkap = ref();
             const nama_panggilan = ref();
-            const nik_karyawan = ref();
-            const status_kerja = ref();
-            const divisi_id = ref();
-            const pt_id = ref();
-            const foto = ref();
-            const tanggal_masuk = ref();
-            const tanggal_kontrak = ref();
+            const tempat_lahir = ref();
+            const tanggal_lahir = ref();
+            const umur = ref();
+            const jenis_kelamin = ref();
+            const gol_darah = ref();
+            const riwayat_penyakit = ref();
             const no_kk = ref();
             const nik_penduduk = ref();
             const kode_pos = ref();
-            const grade = ref();
-            const jabatan = ref();
-            const no_telp = ref();
-            const no_wa = ref();
-            const no_bpjs_kesehatan = ref();
-            const no_bpjs_ketenagakerjaan = ref();
-            const gol_darah = ref();
-            const email_pribadi = ref();
-            const tempat_lahir = ref();
-            const tanggal_lahir = ref();
             const alamat_ktp = ref();
             const alamat_domisili = ref();
-            const jenis_kelamin = ref();
-            const status_pernikahan = ref();
             const pendidikan = ref();
             const nama_sekolah = ref();
             const jurusan = ref();
-            const kab_penugasan = ref();
-            const rekening = ref();
-            const ukuran_baju = ref();
+            const email_pribadi = ref();
+            const no_telp = ref();
+            const no_wa = ref();
             const no_keluarga = ref();
             const hubungan_keluarga= ref();
-            const hubungan = ref();
-            const umur = ref();
-            const akhir_kontrak = ref();
+            const status_pernikahan = ref();
+            const status_keluarga = ref();
+            const jenis_sosmed = ref();
+            const nama_sosmed = ref();
+
+            //detail karyawan data diperusahaan
+            const nik_karyawan = ref();
+            const pt_id = ref();
+            const divisi_id = ref();
             const jabatan_id = ref();
-            //save nama karyawan di add history organisasi
-            const idnya = ref();
-            const nama = ref();
-            const tgl_gabung_grup = ref();
+            const grade = ref();
+            const tanggal_masuk = ref();
+            const tanggal_kontrak = ref();
+            const komposisi_peran = ref();
+            const komposisi_generasi = ref();
+            const rekening = ref();
+            const status_kerja = ref();
+            const ukuran_baju = ref();
+            const akhir_kontrak = ref();
+            const no_npwp = ref();
+            const no_bpjs_kesehatan = ref();
+            const no_bpjs_ketenagakerjaan = ref();
+            const kota_rekruitmen = ref();
+            const kota_penugasan = ref();
+            const email_internal= ref();
+            const pengalaman_kerja_terakhir= ref();
+            const foto = ref();
+            
             const tgl_masuk = ref();
             const tgl_berakhir = ref();
+            
+            
+            //save nama karyawan di add history organisasi
+            const nama = ref();
+            const idnya = ref();
+            const jabatan = ref();
+            const tgl_gabung_grup = ref();
+
             //save pelanggaran
             const catatan = ref();
             const tanggal = ref();
             const tingkatan = ref();
+
             //import excel
             const file_excel = ref();
-
+            
             // define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
 
@@ -784,44 +701,58 @@
                 var lahir = new Date(kar['tanggal_lahir'])
                 var today = new Date();
 		        var age = Math.floor((today-lahir) / (365.25 * 24 * 60 * 60 * 1000));
-                umur.value = age
+                
+                //detail data pribadi
                 nama_lengkap.value = kar['nama_lengkap']
                 nama_panggilan.value = kar['nama_panggilan']
-                nik_karyawan.value = kar['nik_karyawan']
-                status_kerja.value = kar['status_kerja']
-                divisi_id.value = kar['divisi'] == null ? "" : kar['divisi']['nama_divisi']
-                pt_id.value = kar['perusahaan'] == null ? "" : kar['perusahaan']['nama_pt']
-                jabatan_id.value = kar['jabatan'] == null ? "" : kar['jabatan']['nama_jabatan']
-                foto.value = kar['foto']
-                tanggal_masuk.value = kar['tanggal_masuk']
-                tanggal_kontrak.value = kar['tanggal_kontrak']
-                akhir_kontrak.value = kar['akhir_kontrak']
-                no_kk.value = kar['no_kk']
-                nik_penduduk.value = kar['nik_penduduk']
-                kode_pos.value = kar['kode_pos']
-                grade.value = kar['grade']
-                jabatan.value = kar['jabatan']
-                no_telp.value = kar['no_telp']
-                no_wa.value = kar['no_wa']
-                no_bpjs_kesehatan.value = kar['no_bpjs_kesehatan']
-                no_bpjs_ketenagakerjaan.value = kar['no_bpjs_ketenagakerjaan']
-                gol_darah.value = kar['gol_darah']
-                email_pribadi.value = kar['email_pribadi']
                 tempat_lahir.value = kar['tempat_lahir']
                 tanggal_lahir.value = kar['tanggal_lahir']
+                umur.value = age
+                gol_darah.value = kar['gol_darah']
+                riwayat_penyakit.value = kar['riwayat_penyakit']
                 alamat_ktp.value = kar['alamat_ktp']
                 alamat_domisili.value = kar['alamat_domisili']
                 jenis_kelamin.value = kar['jenis_kelamin']
                 status_pernikahan.value = kar['status_pernikahan']
+                status_keluarga.value = kar['status_keluarga']
+                no_kk.value = kar['no_kk']
+                nik_penduduk.value = kar['nik_penduduk']
+                kode_pos.value = kar['kode_pos']
                 pendidikan.value = kar['pendidikan']
                 nama_sekolah.value = kar['nama_sekolah']
                 jurusan.value = kar['jurusan']
-                kab_penugasan.value = kar['kab_penugasan']
-                rekening.value = kar['rekening']
-                ukuran_baju.value = kar['ukuran_baju']
                 no_keluarga.value = kar['no_keluarga']
                 hubungan_keluarga.value = kar['hubungan_keluarga']
-                hubungan.value = kar['hubungan']
+                jenis_sosmed.value = kar['jenis_sosmed']
+                nama_sosmed.value = kar['nama_sosmed']
+                
+                //etail data di perusahaan
+                nik_karyawan.value = kar['nik_karyawan']
+                divisi_id.value = kar['divisi'] == null ? "" : kar['divisi']['nama_divisi']
+                pt_id.value = kar['perusahaan'] == null ? "" : kar['perusahaan']['nama_pt']
+                jabatan_id.value = kar['jabatan'] == null ? "" : kar['jabatan']['nama_jabatan']
+                jabatan.value = kar['jabatan']
+                grade.value = kar['grade']
+                tanggal_masuk.value = kar['tanggal_masuk']
+                tanggal_kontrak.value = kar['tanggal_kontrak']
+                akhir_kontrak.value = kar['akhir_kontrak']
+                status_kerja.value = kar['status_kerja']
+                komposisi_peran.value = kar['komposisi_peran']
+                komposisi_generasi.value = kar['komposisi_generasi']
+                no_bpjs_kesehatan.value = kar['no_bpjs_kesehatan']
+                no_bpjs_ketenagakerjaan.value = kar['no_bpjs_ketenagakerjaan']
+                email_pribadi.value = kar['email_pribadi']
+                kota_rekruitmen.value = kar['kota_rekruitmen']
+                kota_penugasan.value = kar['kota_penugasan']
+                no_telp.value = kar['no_telp']
+                no_wa.value = kar['no_wa']
+                no_npwp.value = kar['no_npwp']
+                email_internal.value = kar['email_internal']
+                rekening.value = kar['rekening']
+                ukuran_baju.value = kar['ukuran_baju']
+                pengalaman_kerja_terakhir.value = kar['pengalaman_kerja_terakhir']
+                foto.value = kar['foto']
+
                 //menampilkan modal
                 showModalKarirDetail.value = true
             }
@@ -892,12 +823,12 @@
             return {
                 search, handleSearch, destroy,
                 detail, showModalKarir, tutupModalDetail, showModalKarirDetail, addKarir, tutupModal,
-                nama_lengkap, nama_panggilan, nik_karyawan, status_kerja, divisi_id, umur, akhir_kontrak,
-                pt_id, foto, tanggal_masuk, tanggal_kontrak, no_kk, nik_penduduk, kode_pos, grade,
+                nama_lengkap, nama_panggilan, nik_karyawan, riwayat_penyakit, status_kerja, divisi_id, umur, akhir_kontrak,
+                pt_id, foto, tanggal_masuk, tanggal_kontrak, no_kk, nik_penduduk, kode_pos, grade, no_npwp, jenis_sosmed, nama_sosmed,
                 jabatan, no_telp, no_wa, no_bpjs_kesehatan, no_bpjs_ketenagakerjaan, gol_darah,
-                email_pribadi, tempat_lahir, tanggal_lahir, alamat_ktp, alamat_domisili,
-                jenis_kelamin, status_pernikahan, pendidikan, nama_sekolah, jurusan, kab_penugasan,
-                rekening, ukuran_baju, no_keluarga, hubungan_keluarga, jabatan_id,
+                email_pribadi, tempat_lahir, tanggal_lahir, alamat_ktp, alamat_domisili, komposisi_peran, komposisi_generasi,
+                jenis_kelamin, status_pernikahan, pendidikan, nama_sekolah, jurusan, kota_penugasan, kota_rekruitmen, status_keluarga,
+                rekening, ukuran_baju, no_keluarga, hubungan_keluarga, jabatan_id, email_internal, pengalaman_kerja_terakhir,
                 idnya, nama, tgl_gabung_grup, tgl_masuk, tgl_berakhir, storeKarir,
                 showModalPelanggaran, addPelanggaran, tutupModalPelanggaran, storePelanggaran, catatan, tanggal, tingkatan, daftar_tingkatan,
                 showModalImport, tutupModalImport, importExcel, selectedTaskFile, file_excel, storeExcel
