@@ -233,11 +233,15 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Tanggal Kontrak</label>
-                                                <input type="date" class="form-control" v-model="form.tanggal_kontrak" placeholder="Masukkan Tanggal kontrak">
+                                                <input type="date" class="form-control" v-model="form.tanggal_kontrak" placeholder="Masukkan Tanggal Kontrak">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Masa Kontrak (Bulan)</label>
-                                                <input type="number" class="form-control" v-model="form.masa_kontrak" placeholder="Masukkan Masa kontrak">
+                                                <input type="number" class="form-control" v-model="form.masa_kontrak" placeholder="Masukkan Masa Kontrak">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="fw-bold">Tanggal Karywan Tetap</label>
+                                                <input type="date" class="form-control" v-model="form.tanggal_karyawan_tetap" placeholder="Masukkan Tanggal Karyawan Tetap">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Status Kerja</label>
@@ -272,8 +276,8 @@
                                                 <input type="text" class="form-control" v-model="form.kota_penugasan" placeholder="Masukkan Kota/Kab Penugasan">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Pengalaman Kerja Terakhir</label>
-                                                <input type="text" class="form-control" v-model="form.pengalaman_kerja_terakhir" placeholder="Masukkan Pengalaman Kerja Terakhir">
+                                                <label class="fw-bold">Nama Bank</label>
+                                                <input type="text" class="form-control" v-model="form.nama_bank" placeholder="Masukkan Nama Bank">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Rekening Bank</label>
@@ -310,6 +314,10 @@
                                             <div class="mb-3">
                                                 <label class="fw-bold">Pengalaman Kerja Terakhir</label>
                                                 <input type="text" class="form-control" v-model="form.pengalaman_kerja_terakhir" placeholder="Masukkan Pengalaman Kerja Terakhir">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="fw-bold">Jabatan Kerja Terakhir</label>
+                                                <input type="text" class="form-control" v-model="form.jabatan_kerja_terakhir" placeholder="Masukkan Jabatan Kerja Terakhir">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label" name="foto">Foto</label><br>
@@ -523,10 +531,12 @@
                 tanggal_masuk: '',
                 tanggal_kontrak: '',
                 masa_kontrak: '',
+                tanggal_karyawan_tetap: '',
                 status_kerja: '',
                 komposisi_peran: '',
                 kota_rekruitmen:'',
                 kota_penugasan:'',
+                nama_bank:'',
                 rekening:'',
                 no_npwp:'',
                 email_internal:'',
@@ -534,6 +544,7 @@
                 no_bpjs_ketenagakerjaan:'',
                 ukuran_baju:'',
                 pengalaman_kerja_terakhir:'',
+                jabatan_kerja_terakhir:'',
                 image:'',
                 file:'',
                 task_file:'',
@@ -608,10 +619,12 @@
                     tanggal_masuk: form.tanggal_masuk,
                     tanggal_kontrak: form.tanggal_kontrak,
                     masa_kontrak: form.masa_kontrak,
+                    tanggal_karyawan_tetap: form.tanggal_karyawan_tetap,
                     status_kerja: form.status_kerja.value,
                     komposisi_peran: form.komposisi_peran.value,
                     kota_rekruitmen: form.kota_rekruitmen,
                     kota_penugasan: form.kota_penugasan,
+                    nama_bank: form.nama_bank,
                     rekening: form.rekening,
                     no_npwp: form.no_npwp,
                     email_internal: form.email_internal,
@@ -619,6 +632,7 @@
                     no_bpjs_ketenagakerjaan: form.no_bpjs_ketenagakerjaan,
                     ukuran_baju: form.ukuran_baju.value,
                     pengalaman_kerja_terakhir: form.pengalaman_kerja_terakhir,
+                    jabatan_kerja_terakhir: form.jabatan_kerja_terakhir,
                     task_file: form.task_file,
                     nama_file: form.task_file.name,
                     file: form.file.value,

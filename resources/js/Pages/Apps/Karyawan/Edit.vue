@@ -262,12 +262,20 @@
                                                 <input type="number" class="form-control" v-model="form.masa_kontrak" placeholder="Masukkan Masa Kontrak">
                                             </div>
                                             <div class="mb-3">
+                                                <label class="fw-bold">Tanggal Karyawan Tetap</label>
+                                                <input type="date" class="form-control" v-model="form.tanggal_karyawan_tetap" placeholder="Masukkan Tanggal Karywan Tetap">
+                                            </div>
+                                            <div class="mb-3">
                                                 <label class="fw-bold">Kota Rekruitmen</label>
                                                 <input type="text" class="form-control" v-model="form.kota_rekruitmen" placeholder="Masukkan Kota Penugasan">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Kato Penugasan</label>
                                                 <input type="text" class="form-control" v-model="form.kota_penugasan" placeholder="Masukkan Kota Penugasan">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="fw-bold">Nama Bank</label>
+                                                <input type="text" class="form-control" v-model="form.nama_bank" placeholder="Masukkan Nama Bank">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Rekening Bank</label>
@@ -304,6 +312,10 @@
                                             <div class="mb-3">
                                                 <label class="fw-bold">Pengalaman Kerja Terakhir</label>
                                                 <input type="text" class="form-control" v-model="form.pengalaman_kerja_terakhir" placeholder="Masukkan Pengalaman Kerja Terakhir">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="fw-bold">Jabatan Kerja Terakhir</label>
+                                                <input type="text" class="form-control" v-model="form.jabatan_kerja_terakhir" placeholder="Masukkan Jabatan Kerja Terakhir">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label" name="foto">Foto</label><br>
@@ -630,6 +642,7 @@
                 komposisi_peran: props.karyawan.komposisi_peran,
                 tanggal_masuk: props.karyawan.tanggal_masuk,
                 tanggal_kontrak: props.karyawan.tanggal_kontrak,
+                tanggal_karyawan_tetap: props.karyawan.tanggal_karyawan_tetap,
                 masa_kontrak: props.karyawan.masa_kontrak,
                 kota_rekruitmen: props.karyawan.kota_rekruitmen,
                 kota_penugasan: props.karyawan.kota_penugasan,
@@ -637,9 +650,11 @@
                 no_bpjs_kesehatan: props.karyawan.no_bpjs_kesehatan,
                 no_bpjs_ketenagakerjaan: props.karyawan.no_bpjs_ketenagakerjaan,
                 email_internal: props.karyawan.email_internal,
+                nama_bank: props.karyawan.nama_bank,
                 rekening: props.karyawan.rekening,
                 ukuran_baju: props.karyawan.ukuran_baju,
                 pengalaman_kerja_terakhir: props.karyawan.pengalaman_kerja_terakhir,
+                jabatan_kerja_terakhir: props.karyawan.jabatan_kerja_terakhir,
                 foto: props.karyawan.foto,
             });
 
@@ -717,9 +732,11 @@
                         status_kerja: form.status_kerja ? form.status_kerja.value : '',
                         komposisi_peran: form.komposisi_peran ? form.komposisi_peran.value : '',
                         tanggal_kontrak: form.tanggal_kontrak,
+                        tanggal_karyawan_tetap: form.tanggal_karyawan_tetap,
                         masa_kontrak: form.masa_kontrak,
                         kota_rekruitmen: form.kota_rekruitmen,
                         kota_penugasan: form.kota_penugasan,
+                        nama_bank: form.nama_bank,
                         rekening: form.rekening,
                         no_npwp: form.no_npwp,
                         email_internal: form.email_internal,
@@ -727,6 +744,7 @@
                         no_bpjs_ketenagakerjaan: form.no_bpjs_ketenagakerjaan,
                         ukuran_baju: form.ukuran_baju ? form.ukuran_baju.value : '',
                         pengalaman_kerja_terakhir: form.pengalaman_kerja_terakhir,
+                        jabatan_kerja_terakhir: form.jabatan_kerja_terakhir,
                     },{
                         onSuccess: () => {
                             //show success alert
@@ -777,9 +795,11 @@
                         status_kerja: form.status_kerja ? form.status_kerja.value : '',
                         komposisi_peran: form.komposisi_peran ? form.komposisi_peran.value : '',
                         tanggal_kontrak: form.tanggal_kontrak,
+                        tanggal_karyawan_tetap: form.tanggal_karyawan_tetap,
                         masa_kontrak: form.masa_kontrak,
                         kota_rekruitmen: form.kota_rekruitmen,
                         kota_penugasan: form.kota_penugasan,
+                        nama_bank: form.nama_bank,
                         rekening: form.rekening,
                         no_npwp: form.no_npwp,
                         email_internal: form.email_internal,
@@ -787,6 +807,7 @@
                         no_bpjs_ketenagakerjaan: form.no_bpjs_ketenagakerjaan,
                         ukuran_baju: form.ukuran_baju ? form.ukuran_baju.value : '',
                         pengalaman_kerja_terakhir: form.pengalaman_kerja_terakhir,
+                        jabatan_kerja_terakhir: form.jabatan_kerja_terakhir,
                         task_file: foto.value,
                         nama_file: foto.value.name,
                     },{

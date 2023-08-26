@@ -30,6 +30,25 @@ class RiwayatOrganisasiController extends Controller
         ]);
     }
 
+    public function indexAll (){
+        $search = request()->search;
+        //get list
+        $lists = RiwayatOrganisasi::with('karyawan', 'divisi')->whereHas('divisi', function($q) use($search){
+            $q->where('nama_divisi', 'like', '%'. $search . '%');
+            })->latest()->paginate(10)->onEachSide(1);
+
+        // $nama_karyawan = Karyawan::where('id', $id)->first()->nama_karyawan;
+        //get data divisi
+        $divisi = MasterDivisi::where('status', 1)->get();
+
+        return Inertia::render('Apps/Organisasi/Index', [
+            // 'id_karyawan'   => $id,
+            'lists'         => $lists,
+            // 'nama'          => $nama_karyawan,
+            'divisi'        => $divisi
+        ]);
+    }
+
     //untuk memperbaruhi data
     public function update(Request $request, $id)
     {

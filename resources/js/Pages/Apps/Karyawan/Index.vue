@@ -306,12 +306,24 @@
                                             <input type="date" class="form-control" v-model="tanggal_kontrak" readonly>
                                         </div>
                                         <div class="form-group mb-3">
-                                            <label class="col-form-label">Masa Kontrak :</label>
+                                            <label class="col-form-label">Masa Kontrak (Bulan):</label>
                                             <input type="text" class="form-control" v-model="masa_kontrak" readonly>
                                         </div>
                                         <div class="form-group mb-3">
                                             <label class="col-form-label">Akhir Kontrak :</label>
                                             <input type="date" class="form-control" v-model="akhir_kontrak" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Tanggal Karyawan Tetap :</label>
+                                            <input type="date" class="form-control" v-model="tanggal_karyawan_tetap" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Masa Kerja (Bulan) :</label>
+                                            <input type="text" class="form-control" v-model="masa_kerja_bulan" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Masa Kerja (Tahun) :</label>
+                                            <input type="text" class="form-control" v-model="masa_kerja_tahun" readonly>
                                         </div>
                                         <div class="form-group mb-3">
                                             <label class="col-f orm-label">Kota Rekruitmen :</label>
@@ -338,6 +350,10 @@
                                             <input type="text" class="form-control" v-model="email_internal" readonly>
                                         </div>
                                         <div class="form-group mb-3">
+                                            <label class="col-form-label">Nama Bank :</label>
+                                            <input type="text" class="form-control" v-model="nama_bank" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
                                             <label class="col-form-label">Rekening Bank :</label>
                                             <input type="text" class="form-control" v-model="rekening" readonly>
                                         </div>
@@ -355,6 +371,10 @@
                                             <label class="col-form-label">Pengalaman Kerja Terakhir :</label>
                                             <input type="text" class="form-control" v-model="pengalaman_kerja_terakhir" readonly>
                                         </div>
+                                        <div class="form-group mb-3">
+                                            <label class="col-form-label">Jabatan Kerja Terakhir :</label>
+                                            <input type="text" class="form-control" v-model="jabatan_kerja_terakhir" readonly>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -367,27 +387,32 @@
                 </template>
             </modalScroll>
         </Teleport>
+
         <!-- untuk add karir-->
         <Teleport to="body">
             <modal :show="showModalKarir" @close="showModalKarir = false">
                 <template #header>
-                    <h5 class="modal-title">Historical Organization</h5>
+                    <h5 class="modal-title">Riwayat Organisasi</h5>
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Employee Name :</label>
+                        <label class="col-form-label">Nama Lengkap :</label>
                         <input type="text" class="form-control" placeholder="PT Name" v-model="nama" readonly>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Group Joining Date : </label>
+                                <label class="col-form-label">Tanggal Bergabung Group : </label>
                                 <input type="date" class="form-control" placeholder="Group Joining Date" v-model="tgl_gabung_grup" required>
                             </div>
+                        </div> -->
+                        <div class="form-group mb-3">
+                            <label class="col-form-label">Entitas :</label>
+                            <input type="text" class="form-control" placeholder="PT Name" v-model="nama" readonly>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Division :</label>
+                                <label class="col-form-label">Divisi :</label>
                                 <VueMultiselect
                                     v-model="divisi_id"
                                     :options="divisi"
@@ -399,17 +424,21 @@
                                 ></VueMultiselect>
                             </div>
                         </div>
+                        <div class="form-group mb-3">
+                            <label class="col-form-label">Jabatan :</label>
+                            <input type="text" class="form-control" placeholder="PT Name" v-model="nama" readonly>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Date of Entry : </label>
+                                <label class="col-form-label">Tanggal Masuk : </label>
                                 <input type="date" class="form-control" placeholder="Date of Entry" v-model="tgl_masuk" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">End Date : </label>
+                                <label class="col-form-label">Tanggal Berakhir : </label>
                                 <input type="date" class="form-control" placeholder="End Date" v-model="tgl_berakhir" required>
                             </div>
                         </div>
@@ -417,34 +446,35 @@
                 </template>
                 <template #footer>
 					<form @submit.prevent="storeKarir">
-						<button type="submit" class="btn btn-success text-white m-2">Save</button>
+						<button type="submit" class="btn btn-success text-white m-2">Simpan</button>
 					</form>
                     <button
-                        class="btn btn-secondary m-2" @click="tutupModal">Close</button>
+                        class="btn btn-secondary m-2" @click="tutupModal">Keluar</button>
                 </template>
             </modal>
         </Teleport>
+
         <!-- untuk catatan pelanggaran -->
         <Teleport to="body">
             <modal :show="showModalPelanggaran" @close="showModalPelanggaran = false">
                 <template #header>
-                    <h5 class="modal-title">Violation Record</h5>
+                    <h5 class="modal-title">Catatn Pelanggaran</h5>
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Employee Name :</label>
+                        <label class="col-form-label">Nama Lengkap :</label>
                         <input type="text" class="form-control" v-model="nama" readonly>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Date : </label>
+                                <label class="col-form-label">Tanggal : </label>
                                 <input type="date" class="form-control" placeholder="Date" v-model="tanggal" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Level Violation : </label>
+                                <label class="col-form-label">Tingkat Pelanggaran : </label>
                                 <VueMultiselect
                                     v-model="tingkatan"
                                     :options="daftar_tingkatan"
@@ -452,22 +482,36 @@
                                     track-by="value"
                                     :allow-empty="false"
                                     deselect-label="Can't remove this value"
-                                    placeholder="Select level of violation"
+                                    placeholder="Pilih Status"
                                 ></VueMultiselect>
                             </div>
                         </div>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Notes : </label>
+                        <label class="col-form-label">Catatan : </label>
                         <textarea type="text" class="form-control" placeholder="Notes" v-model="catatan" required></textarea>
                     </div>
+                    
+                    <div class="form-group mb-3">
+                        <label class="col-form-label">Status : </label>
+                        <VueMultiselect
+                            v-model="status"
+                            :options="daftar_status"
+                            label="name"
+                            track-by="value"
+                            :allow-empty="false"
+                            deselect-label="Can't remove this value"
+                            placeholder="Pilih Status"
+                        ></VueMultiselect>
+                    </div>
+                        
                 </template>
                 <template #footer>
 					<form @submit.prevent="storePelanggaran">
-						<button type="submit" class="btn btn-success text-white m-2">Save</button>
+						<button type="submit" class="btn btn-success text-white m-2">Simpan</button>
 					</form>
                     <button
-                        class="btn btn-secondary m-2" @click="tutupModalPelanggaran">Close</button>
+                        class="btn btn-secondary m-2" @click="tutupModalPelanggaran">Keluar</button>
                 </template>
             </modal>
         </Teleport>
@@ -585,8 +629,13 @@
             const grade = ref();
             const tanggal_masuk = ref();
             const tanggal_kontrak = ref();
+            const masa_kontrak = ref();
+            const masa_kerja_bulan = ref();
+            const masa_kerja_tahun = ref();
+            const tanggal_karyawan_tetap = ref();
             const komposisi_peran = ref();
             const komposisi_generasi = ref();
+            const nama_bank = ref();
             const rekening = ref();
             const status_kerja = ref();
             const ukuran_baju = ref();
@@ -598,6 +647,7 @@
             const kota_penugasan = ref();
             const email_internal= ref();
             const pengalaman_kerja_terakhir= ref();
+            const jabatan_kerja_terakhir= ref();
             const foto = ref();
             
             const tgl_masuk = ref();
@@ -614,6 +664,7 @@
             const catatan = ref();
             const tanggal = ref();
             const tingkatan = ref();
+            const status = ref();
 
             //import excel
             const file_excel = ref();
@@ -657,9 +708,16 @@
             }
 
             const daftar_tingkatan = [
-                { name: 'Misdemeanor', value: 0 },
-                { name: 'Moderate Offence', value: 1 },
-                { name: 'Serious Offence', value: 2 },
+                { name: 'Teguran Lisan', value: 1 },
+                { name: 'SP 1', value: 2 },
+                { name: 'SP 2', value: 3 },
+                { name: 'SP 3', value: 4 },
+            ];
+
+            const daftar_status = [
+                { name: 'Belum Ada', value: 1 },
+                { name: 'Tersampaikan', value: 2 },
+                { name: 'Selesai', value: 3 },
             ];
 
             //define method search
@@ -698,16 +756,16 @@
 
             //method "detail"
             const detail = (kar) => {
-                var lahir = new Date(kar['tanggal_lahir'])
-                var today = new Date();
-		        var age = Math.floor((today-lahir) / (365.25 * 24 * 60 * 60 * 1000));
+                // var lahir = new Date(kar['tanggal_lahir'])
+                // var today = new Date();
+		        // var age = Math.floor((today-lahir) / (365.25 * 24 * 60 * 60 * 1000));
                 
                 //detail data pribadi
                 nama_lengkap.value = kar['nama_lengkap']
                 nama_panggilan.value = kar['nama_panggilan']
                 tempat_lahir.value = kar['tempat_lahir']
                 tanggal_lahir.value = kar['tanggal_lahir']
-                umur.value = age
+                umur.value = kar['umur']
                 gol_darah.value = kar['gol_darah']
                 riwayat_penyakit.value = kar['riwayat_penyakit']
                 alamat_ktp.value = kar['alamat_ktp']
@@ -726,7 +784,7 @@
                 jenis_sosmed.value = kar['jenis_sosmed']
                 nama_sosmed.value = kar['nama_sosmed']
                 
-                //etail data di perusahaan
+                //detail data di perusahaan
                 nik_karyawan.value = kar['nik_karyawan']
                 divisi_id.value = kar['divisi'] == null ? "" : kar['divisi']['nama_divisi']
                 pt_id.value = kar['perusahaan'] == null ? "" : kar['perusahaan']['nama_pt']
@@ -735,6 +793,10 @@
                 grade.value = kar['grade']
                 tanggal_masuk.value = kar['tanggal_masuk']
                 tanggal_kontrak.value = kar['tanggal_kontrak']
+                masa_kerja_bulan.value = kar['masa_kerja_bulan']
+                masa_kerja_tahun.value = kar['masa_kerja_tahun']
+                masa_kontrak.value = kar['masa_kontrak']
+                tanggal_karyawan_tetap.value = kar['tanggal_karyawan_tetap']
                 akhir_kontrak.value = kar['akhir_kontrak']
                 status_kerja.value = kar['status_kerja']
                 komposisi_peran.value = kar['komposisi_peran']
@@ -748,9 +810,11 @@
                 no_wa.value = kar['no_wa']
                 no_npwp.value = kar['no_npwp']
                 email_internal.value = kar['email_internal']
+                nama_bank.value = kar['nama_bank']
                 rekening.value = kar['rekening']
                 ukuran_baju.value = kar['ukuran_baju']
                 pengalaman_kerja_terakhir.value = kar['pengalaman_kerja_terakhir']
+                jabatan_kerja_terakhir.value = kar['jabatan_kerja_terakhir']
                 foto.value = kar['foto']
 
                 //menampilkan modal
@@ -803,6 +867,7 @@
                     karyawan_id : idnya.value,
                     catatan : catatan.value,
                     tingkatan: tingkatan.value.value,
+                    status: status.value.value,
                     tanggal : tanggal.value,
                 }, {
                     onSuccess: () => {
@@ -828,8 +893,8 @@
                 jabatan, no_telp, no_wa, no_bpjs_kesehatan, no_bpjs_ketenagakerjaan, gol_darah,
                 email_pribadi, tempat_lahir, tanggal_lahir, alamat_ktp, alamat_domisili, komposisi_peran, komposisi_generasi,
                 jenis_kelamin, status_pernikahan, pendidikan, nama_sekolah, jurusan, kota_penugasan, kota_rekruitmen, status_keluarga,
-                rekening, ukuran_baju, no_keluarga, hubungan_keluarga, jabatan_id, email_internal, pengalaman_kerja_terakhir,
-                idnya, nama, tgl_gabung_grup, tgl_masuk, tgl_berakhir, storeKarir,
+                rekening, ukuran_baju, no_keluarga, hubungan_keluarga, jabatan_id, email_internal, pengalaman_kerja_terakhir, jabatan_kerja_terakhir, tanggal_karyawan_tetap, nama_bank, masa_kerja_bulan, masa_kerja_tahun, masa_kontrak,
+                idnya, nama, tgl_gabung_grup, tgl_masuk, tgl_berakhir, storeKarir, status, daftar_status,
                 showModalPelanggaran, addPelanggaran, tutupModalPelanggaran, storePelanggaran, catatan, tanggal, tingkatan, daftar_tingkatan,
                 showModalImport, tutupModalImport, importExcel, selectedTaskFile, file_excel, storeExcel
             }

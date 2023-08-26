@@ -19,7 +19,7 @@ class CatatanPelanggaranController extends Controller
             $q->where('catatan', 'like', '%'. $search . '%');
             })->where('karyawan_id', $id)->latest()->paginate(10)->onEachSide(1);
 
-        $nama_karyawan = Karyawan::where('id', $id)->first()->nama_karyawan;
+        $nama_karyawan = Karyawan::where('id', $id)->first()->nama_lengkap;
 
         return Inertia::render('Apps/Karyawan/CatatanPelanggaran', [
             'id_karyawan'   => $id,
@@ -40,6 +40,7 @@ class CatatanPelanggaranController extends Controller
             'tanggal'           => 'required',
             'catatan'           => 'required',
             'tingkatan'         => 'required',
+            'status'            => 'required',
         ]);
         //update pelanggaran
         $data_pelanggaran =[
@@ -47,8 +48,12 @@ class CatatanPelanggaranController extends Controller
             'tanggal'           => $request->tanggal,
             'catatan'           => $request->catatan,
             'tingkatan'         => $request->tingkatan,
+            'status'            => $request->status,
         ];
+
+        
         $ubahData = CatatanPelanggaran::findOrFail((int)$id);
+        // dd($ubahData);
         $ubahData->update($data_pelanggaran);
         //redirect
         return redirect()->route('apps.pelanggaran.index', ['id' => $request->karyawan_id]);

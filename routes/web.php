@@ -70,14 +70,20 @@ Route::prefix('apps')->group(function() {
         //route storePelanggaran
         Route::post('/karyawan/storePelanggaran', [App\Http\Controllers\Apps\KaryawanController::class, 'storePelanggaran'])->name('apps.karyawan.storePelanggaran');
 
-        //route listKarir
+        //route listOrganisasi
         Route::get('/karyawan/{id}/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'index'])->name('apps.organisasi.index');
+
+        //route listOrganisasiAll
+        Route::get('/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'indexAll'])->name('apps.organisasi.indexAll');
 
         //route update listKarir
         Route::put('/karyawan/{id}/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'update'])->name('apps.organisasi.update');
 
         //route listPelanggaran
         Route::get('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'index'])->name('apps.pelanggaran.index');
+
+        //route listPelanggaranAll
+        Route::get('/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'indexAll'])->name('apps.pelanggaran.indexAll');
 
         //route update listPelanggaran
         Route::put('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.pelanggaran.update');

@@ -1,41 +1,49 @@
 <template>
     <Head>
-        <title>Violations</title>
+        <title>Pelanggaran</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <h5>{{ nama }}</h5>
-                    <span class="d-block m-t-5">Page to manage the list of <code>{{ nama }}</code> violations</span>
+                    <!-- <span class="d-block m-t-5">Page to manage the list of <code>{{ nama }}</code> violations</span> -->
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="search by notes..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        </div>
+                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Catatan..." @keyup="handleSearch">
+                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        
+                        </div>
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Full Name</th>
-                                    <th scope="col">Level</th>
-                                    <th scope="col">Notes</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col" style="width:20%">Actions</th>
+                                    <th scope="col">Nama Lengkap</th>
+                                    <th scope="col" class="text-center">Tingkat Pelanggaran</th>
+                                    <th scope="col">Catatan</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col" class="text-center">Status</th>
+                                    <th scope="col" class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
                                     <td>{{ index + 1 }}</td>
-                                    <td>{{ list.karyawan.nama_karyawan }}</td>
-                                    <td v-if="(list.tingkatan == 0)"><a class="label theme-bg8 text-white f-12" style="border-radius:10px">Misdemeanor</a></td>
-                                    <td v-else-if="(list.tingkatan == 1)"><a class="label theme-bg7 text-white f-12" style="border-radius:10px">Moderate Offence</a></td>
-                                    <td v-else><a class="label theme-bg6 text-white f-12" style="border-radius:10px">Serious Offence</a></td>
+                                    <td>{{ list.karyawan.nama_lengkap }}</td>
+                                    <td class="text-center" v-if="(list.tingkatan == null)"><a class="label theme-bg8 text-white f-12" style="border-radius:10px"> </a></td>
+                                    <td class="text-center" v-if="(list.tingkatan == 1)"><a class="label theme-bg8 text-white f-12" style="border-radius:10px">Teguran Lisan</a></td>
+                                    <td class="text-center" v-if="(list.tingkatan == 2)"><a class="label theme-bg7 text-white f-12" style="border-radius:10px">SP 1</a></td>
+                                    <td class="text-center" v-if="(list.tingkatan == 3)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">SP 2</a></td>
+                                    <td class="text-center" v-if="(list.tingkatan == 4)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">SP 3</a></td>
                                     <td>{{ list.catatan }}</td>
                                     <td>{{ list.tanggal }}</td>
+                                    <td class="text-center" v-if="(list.status == null)"><a class="label theme-bg8 text-white f-12" style="border-radius:10px"> </a></td>
+                                    <td class="text-center" v-if="(list.status == 1)"><a class="label theme-bg8 text-white f-12" style="border-radius:10px">Belom Ada</a></td>
+                                    <td class="text-center" v-if="(list.status == 2)"><a class="label theme-bg7 text-white f-12" style="border-radius:10px">Tersampaikan</a></td>
+                                    <td class="text-center" v-if="(list.status == 3)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">Terselesaikan</a></td>
                                     <td class="text-center">
-                                        <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> </a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -43,21 +51,20 @@
                                     <td colspan="7" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                            No Data To Display
+                                            Data Kosong
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="row mb-3" style="max-width:100%; overflow-x:hidden">
+                        <div class="row mb-3" style="overflow-x:hidden">
                             <div class="col-md-4">
                                 <label v-if="lists.data[0] != undefined" align="start">Showing {{ lists.from }} to {{ lists.to }} of {{ lists.total }} items</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-8" style="float: right;">
                                 <Pagination v-if="lists.data[0] != undefined" :links="lists.links" align="end"/>
                             </div>
-
                         </div>
-                        <Link href="/apps/karyawan" class="btn btn-success shadow-sm" style="float:right">BACK</Link>
+                        <Link href="/apps/karyawan" class="btn btn-success shadow-sm" style="float: right; margin-right: 2px">Kembali</Link>
                     </div>
                 </div>
             </div>
@@ -70,19 +77,19 @@
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Full Name :</label>
+                        <label class="col-form-label">Nama Lengkap :</label>
                         <input type="text" class="form-control" :value="nama" readonly>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Date : </label>
+                                <label class="col-form-label">Tanggal : </label>
                                 <input type="date" class="form-control" placeholder="Date" v-model="tanggal" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Level Violation : </label>
+                                <label class="col-form-label">Tingkat Pelanggaran : </label>
                                 <VueMultiselect
                                     v-model="tingkatan"
                                     :options="daftar_tingkatan"
@@ -90,22 +97,34 @@
                                     track-by="value"
                                     :allow-empty="false"
                                     deselect-label="Can't remove this value"
-                                    placeholder="Select level of violation"
+                                    placeholder="Pilih Tingkat Pelanggaran"
                                 ></VueMultiselect>
                             </div>
                         </div>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Notes : </label>
+                        <label class="col-form-label">Catatan : </label>
                         <textarea type="text" class="form-control" placeholder="Notes" v-model="catatan" required></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="col-form-label">Status :</label>
+                        <VueMultiselect
+                                    v-model="status"
+                                    :options="daftar_status"
+                                    label="name"
+                                    track-by="value"
+                                    :allow-empty="false"
+                                    deselect-label="Can't remove this value"
+                                    placeholder="Pilih Status"
+                        ></VueMultiselect>
                     </div>
                 </template>
                 <template #footer>
 					<form>
-						<button type="button" @click="updateData()" class="btn btn-success text-white m-2">Update</button>
+						<button type="button" @click="updateData()" class="btn btn-warning text-white m-2">Update</button>
 					</form>
                     <button
-                        class="btn btn-secondary m-2" @click="tutupModal">Close</button>
+                        class="btn btn-secondary m-2" @click="tutupModal">Keluar</button>
                 </template>
             </modal>
         </Teleport>
@@ -156,12 +175,20 @@
             const catatan = ref();
             const tingkatan = ref();
             const tanggal = ref();
+            const status = ref();
             const id_list = ref();
 
             const daftar_tingkatan = [
-                { name: 'Misdemeanor', value: 0 },
-                { name: 'Moderate Offence', value: 1 },
-                { name: 'Serious Offence', value: 2 },
+                { name: 'Teguran Lisan', value: 1 },
+                { name: 'SP 1', value: 2 },
+                { name: 'SP 2', value: 3 },
+                { name: 'SP 3', value: 4 },
+            ];
+
+            const daftar_status = [
+                { name: 'Belum Ada', value: 1 },
+                { name: 'Tersampaikan', value: 2 },
+                { name: 'Terselesaikan', value: 3 },
             ];
 
             //define method search
@@ -179,6 +206,14 @@
                         tingkatan.value = data
                     }
                 })
+
+                //status tindakan
+                daftar_status.forEach(function (data) {
+                    if(data.value == list.status){
+                        status.value = data
+                    }
+                })
+                
                 catatan.value = list.catatan
                 tanggal.value = list.tanggal
                 id_list.value = list.id
@@ -197,6 +232,7 @@
                     karyawan_id : parseInt(props.id_karyawan),
                     catatan : catatan.value,
                     tingkatan: tingkatan.value.value,
+                    status: status.value.value,
                     tanggal: tanggal.value,
                 },{
                     onSuccess: () => {
@@ -218,7 +254,7 @@
             return {
                 search,
                 handleSearch,
-                editData, showModal, tutupModal, catatan, tingkatan, tanggal, daftar_tingkatan,
+                editData, showModal, tutupModal, catatan, tingkatan, tanggal, status, daftar_tingkatan, daftar_status, 
                 updateData
             }
 

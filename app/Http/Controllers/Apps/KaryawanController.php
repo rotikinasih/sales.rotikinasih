@@ -13,6 +13,7 @@ use App\Models\MasterJabatan;
 use App\Models\MasterPerusahaan;
 use App\Models\RiwayatOrganisasi;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -46,45 +47,101 @@ class KaryawanController extends Controller
         //menghitung umur
         if($karyawan->isNotEmpty()){
             foreach ($karyawan as $k){
-                //update umur karyawan
+                
                 $now = Carbon::now()->isoFormat('Y-MM-D');
                 $tanggal_lahir = $k->tanggal_lahir;
-                $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
-                $k->update(['umur' => $age]);
-
-                // cek tanggl lahir
+                // cek tanggal lahir
                 if($tanggal_lahir == null){
                     $tahun_lahir = 'null';
+                    $age = 0;
+                    //update umur karyawan
+                    $k->update(['umur' => $age]);
+                    // update komposisi generasi
+                    $k->update(['komposisi_generasi' => null]);
                 }else{
                     $tahun_lahir = date('Y', strtotime($k->tanggal_lahir));
+                    $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
+                    //update umur karyawan
+                    $k->update(['umur' => $age]);
+
+                    // update komposisi generasi
+                    //gen Boomers (1946-1964)
+                    if($tahun_lahir >= 1946 && $tahun_lahir <= 1964){
+                        $k->update(['komposisi_generasi' => 'Gen Boomers']);
+                    }
+                    //gen X (1965-1980)
+                    if($tahun_lahir >= 1965 && $tahun_lahir <= 1980){
+                        $k->update(['komposisi_generasi' => 'Gen X']);
+                    }
+                    //gen Y atau Milenial(1981-1996)
+                    if($tahun_lahir >= 1981 && $tahun_lahir <= 1996){
+                        $k->update(['komposisi_generasi' => 'Gen Milenial']);
+                    }
+                    //gen Z (1997-2012)
+                    if($tahun_lahir >= 1997 && $tahun_lahir <= 2012){
+                        $k->update(['komposisi_generasi' => 'Gen Z']);
+                    }
+                    //gen Alpha/Milenium (2013-2025)
+                    if($tahun_lahir >= 2013 && $tahun_lahir <= 2025){
+                        $k->update(['komposisi_generasi' => 'Gen Alpha']);
+                    }
                 }
 
-                // update komposisi generasi
-                if($tahun_lahir == null){
-                    $k->update(['komposisi_generasi' => null]);
+                //status kerja kontrak
+                if($k->status_kerja == 1){
+                    $awal_kontrak = $k->tanggal_kontrak;
+                    $masa_kontrak = $k->masa_kontrak;
+                    $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
+                    $pp = new DateTime($awal_kontrak);
+                    $dd = $pp->diff(new DateTime($akhir_kontrak));
+                    $new = $dd->format('%y tahun, %m bulan, %d hari');
+                    // dd($new);
+                    $k->update([
+                        'akhir_kontrak' => $akhir_kontrak,
+                        'masa_kerja_bulan' => $masa_kontrak,
+                        'masa_kerja_tahun' => $new,
+                    ]);
                 }
-                //gen Boomers (1946-1964)
-                if($tahun_lahir >= 1946 && $tahun_lahir <= 1964){
-                    $k->update(['komposisi_generasi' => 'Gen Boomers']);
+                
+                //status kerja tetap
+                if($k->status_kerja == 2){
+                    $masa_kontrak = $k->masa_kontrak;
+                    $awal_kontrak =$k->tanggal_kontrak;
+                    $waktu_sekarang = date('Y-m-d');
+                    $tanggal_karyawan_tetap =$k->tanggal_karyawan_tetap;
+                    $interval = date_diff(date_create($tanggal_karyawan_tetap), date_create($waktu_sekarang));
+                    
+                    // dd($interval->days);
+                    // // Mendapatkan jumlah bulan dari interval
+                    // $interval_bulan = $interval->format('%days') ;
+                    // $newDate = date_create($tanggal_karyawan_tetap);
+                    // date_add($newDate, date_interval_create_from_date_string("$interval_bulan months"));
+                    
+                    // // $masa_kerja= $interval_bulan + $masa_kontrak;
+                    $masa_kerja = date('Y-m-d', strtotime( $tanggal_karyawan_tetap . "+$masa_kontrak month" . "+$interval->days day"));
+                    $pp = new DateTime($tanggal_karyawan_tetap);
+                    $dd = $pp->diff(new DateTime($masa_kerja));
+                    $new = $dd->format('%y tahun, %m bulan, %d hari');
+                    // dd($new);
+                    $k->update([
+                        'masa_kerja_tahun' => $new,
+                        // 'masa_kerja_bulan' => $masa_kontrak,
+                    ]);
                 }
-                //gen X (1965-1976)
-                if($tahun_lahir >= 1965 && $tahun_lahir <= 1976){
-                    $k->update(['komposisi_generasi' => 'Gen X']);
-                }
-                //gen Y atau Milenial(1977-1994)
-                if($tahun_lahir >= 1977 && $tahun_lahir <= 1994){
-                    $k->update(['komposisi_generasi' => 'Gen Milenial']);
-                }
-                //gen Z (1995-2010)
-                if($tahun_lahir >= 1995 && $tahun_lahir <= 2010){
-                    $k->update(['komposisi_generasi' => 'Gen Z']);
-                }
-                // dd($tahun_lahir);
             }
-
         }
 
-        // dd($karyawan);
+        $angka = round(3639.0625);
+        $ambil_ratusan = substr($angka, -2);
+        if($ambil_ratusan <= 50){
+            $uang = $angka - $ambil_ratusan;
+        }else{
+            $uang = $angka + (100-$ambil_ratusan);
+        }
+
+        dd($uang);
+        
+
 
         //return inertia
         return Inertia::render('Apps/Karyawan/Index', [
@@ -173,13 +230,17 @@ class KaryawanController extends Controller
             'jabatan_id' => $request->jabatan_id,
             'grade' => $request->grade,
             'tanggal_masuk' => $request->tanggal_masuk,
+            'tanggal_karyawan_tetap' => $request->tanggal_karyawan_tetap,
             'tanggal_kontrak' => $request->tanggal_kontrak,
             'masa_kontrak' => $request->masa_kontrak,
+            // 'masa_kerja' => $request->masa_kontrak,
             'status_kerja' => $request->status_kerja,
             'komposisi_peran' => $request->komposisi_peran,
             'kota_rekruitmen' => $request->kota_rekruitmen,
             'kota_penugasan' => $request->kota_penugasan,
             'pengalaman_kerja_terakhir' => $request->pengalaman_kerja_terakhir,
+            'jabatan_kerja_terakhir' => $request->jabatan_kerja_terakhir,
+            'nama_bank' => $request->nama_bank,
             'rekening' => $request->rekening,
             'no_npwp' => $request->no_npwp,
             'email_interanl' => $request->email_interanl,
@@ -202,11 +263,13 @@ class KaryawanController extends Controller
             //cek status kerja
             if($request->status_kerja == 0){
                 $awal_kontrak = $karyawan->tanggal_kontrak;
-                $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime( $awal_kontrak )));
+                $masa_kontrak = $karyawan->masa_kontrak;
+                $akhir_kontrak = date('Y-m-d', strtotime($masa_kontrak, 'month', strtotime( $awal_kontrak )));
                 $karyawan->update([
                     'foto'  => $nama_file,
                     'umur'  => $age,
-                    'akhir_kontrak' => $akhir_kontrak
+                    'akhir_kontrak' => $akhir_kontrak,
+                    'masa_kerja' => $masa_kontrak,
                 ]);
             }else{
                 $karyawan->update([
@@ -286,7 +349,7 @@ class KaryawanController extends Controller
         }
         //update karyawan
         $karyawan->update([
-            'foto'                      => $nama_file,
+            'foto'           => $nama_file,
             'nama_lengkap' => $request->nama_lengkap,
             'nama_panggilan' => $request->nama_panggilan,
             'tempat_lahir' => $request->tempat_lahir,
@@ -319,12 +382,14 @@ class KaryawanController extends Controller
             'jabatan_id' => $request->jabatan_id,
             'grade' => $request->grade,
             'tanggal_masuk' => $request->tanggal_masuk,
+            'tanggal_karyawan_tetap' => $request->tanggal_karyawan_tetap,
             'tanggal_kontrak' => $request->tanggal_kontrak,
             'masa_kontrak' => $request->masa_kontrak,
             'status_kerja' => $request->status_kerja,
             'komposisi_peran' => $request->komposisi_peran,
             'kota_rekruitmen' => $request->kota_rekruitmen,
             'kota_penugasan' => $request->kota_penugasan,
+            'nama_bank' => $request->nama_bank,
             'rekening' => $request->rekening,
             'no_npwp' => $request->no_npwp,
             'email_internal' => $request->email_internal,
@@ -332,6 +397,7 @@ class KaryawanController extends Controller
             'no_bpjs_ketenagakerjaan' => $request->no_bpjs_ketenagakerjaan,
             'ukuran_baju' => $request->ukuran_baju,
             'pengalaman_kerja_terakhir' => $request->pengalaman_kerja_terakhir,
+            'jabatan_kerja_terakhir' => $request->jabatan_kerja_terakhir,
         ]);
 
         //update umur
@@ -410,7 +476,8 @@ class KaryawanController extends Controller
             'karyawan_id'           => 'required',
             'catatan'               => 'required',
             'tanggal'               => 'required',
-            'tingkatan'             => 'required'
+            'tingkatan'             => 'required',
+            'status'                => 'required',
         ]);
 
         //create pelanggaran
@@ -418,7 +485,8 @@ class KaryawanController extends Controller
             'karyawan_id'       => $request->karyawan_id,
             'catatan'           => $request->catatan,
             'tanggal'           => $request->tanggal,
-            'tingkatan'         => $request->tingkatan
+            'tingkatan'         => $request->tingkatan,
+            'status'            => $request->status,
         ]);
 
         //redirect

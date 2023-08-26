@@ -40,42 +40,44 @@
                         <h5>Karyawan Baru di Bulan ini</h5>
                     </div>
                     <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Foto</th>
-                                        <th>Nama Lengkap</th>
-                                        <th>Tanggal Masuk</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="unread" v-for="(baru, index) in karyawan_baru.data" :key="index">
-                                        <td>{{ index + 1 }}</td>
-                                        <td><img class="rounded-circle" style="width:40px;" v-if="baru.foto != null" :src="`/storage/${baru.foto}`" alt="activity-user"></td>
-                                        <td>
-                                            <h6 class="mb-1">{{ baru.nama_lengkap }}</h6>
-                                            <p class="m-0">{{ baru.nik_penduduk }}</p>
-                                        </td>
-                                        <td><h6 class="text-muted"><span class="label theme-bg text-white f-12">{{ baru.tanggal_masuk }}</span></h6></td>
-                                    </tr>
-                                    <!-- jika data kosong -->
-                                    <tr v-if="karyawan_baru.data[0] == undefined">
-                                        <td colspan="4" class="text-center">
-                                            <br>
-                                            <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                                Data Kosong
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="row" style="max-width:100%; overflow-x:hidden">
-                                <div class="col-md-4">
-                                    <label v-if="karyawan_baru.data[0] != undefined" align="start">Showing {{ karyawan_baru.from }} to {{ karyawan_baru.to }} of {{ karyawan_baru.total }} items</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <Pagination v-if="karyawan_baru.data[0] != undefined" :links="karyawan_baru.links" align="end"/>
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <!-- <th>Foto</th> -->
+                                            <th>Nama Lengkap</th>
+                                            <th>Tanggal Masuk</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="unread" v-for="(baru, index) in karyawan_baru.data" :key="index">
+                                            <td>{{ index + 1 }}</td>
+                                            <!-- <td><img class="rounded-circle" style="width:40px;" v-if="baru.foto != null" :src="`/storage/${baru.foto}`" alt="activity-user"></td> -->
+                                            <td>
+                                                <h6 class="mb-1">{{ baru.nama_lengkap }}</h6>
+                                                <p class="m-0">{{ baru.nik_penduduk }}</p>
+                                            </td>
+                                            <td><h6 class="text-muted"><span class="label theme-bg text-white f-12">{{ baru.tanggal_masuk }}</span></h6></td>
+                                        </tr>
+                                        <!-- jika data kosong -->
+                                        <tr v-if="karyawan_baru.data[0] == undefined">
+                                            <td colspan="4" class="text-center">
+                                                <br>
+                                                <i class="fa fa-file-excel fa-5x"></i><br><br>
+                                                    Data Kosong
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row" style="max-width:100%; overflow-x:hidden">
+                                    <div class="col-md-4">
+                                        <label v-if="karyawan_baru.data[0] != undefined" align="start">Showing {{ karyawan_baru.from }} to {{ karyawan_baru.to }} of {{ karyawan_baru.total }} items</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <Pagination v-if="karyawan_baru.data[0] != undefined" :links="karyawan_baru.links" align="end"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -87,42 +89,44 @@
                         <h5>Karyawan Mendekati Akhir Kontrak 2 Bulan</h5>
                     </div>
                     <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Foto</th>
-                                        <th>Nama Lengkap</th>
-                                        <th>Akhir Kontrak</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="unread" v-for="(kontrak, index) in karyawan_kontrak.data" :key="index">
-                                        <td>{{ index + 1 }}</td>
-                                        <td><img class="rounded-circle" style="width:40px;" v-if="kontrak.foto != null" :src="`/storage/${kontrak.foto}`" alt="activity-user"></td>
-                                        <td>
-                                            <h6 class="mb-1">{{ kontrak.nama_lengkap }}</h6>
-                                            <p class="m-0">{{ kontrak.nik_penduduk }}</p>
-                                        </td>
-                                        <td><span class="label theme-bg2 text-white f-12">{{ kontrak.akhir_kontrak }}</span></td>
-                                    </tr>
-                                    <!-- jika data kosong -->
-                                    <tr v-if="karyawan_kontrak.data[0] == undefined">
-                                        <td colspan="4" class="text-center">
-                                            <br>
-                                            <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                                Data Kosong
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="row" style="max-width:100%; overflow-x:hidden">
-                                <div class="col-md-4">
-                                    <label v-if="karyawan_kontrak.data[0] != undefined" align="start">Showing {{ karyawan_kontrak.from }} to {{ karyawan_kontrak.to }} of {{ karyawan_kontrak.total }} items</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <Pagination v-if="karyawan_kontrak.data[0] != undefined" :links="karyawan_kontrak.links" align="end"/>
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Foto</th>
+                                            <th>Nama Lengkap</th>
+                                            <th>Akhir Kontrak</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="unread" v-for="(kontrak, index) in karyawan_kontrak.data" :key="index">
+                                            <td>{{ index + 1 }}</td>
+                                            <td><img class="rounded-circle" style="width:40px;" v-if="kontrak.foto != null" :src="`/storage/${kontrak.foto}`" alt="activity-user"></td>
+                                            <td>
+                                                <h6 class="mb-1">{{ kontrak.nama_lengkap }}</h6>
+                                                <p class="m-0">{{ kontrak.nik_penduduk }}</p>
+                                            </td>
+                                            <td><span class="label theme-bg2 text-white f-12">{{ kontrak.akhir_kontrak }}</span></td>
+                                        </tr>
+                                        <!-- jika data kosong -->
+                                        <tr v-if="karyawan_kontrak.data[0] == undefined">
+                                            <td colspan="4" class="text-center">
+                                                <br>
+                                                <i class="fa fa-file-excel fa-5x"></i><br><br>
+                                                    Data Kosong
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row" style="max-width:100%; overflow-x:hidden">
+                                    <div class="col-md-4">
+                                        <label v-if="karyawan_kontrak.data[0] != undefined" align="start">Showing {{ karyawan_kontrak.from }} to {{ karyawan_kontrak.to }} of {{ karyawan_kontrak.total }} items</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <Pagination v-if="karyawan_kontrak.data[0] != undefined" :links="karyawan_kontrak.links" align="end"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>

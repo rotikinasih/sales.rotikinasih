@@ -11,8 +11,8 @@ class CatatanPelanggaran extends Model
 
     protected $table = "catatan_pelanggaran";
 
-    protected $fillable = [
-        'karyawan_id', 'tanggal', 'catatan', 'tingkatan'
+    protected $guarded = [
+        'id'
     ];
 
     public function karyawan()
