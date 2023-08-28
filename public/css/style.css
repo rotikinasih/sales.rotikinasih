@@ -165,6 +165,14 @@ strong {
     background: #089276e0;
 }
 
+.theme-bg9 {
+  background: #606362e0;
+}
+
+.theme-bg10 {
+  background: #01a2ffe0;
+}
+
 /* ==========  card css start  =========== */
 .anim-rotate {
   -webkit-animation: anim-rotate 1s linear infinite;

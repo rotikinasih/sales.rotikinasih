@@ -72,22 +72,30 @@
                         <span class="pcoded-mtext">Organisasi</span></Link>
                     </li>
 
-                    <!-- <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item" :class="{ 'active': $page.url.startsWith('/apps/position') }" v-if="hasAnyPermission(['jabatan.index'])">
-                        <Link href="/apps/position" ><span class="pcoded-micon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-workspace" viewBox="0 0 16 16">
-                            <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-                            <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/>
+                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item" :class="{ 'active': $page.url.startsWith('/apps/list-pelanggaran') }" v-if="hasAnyPermission(['apps.pelanggaran.indexAll'])">
+                        <Link href="/apps/list-pelanggaran" ><span class="pcoded-micon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-exclamation-fill" viewBox="0 0 16 16">
+                            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                             </svg></span>
                         <span class="pcoded-mtext">Pelanggaran</span></Link>
                     </li>
 
                     <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item" :class="{ 'active': $page.url.startsWith('/apps/karyawan') }" v-if="hasAnyPermission(['karyawan.index'])">
                         <Link href="/apps/karyawan" ><span class="pcoded-micon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-badge-fill" viewBox="0 0 16 16">
-                                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-.245z"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+                            <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
                             </svg></span>
-                        <span class="pcoded-mtext">Edukasi</span></Link>
-                    </li> -->
+                        <span class="pcoded-mtext">Resign</span></Link>
+                    </li>
+
+                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item" :class="{ 'active': $page.url.startsWith('/apps/karyawan') }" v-if="hasAnyPermission(['karyawan.index'])">
+                        <Link href="/apps/karyawan" ><span class="pcoded-micon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5Z"/>
+                            </svg></span>
+                        <span class="pcoded-mtext">PHK</span></Link>
+                    </li>
 
                     <li class="nav-item pcoded-menu-caption" v-if="hasAnyPermission(['roles.index']) || hasAnyPermission(['permissions.index'] || hasAnyPermission(['users.index']))">
                         <label>User Management</label>
@@ -128,11 +136,11 @@
         <div class="m-header">
             <a class="mobile-menu" id="mobile-collapse1" @click="sidebarOpen" style="z-index: 10;"><span></span></a>
             <a href="#" class="b-brand">
-                   <div class="b-bg">
-                       <i class="feather icon-trending-up"></i>
-                   </div>
-                   <span class="b-title">Database System</span>
-               </a>
+                    <div class="b-bg">
+                        <i class="feather icon-trending-up"></i>
+                    </div>
+                    <span class="b-title">Database System</span>
+                </a>
         </div>
         <a class="mobile-menu" id="mobile-header" href="javascript:">
             <i class="feather icon-more-horizontal"></i>
@@ -148,7 +156,7 @@
                 <li>
                     <div class="dropdown drp-user" style="color:black">
                         <a @click="logout" class="dud-logout" title="Logout" style="cursor:pointer;">
-                        <i class="feather icon-log-out"></i>
+                        <i class="fas fa-power-off"></i>
                         </a>
                     </div>
                 </li>

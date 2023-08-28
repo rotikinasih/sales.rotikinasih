@@ -13,7 +13,7 @@ class CatatanPelanggaranController extends Controller
     public function index ($id){
         $search = request()->search;
         //pengelompokan kategori
-        // $ringan =
+        
         //get list
         $lists = CatatanPelanggaran::with('karyawan')->whereHas('karyawan', function($q) use($search){
             $q->where('catatan', 'like', '%'. $search . '%');
@@ -25,6 +25,24 @@ class CatatanPelanggaranController extends Controller
             'id_karyawan'   => $id,
             'lists'         => $lists,
             'nama'          => $nama_karyawan,
+        ]);
+    }
+
+    public function indexAll (){
+        $search = request()->search;
+        //pengelompokan kategori
+        //get list
+        $lists = CatatanPelanggaran::with('karyawan')->whereHas('karyawan', function($q) use($search){
+            $q->where('catatan', 'like', '%'. $search . '%');
+            })->latest()->paginate(10)->onEachSide(1);
+
+            // dd($lists);
+        // $nama_karyawan = Karyawan::where('id', $id)->first()->nama_lengkap;
+
+        return Inertia::render('Apps/Pelanggaran/Index', [
+            // 'id_karyawan'   => $id,
+            'lists'         => $lists,
+            // 'nama'          => $nama_karyawan,
         ]);
     }
 

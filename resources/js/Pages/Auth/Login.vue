@@ -1,6 +1,6 @@
 <template>
 <head>
-    <title>Login Account - Employee Database Application</title>
+    <title>Login - Database Karyawan</title>
 </head>
 
 <div class="auth-wrapper">
@@ -17,7 +17,7 @@
                         <i class="feather icon-unlock auth-icon"></i>
                     </div>
                     <h3 class="mb-4">Login</h3>
-                    <h5 class="mb-4">Database System</h5>
+                    <h5 class="mb-4">Database Karyawan</h5>
                     <form @submit.prevent="submit">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" v-model="form.username" :class="{ 'is-invalid': errors.username }"  placeholder="Username">

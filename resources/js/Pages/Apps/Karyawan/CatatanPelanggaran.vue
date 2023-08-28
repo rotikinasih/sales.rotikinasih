@@ -23,7 +23,7 @@
                                     <th scope="col" class="text-center">Tingkat Pelanggaran</th>
                                     <th scope="col">Catatan</th>
                                     <th scope="col">Tanggal</th>
-                                    <th scope="col" class="text-center">Status</th>
+                                    <th scope="col" class="text-center">Status Tindakan</th>
                                     <th scope="col" class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -31,17 +31,18 @@
                                 <tr v-for="(list, index) in lists.data" :key="index">
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
-                                    <td class="text-center" v-if="(list.tingkatan == null)"><a class="label theme-bg8 text-white f-12" style="border-radius:10px"> </a></td>
-                                    <td class="text-center" v-if="(list.tingkatan == 1)"><a class="label theme-bg8 text-white f-12" style="border-radius:10px">Teguran Lisan</a></td>
-                                    <td class="text-center" v-if="(list.tingkatan == 2)"><a class="label theme-bg7 text-white f-12" style="border-radius:10px">SP 1</a></td>
-                                    <td class="text-center" v-if="(list.tingkatan == 3)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">SP 2</a></td>
-                                    <td class="text-center" v-if="(list.tingkatan == 4)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">SP 3</a></td>
+                                    <td class="text-center" v-if="(list.tingkatan == null)"> </td>
+                                    <td class="text-center" v-if="(list.tingkatan == 1)">Ringan</td>
+                                    <td class="text-center" v-if="(list.tingkatan == 2)">Sedang</td>
+                                    <td class="text-center" v-if="(list.tingkatan == 3)">Serius</td>
+                                    <td class="text-center" v-if="(list.tingkatan == 4)">Berat></td>
                                     <td>{{ list.catatan }}</td>
                                     <td>{{ list.tanggal }}</td>
-                                    <td class="text-center" v-if="(list.status == null)"><a class="label theme-bg8 text-white f-12" style="border-radius:10px"> </a></td>
-                                    <td class="text-center" v-if="(list.status == 1)"><a class="label theme-bg8 text-white f-12" style="border-radius:10px">Belom Ada</a></td>
-                                    <td class="text-center" v-if="(list.status == 2)"><a class="label theme-bg7 text-white f-12" style="border-radius:10px">Tersampaikan</a></td>
-                                    <td class="text-center" v-if="(list.status == 3)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">Terselesaikan</a></td>
+                                    <td class="text-center" v-if="(list.status == null)"> </td>
+                                    <td class="text-center" v-if="(list.status == 1)"><a class="label theme-bg9 text-white f-12" style="border-radius:10px">Teguran Lisan</a></td>
+                                    <td class="text-center" v-if="(list.status == 2)"><a class="label theme-bg10 text-white f-12" style="border-radius:10px">SP 1</a></td>
+                                    <td class="text-center" v-if="(list.status == 3)"><a class="label theme-bg7 text-white f-12" style="border-radius:10px">SP 2</a></td>
+                                    <td class="text-center" v-if="(list.status == 4)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">SP 3</a></td>
                                     <td class="text-center">
                                         <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> </a>
                                     </td>
@@ -107,7 +108,7 @@
                         <textarea type="text" class="form-control" placeholder="Notes" v-model="catatan" required></textarea>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Status :</label>
+                        <label class="col-form-label">Status Tindakan :</label>
                         <VueMultiselect
                                     v-model="status"
                                     :options="daftar_status"
@@ -179,16 +180,17 @@
             const id_list = ref();
 
             const daftar_tingkatan = [
-                { name: 'Teguran Lisan', value: 1 },
-                { name: 'SP 1', value: 2 },
-                { name: 'SP 2', value: 3 },
-                { name: 'SP 3', value: 4 },
+                { name: 'Ringan', value: 1 },
+                { name: 'Sedang', value: 2 },
+                { name: 'Serius', value: 3 },
+                { name: 'Berat', value: 4 },
             ];
 
             const daftar_status = [
-                { name: 'Belum Ada', value: 1 },
-                { name: 'Tersampaikan', value: 2 },
-                { name: 'Terselesaikan', value: 3 },
+            { name: 'Teguran Lisan', value: 1 },
+                { name: 'SP 1', value: 2 },
+                { name: 'SP 2', value: 3 },
+                { name: 'SP 3', value: 4 },
             ];
 
             //define method search

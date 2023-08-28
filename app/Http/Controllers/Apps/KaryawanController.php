@@ -91,15 +91,22 @@ class KaryawanController extends Controller
                 if($k->status_kerja == 1){
                     $awal_kontrak = $k->tanggal_kontrak;
                     $masa_kontrak = $k->masa_kontrak;
-                    $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
-                    $pp = new DateTime($awal_kontrak);
-                    $dd = $pp->diff(new DateTime($akhir_kontrak));
-                    $new = $dd->format('%y tahun, %m bulan, %d hari');
-                    // dd($new);
+                    //tanggal akhir kontrak
+                    if($k->tanggal_kontrak){
+                        $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
+                    }else{
+                        $akhir_kontrak =  null;
+                    }
+                    $new_awal_kontrak = new DateTime($awal_kontrak);
+                    //menghitung interval lama kontrak
+                    $interval = $new_awal_kontrak->diff(new DateTime($akhir_kontrak));
+                    //format interval lama kontrak
+                    $masa_kerja_tahun = $interval->format('%y tahun, %m bulan, %d hari');
+
                     $k->update([
                         'akhir_kontrak' => $akhir_kontrak,
                         'masa_kerja_bulan' => $masa_kontrak,
-                        'masa_kerja_tahun' => $new,
+                        'masa_kerja_tahun' => $masa_kerja_tahun,
                     ]);
                 }
                 
@@ -109,39 +116,26 @@ class KaryawanController extends Controller
                     $awal_kontrak =$k->tanggal_kontrak;
                     $waktu_sekarang = date('Y-m-d');
                     $tanggal_karyawan_tetap =$k->tanggal_karyawan_tetap;
-                    $interval = date_diff(date_create($tanggal_karyawan_tetap), date_create($waktu_sekarang));
+                     //tanggal akhir kontrak
+                    $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
+                    //menghitung interval lama karyawan tetap
+                    $interval_pertama = date_diff(new DateTime($tanggal_karyawan_tetap), new DateTime($waktu_sekarang));
+                    // dd($interval_pertama);
                     
-                    // dd($interval->days);
-                    // // Mendapatkan jumlah bulan dari interval
-                    // $interval_bulan = $interval->format('%days') ;
-                    // $newDate = date_create($tanggal_karyawan_tetap);
-                    // date_add($newDate, date_interval_create_from_date_string("$interval_bulan months"));
-                    
-                    // // $masa_kerja= $interval_bulan + $masa_kontrak;
-                    $masa_kerja = date('Y-m-d', strtotime( $tanggal_karyawan_tetap . "+$masa_kontrak month" . "+$interval->days day"));
-                    $pp = new DateTime($tanggal_karyawan_tetap);
-                    $dd = $pp->diff(new DateTime($masa_kerja));
-                    $new = $dd->format('%y tahun, %m bulan, %d hari');
-                    // dd($new);
+                    $masa_kerja = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month" . "+$interval_pertama->days day"));
+                    $new_tanggal_karyawan_tetap = new DateTime($awal_kontrak);
+                    $interval_kedua = $new_tanggal_karyawan_tetap->diff(new DateTime($masa_kerja));
+                    $all_time = $interval_kedua->format('%y tahun, %m bulan, %d hari');
+                    $masa_kerja_bulan = ($interval_kedua->y * 12) + $interval_kedua->m;
+                    // dd($new2);
                     $k->update([
-                        'masa_kerja_tahun' => $new,
-                        // 'masa_kerja_bulan' => $masa_kontrak,
+                        'masa_kerja_tahun' => $all_time,
+                        'masa_kerja_bulan' => $masa_kerja_bulan,
+                        'akhir_kontrak' => $akhir_kontrak,
                     ]);
                 }
             }
         }
-
-        $angka = round(3639.0625);
-        $ambil_ratusan = substr($angka, -2);
-        if($ambil_ratusan <= 50){
-            $uang = $angka - $ambil_ratusan;
-        }else{
-            $uang = $angka + (100-$ambil_ratusan);
-        }
-
-        dd($uang);
-        
-
 
         //return inertia
         return Inertia::render('Apps/Karyawan/Index', [

@@ -65,6 +65,10 @@
                                         <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
                                         <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-exclamation-triangle"></i></a>
                                         <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
+                                        <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Add Historical Organization" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
+                                        <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-exclamation-triangle"></i></a>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -458,7 +462,7 @@
         <Teleport to="body">
             <modal :show="showModalPelanggaran" @close="showModalPelanggaran = false">
                 <template #header>
-                    <h5 class="modal-title">Catatn Pelanggaran</h5>
+                    <h5 class="modal-title">Catatan Pelanggaran</h5>
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
@@ -493,7 +497,7 @@
                     </div>
                     
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Status : </label>
+                        <label class="col-form-label">Status Tindakan : </label>
                         <VueMultiselect
                             v-model="status"
                             :options="daftar_status"
@@ -708,16 +712,17 @@
             }
 
             const daftar_tingkatan = [
-                { name: 'Teguran Lisan', value: 1 },
-                { name: 'SP 1', value: 2 },
-                { name: 'SP 2', value: 3 },
-                { name: 'SP 3', value: 4 },
+                { name: 'Ringan', value: 1 },
+                { name: 'Sedang', value: 2 },
+                { name: 'Serius', value: 3 },
+                { name: 'Berat', value: 4 },
             ];
 
             const daftar_status = [
-                { name: 'Belum Ada', value: 1 },
-                { name: 'Tersampaikan', value: 2 },
-                { name: 'Selesai', value: 3 },
+            { name: 'Teguran Lisan', value: 1 },
+                { name: 'SP 1', value: 2 },
+                { name: 'SP 2', value: 3 },
+                { name: 'SP 3', value: 4 },
             ];
 
             //define method search
