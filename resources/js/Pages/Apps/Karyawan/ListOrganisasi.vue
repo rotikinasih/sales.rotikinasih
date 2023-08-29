@@ -1,37 +1,41 @@
 <template>
     <Head>
-        <title>Organizations</title>
+        <title>Riwayat Organisasi/Mutasi</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <h5>{{ nama }}</h5>
-                    <span class="d-block m-t-5">Page to manage the list of <code>{{ nama }}</code> organizations</span>
+                    <!-- <span class="d-block m-t-5">Page to manage the list of <code>{{ nama }}</code> organizations</span> -->
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" v-model="search" placeholder="search by division..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        </div>
+                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        
+                        </div>
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Full Name</th>
-                                    <th scope="col">Division</th>
-                                    <th scope="col">Group Joining Date</th>
-                                    <th scope="col">Date of Entry</th>
-                                    <th scope="col">End Date</th>
-                                    <th scope="col" style="width:20%">Actions</th>
+                                    <th scope="col">Nama Lengkap</th>
+                                    <th scope="col">Entitas</th>
+                                    <th scope="col">Divisi</th>
+                                    <th scope="col">Jabatan</th>
+                                    <th scope="col">Tanggal Masuk</th>
+                                    <th scope="col">Tanggal Berakhir</th>
+                                    <th scope="col" style="text-align: center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
                                     <td>{{ index + 1 }}</td>
-                                    <td>{{ list.karyawan.nama_karyawan }}</td>
+                                    <td>{{ list.karyawan.nama_lengkap}}</td>
+                                    <td>{{ list.perusahaan.nama_pt }}</td>
                                     <td>{{ list.divisi.nama_divisi }}</td>
-                                    <td>{{ list.tgl_gabung_grup }}</td>
+                                    <td>{{ list.jabatan.nama_jabatan }}</td>
+                                    <!-- <td>{{ list.tgl_gabung_grup }}</td> -->
                                     <td>{{ list.tgl_masuk }}</td>
                                     <td>{{ list.tgl_berakhir }}</td>
                                     <td class="text-center">
@@ -43,7 +47,7 @@
                                     <td colspan="7" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                            No Data To Display
+                                            Data Kosong
                                     </td>
                                 </tr>
                             </tbody>
@@ -57,7 +61,7 @@
                             </div>
 
                         </div>
-                        <Link href="/apps/karyawan" class="btn btn-success shadow-sm" style="float:right">BACK</Link>
+                        <Link href="/apps/karyawan" class="btn btn-success shadow-sm" style="float: right; margin-right: 0px;">Kembali</Link>
                     </div>
                 </div>
             </div>
@@ -70,19 +74,27 @@
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Full Name :</label>
+                        <label class="col-form-label">Nama Lengkap:</label>
                         <input type="text" class="form-control" :value="nama" readonly>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Group Joining Date : </label>
-                                <input type="date" class="form-control" placeholder="Group Joining Date" v-model="tgl_gabung_grup" required>
+                                <label class="col-form-label">Entitas :</label>
+                                <VueMultiselect
+                                    v-model="pt_id"
+                                    :options="pt"
+                                    label="nama_pt"
+                                    track-by="id"
+                                    :allow-empty="false"
+                                    deselect-label="Can't remove this value"
+                                    placeholder="Pilih Entitas"
+                                ></VueMultiselect>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Division :</label>
+                                <label class="col-form-label">Divisi :</label>
                                 <VueMultiselect
                                     v-model="divisi_id"
                                     :options="divisi"
@@ -90,21 +102,35 @@
                                     track-by="id"
                                     :allow-empty="false"
                                     deselect-label="Can't remove this value"
-                                    placeholder="Select Division"
+                                    placeholder="Pilih Divisi"
                                 ></VueMultiselect>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="col-form-label">Jabatan :</label>
+                                <VueMultiselect
+                                    v-model="jabatan_id"
+                                    :options="jabatans"
+                                    label="nama_jabatan"
+                                    track-by="id"
+                                    :allow-empty="false"
+                                    deselect-label="Can't remove this value"
+                                    placeholder="Pilih Jabatan"
+                                ></VueMultiselect>
+                            </div>
+                        </div> -->
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Date of Entry : </label>
+                                <label class="col-form-label">Tanggal Masuk : </label>
                                 <input type="date" class="form-control" placeholder="Date of Entry" v-model="tgl_masuk" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">End Date : </label>
+                                <label class="col-form-label">Tanggal Berakhir : </label>
                                 <input type="date" class="form-control" placeholder="End Date" v-model="tgl_berakhir" required>
                             </div>
                         </div>
@@ -112,10 +138,10 @@
                 </template>
                 <template #footer>
 					<form>
-						<button type="button" @click="updateData()" class="btn btn-success text-white m-2">Update</button>
+						<button type="button" @click="updateData()" class="btn btn-warning text-white m-2">Update</button>
 					</form>
                     <button
-                        class="btn btn-secondary m-2" @click="tutupModal">Close</button>
+                        class="btn btn-secondary m-2" @click="tutupModal">Keluar</button>
                 </template>
             </modal>
         </Teleport>
@@ -157,15 +183,19 @@
             lists: Object,
             nama: String,
             id_karyawan: String,
-            divisi: Array
+            pt: Array,
+            divisi: Array,
+            jabatans: Array,
         },
 
         setup(props) {
             //define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
             const showModal = ref(false);
+            const pt_id = ref();
             const divisi_id = ref();
-            const tgl_gabung_grup = ref();
+            const jabatan_id = ref();
+            // const tgl_gabung_grup = ref();
             const tgl_masuk = ref();
             const tgl_berakhir = ref();
             const id_list = ref();
@@ -180,13 +210,31 @@
             //edit data
             const editData = (list) => {
                 // console.log(list.id)
-                let datadiv_nya = props.divisi
-                datadiv_nya.forEach(datadiv => {
-                    if(list.divisi_id == datadiv.id){
-                        divisi_id.value = datadiv
+                // let datadiv_nya = props.divisi
+                let dataperusahaan_nya = props.pt
+                // let datajabatan_nya = props.jabatans
+
+                // datadiv_nya.forEach(datadiv => {
+                //     if(list.divisi_id == datadiv.id){
+                //         divisi_id.value = datadiv
+                //     }
+                // })
+
+                dataperusahaan_nya.forEach(dataperusahaan => {
+                    if(list.pt_id == dataperusahaan.id){
+                        pt_id.value = dataperusahaan
                     }
                 })
-                tgl_gabung_grup.value = list.tgl_gabung_grup
+
+                // datajabatan_nya.forEach(datajabatan => {
+                //     if(list.jabatan_id == datajabatan.id){
+                //         jabatan_id.value = datajabatan
+                //     }
+                // })
+                // tgl_gabung_grup.value = list.tgl_gabung_grup
+                // divisi_id.value = list.divisi_id
+                // jabatan_id.value = list.jabatan_id
+                pt_id.value = list.pt_id
                 tgl_masuk.value = list.tgl_masuk
                 tgl_berakhir.value = list.tgl_berakhir
                 id_list.value = list.id
@@ -203,8 +251,10 @@
                 Inertia.put(`/apps/karyawan/${id_list.value}/list-organisasi`, {
                     id : id_list.value,
                     karyawan_id : parseInt(props.id_karyawan),
+                    pt_id : pt_id.value.id,
                     divisi_id : divisi_id.value.id,
-                    tgl_gabung_grup: tgl_gabung_grup.value,
+                    jabatan_id : jabatan_id.value.id,
+                    // tgl_gabung_grup: tgl_gabung_grup.value,
                     tgl_masuk: tgl_masuk.value,
                     tgl_berakhir: tgl_berakhir.value
                 },{
@@ -227,7 +277,7 @@
             return {
                 search,
                 handleSearch,
-                editData, showModal, tutupModal, divisi_id, tgl_gabung_grup, tgl_masuk, tgl_berakhir,
+                editData, showModal, tutupModal, divisi_id, jabatan_id, pt_id, tgl_masuk, tgl_berakhir,
                 updateData
             }
 

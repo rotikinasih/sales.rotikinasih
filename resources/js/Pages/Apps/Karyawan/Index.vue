@@ -274,7 +274,6 @@
                                         <div class="form-group mb-3">
                                             <label class="col-form-label">Divisi :</label>
                                             <input type="text" class="form-control" v-model="divisi_id" readonly>
-                                            <!-- <input v-if="divisi_id == null" type="text" class="form-control" value="" readonly> -->
                                         </div>
                                         <div class="form-group mb-3">
                                             <label class="col-form-label">Jabatan :</label>
@@ -403,36 +402,47 @@
                         <label class="col-form-label">Nama Lengkap :</label>
                         <input type="text" class="form-control" placeholder="PT Name" v-model="nama" readonly>
                     </div>
-                    <div class="row">
-                        <!-- <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label class="col-form-label">Tanggal Bergabung Group : </label>
-                                <input type="date" class="form-control" placeholder="Group Joining Date" v-model="tgl_gabung_grup" required>
-                            </div>
-                        </div> -->
-                        <div class="form-group mb-3">
-                            <label class="col-form-label">Entitas :</label>
-                            <input type="text" class="form-control" placeholder="PT Name" v-model="nama" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label class="col-form-label">Divisi :</label>
-                                <VueMultiselect
-                                    v-model="divisi_id"
-                                    :options="divisi"
-                                    label="nama_divisi"
-                                    track-by="id"
-                                    :allow-empty="false"
-                                    deselect-label="Can't remove this value"
-                                    placeholder="Select Division"
-                                ></VueMultiselect>
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="col-form-label">Jabatan :</label>
-                            <input type="text" class="form-control" placeholder="PT Name" v-model="nama" readonly>
-                        </div>
+                    
+                        
+                    <div class="form-group mb-3">
+                        <label class="col-form-label">Entitas :</label>
+                        <VueMultiselect
+                            v-model="pt_id"
+                            :options="pt"
+                            label="nama_pt"
+                            track-by="id"
+                            :allow-empty="false"
+                            deselect-label="Can't remove this value"
+                            placeholder="Pilih Entitas"
+                        ></VueMultiselect>
                     </div>
+                
+                    <div class="form-group mb-3">
+                        <label class="col-form-label">Divisi :</label>
+                        <VueMultiselect
+                            v-model="divisi_id"
+                            :options="divisi"
+                            label="nama_divisi"
+                            track-by="id"
+                            :allow-empty="false"
+                            deselect-label="Can't remove this value"
+                            placeholder="Pilih Devisi"
+                        ></VueMultiselect>
+                    </div>
+                
+                    <div class="form-group mb-3">
+                        <label class="col-form-label">Jabatan :</label>
+                        <VueMultiselect
+                            v-model="jabatan_id"
+                            :options="jabatans"
+                            label="nama_jabatan"
+                            track-by="id"
+                            :allow-empty="false"
+                            deselect-label="Can't remove this value"
+                            placeholder="Pilih Jabatan"
+                        ></VueMultiselect>
+                    </div>
+                    
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
@@ -589,6 +599,8 @@
         props: {
             karyawan: Object,
             divisi: Array,
+            pt: Array,
+            jabatans: Array,
             session: Object,
         },
         
@@ -846,8 +858,9 @@
                 Inertia.post('/apps/karyawan/storeKarir', {
                     //data
                     karyawan_id : idnya.value,
+                    pt_id :pt_id.value.id,
                     divisi_id :divisi_id.value.id,
-                    tgl_gabung_grup : tgl_gabung_grup.value,
+                    jabatan_id :jabatan_id.value.id,
                     tgl_masuk : tgl_masuk.value,
                     tgl_berakhir : tgl_berakhir.value
                 }, {
@@ -901,7 +914,7 @@
                 rekening, ukuran_baju, no_keluarga, hubungan_keluarga, jabatan_id, email_internal, pengalaman_kerja_terakhir, jabatan_kerja_terakhir, tanggal_karyawan_tetap, nama_bank, masa_kerja_bulan, masa_kerja_tahun, masa_kontrak,
                 idnya, nama, tgl_gabung_grup, tgl_masuk, tgl_berakhir, storeKarir, status, daftar_status,
                 showModalPelanggaran, addPelanggaran, tutupModalPelanggaran, storePelanggaran, catatan, tanggal, tingkatan, daftar_tingkatan,
-                showModalImport, tutupModalImport, importExcel, selectedTaskFile, file_excel, storeExcel
+                showModalImport, tutupModalImport, importExcel, selectedTaskFile, file_excel, storeExcel, selectedOption: null,
             }
 
         }

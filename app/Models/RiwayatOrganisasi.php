@@ -11,9 +11,7 @@ class RiwayatOrganisasi extends Model
 
     protected $table = "riwayat_organisasi";
 
-    protected $fillable = [
-        'divisi_id', 'karyawan_id', 'tgl_gabung_grup', 'tgl_masuk', 'tgl_berakhir'
-    ];
+    protected $guarded = ['id'];
 
     public function karyawan()
     {
@@ -23,5 +21,15 @@ class RiwayatOrganisasi extends Model
     public function divisi()
     {
         return $this->belongsTo(MasterDivisi::class, 'divisi_id', 'id');
+    }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(MasterJabatan::class, 'jabatan_id', 'id');
+    }
+
+    public function perusahaan()
+    {
+        return $this->belongsTo(MasterPerusahaan::class, 'pt_id', 'id');
     }
 }

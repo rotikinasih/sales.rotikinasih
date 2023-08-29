@@ -88,9 +88,10 @@ class KaryawanController extends Controller
                 }
 
                 //status kerja kontrak
+                $awal_kontrak = $k->tanggal_kontrak;
+                $masa_kontrak = $k->masa_kontrak;
+                $waktu_sekarang = date('Y-m-d');
                 if($k->status_kerja == 1){
-                    $awal_kontrak = $k->tanggal_kontrak;
-                    $masa_kontrak = $k->masa_kontrak;
                     //tanggal akhir kontrak
                     if($k->tanggal_kontrak){
                         $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
@@ -112,9 +113,8 @@ class KaryawanController extends Controller
                 
                 //status kerja tetap
                 if($k->status_kerja == 2){
-                    $masa_kontrak = $k->masa_kontrak;
-                    $awal_kontrak =$k->tanggal_kontrak;
-                    $waktu_sekarang = date('Y-m-d');
+                    // $masa_kontrak = $k->masa_kontrak;
+                    // $awal_kontrak =$k->tanggal_kontrak;
                     $tanggal_karyawan_tetap =$k->tanggal_karyawan_tetap;
                      //tanggal akhir kontrak
                     $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
@@ -142,7 +142,7 @@ class KaryawanController extends Controller
             'karyawan'  => $karyawan,
             'divisi'    => $divisi,
             'pt'        => $perusahaan,
-            'jabatan'   => $jabatan
+            'jabatans'   => $jabatan
         ]);
     }
 
@@ -394,23 +394,23 @@ class KaryawanController extends Controller
             'jabatan_kerja_terakhir' => $request->jabatan_kerja_terakhir,
         ]);
 
-        //update umur
-        $now = Carbon::now()->isoFormat('Y-MM-D');
-        $tanggal_lahir = $karyawan->tanggal_lahir;
-        $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
-        if($request->status_kerja == 0){
-            $awal_kontrak = $karyawan->tanggal_kontrak;
-            // $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime( $awal_kontrak )));
-            $karyawan->update([
-                'umur'  => $age,
-                // 'akhir_kontrak' => $akhir_kontrak
-            ]);
-        }else{
-            $karyawan->update([
-                'umur'  => $age,
-                'akhir_kontrak' => null
-            ]);
-        }
+        // //update umur
+        // $now = Carbon::now()->isoFormat('Y-MM-D');
+        // $tanggal_lahir = $karyawan->tanggal_lahir;
+        // $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
+        // if($request->status_kerja == 0){
+        //     $awal_kontrak = $karyawan->tanggal_kontrak;
+        //     // $akhir_kontrak = date('Y-m-d', strtotime('+1 year', strtotime( $awal_kontrak )));
+        //     $karyawan->update([
+        //         'umur'  => $age,
+        //         // 'akhir_kontrak' => $akhir_kontrak
+        //     ]);
+        // }else{
+        //     $karyawan->update([
+        //         'umur'  => $age,
+        //         'akhir_kontrak' => null
+        //     ]);
+        // }
 
         //redirect
         return redirect()->route('apps.karyawan.index');
@@ -444,18 +444,24 @@ class KaryawanController extends Controller
         $this->validate($request, [
             'karyawan_id'           => 'required',
             'divisi_id'             => 'required',
-            'tgl_gabung_grup'       => 'required',
+            'pt_id'                 => 'required',
+            'jabatan_id'            => 'required',
+            // 'tgl_gabung_grup'       => 'required',
             'tgl_masuk'             => 'required',
         ]);
 
         //create riwayat organisasi
-        RiwayatOrganisasi::create([
+        $data = [
             'karyawan_id'       => $request->karyawan_id,
             'divisi_id'         => $request->divisi_id,
-            'tgl_gabung_grup'   => $request->tgl_gabung_grup,
+            'pt_id'             => $request->pt_id,
+            'jabatan_id'        => $request->jabatan_id,
+            // 'tgl_gabung_grup'   => $request->tgl_gabung_grup,
             'tgl_masuk'         => $request->tgl_masuk,
             'tgl_berakhir'      => $request->tgl_berakhir
-        ]);
+        ];
+
+        RiwayatOrganisasi::create($data);
 
         //redirect
         return redirect()->route('apps.karyawan.index');
