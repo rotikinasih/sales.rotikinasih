@@ -16,9 +16,10 @@ class CreateCatatanPelanggaranTable extends Migration
         Schema::create('catatan_pelanggaran', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('karyawan_id');
+            $table->foreign('karyawan_id')->references('id')->on('karyawan')->onDelete('cascade');
             $table->date('tanggal');
             $table->text('catatan');
-            $table->tinyInteger('tingkatan')->comment('0 = Ringan, 1 = Sedang, 2 = Berat');
+            $table->tinyInteger('tingkatan')->comment('1 = Ringan, 2 = Sedang, 4 = Serius, 3 = Berat');
             $table->timestamps();
         });
     }

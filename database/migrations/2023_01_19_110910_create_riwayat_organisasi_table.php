@@ -16,7 +16,11 @@ class CreateRiwayatOrganisasiTable extends Migration
         Schema::create('riwayat_organisasi', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('karyawan_id');
+            $table->foreign('karyawan_id')->references('id')->on('karyawan')->onDelete('cascade');
+
             $table->unsignedBigInteger('divisi_id');
+            $table->foreign('divisi_id')->references('id')->on('master_divisi')->onDelete('cascade');
+
             $table->date('tgl_gabung_grup');
             $table->date('tgl_masuk');
             $table->date('tgl_berakhir')->nullable();

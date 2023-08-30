@@ -16,7 +16,7 @@ class CreateMasterDivisiTable extends Migration
         Schema::create('master_divisi', function (Blueprint $table) {
             $table->id();
             $table->string('nama_divisi');
-            $table->tinyInteger('status')->comment('0 = Non Aktif, 1 = Aktif');
+            $table->tinyInteger('status')->comment('1 = Non Aktif, 2 = Aktif');
             $table->timestamps();
         });
     }

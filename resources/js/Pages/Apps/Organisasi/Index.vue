@@ -12,22 +12,24 @@
                         <i class="fa fa-file-excel"></i> Excel
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a  :href="`/apps/karyawan/export`" target="_blank" class="dropdown-item">Export</a>
+                        <a  :href="`/apps/list-organisasi/export`" target="_blank" class="dropdown-item">Export</a>
                         <!-- <button @click="importExcel" target="_blank" class="dropdown-item">Import</button> -->
                     </div>
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="search by division..." @keyup="handleSearch">
+                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Lengkap..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        </div>
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nama Lengkap</th>
+                                    <th scope="col">Entitas</th>
                                     <th scope="col">Divisi</th>
-                                    <th scope="col">Tanggal Gabung Group</th>
+                                    <th scope="col">Jabatan</th>
+                                    <!-- <th scope="col">Tanggal Gabung Group</th> -->
                                     <th scope="col">Tanggal Masuk</th>
                                     <th scope="col">Tanggal Berakhir</th>
                                     <!-- <th scope="col" style="text-align: center">Aksi</th> -->
@@ -37,8 +39,10 @@
                                 <tr v-for="(list, index) in lists.data" :key="index">
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
+                                    <td>{{ list.perusahaan.nama_pt}}</td>
                                     <td>{{ list.divisi.nama_divisi}}</td>
-                                    <td>{{ list.tgl_gabung_grup }}</td>
+                                    <td>{{ list.jabatan.nama_jabatan}}</td>
+                                    <!-- <td>{{ list.tgl_gabung_grup }}</td> -->
                                     <td>{{ list.tgl_masuk }}</td>
                                     <td>{{ list.tgl_berakhir }}</td>
                                     <!-- <td class="text-center">

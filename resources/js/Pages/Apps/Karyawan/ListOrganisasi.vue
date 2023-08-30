@@ -78,7 +78,7 @@
                         <input type="text" class="form-control" :value="nama" readonly>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-3">
                                 <label class="col-form-label">Entitas :</label>
                                 <VueMultiselect
@@ -87,12 +87,13 @@
                                     label="nama_pt"
                                     track-by="id"
                                     :allow-empty="false"
-                                    deselect-label="Can't remove this value"
+                                    deselect-label="..."
+                                    select-label=" "    
                                     placeholder="Pilih Entitas"
                                 ></VueMultiselect>
                             </div>
                         </div>
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-3">
                                 <label class="col-form-label">Divisi :</label>
                                 <VueMultiselect
@@ -101,25 +102,27 @@
                                     label="nama_divisi"
                                     track-by="id"
                                     :allow-empty="false"
-                                    deselect-label="Can't remove this value"
+                                    deselect-label="..."
+                                    select-label=" "
                                     placeholder="Pilih Divisi"
                                 ></VueMultiselect>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-3">
                                 <label class="col-form-label">Jabatan :</label>
                                 <VueMultiselect
                                     v-model="jabatan_id"
-                                    :options="jabatans"
+                                    :options="jabatan"
                                     label="nama_jabatan"
                                     track-by="id"
                                     :allow-empty="false"
-                                    deselect-label="Can't remove this value"
+                                    deselect-label="..."
+                                    select-label=" "    
                                     placeholder="Pilih Jabatan"
                                 ></VueMultiselect>
                             </div>
-                        </div> -->
+                        </div> 
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -185,7 +188,7 @@
             id_karyawan: String,
             pt: Array,
             divisi: Array,
-            jabatans: Array,
+            jabatan: Array,
         },
 
         setup(props) {
@@ -209,32 +212,32 @@
 
             //edit data
             const editData = (list) => {
-                // console.log(list.id)
-                // let datadiv_nya = props.divisi
+                // console.log(list.jabatan_id)
                 let dataperusahaan_nya = props.pt
-                // let datajabatan_nya = props.jabatans
-
-                // datadiv_nya.forEach(datadiv => {
-                //     if(list.divisi_id == datadiv.id){
-                //         divisi_id.value = datadiv
-                //     }
-                // })
-
                 dataperusahaan_nya.forEach(dataperusahaan => {
                     if(list.pt_id == dataperusahaan.id){
                         pt_id.value = dataperusahaan
                     }
                 })
+                
+                let datadiv_nya = props.divisi
+                datadiv_nya.forEach(datadiv => {
+                    if(list.divisi_id == datadiv.id){
+                        divisi_id.value = datadiv
+                    }
+                })
+                
+                let datajabatan_nya = props.jabatan
+                datajabatan_nya.forEach(datajbt => {
+                    console.log(datajbt.id)
+                    if(list.jabatan_id == datajbt.id){
+                        jabatan_id.value = datajbt
+                    }
+                })
 
-                // datajabatan_nya.forEach(datajabatan => {
-                //     if(list.jabatan_id == datajabatan.id){
-                //         jabatan_id.value = datajabatan
-                //     }
-                // })
+
+                
                 // tgl_gabung_grup.value = list.tgl_gabung_grup
-                // divisi_id.value = list.divisi_id
-                // jabatan_id.value = list.jabatan_id
-                pt_id.value = list.pt_id
                 tgl_masuk.value = list.tgl_masuk
                 tgl_berakhir.value = list.tgl_berakhir
                 id_list.value = list.id

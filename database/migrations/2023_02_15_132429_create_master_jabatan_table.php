@@ -16,7 +16,7 @@ class CreateMasterJabatanTable extends Migration
         Schema::create('master_jabatan', function (Blueprint $table) {
             $table->id();
             $table->string('nama_jabatan');
-            $table->tinyInteger('status')->comment('0 = Non Aktif, 1 = Aktif');
+            $table->tinyInteger('status')->comment('1 = Non Aktif, 2 = Aktif');
             $table->timestamps();
         });
     }

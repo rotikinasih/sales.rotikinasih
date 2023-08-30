@@ -7,6 +7,9 @@ use App\Models\CatatanPelanggaran;
 use App\Models\Karyawan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Exports\PelanggaranExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class CatatanPelanggaranController extends Controller
 {
@@ -34,7 +37,7 @@ class CatatanPelanggaranController extends Controller
         //get list
         $lists = CatatanPelanggaran::with('karyawan')->whereHas('karyawan', function($q) use($search){
             $q->where('catatan', 'like', '%'. $search . '%');
-            })->latest()->paginate(10)->onEachSide(1);
+            })->orderBy('tanggal', 'DESC')->latest()->paginate(10)->onEachSide(1);
 
             // dd($lists);
         // $nama_karyawan = Karyawan::where('id', $id)->first()->nama_lengkap;
@@ -75,5 +78,15 @@ class CatatanPelanggaranController extends Controller
         $ubahData->update($data_pelanggaran);
         //redirect
         return redirect()->route('apps.pelanggaran.index', ['id' => $request->karyawan_id]);
+    }
+
+    public function export(){
+        $tanggal = date("d");
+        $bulan = date("M");
+        $tahun = date("Y");
+        $jam = date("H:i:s");
+        $response = Excel::download(new PelanggaranExport, 'Daftar Pelanggaran '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
+        ob_end_clean();
+        return $response;
     }
 }

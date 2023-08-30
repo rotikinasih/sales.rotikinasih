@@ -18,4 +18,11 @@ class MasterPerusahaan extends Model
     {
         return $this->hasMany(Karyawan::class);
     }
+
+    public function perusahaan()
+    {
+        return $this->hasMany(MasterPerusahaan::class);
+    }
+
+    
 }

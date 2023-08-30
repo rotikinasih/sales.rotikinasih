@@ -20,6 +20,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
+use PDF;
 
 class KaryawanController extends Controller
 {
@@ -416,6 +417,23 @@ class KaryawanController extends Controller
         return redirect()->route('apps.karyawan.index');
     }
 
+    // public function detail(Karyawan $karyawan)
+    // {
+    //     //get PT
+    //     $perusahaan = MasterPerusahaan::where('status', 1)->get();
+    //     //get divisi
+    //     $divisi = MasterDivisi::where('status', 1)->get();
+    //     //get data master jabatan
+    //     $jabatan = MasterJabatan::where('status', 1)->get();
+
+    //     return Inertia::render('Apps/Karyawan/Edit', [
+    //         'karyawan'          => $karyawan,
+    //         'perusahaan'        => $perusahaan,
+    //         'divisi'            => $divisi,
+    //         'jabatan'           => $jabatan
+    //     ]);
+    // }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -548,5 +566,14 @@ class KaryawanController extends Controller
         $response = Excel::download(new KaryawanFormatExport, 'Format Karyawan '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
         ob_end_clean();
         return $response;
+    }
+
+    public function downloadPDF($id){
+        $data = [
+            'detail_karyawan' => Karyawan::findOrFail($id)
+        ]; // Any data you want to pass to the view
+        $pdf = PDF::loadView('pdf.detail_karyawan', $data);
+
+        return $pdf->download('detail_karyawan.pdf');
     }
 }

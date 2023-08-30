@@ -40,7 +40,7 @@ class CreateKaryawanTable extends Migration
             $table->tinyInteger('hubungan_keluarga')->comment('1 = Suami/Istri 2 = Ayah, 3 = Ibu, 4 = Kakak/Adik, 5 = Paman/Bibi, 6 = Kakek/Nenek')->nullable();
             $table->tinyInteger('status_pernikahan')->comment('1 = Belum Menikah, 2 = Sudah Menikah, 3 = Janda, 4 = Duda')->nullable();
             $table->tinyInteger('status_keluarga')->comment('1 = Kepala Keluarga, 2 = Ibu, 3 = Anak ke 1, 4 = Anak ke 2, 5 = Anak ke 3, 6 = Lainya')->nullable();
-            $table->tinyInteger('jenis_sosmed')->comment('1 = IG, 2 = FB, 3 = tiktok, 4 = youtube, 4 = Lainya')->nullable();            
+            $table->tinyInteger('jenis_sosmed')->comment('1 = IG, 2 = FB, 3 = tiktok, 4 = youtube, 5 = twitter')->nullable();            
             $table->string('nama_sosmed')->nullable();
             
             //data di perusahaan
@@ -67,7 +67,7 @@ class CreateKaryawanTable extends Migration
             $table->string('no_bpjs_ketenagakerjaan')->nullable();
             $table->string('nama_bank')->nullable();
             $table->integer('rekening')->nullable();
-            $table->tinyInteger('ukuran_baju')->comment('0 = S, 1 = M, 2 = L, 3 = XL, 4 = XXL, 5 = Jumbo')->nullable();
+            $table->tinyInteger('ukuran_baju')->comment('1 = S, 2 = M, 3 = L, 4 = XL, 5 = XXL, 6 = Jumbo')->nullable();
             $table->string('pengalaman_kerja_terakhir')->nullable();
             $table->string('jabatan_kerja_terakhir')->nullable();
             $table->string('foto')->nullable();

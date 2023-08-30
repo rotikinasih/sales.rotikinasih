@@ -64,6 +64,9 @@ Route::prefix('apps')->group(function() {
         //route karyawan show detail
         Route::get('/karyawan/detail', [App\Http\Controllers\Apps\KaryawanController::class, 'detail'])->name('apps.karyawan.detail');
 
+        //route download pdf detail karyawan
+        Route::get('/karyawan/download-pdf/{id}', [App\Http\Controllers\Apps\KaryawanController::class, 'downloadPDF'])->name('apps.karyawan.downloadPDF');
+
         //route storeKarir
         Route::post('/karyawan/storeKarir', [App\Http\Controllers\Apps\KaryawanController::class, 'storeKarir'])->name('apps.karyawan.storeKarir');
 
@@ -79,6 +82,9 @@ Route::prefix('apps')->group(function() {
         //route update listKarir
         Route::put('/karyawan/{id}/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'update'])->name('apps.organisasi.update');
 
+        //route organisasi export excel
+        Route::get('/list-organisasi/export', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'export'])->name('apps.organisasi.export');
+
         //route listPelanggaran
         Route::get('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'index'])->name('apps.pelanggaran.index');
 
@@ -88,6 +94,8 @@ Route::prefix('apps')->group(function() {
         //route update listPelanggaran
         Route::put('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.pelanggaran.update');
 
+         //route organisasi export excel
+        Route::get('/list-pelanggaran/export', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'export'])->name('apps.pelanggaran.export');
 
         //route karyawan
         Route::resource('/karyawan', App\Http\Controllers\Apps\KaryawanController::class, [

@@ -25,7 +25,7 @@
                         {{ session.success }}
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan nama karyawan, nomor induk karyawan..." style="width: 0%" @keyup="handleSearch">
+                        <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Lengkap, Nomor Induk Karyawan..." style="width: 0%" @keyup="handleSearch">
                         <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                     </div>
                     <div class="table-responsive">
@@ -61,10 +61,6 @@
                                         <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
                                         <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px" title="Delete" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
                                         <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-info"></i></a>
-                                        <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Add Historical Organization" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
-                                        <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-exclamation-triangle"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
                                         <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Add Historical Organization" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>
                                         <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
                                         <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-exclamation-triangle"></i></a>
@@ -108,6 +104,7 @@
             <modalScroll :show="showModalKarirDetail" @close="showModalKarirDetail = false">
                 <template #header>
                     <h5 class="modal-title">Detail Data Karyawan</h5>
+                    <a :href="`/apps/karyawan/download-pdf/${id}`" target="_blank" type="button" class="btn btn-danger" style="float: right; margin-right: 0px;"><i class='far fa-file-pdf'></i>Download PDF</a>
                 </template>
                 <template #body>
                     <div class="mb-3">
@@ -385,8 +382,7 @@
                     </div>
                 </template>
                 <template #footer>
-                    <button
-                        class="btn btn-success m-2" @click="tutupModalDetail">Keluar</button>
+                    <button class="btn btn-success" @click="tutupModalDetail" style="float: right; margin-right: 0px;">Keluar</button>
                 </template>
             </modalScroll>
         </Teleport>
@@ -603,6 +599,12 @@
             jabatans: Array,
             session: Object,
         },
+
+        // methods: {
+        //     downloadPDF() {
+        //         Inertia.get('/karyawan/download-pdf');
+        //     }
+        // },
         
         setup() {
             const showModalKarirDetail = ref(false);
@@ -611,6 +613,7 @@
             const showModalImport = ref(false);
 
             //detail karyawandata pribadi
+            const id = ref();
             const nama_lengkap = ref();
             const nama_panggilan = ref();
             const tempat_lahir = ref();
@@ -778,6 +781,7 @@
 		        // var age = Math.floor((today-lahir) / (365.25 * 24 * 60 * 60 * 1000));
                 
                 //detail data pribadi
+                id.value = kar['id']
                 nama_lengkap.value = kar['nama_lengkap']
                 nama_panggilan.value = kar['nama_panggilan']
                 tempat_lahir.value = kar['tempat_lahir']
@@ -905,7 +909,7 @@
             //return
             return {
                 search, handleSearch, destroy,
-                detail, showModalKarir, tutupModalDetail, showModalKarirDetail, addKarir, tutupModal,
+                detail, showModalKarir, tutupModalDetail, showModalKarirDetail, addKarir, tutupModal, id,
                 nama_lengkap, nama_panggilan, nik_karyawan, riwayat_penyakit, status_kerja, divisi_id, umur, akhir_kontrak,
                 pt_id, foto, tanggal_masuk, tanggal_kontrak, no_kk, nik_penduduk, kode_pos, grade, no_npwp, jenis_sosmed, nama_sosmed,
                 jabatan, no_telp, no_wa, no_bpjs_kesehatan, no_bpjs_ketenagakerjaan, gol_darah,
