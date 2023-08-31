@@ -734,7 +734,7 @@
             ];
 
             const daftar_status = [
-            { name: 'Teguran Lisan', value: 1 },
+                { name: 'Teguran Lisan', value: 1 },
                 { name: 'SP 1', value: 2 },
                 { name: 'SP 2', value: 3 },
                 { name: 'SP 3', value: 4 },

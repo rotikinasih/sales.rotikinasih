@@ -107,6 +107,21 @@ Route::prefix('apps')->group(function() {
             ]
         ]);
 
+        //route resign
+        Route::resource('/resign', App\Http\Controllers\Apps\ResignController::class, [
+            'names' => [
+                'index' => 'apps.resign.index'
+            ]
+        ]);
+
+        //route phk
+        Route::resource('/phk', App\Http\Controllers\Apps\PHKController::class, [
+            'names' => [
+                'index' => 'apps.phk.index'
+            ]
+        ]);
+
+
         //route permission
         Route::get('/permissions', App\Http\Controllers\Apps\PermissionController::class)->name('apps.permissions');
 

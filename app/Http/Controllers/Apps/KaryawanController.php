@@ -14,6 +14,7 @@ use App\Models\MasterPerusahaan;
 use App\Models\RiwayatOrganisasi;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -574,6 +575,10 @@ class KaryawanController extends Controller
         ]; // Any data you want to pass to the view
         $pdf = PDF::loadView('pdf.detail_karyawan', $data);
 
-        return $pdf->download('detail_karyawan.pdf');
+        // return $pdf->download('detail_karyawan.pdf');
+        return Response::make($pdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="detail_karyawan.pdf"'
+        ]);
     }
 }
