@@ -1,13 +1,13 @@
 <template>
     <Head>
-        <title>Karyawan PHK</title>
+        <title>Karyawan Resign</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
-                    <h5>Daftar PHK</h5>
+                    <h5>Daftar Resign</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the <code> company </code> data</span>  -->
                 </div>
                 <div class="card-block table-border-style">
@@ -22,24 +22,24 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Nama Karyawan</th>
-                                    <th>Penyebab PHK</th>
-                                    <th>Tabggal PHK</th>
+                                    <th>Penyebab Resign</th>
+                                    <th>Tabggal Resign</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(phk, index) in karyawan_phk.data" :key="index">
+                                <tr v-for="(resign, index) in karyawan_resign.data" :key="index">
                                     <td>{{ index + 1 }}</td>
-                                    <td>{{ phk.karyawan.nama_lengkap }}</td>
-                                    <td v-if="(phk.penyebab_phk == 1)">Affair</td>
-                                    <td v-if="(phk.penyebab_phk == 2)">Fraud</td>
-                                    <td>{{ phk.tanggal_phk }}</td>
+                                    <td>{{ resign.karyawan.nama_lengkap }}</td>
+                                    <td v-if="(resign.penyebab_resign == 1)">Affair</td>
+                                    <td v-if="(resign.penyebab_resign == 2)">Fraud</td>
+                                    <td>{{ resign.tanggal_resign }}</td>
                                     <td>
-                                        <a @click="editData(phk)" v-if="hasAnyPermission(['apps.phk.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="editData(resign)" v-if="hasAnyPermission(['apps.resign.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
-                                <tr v-if="karyawan_phk.data[0] == undefined">
+                                <tr v-if="karyawan_resign.data[0] == undefined">
                                     <td colspan="4" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
@@ -50,10 +50,10 @@
                         </table>
                         <div class="row" style="max-width:100%; overflow-x:hidden">
                             <div class="col-md-4">
-                                <label v-if="karyawan_phk.data[0] != undefined" align="start">Showing {{ karyawan_phk.from }} to {{ karyawan_phk.to }} of {{ karyawan_phk.total }} items</label>
+                                <label v-if="karyawan_resign.data[0] != undefined" align="start">Showing {{ karyawan_resign.from }} to {{ karyawan_resign.to }} of {{ karyawan_resign.total }} items</label>
                             </div>
                             <div class="col-md-8">
-                                <Pagination v-if="karyawan_phk.data[0] != undefined" :links="karyawan_phk.links" align="end"/>
+                                <Pagination v-if="karyawan_resign.data[0] != undefined" :links="karyawan_resign.links" align="end"/>
                             </div>
                         </div>
                     </div>
@@ -81,20 +81,20 @@
                         ></VueMultiselect>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Penyebab PHK :</label>
+                        <label class="col-form-label">Penyebab Resign :</label>
                         <VueMultiselect
-                            v-model="penyebab_phk"
-                            :options="data_penyebab_phk"
+                            v-model="penyebab_resign"
+                            :options="data_penyebab_resign"
                             label="name"
                             track-by="value"
                             :allow-empty="false"
                             deselect-label="Can't remove this value"
-                            placeholder="Pilih Penyebab PHK"
+                            placeholder="Pilih Penyebab resign"
                         ></VueMultiselect>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Tanggal PHK :</label>
-                        <input type="date" class="form-control" placeholder="Masukkan Tanggal THK" v-model="tanggal_phk" required>
+                        <label class="col-form-label">Tanggal Resign :</label>
+                        <input type="date" class="form-control" placeholder="Masukkan Tanggal THK" v-model="tanggal_resign" required>
                     </div>
                 </template>
                 <template #footer>
@@ -142,7 +142,7 @@
         },
         //props
         props:{
-            karyawan_phk: Object,
+            karyawan_resign: Object,
             karyawan: Array,
         },
         //composition API
@@ -155,13 +155,13 @@
             const id = ref(null);
             const nama_lengkap = ref();
             const karyawan_id = ref();
-            const penyebab_phk = ref();
-            const tanggal_phk = ref();
+            const penyebab_resign = ref();
+            const tanggal_resign = ref();
             //define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
             //define method search
 
-            const data_penyebab_phk = [
+            const data_penyebab_resign = [
                 { name: 'Affair', value: 1 },
                 { name: 'Fraud', value: 2 }
             ];
@@ -170,7 +170,7 @@
             
 
             const handleSearch = () => {
-                Inertia.get('/apps/phk', {
+                Inertia.get('/apps/resign', {
                     //send params "search" with value from state "search"
                     search: search.value,
                 });
@@ -191,38 +191,38 @@
                 if(updateSubmit.value == true){
                     updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Tambah PHK'
+                judul.value = 'Tambah Resign'
                 id.value = null
                 karyawan_id.value = null
-                penyebab_phk.value = null
-                tanggal_phk.value = null
+                penyebab_resign.value = null
+                tanggal_resign.value = null
                 tampilModal()
             }
             //method edit show modal
-            const editData = (phk) => {
+            const editData = (resign) => {
                 // console.log(data_karyawan);
                 
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
 
-                // //penyebab_phk
+                // //penyebab_resign
                 // data_karyawan.forEach(function (data) {
-                //     if(data.value == phk.karyawan_id){
+                //     if(data.value == resign.karyawan_id){
                 //         karyawan_id.value = data
                 //     }
                 // })
 
-                  //penyebab_phk
-                data_penyebab_phk.forEach(function (data) {
-                    if(data.value == phk.penyebab_phk){
-                        penyebab_phk.value = data
+                  //penyebab_resign
+                data_penyebab_resign.forEach(function (data) {
+                    if(data.value == resign.penyebab_resign){
+                        penyebab_resign.value = data
                     }
                 })
-                judul.value = 'Edit Entitas'
-                id.value = phk.id
-                karyawan_id.value = phk.karyawan_id
-                tanggal_phk.value = phk.tanggal_phk
+                judul.value = 'Edit Resign Karyawan'
+                id.value = resign.id
+                karyawan_id.value = resign.karyawan_id
+                tanggal_resign.value = resign.tanggal_resign
                 tampilModal()
             }
 
@@ -242,23 +242,23 @@
 
             //method update data
             const updateData = () => {
-                if(karyawan_id.value == null || penyebab_phk.value == null || tanggal_phk.value == null){
+                if(karyawan_id.value == null || penyebab_resign.value == null || tanggal_resign.value == null){
                     tutupModal();
                     peringatan();
                 }else{
                     //send data to server
-                    Inertia.put(`/apps/phk/${id.value}`, {
+                    Inertia.put(`/apps/resign/${id.value}`, {
                         //data
                         karyawan_id: karyawan_id.value.id,
-                        tanggal_phk: tanggal_phk.value.value,
-                        penyabab_phk: penyabab_phk.value
+                        tanggal_resign: tanggal_resign.value.value,
+                        penyabab_resign: penyabab_resign.value
                     }, {
                         onSuccess: () => {
                             tutupModal()
                             //show success alert
                             Swal.fire({
                                 title: 'Sukses!',
-                                text: 'Data PHK berhasil diubah.',
+                                text: 'Data resign berhasil diubah.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000
@@ -270,17 +270,17 @@
 
             //method "storeData"
             const storeData = () => {
-                if(karyawan_id.value == null || penyebab_phk.value == null || tanggal_phk.value == null){
+                if(karyawan_id.value == null || penyebab_resign.value == null || tanggal_resign.value == null){
                     tutupModal();
                     peringatan();
                 }
                 else{
                     //send data to server
-                    Inertia.post('/apps/phk', {
+                    Inertia.post('/apps/resign', {
                         //data
                         karyawan_id: karyawan_id.value.id,
-                        penyebab_phk: penyebab_phk.value.value,
-                        tanggal_phk: tanggal_phk.value,
+                        penyebab_resign: penyebab_resign.value.value,
+                        tanggal_resign: tanggal_resign.value,
                         
                     }, {
                         onSuccess: () => {
@@ -288,7 +288,7 @@
                             //show success alert
                             Swal.fire({
                                 title: 'Success!',
-                                text: 'Data PHK berhasil disimpan.',
+                                text: 'Data Resign berhasil disimpan.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000
@@ -305,7 +305,7 @@
                 editData,
                 judul,
                 updateSubmit,
-                nama_lengkap, id, data_penyebab_phk, karyawan_id, penyebab_phk, tanggal_phk,
+                nama_lengkap, id, data_penyebab_resign, karyawan_id, penyebab_resign, tanggal_resign,
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan
             }
