@@ -37,6 +37,76 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Kota Penugasan</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKotaPenugasan" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Jenis Kelamin</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartJenisKelamin" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Status Kerja</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartStatusKerja" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Komposisi Generasi</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKomposisiGenerasi" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Komposisi Peran</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKomposisiPeran" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Pendidikan</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartPendidikan" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Status Pernikahan</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartStatusPernikahan" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
                         <h5>Karyawan Baru di Bulan ini</h5>
                     </div>
                     <div class="card-block px-0 py-3">
@@ -196,7 +266,7 @@
                         </div>
                         <h2 class="mt-3 f-w-300">{{ termuda.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
                         <h6 class="text-muted mt-4 mb-0">{{ termuda.nama_lengkap }}</h6>
-                        <i class="fab fa-angellist text-c-purple f-50"></i>
+                        <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
                     </div>
                     <div class="card-block" v-else>
                         <div class="row align-items-center justify-content-center">
@@ -223,7 +293,34 @@
                         </div>
                         <h2 class="mt-3 f-w-300">{{ tertua.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
                         <h6 class="text-muted mt-4 mb-0">{{ tertua.nama_lengkap }}</h6>
-                        <i class="fab fa-angellist text-c-purple f-50"></i>
+                        <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
+                    </div>
+                    <div class="card-block" v-else>
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col">
+                                <h5 class="m-0">Oldest Employee</h5>
+                            </div>
+                        </div>
+                        <span class="text-muted mt-4 mb-0">
+                            <br>
+                            <i class="fa fa-file-excel fa-5x"></i><br><br>
+                            Data Kosong 
+                        </span>
+                    </div>
+                </div>
+                <div class="card card-event">
+                    <div class="card-block" v-if="terlama != undefined">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col">
+                                <h5 class="m-0">Karyawan Terlama</h5>
+                            </div>
+                            <div class="col-auto">
+                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ terlama.nik_karyawan }}</label>
+                            </div>
+                        </div>
+                        <h3 class="mt-3 f-w-300">{{ terlama.masa_kerja_tahun }}<sub class="text-muted f-14"></sub></h3>
+                        <h6 class="text-muted mt-4 mb-0">{{ terlama.nama_lengkap }}</h6>
+                        <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
                     </div>
                     <div class="card-block" v-else>
                         <div class="row align-items-center justify-content-center">
@@ -275,6 +372,7 @@
             data_pelanggaran: Object,
             tertua: Object,
             termuda: Object,
+            terlama: Object,
             //chart berdasarkan PT
             pt: Array,
             total_pt: Array,
@@ -284,10 +382,39 @@
             //chart berdasarkan Jabatan
             jabatan: Array,
             total_jabatan: Array,
+
+             //chart berdasarkan kota penugasan
+            kota_penugasan: Array,
+            total_kota_penugasan: Array,
+
+            //chart berdasarkan jenis kelamin
+            jenis_kelamin: Array,
+            total_jenis_kelamin: Array,
+
+            //chart berdasarkan status kerja
+            status_kerja: Array,
+            total_status_kerja: Array,
+
+            //chart berdasarkan komposisi gen
+            komposisi_generasi: Array,
+            total_komposisi_generasi: Array,
+
+            
+            //chart berdasarkan komposisi peran
+            komposisi_peran: Array,
+            total_komposisi_peran: Array,
+
+            //chart berdasarkan pendidikan
+            pendidikan: Array,
+            total_pendidikan: Array,
+
+             //chart berdasarkan status pernikahan
+            status_pernikahan: Array,
+            total_status_pernikahan: Array,
         },
         setup(props){
              //method random color
-             function randomBackgroundColor(length) {
+            function randomBackgroundColor(length) {
                 var data = [];
                 for (var i = 0; i < length; i++) {
                     data.push(getRandomColor());
@@ -346,11 +473,83 @@
                 }, ],
             };
 
+            //chart karyawan berdasarkan kota penugasan
+            const chartKotaPenugasan = {
+                labels: props.kota_penugasan,
+                datasets: [{
+                    data: props.total_kota_penugasan,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
+            //chart karyawan berdasarkan jenis kelamin
+            const chartJenisKelamin = {
+                labels: props.jenis_kelamin,
+                datasets: [{
+                    data: props.total_jenis_kelamin,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
+            
+            //chart karyawan berdasarkan jenis kelamin
+            const chartStatusKerja = {
+                labels: props.status_kerja,
+                datasets: [{
+                    data: props.total_status_kerja,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
+        
+            //chart karyawan berdasarkan komposisi generasi
+            const chartKomposisiGenerasi = {
+                labels: props.komposisi_generasi,
+                datasets: [{
+                    data: props.total_komposisi_generasi,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
+            //chart karyawan berdasarkan komposisi peran
+            const chartKomposisiPeran = {
+                labels: props.komposisi_peran,
+                datasets: [{
+                    data: props.total_komposisi_peran,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
+            //chart karyawan berdasarkan pendidikan
+            const chartPendidikan = {
+                labels: props.pendidikan,
+                datasets: [{
+                    data: props.total_pendidikan,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
+            //chart karyawan berdasarkan komposisi peran
+            const chartStatusPernikahan = {
+                labels: props.status_pernikahan,
+                datasets: [{
+                    data: props.total_status_pernikahan,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
             return{
                 options,
                 chartKaryawanPT,
                 chartKaryawanDivisi,
-                chartKaryawanJabatan
+                chartKaryawanJabatan,
+                chartKotaPenugasan,
+                chartJenisKelamin,
+                chartStatusKerja,
+                chartKomposisiGenerasi,
+                chartKomposisiPeran,
+                chartPendidikan,
+                chartStatusPernikahan,
             }
         }
     }

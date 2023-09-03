@@ -413,7 +413,7 @@
             ];
 
             const status_pernikahan = [
-                { name: 'Belom Menikah', value: 1 },
+                { name: 'Belum Menikah', value: 1 },
                 { name: 'Menikah', value: 2 },
                 { name: 'Janda', value: 3 },
                 { name: 'Duda', value: 4 },

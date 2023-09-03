@@ -73,6 +73,219 @@ class DashboardController extends Controller
             $total_jabatan[]  = "";
         }
 
+        $chart_kota_penugasan = DB::table('karyawan')
+        ->addSelect(DB::raw('kota_penugasan as title, COUNT(*) as total'))
+        ->groupBy('kota_penugasan')
+        ->orderBy('total', 'DESC')
+        ->get();
+        if(count($chart_kota_penugasan)) {
+            foreach ($chart_kota_penugasan as $data) {
+                $kota_penugasan[] = $data->title;
+                $total_kota_penugasan[]   = (int)$data->total;
+            }
+        }else {
+            $kota_penugasan[]   = "";
+            $total_kota_penugasan[]  = "";
+        }
+
+        $chart_jenis_kelamin = DB::table('karyawan')
+        ->addSelect(DB::raw('jenis_kelamin as title, COUNT(*) as total'))
+        ->groupBy('jenis_kelamin')
+        ->orderBy('total', 'DESC')
+        ->get();
+        if(count($chart_jenis_kelamin)) {
+            foreach ($chart_jenis_kelamin as $key => $data) {
+                if($data->title == 1){                    
+                    $jenis_kelamin[$key] = 'Laki-laki';
+                }
+
+                if($data->title == 2){
+                    $jenis_kelamin[$key] = 'Perempuan';
+                }
+
+                $total_jenis_kelamin[]   = (int)$data->total;
+            }
+        }else {
+            $jenis_kelamin[]   = "";
+            $total_jenis_kelamin[]  = "";
+        }
+
+        $chart_status_kerja = DB::table('karyawan')
+        ->addSelect(DB::raw('status_kerja as title, COUNT(*) as total'))
+        ->groupBy('status_kerja')
+        ->orderBy('total', 'DESC')
+        ->get();
+        if(count($chart_status_kerja)) {
+            foreach ($chart_status_kerja as $key => $data) {
+                if($data->title == 1){
+                    $status_kerja[$key] = 'Kontrak';
+                }
+
+                if($data->title == 2){
+                    $status_kerja[$key] = 'Tetap';
+                }
+
+                if($data->title == 3){
+                    $status_kerja[$key] = 'Training';
+                }
+                
+                $total_status_kerja[] = (int)$data->total;
+            }
+        }else {
+            $status_kerja[]   = "";
+            $total_status_kerja[]  = "";
+        }
+
+        $chart_komposisi_generasi = DB::table('karyawan')
+        ->addSelect(DB::raw('komposisi_generasi as title, COUNT(*) as total'))
+        ->groupBy('komposisi_generasi')
+        ->orderBy('total', 'DESC')
+        ->get();
+        if(count($chart_komposisi_generasi)) {
+            foreach ($chart_komposisi_generasi as $data) {
+                $komposisi_generasi[] = $data->title;
+                $total_komposisi_generasi[]   = (int)$data->total;
+            }
+        }else {
+            $komposisi_generasi[]   = "";
+            $total_komposisi_generasi[]  = "";
+        }
+
+        $chart_komposisi_peran = DB::table('karyawan')
+        ->addSelect(DB::raw('komposisi_peran as title, COUNT(*) as total'))
+        ->groupBy('komposisi_peran')
+        ->orderBy('total', 'DESC')
+        ->get();
+        if(count($chart_komposisi_peran)) {
+            foreach ($chart_komposisi_peran as $key => $data) {
+                if($data->title == 1){                    
+                    $komposisi_peran[$key] = 'Support';
+                }
+
+                if($data->title == 2){
+                    $komposisi_peran[$key] = 'Core';
+                }
+
+                $total_komposisi_peran[]   = (int)$data->total;
+            }
+        }else {
+            $komposisi_peran[]   = "";
+            $total_komposisi_peran[]  = "";
+        }
+
+        
+        $chart_pendidikan = DB::table('karyawan')
+        ->addSelect(DB::raw('pendidikan as title, COUNT(*) as total'))
+        ->groupBy('pendidikan')
+        ->orderBy('total', 'DESC')
+        ->get();
+        if(count($chart_pendidikan)) {
+            foreach ($chart_pendidikan as $key => $data) {
+                if($data->title == 1){                    
+                    $pendidikan[$key] = 'SD';
+                }
+                if($data->title == 2){
+                    $pendidikan[$key] = 'SMP';
+                }
+                if($data->title == 3){
+                    $pendidikan[$key] = 'SMA';
+                }
+                if($data->title == 4){
+                    $pendidikan[$key] = 'D1';
+                }
+                if($data->title == 5){
+                    $pendidikan[$key] = 'D2';
+                }
+                if($data->title == 6){
+                    $pendidikan[$key] = 'D3';
+                }
+                if($data->title == 7){
+                    $pendidikan[$key] = 'D4';
+                }
+                if($data->title == 8){
+                    $pendidikan[$key] = 'S1';
+                }
+                if($data->title == 9){
+                    $pendidikan[$key] = 'S2';
+                }
+                if($data->title == 10){
+                    $pendidikan[$key] = 'S3';
+                }
+                $total_pendidikan[]   = (int)$data->total;
+            }
+        }else {
+            $pendidikan[]   = "";
+            $total_pendidikan[]  = "";
+        }
+
+        $chart_status_pernikahan = DB::table('karyawan')
+        ->addSelect(DB::raw('status_pernikahan as title, COUNT(*) as total'))
+        ->groupBy('status_pernikahan')
+        ->orderBy('total', 'DESC')
+        ->get();
+        if(count($chart_status_pernikahan)) {
+            foreach ($chart_status_pernikahan as $key => $data) {
+                if($data->title == 1){                    
+                    $status_pernikahan[$key] = 'Belum Menikah';
+                }
+
+                if($data->title == 2){
+                    $status_pernikahan[$key] = 'Menikah';
+                }
+
+                if($data->title == 3){
+                    $status_pernikahan[$key] = 'Janda';
+                }
+                
+                if($data->title == 4){
+                    $status_pernikahan[$key] = 'Duda';
+                }
+
+                $total_status_pernikahan[]   = (int)$data->total;
+            }
+        }else {
+            $status_pernikahan[]   = "";
+            $total_status_pernikahan[]  = "";
+        }
+
+        // $chart_umur = DB::table('karyawan')
+        // ->addSelect(DB::raw('umur as title, COUNT(*) as total'))
+        // ->groupBy('umur')
+        // ->orderBy('total', 'DESC')
+        // ->get();
+        // if(count($chart_umur)) {
+        //     foreach ($chart_umur as $key => $data) {
+        //         if($data->title >= 17 && $data->title <= 20){                    
+        //             $umur[$key] = '17-20';
+        //             $total_umur[]   = (int)$data->total;
+        //         }
+
+        //         if($data->title >= 21 && $data->title <= 30){
+        //             $umur[$key] = '21-30';
+        //             $total_umur[]   = (int)$data->total;
+        //         }
+
+        //         if($data->title >= 31 && $data->title <= 40){
+        //             $umur[$key] = '31-40';
+        //             $total_umur[]   = (int)$data->total;
+        //         }
+                
+        //         if($data->title >= 41 && $data->title <= 50){
+        //             $umur[$key] = '40-50';
+        //             $total_umur[]   = (int)$data->total;
+        //         }
+
+        //         if($data->title > 50){
+        //             $umur[$key] = '>50';
+        //             $total_umur[]   = (int)$data->total;
+        //         }
+
+        //     }
+        // }else {
+        //     $umur[]   = "";
+        //     $total_umur[]  = "";
+        // }
+        // dd($umur);
         //menampilkan data 1 bulan karyawan baru
         $bulan_lalu = date('Y-m-d', strtotime('-1 months'));
         $karyawan_baru = Karyawan::where('tanggal_masuk', '>=', $bulan_lalu)->latest()->paginate(10)->onEachSide(1);
@@ -96,20 +309,36 @@ class DashboardController extends Controller
 
         //menampilkan data karyawan tertua
         $tertua = DB::table('karyawan')->where('umur', DB::raw("(select max(`umur`) from karyawan)"))->first();
+        $terlama = DB::table('karyawan')->where('masa_kerja_tahun', DB::raw("(select max(`masa_kerja_tahun`) from karyawan)"))->first();
 
         return Inertia::render('Apps/Dashboard/Index',[
-            'hari_ini'          => $day,
-            'karyawan_baru'     => $karyawan_baru,
-            'karyawan_kontrak'  => $karyawan_kontrak,
-            'data_pelanggaran'  => $data_pelanggaran,
-            'termuda'           => $termuda,
-            'tertua'            => $tertua,
-            'pt'                => $pt,
-            'total_pt'          => $total_pt,
-            'divisi'            => $divisi,
-            'total_divisi'      => $total_divisi,
-            'jabatan'           => $jabatan,
-            'total_jabatan'     => $total_jabatan,
+            'hari_ini'                  => $day,
+            'karyawan_baru'             => $karyawan_baru,
+            'karyawan_kontrak'          => $karyawan_kontrak,
+            'data_pelanggaran'          => $data_pelanggaran,
+            'termuda'                   => $termuda,
+            'tertua'                    => $tertua,
+            'terlama'                   => $terlama,
+            'pt'                        => $pt,
+            'total_pt'                  => $total_pt,
+            'divisi'                    => $divisi,
+            'total_divisi'              => $total_divisi,
+            'jabatan'                   => $jabatan,
+            'total_jabatan'             => $total_jabatan,
+            'kota_penugasan'            => $kota_penugasan,
+            'total_kota_penugasan'      => $total_kota_penugasan,
+            'jenis_kelamin'             => $jenis_kelamin,
+            'total_jenis_kelamin'       => $total_jenis_kelamin,
+            'status_kerja'              => $status_kerja,
+            'total_status_kerja'        => $total_status_kerja,
+            'komposisi_generasi'        => $komposisi_generasi,
+            'total_komposisi_generasi'  => $total_komposisi_generasi,
+            'komposisi_peran'           => $komposisi_peran,
+            'total_komposisi_peran'     => $total_komposisi_peran,
+            'pendidikan'                => $pendidikan,
+            'total_pendidikan'          => $total_pendidikan,
+            'status_pernikahan'         => $status_pernikahan,
+            'total_status_pernikahan'   => $total_status_pernikahan,
         ]);
     }
-}
+}   

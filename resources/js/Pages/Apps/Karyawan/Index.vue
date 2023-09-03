@@ -47,7 +47,7 @@
                                     <td style="text-align: center;">{{ index + 1 }}</td>
                                     <td>{{ kar.nama_lengkap }}</td>
                                     <td>{{ kar.nik_karyawan }}</td>
-                                    <td v-if="(kar.perusahaan == null)"> </td>
+                                    <td v-if="(kar.perusahaan == null)"> </td> 
                                     <td v-else>{{ kar.perusahaan.nama_pt}}</td>
                                     <td v-if="(kar.divisi == null)"> </td>
                                     <td v-else>{{ kar.divisi.nama_divisi}}</td>                                    
@@ -56,7 +56,7 @@
                                     <td v-if="(kar.status_kerja == null)"></td>
                                     <td v-else-if="(kar.status_kerja == 1)" style="text-align: center;"><b style="color: rgb(250, 213, 4);">Kontrak</b></td>
                                     <td v-else-if="(kar.status_kerja == 2)" style="text-align: center;"><b style="color: rgb(45, 250, 4);">Tetap</b></td>
-                                    <td v-else><a class="label theme-bg3 text-white f-12" style="border-radius:10px; text-align: center;">Training</a></td>
+                                    <td v-else style="text-align: center;"><b style="color: rgb(160, 4, 250);">Training</b></td>
                                     <td class="text-center">
                                         <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
                                         <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px" title="Delete" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
@@ -226,7 +226,7 @@
                                         <div class="form-group mb-3">
                                             <label class="col-form-label">Status Pernikahan :</label>
                                             <input v-if="status_pernikahan == null" type="text" class="form-control" value=" " readonly>
-                                            <input v-if="status_pernikahan == 1" type="text" class="form-control" value="Belom Menikah" readonly>
+                                            <input v-if="status_pernikahan == 1" type="text" class="form-control" value="Belum Menikah" readonly>
                                             <input v-if="status_pernikahan == 2" type="text" class="form-control" value="Menikah" readonly>
                                             <input v-if="status_pernikahan == 3" type="text" class="form-control" value="Janda" readonly>
                                             <input v-if="status_pernikahan == 4" type="text" class="form-control" value="Duda" readonly>
