@@ -45,6 +45,7 @@
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Grade</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Tanggal Masuk</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Status Kerja</th>
+            <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Komposisi Karyawan</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Komposisi Peran</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Komposisi Generasi</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Tanggal Kontrak</th>
@@ -70,14 +71,14 @@
         @foreach($karyawan as $k)
         <tr>
             {{-- data pribadi --}}
-            <td style="text-align: center;">{{ $i++ }}</td>
-            <td>{{ $k->nama_lengkap }}</td>
-            <td>{{ $k->nama_panggilan}}</td>
-            <td>{{ $k->tempat_lahir }}</td>
-            <td>{{ $k->tanggal_lahir }}</td>
-            <td>{{ $k->umur }}</td>
-            {{-- <td>{{ $k->agama }}</td> --}}
-            <td>
+            <td style="text-align: center; border: 1px solid black;">{{ $i++ }}</td>
+            <td style="border: 1px solid black;">{{ $k->nama_lengkap }}</td>
+            <td style="border: 1px solid black;">{{ $k->nama_panggilan}}</td>
+            <td style="border: 1px solid black;">{{ $k->tempat_lahir }}</td>
+            <td style="border: 1px solid black;">{{ $k->tanggal_lahir }}</td>
+            <td style="border: 1px solid black;">{{ $k->umur }}</td>
+            {{-- <td style="border: 1px solid black;">{{ $k->agama }}</td> --}}
+            <td style="border: 1px solid black;">
                 @if ($k->jenis_kelamin == null)
                 
                 @elseif ($k->jenis_kelamin == 1)
@@ -86,7 +87,7 @@
                     Perempuan
                 @endif
             </td>
-            <td>
+            <td style="border: 1px solid black;">
                 @if ($k->gol_darah == null)
                 
                 @elseif ($k->gol_darah == 1)
@@ -99,13 +100,13 @@
                     AB
                 @endif
             </td>
-            <td>{{ $k->riwayat_penyakit }}</td>
-            <td>{{ $k->no_kk }}</td>
-            <td>{{ $k->nik_penduduk }}</td>
-            <td>{{ $k->kode_pos}}</td>
-            <td>{{ $k->alamat_ktp }}</td>
-            <td>{{ $k->alamat_domisili }}</td>
-            <td>
+            <td style="border: 1px solid black;">{{ $k->riwayat_penyakit }}</td>
+            <td style="border: 1px solid black;">{{ $k->no_kk }}</td>
+            <td style="border: 1px solid black;">{{ $k->nik_penduduk }}</td>
+            <td style="border: 1px solid black;">{{ $k->kode_pos}}</td>
+            <td style="border: 1px solid black;">{{ $k->alamat_ktp }}</td>
+            <td style="border: 1px solid black;">{{ $k->alamat_domisili }}</td>
+            <td style="border: 1px solid black;">
                 @if ($k->pendidikan == null)
                     
                 @elseif ($k->pendidikan == 1)
@@ -128,14 +129,14 @@
                     S3
                 @endif
             </td>
-            <td>{{ $k->nama_sekolah }}</td>
-            <td>{{ $k->jurusan }}</td>
-            <td>{{ $k->email_pribadi }}</td>
-            <td>{{ $k->no_telp }}</td>
-            <td>{{ $k->no_wa }}</td>
-            <td>{{ $k->no_keluarga }}</td>
-            <td>{{ $k->hubungan_keluarga }}</td>
-            <td>
+            <td style="border: 1px solid black;">{{ $k->nama_sekolah }}</td>
+            <td style="border: 1px solid black;">{{ $k->jurusan }}</td>
+            <td style="border: 1px solid black;">{{ $k->email_pribadi }}</td>
+            <td style="border: 1px solid black;">{{ $k->no_telp }}</td>
+            <td style="border: 1px solid black;">{{ $k->no_wa }}</td>
+            <td style="border: 1px solid black;">{{ $k->no_keluarga }}</td>
+            <td style="border: 1px solid black;">{{ $k->hubungan_keluarga }}</td>
+            <td style="border: 1px solid black;">
                 @if ($k->status_pernikahan == null)
                     
                 @elseif ($k->status_pernikahan == 1)
@@ -148,7 +149,7 @@
                     Duda
                 @endif
             </td>
-            <td>
+            <td style="border: 1px solid black;">
                 @if ($k->status_keluarga == null)
                     
                 @elseif ($k->status_keluarga == 1)
@@ -165,7 +166,7 @@
                     Lainnya
                 @endif
             </td>
-            <td>
+            <td style="border: 1px solid black;">
                 @if ($k->jenis_sosmed == null)
                     
                 @elseif ($k->jenis_sosmed == 1)
@@ -178,34 +179,34 @@
                     Youtube
                 @endif
             </td>
-            <td>{{ $k->nama_sosmed }}</td>
+            <td style="border: 1px solid black;">{{ $k->nama_sosmed }}</td>
 
             {{-- data di perusahaan --}}
-            <td>{{ $k->nik_karyawan }}</td>
-            <td>
+            <td style="border: 1px solid black;">{{ $k->nik_karyawan }}</td>
+            <td style="border: 1px solid black;">
                 @if ($k->perusahaan)
                     {{ $k->perusahaan->nama_pt }}
                 @else
                     
                 @endif
             </td>
-            <td>
+            <td style="border: 1px solid black;">
                 @if ($k->divisi)
                     {{ $k->divisi->nama_divisi }}
                 @else
                     
                 @endif
             </td>
-            <td>
+            <td style="border: 1px solid black;">
                 @if ($k->jabatan)
                     {{ $k->jabatan->nama_jabatan }}
                 @else
                     
                 @endif
             </td>
-            <td>{{ $k->grade }}</td>
-            <td>{{ $k->tanggal_masuk }}</td>
-            <td>
+            <td style="border: 1px solid black;">{{ $k->grade }}</td>
+            <td style="border: 1px solid black;">{{ $k->tanggal_masuk }}</td>
+            <td style="border: 1px solid black;">
                 @if ($k->status_kerja == null)
                     
                 @elseif ($k->status_kerja == 1)
@@ -216,7 +217,26 @@
                     Training
                 @endif
             </td>
-            <td>
+            <td style="border: 1px solid black;">
+                @if ($k->komposisi_karyawan == null)
+                
+                @elseif ($k->komposisi_karyawan == 1)
+                    Direktor
+                @elseif  ($k->komposisi_karyawan == 2)
+                    Div Head
+                @elseif ($k->komposisi_karyawan == 3)
+                    Dept <Head></Head>
+                @elseif  ($k->komposisi_karyawan == 4)
+                    Sect Head
+                @elseif ($k->komposisi_karyawan == 5)
+                    Head
+                @elseif  ($k->komposisi_karyawan == 6)
+                    Staff
+                @elseif  ($k->komposisi_karyawan == 7)
+                    Non Staff
+                @endif
+            </td>  
+            <td style="border: 1px solid black;">
                 @if ($k->komposisi_peran == null)
                 
                 @elseif ($k->komposisi_peran == 1)
@@ -225,18 +245,18 @@
                     Core
                 @endif
             </td>      
-            <td>{{ $k->komposisi_generasi }}</td>
-            <td>{{ $k->tanggal_kontrak }}</td>
-            <td>{{ $k->masa_kontrak }}</td>
-            <td>{{ $k->akhir_kontrak }}</td>
-            <td>{{ $k->kota_rekruitmen }}</td>
-            <td>{{ $k->kota_penugasan }}</td>   
-            <td>{{ $k->no_npwp }}</td>
-            <td>{{ $k->rekening }}</td>
-            <td>{{ $k->no_bpjs_kesehatan }}</td>
-            <td>{{ $k->no_bpjs_ketenagakerjaan }}</td>
-            <td>{{ $k->email_internal }}</td>
-            <td>
+            <td style="border: 1px solid black;">{{ $k->komposisi_generasi }}</td>
+            <td style="border: 1px solid black;">{{ $k->tanggal_kontrak }}</td>
+            <td style="border: 1px solid black;">{{ $k->masa_kontrak }}</td>
+            <td style="border: 1px solid black;">{{ $k->akhir_kontrak }}</td>
+            <td style="border: 1px solid black;">{{ $k->kota_rekruitmen }}</td>
+            <td style="border: 1px solid black;">{{ $k->kota_penugasan }}</td>   
+            <td style="border: 1px solid black;">{{ $k->no_npwp }}</td>
+            <td style="border: 1px solid black;">{{ $k->rekening }}</td>
+            <td style="border: 1px solid black;">{{ $k->no_bpjs_kesehatan }}</td>
+            <td style="border: 1px solid black;">{{ $k->no_bpjs_ketenagakerjaan }}</td>
+            <td style="border: 1px solid black;">{{ $k->email_internal }}</td>
+            <td style="border: 1px solid black;">
                 @if ($k->ukuran_baju == null)
                     
                 @elseif ($k->ukuran_baju == 1)
@@ -253,7 +273,7 @@
                     Jumbo
                 @endif
             </td>
-            <td>{{ $k->pengalaman_kerja_terakhir }}</td>
+            <td style="border: 1px solid black;">{{ $k->pengalaman_kerja_terakhir }}</td>
         </tr>
         @endforeach
     </tbody>

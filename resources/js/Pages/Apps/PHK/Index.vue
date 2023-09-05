@@ -71,6 +71,7 @@
                     <div class="form-group mb-3">
                         <label class="col-form-label" >Nama Karyawan :</label>
                         <VueMultiselect
+                            v-show="!updateSubmit"
                             v-model="karyawan_id"
                             :options="karyawan"
                             label="nama_lengkap"
@@ -79,6 +80,18 @@
                             deselect-label="Can't remove this value"
                             placeholder="Pilih Karyawan"
                         ></VueMultiselect>
+                        <VueMultiselect
+                            v-show="updateSubmit"
+                            v-model="karyawan_id_edit"
+                            :options="karyawan"
+                            label="nama_lengkap"
+                            track-by="id"
+                            :allow-empty="false"
+                            deselect-label="Can't remove this value"
+                            placeholder="Pilih Karyawan" 
+                            :disabled="isDisabled"
+                        ></VueMultiselect>
+                        <!-- <input type="text" v-show="updateSubmit" class="form-control" v-model="karyawan_id" readonly> -->
                     </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Penyebab PHK :</label>
@@ -148,13 +161,14 @@
         //composition API
     
 
-        setup(){
+        setup(props){
             const showModal = ref(false);
             const updateSubmit = ref(false);
             const judul = ref(null);
             const id = ref(null);
             const nama_lengkap = ref();
             const karyawan_id = ref();
+            const karyawan_id_edit = ref();
             const penyebab_phk = ref();
             const tanggal_phk = ref();
             //define state search
@@ -165,6 +179,8 @@
                 { name: 'Affair', value: 1 },
                 { name: 'Fraud', value: 2 }
             ];
+
+           
 
 
             
@@ -198,30 +214,32 @@
                 tanggal_phk.value = null
                 tampilModal()
             }
+
             //method edit show modal
             const editData = (phk) => {
-                // console.log(data_karyawan);
+                console.log(phk.karyawan_id);
                 
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
-
-                // //penyebab_phk
-                // data_karyawan.forEach(function (data) {
-                //     if(data.value == phk.karyawan_id){
-                //         karyawan_id.value = data
-                //     }
-                // })
-
-                  //penyebab_phk
+                //penyebab_phk
                 data_penyebab_phk.forEach(function (data) {
                     if(data.value == phk.penyebab_phk){
                         penyebab_phk.value = data
                     }
                 })
+
+                //divisi
+                let data_karyawan = props.karyawan
+                data_karyawan.forEach(data => {
+                    if(phk.karyawan_id == data.id){
+                        karyawan_id_edit.value = data
+                        // form.divisi_id = data
+                    }
+                })
                 judul.value = 'Edit Entitas'
                 id.value = phk.id
-                karyawan_id.value = phk.karyawan_id
+                // karyawan_id.value = data_karyawan.phk.karyawan_id
                 tanggal_phk.value = phk.tanggal_phk
                 tampilModal()
             }
@@ -305,9 +323,9 @@
                 editData,
                 judul,
                 updateSubmit,
-                nama_lengkap, id, data_penyebab_phk, karyawan_id, penyebab_phk, tanggal_phk,
+                nama_lengkap, id, data_penyebab_phk, karyawan_id, karyawan_id_edit, penyebab_phk, tanggal_phk,
                 tutupModal, buatBaruKategori, updateData,
-                storeData, peringatan
+                storeData, peringatan, isDisabled: true,
             }
         }
     }

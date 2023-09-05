@@ -77,21 +77,31 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Komposisi Peran</h5>
-                    </div>
-                    <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <BarChart :chartData="chartKomposisiPeran" :options="options" style="height: 200px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="card Recent-Users">
-                    <div class="card-header">
                         <h5>Total Karyawan Berdasarkan Pendidikan</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
                             <BarChart :chartData="chartPendidikan" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Komposisi Karyawan</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKomposisiKaryawan" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Komposisi Peran</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKomposisiPeran" :options="options" style="height: 200px;"/>
                         </div>
                     </div>
                 </div>
@@ -348,11 +358,14 @@
     //import ref from vue
     import { ref } from 'vue';
     //chart
-    import { BarChart, DoughnutChart } from 'vue-chart-3';
+    import { BarChart, DoughnutChart, PieChart } from 'vue-chart-3';
     import { Chart, registerables } from "chart.js";
     //register chart
     Chart.register(...registerables);
-    //import component pagination
+    // Impor plugin Datalabels
+    import 'chartjs-plugin-datalabels'; 
+    // Impor plugin tooltip
+
     import Pagination from '../../../Components/Pagination.vue';
 
     export default {
@@ -363,6 +376,7 @@
             Head,
             BarChart,
             DoughnutChart,
+            PieChart,
             Pagination
         },
         //props
@@ -408,9 +422,13 @@
             pendidikan: Array,
             total_pendidikan: Array,
 
-             //chart berdasarkan status pernikahan
+            //chart berdasarkan status pernikahan
             status_pernikahan: Array,
             total_status_pernikahan: Array,
+
+            //chart berdasarkan komposisi karyawan
+            komposisi_karyawan: Array,
+            total_komposisi_karyawan: Array,
         },
         setup(props){
              //method random color
@@ -461,7 +479,9 @@
                 datasets: [{
                     data: props.total_divisi,
                     backgroundColor: randomBackgroundColor(5),
-                }, ],
+                }, 
+                
+                ],
             };
 
             //chart karyawan berdasarkan jabatan
@@ -538,6 +558,16 @@
                 }, ],
             };
 
+            //chart karyawan berdasarkan komposisi karyawan
+            const chartKomposisiKaryawan = {
+                labels: props.komposisi_karyawan,
+                datasets: [{
+                    data: props.total_komposisi_karyawan,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
+
             return{
                 options,
                 chartKaryawanPT,
@@ -550,6 +580,7 @@
                 chartKomposisiPeran,
                 chartPendidikan,
                 chartStatusPernikahan,
+                chartKomposisiKaryawan,
             }
         }
     }

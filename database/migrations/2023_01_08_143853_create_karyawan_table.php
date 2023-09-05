@@ -51,6 +51,7 @@ class CreateKaryawanTable extends Migration
             $table->string('grade')->nullable();
             $table->date('tanggal_masuk')->nullable();
             $table->tinyInteger('status_kerja')->comment('1 = Kontrak, 2 = Tetap, 3 = Training')->nullable();
+            $table->tinyInteger('komposisi_karyawan')->comment('1 = Direktor, 2 = Div Head, 3 = Dept Head, 4 = Sect Head, 5 = Head, 6 = Staff, 7 = Non Staff')->nullable();
             $table->tinyInteger('komposisi_peran')->comment('1 = Support, 2 = Core')->nullable();
             $table->string('komposisi_generasi')->nullable();
             $table->date('tanggal_kontrak')->nullable();

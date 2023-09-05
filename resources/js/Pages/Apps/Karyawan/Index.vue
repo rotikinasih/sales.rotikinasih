@@ -292,6 +292,17 @@
                                             <input v-if="status_kerja == 3" type="text" class="form-control" value="Training" readonly>
                                         </div>
                                         <div class="form-group mb-3">
+                                            <label class="col-form-label">Komposisi Karyawan :</label>
+                                            <input v-if="komposisi_karyawan == null" type="text" class="form-control" value=" " readonly>
+                                            <input v-if="komposisi_karyawan == 1" type="text" class="form-control" value="Direktor" readonly>
+                                            <input v-if="komposisi_karyawan == 2" type="text" class="form-control" value="Div Head" readonly>
+                                            <input v-if="komposisi_karyawan == 3" type="text" class="form-control" value="Dept Head" readonly>
+                                            <input v-if="komposisi_karyawan == 4" type="text" class="form-control" value="Sect Head" readonly>
+                                            <input v-if="komposisi_karyawan == 5" type="text" class="form-control" value="Head" readonly>
+                                            <input v-if="komposisi_karyawan == 6" type="text" class="form-control" value="Staff" readonly>
+                                            <input v-if="komposisi_karyawan == 7" type="text" class="form-control" value="Non Staff" readonly>
+                                        </div>
+                                        <div class="form-group mb-3">
                                             <label class="col-form-label">Komposisi Peran :</label>
                                             <input v-if="komposisi_peran == null" type="text" class="form-control" value=" " readonly>
                                             <input v-if="komposisi_peran == 1" type="text" class="form-control" value="Support" readonly>
@@ -652,6 +663,7 @@
             const masa_kerja_bulan = ref();
             const masa_kerja_tahun = ref();
             const tanggal_karyawan_tetap = ref();
+            const komposisi_karyawan = ref();
             const komposisi_peran = ref();
             const komposisi_generasi = ref();
             const nama_bank = ref();
@@ -820,6 +832,7 @@
                 tanggal_karyawan_tetap.value = kar['tanggal_karyawan_tetap']
                 akhir_kontrak.value = kar['akhir_kontrak']
                 status_kerja.value = kar['status_kerja']
+                komposisi_karyawan.value = kar['komposisi_karyawan']
                 komposisi_peran.value = kar['komposisi_peran']
                 komposisi_generasi.value = kar['komposisi_generasi']
                 no_bpjs_kesehatan.value = kar['no_bpjs_kesehatan']
@@ -913,7 +926,7 @@
                 nama_lengkap, nama_panggilan, nik_karyawan, riwayat_penyakit, status_kerja, divisi_id, umur, akhir_kontrak,
                 pt_id, foto, tanggal_masuk, tanggal_kontrak, no_kk, nik_penduduk, kode_pos, grade, no_npwp, jenis_sosmed, nama_sosmed,
                 jabatan, no_telp, no_wa, no_bpjs_kesehatan, no_bpjs_ketenagakerjaan, gol_darah,
-                email_pribadi, tempat_lahir, tanggal_lahir, alamat_ktp, alamat_domisili, komposisi_peran, komposisi_generasi,
+                email_pribadi, tempat_lahir, tanggal_lahir, alamat_ktp, alamat_domisili, komposisi_karyawan, komposisi_peran, komposisi_generasi,
                 jenis_kelamin, status_pernikahan, pendidikan, nama_sekolah, jurusan, kota_penugasan, kota_rekruitmen, status_keluarga,
                 rekening, ukuran_baju, no_keluarga, hubungan_keluarga, jabatan_id, email_internal, pengalaman_kerja_terakhir, jabatan_kerja_terakhir, tanggal_karyawan_tetap, nama_bank, masa_kerja_bulan, masa_kerja_tahun, masa_kontrak,
                 idnya, nama, tgl_gabung_grup, tgl_masuk, tgl_berakhir, storeKarir, status, daftar_status,

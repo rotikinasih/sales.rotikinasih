@@ -256,6 +256,18 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
+                                                <label class="fw-bold">Komposisi Karyawan</label>
+                                                <VueMultiselect
+                                                    v-model="form.komposisi_karyawan"
+                                                    :options="komposisi_karyawan"
+                                                    label="name"
+                                                    track-by="value"
+                                                    :allow-empty="false"
+                                                    deselect-label="Can't remove this value"
+                                                    placeholder="Pilih Komposisi Karyawan"
+                                                ></VueMultiselect>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label class="fw-bold">Komposisi Peran</label>
                                                 <VueMultiselect
                                                     v-model="form.komposisi_peran"
@@ -401,6 +413,16 @@
                 { name: 'Perempuan', value: 2 }
             ];
 
+            const komposisi_karyawan = [
+                { name: 'Direktor', value: 1 },
+                { name: 'Div Head', value: 2 },
+                { name: 'Dept Head', value: 3 },
+                { name: 'Sect Head', value: 4 },
+                { name: 'Head', value: 5 },
+                { name: 'Staff', value: 6 },
+                { name: 'Non Staff', value: 7 }
+            ];
+
             const komposisi_peran = [
                 { name: 'Support', value: 1 },
                 { name: 'Core', value: 2 }
@@ -533,6 +555,7 @@
                 masa_kontrak: '',
                 tanggal_karyawan_tetap: '',
                 status_kerja: '',
+                komposisi_karyawan: '',
                 komposisi_peran: '',
                 kota_rekruitmen:'',
                 kota_penugasan:'',
@@ -621,6 +644,7 @@
                     masa_kontrak: form.masa_kontrak,
                     tanggal_karyawan_tetap: form.tanggal_karyawan_tetap,
                     status_kerja: form.status_kerja.value,
+                    komposisi_karyawan: form.komposisi_karyawan.value,
                     komposisi_peran: form.komposisi_peran.value,
                     kota_rekruitmen: form.kota_rekruitmen,
                     kota_penugasan: form.kota_penugasan,
@@ -654,7 +678,7 @@
             return {
                 activePhase, form,
                 goToStep, finish, foto,
-                fileImage, status_keluarga, hubungan_keluarga, jenis_sosmed, komposisi_peran,
+                fileImage, status_keluarga, hubungan_keluarga, jenis_sosmed, komposisi_peran, komposisi_karyawan,
                 preview, golongan_darah, jenis_kelamin, status_pernikahan,
                 ukuran_baju, status_kerja, pendidikan,
                 grade, storeData,

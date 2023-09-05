@@ -238,6 +238,18 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
+                                                <label class="fw-bold">Komposisi Karyawan</label>
+                                                <VueMultiselect
+                                                    v-model="form.komposisi_karyawan"
+                                                    :options="data_komposisi_karyawan"
+                                                    label="name"
+                                                    track-by="value"
+                                                    :allow-empty="false"
+                                                    deselect-label="Can't remove this value"
+                                                    placeholder="Pilih Komposisi Karyawan"
+                                                ></VueMultiselect>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label class="fw-bold">Komposisi Peran</label>
                                                 <VueMultiselect
                                                     v-model="form.komposisi_peran"
@@ -493,6 +505,16 @@
                 { name: 'Core', value: 2 }
             ];
 
+            const data_komposisi_karyawan = [
+                { name: 'Direktor', value: 1 },
+                { name: 'Div Head', value: 2 },
+                { name: 'Dept Head', value: 3 },
+                { name: 'Sect Head', value: 4 },
+                { name: 'Head', value: 5 },
+                { name: 'Staff', value: 6 },
+                { name: 'Non Staff', value: 7 }
+            ];
+
             onMounted(() => {
                 getData()
             })
@@ -601,6 +623,13 @@
                         form.komposisi_peran = data
                     }
                 })
+
+                //komposisi karyawan
+                data_komposisi_karyawan.forEach(function (data) {
+                    if(data.value == props.karyawan.komposisi_karyawan){
+                        form.komposisi_karyawan = data
+                    }
+                })
             }
 
             const preview = ref();
@@ -639,6 +668,7 @@
                 jabatan_id: props.karyawan.jabatan,
                 grade: props.karyawan.grade,
                 status_kerja: props.karyawan.status_kerja,
+                komposisi_karyawan: props.karyawan.komposisi_karyawan,
                 komposisi_peran: props.karyawan.komposisi_peran,
                 tanggal_masuk: props.karyawan.tanggal_masuk,
                 tanggal_kontrak: props.karyawan.tanggal_kontrak,
@@ -730,6 +760,7 @@
                         grade: form.grade ? form.grade.name : '',
                         tanggal_masuk: form.tanggal_masuk,
                         status_kerja: form.status_kerja ? form.status_kerja.value : '',
+                        komposisi_karyawan: form.komposisi_karyawan ? form.komposisi_karyawan.value : '',
                         komposisi_peran: form.komposisi_peran ? form.komposisi_peran.value : '',
                         tanggal_kontrak: form.tanggal_kontrak,
                         tanggal_karyawan_tetap: form.tanggal_karyawan_tetap,
@@ -793,6 +824,7 @@
                         grade: form.grade ? form.grade.name : '',
                         tanggal_masuk: form.tanggal_masuk,
                         status_kerja: form.status_kerja ? form.status_kerja.value : '',
+                        komposisi_karyawan: form.komposisi_karyawan ? form.komposisi_karyawan.value : '',
                         komposisi_peran: form.komposisi_peran ? form.komposisi_peran.value : '',
                         tanggal_kontrak: form.tanggal_kontrak,
                         tanggal_karyawan_tetap: form.tanggal_karyawan_tetap,
@@ -830,7 +862,7 @@
                 goToStep, foto,
                 preview,
                 data_golongan_darah, data_jenis_kelamin, data_status_pernikahan, data_status_keluarga, data_jenis_sosmed,
-                data_ukuran_baju, data_status_kerja, data_pendidikan, data_grade, data_hubungan_keluarga, data_komposisi_peran,
+                data_ukuran_baju, data_status_kerja, data_pendidikan, data_grade, data_hubungan_keluarga, data_komposisi_peran, data_komposisi_karyawan,
                 storeData, form, fileImage, cekData1, cekData2, cekData3, cekData4, cekData5
             }
         }

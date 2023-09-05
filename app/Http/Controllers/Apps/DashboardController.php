@@ -286,6 +286,42 @@ class DashboardController extends Controller
         //     $total_umur[]  = "";
         // }
         // dd($umur);
+
+        $chart_komposisi_karyawan = DB::table('karyawan')
+        ->addSelect(DB::raw('komposisi_karyawan as title, COUNT(*) as total'))
+        ->groupBy('komposisi_karyawan')
+        ->orderBy('total', 'DESC')
+        ->get();
+        if(count($chart_komposisi_karyawan)) {
+            foreach ($chart_komposisi_karyawan as $key => $data) {
+                if($data->title == 1){                    
+                    $komposisi_karyawan[$key] = 'Direktor';
+                }
+                if($data->title == 2){
+                    $komposisi_karyawan[$key] = 'Div Head';
+                }
+                if($data->title == 3){
+                    $komposisi_karyawan[$key] = 'Dept Head';
+                }
+                if($data->title == 4){
+                    $komposisi_karyawan[$key] = 'Sect Head';
+                }
+                if($data->title == 5){
+                    $komposisi_karyawan[$key] = 'Head';
+                }
+                if($data->title == 6){
+                    $komposisi_karyawan[$key] = 'Staff';
+                }
+                if($data->title == 7){
+                    $komposisi_karyawan[$key] = 'Non Staff';
+                }
+                $total_komposisi_karyawan[]   = (int)$data->total;
+            }
+        }else {
+            $komposisi_karyawan[]   = "";
+            $total_komposisi_karyawan[]  = "";
+        }
+        
         //menampilkan data 1 bulan karyawan baru
         $bulan_lalu = date('Y-m-d', strtotime('-1 months'));
         $karyawan_baru = Karyawan::where('tanggal_masuk', '>=', $bulan_lalu)->latest()->paginate(10)->onEachSide(1);
@@ -339,6 +375,8 @@ class DashboardController extends Controller
             'total_pendidikan'          => $total_pendidikan,
             'status_pernikahan'         => $status_pernikahan,
             'total_status_pernikahan'   => $total_status_pernikahan,
+            'komposisi_karyawan'        => $komposisi_karyawan,
+            'total_komposisi_karyawan'  => $total_komposisi_karyawan,
         ]);
     }
-}   
+}  

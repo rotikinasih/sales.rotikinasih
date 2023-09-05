@@ -23,8 +23,13 @@ class PHKController extends Controller
         //return inertia
         return Inertia::render('Apps/PHK/Index',[
             'karyawan_phk' => $karyawan_phk,
-            'karyawan' => $karyawan
+            'karyawan' => $karyawan,
         ]);
+    }
+
+    public function getNamaKaryawan($id){
+        $karyawan = Karyawan::find($id);
+        return $karyawan->name;
     }
 
     public function store(Request $request)

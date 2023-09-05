@@ -22,8 +22,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Nama Karyawan</th>
-                                    <th>Penyebab Resign</th>
-                                    <th>Tabggal Resign</th>
+                                    <!-- <th>Penyebab Resign</th> -->
+                                    <th>Tanggal Resign</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -32,7 +32,7 @@
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ resign.karyawan.nama_lengkap }}</td>
                                     <td v-if="(resign.penyebab_resign == 1)">Affair</td>
-                                    <td v-if="(resign.penyebab_resign == 2)">Fraud</td>
+                                    <!-- <td v-if="(resign.penyebab_resign == 2)">Fraud</td> -->
                                     <td>{{ resign.tanggal_resign }}</td>
                                     <td>
                                         <a @click="editData(resign)" v-if="hasAnyPermission(['apps.resign.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
@@ -71,6 +71,7 @@
                     <div class="form-group mb-3">
                         <label class="col-form-label" >Nama Karyawan :</label>
                         <VueMultiselect
+                            v-show="!updateSubmit"
                             v-model="karyawan_id"
                             :options="karyawan"
                             label="nama_lengkap"
@@ -78,6 +79,17 @@
                             :allow-empty="false"
                             deselect-label="Can't remove this value"
                             placeholder="Pilih Karyawan"
+                        ></VueMultiselect>
+                        <VueMultiselect
+                            v-show="updateSubmit"
+                            v-model="karyawan_id_edit"
+                            :options="karyawan"
+                            label="nama_lengkap"
+                            track-by="id"
+                            :allow-empty="false"
+                            deselect-label="Can't remove this value"
+                            placeholder="Pilih Karyawan" 
+                            :disabled="isDisabled"
                         ></VueMultiselect>
                     </div>
                     <div class="form-group mb-3">
@@ -148,13 +160,14 @@
         //composition API
     
 
-        setup(){
+        setup(props){
             const showModal = ref(false);
             const updateSubmit = ref(false);
             const judul = ref(null);
             const id = ref(null);
             const nama_lengkap = ref();
             const karyawan_id = ref();
+            const karyawan_id_edit = ref();
             const penyebab_resign = ref();
             const tanggal_resign = ref();
             //define state search
@@ -213,15 +226,22 @@
                 //     }
                 // })
 
-                  //penyebab_resign
-                data_penyebab_resign.forEach(function (data) {
-                    if(data.value == resign.penyebab_resign){
-                        penyebab_resign.value = data
+                let data_karyawan = props.karyawan
+                data_karyawan.forEach(data => {
+                    if(resign.karyawan_id == data.id){
+                        karyawan_id_edit.value = data
                     }
                 })
+
+                // //penyebab_resign
+                // data_penyebab_resign.forEach(function (data) {
+                //     if(data.value == resign.penyebab_resign){
+                //         penyebab_resign.value = data
+                //     }
+                // })
                 judul.value = 'Edit Resign Karyawan'
                 id.value = resign.id
-                karyawan_id.value = resign.karyawan_id
+                // karyawan_id.value = resign.karyawan_id
                 tanggal_resign.value = resign.tanggal_resign
                 tampilModal()
             }
@@ -305,7 +325,7 @@
                 editData,
                 judul,
                 updateSubmit,
-                nama_lengkap, id, data_penyebab_resign, karyawan_id, penyebab_resign, tanggal_resign,
+                nama_lengkap, id, data_penyebab_resign, karyawan_id, karyawan_id_edit, penyebab_resign, tanggal_resign,
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan
             }
