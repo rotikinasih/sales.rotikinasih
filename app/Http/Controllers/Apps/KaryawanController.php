@@ -38,7 +38,7 @@ class KaryawanController extends Controller
             $karyawan = $karyawan->where('nama_lengkap', 'like', '%'. $search . '%')
                                 ->orWhere('nik_karyawan', 'like', '%'. $search . '%')
                                 ->orWhere('nik_penduduk', 'like', '%'. $search . '%');
-        })->latest()->paginate(10)->onEachSide(1);
+        })->where('status_karyawan', 0)->latest()->paginate(10)->onEachSide(1);
 
         //get data divisi
         $divisi = MasterDivisi::where('status', 1)->get();
@@ -181,7 +181,7 @@ class KaryawanController extends Controller
          * validate
          */
         $rules = [
-            'nama_lengkap'                 => 'required',
+            'nama_lengkap' => 'required',
         ];
 
         $messages = [

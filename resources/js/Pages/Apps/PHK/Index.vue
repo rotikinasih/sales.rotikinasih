@@ -23,7 +23,7 @@
                                     <th>#</th>
                                     <th>Nama Karyawan</th>
                                     <th>Penyebab PHK</th>
-                                    <th>Tabggal PHK</th>
+                                    <th>Tanggal PHK</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

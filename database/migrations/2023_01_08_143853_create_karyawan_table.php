@@ -72,6 +72,7 @@ class CreateKaryawanTable extends Migration
             $table->string('pengalaman_kerja_terakhir')->nullable();
             $table->string('jabatan_kerja_terakhir')->nullable();
             $table->string('foto')->nullable();
+            $table->tinyInteger('status_karyawan')->comment('1 = Aktif, 2 = Resign, 3 = PHK', )->default(0)->nullable();
             $table->timestamps();
         });
     }

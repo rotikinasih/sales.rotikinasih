@@ -28,6 +28,7 @@ class DashboardController extends Controller
             ->join('master_perusahaan', 'master_perusahaan.id', '=', 'karyawan.pt_id')
             ->groupBy('karyawan.pt_id')
             ->orderBy('total', 'DESC')
+            ->where('status_karyawan', 0)
             ->get();
         if(count($chart_pt)) {
             foreach ($chart_pt as $data) {
@@ -39,12 +40,14 @@ class DashboardController extends Controller
             $total_pt[]  = "";
         }
 
+
         //jumlah karyawan berdasarkan Divisi
         $chart_divisi = DB::table('karyawan')
             ->addSelect(DB::raw('master_divisi.nama_divisi as title, COUNT(*) as total'))
             ->join('master_divisi', 'master_divisi.id', '=', 'karyawan.divisi_id')
             ->groupBy('karyawan.divisi_id')
             ->orderBy('total', 'DESC')
+            ->where('status_karyawan', 0)
             ->get();
         if(count($chart_divisi)) {
             foreach ($chart_divisi as $data) {
@@ -62,6 +65,7 @@ class DashboardController extends Controller
             ->join('master_jabatan', 'master_jabatan.id', '=', 'karyawan.jabatan_id')
             ->groupBy('karyawan.jabatan_id')
             ->orderBy('total', 'DESC')
+            ->where('status_karyawan', 0)
             ->get();
         if(count($chart_jabatan)) {
             foreach ($chart_jabatan as $data) {
@@ -77,6 +81,7 @@ class DashboardController extends Controller
         ->addSelect(DB::raw('kota_penugasan as title, COUNT(*) as total'))
         ->groupBy('kota_penugasan')
         ->orderBy('total', 'DESC')
+        ->where('status_karyawan', 0)
         ->get();
         if(count($chart_kota_penugasan)) {
             foreach ($chart_kota_penugasan as $data) {
@@ -92,9 +97,14 @@ class DashboardController extends Controller
         ->addSelect(DB::raw('jenis_kelamin as title, COUNT(*) as total'))
         ->groupBy('jenis_kelamin')
         ->orderBy('total', 'DESC')
+        ->where('status_karyawan', 0)
         ->get();
         if(count($chart_jenis_kelamin)) {
             foreach ($chart_jenis_kelamin as $key => $data) {
+                if($data->title == null){                    
+                    $jenis_kelamin[]   = "";
+                    $total_jenis_kelamin[]  = "";
+                }
                 if($data->title == 1){                    
                     $jenis_kelamin[$key] = 'Laki-laki';
                 }
@@ -114,9 +124,14 @@ class DashboardController extends Controller
         ->addSelect(DB::raw('status_kerja as title, COUNT(*) as total'))
         ->groupBy('status_kerja')
         ->orderBy('total', 'DESC')
+        ->where('status_karyawan', 0)
         ->get();
         if(count($chart_status_kerja)) {
             foreach ($chart_status_kerja as $key => $data) {
+                if($data->title == null){                    
+                    $status_kerja[]   = "";
+                    $total_status_kerja[]  = "";
+                }
                 if($data->title == 1){
                     $status_kerja[$key] = 'Kontrak';
                 }
@@ -140,6 +155,7 @@ class DashboardController extends Controller
         ->addSelect(DB::raw('komposisi_generasi as title, COUNT(*) as total'))
         ->groupBy('komposisi_generasi')
         ->orderBy('total', 'DESC')
+        ->where('status_karyawan', 0)
         ->get();
         if(count($chart_komposisi_generasi)) {
             foreach ($chart_komposisi_generasi as $data) {
@@ -155,9 +171,14 @@ class DashboardController extends Controller
         ->addSelect(DB::raw('komposisi_peran as title, COUNT(*) as total'))
         ->groupBy('komposisi_peran')
         ->orderBy('total', 'DESC')
+        ->where('status_karyawan', 0)
         ->get();
         if(count($chart_komposisi_peran)) {
             foreach ($chart_komposisi_peran as $key => $data) {
+                if($data->title == null){                    
+                    $komposisi_peran[]   = "";
+                    $total_komposisi_peran[]  = "";
+                }
                 if($data->title == 1){                    
                     $komposisi_peran[$key] = 'Support';
                 }
@@ -178,9 +199,14 @@ class DashboardController extends Controller
         ->addSelect(DB::raw('pendidikan as title, COUNT(*) as total'))
         ->groupBy('pendidikan')
         ->orderBy('total', 'DESC')
+        ->where('status_karyawan', 0)
         ->get();
         if(count($chart_pendidikan)) {
             foreach ($chart_pendidikan as $key => $data) {
+                if($data->title == null){                    
+                    $pendidikan[]   = "";
+                    $total_pendidikan[]  = "";
+                }
                 if($data->title == 1){                    
                     $pendidikan[$key] = 'SD';
                 }
@@ -211,20 +237,27 @@ class DashboardController extends Controller
                 if($data->title == 10){
                     $pendidikan[$key] = 'S3';
                 }
-                $total_pendidikan[]   = (int)$data->total;
+                $total_pendidikan[] = (int)$data->total;
             }
         }else {
             $pendidikan[]   = "";
             $total_pendidikan[]  = "";
         }
 
+        // dd($pendidikan);
+
         $chart_status_pernikahan = DB::table('karyawan')
         ->addSelect(DB::raw('status_pernikahan as title, COUNT(*) as total'))
         ->groupBy('status_pernikahan')
         ->orderBy('total', 'DESC')
+        ->where('status_karyawan', 0)
         ->get();
         if(count($chart_status_pernikahan)) {
             foreach ($chart_status_pernikahan as $key => $data) {
+                if($data->title == null){                    
+                    $status_pernikahan[]   = "";
+                    $total_status_pernikahan[]  = "";
+                }
                 if($data->title == 1){                    
                     $status_pernikahan[$key] = 'Belum Menikah';
                 }
@@ -248,49 +281,49 @@ class DashboardController extends Controller
             $total_status_pernikahan[]  = "";
         }
 
-        // $chart_umur = DB::table('karyawan')
-        // ->addSelect(DB::raw('umur as title, COUNT(*) as total'))
-        // ->groupBy('umur')
-        // ->orderBy('total', 'DESC')
-        // ->get();
-        // if(count($chart_umur)) {
-        //     foreach ($chart_umur as $key => $data) {
-        //         if($data->title >= 17 && $data->title <= 20){                    
-        //             $umur[$key] = '17-20';
-        //             $total_umur[]   = (int)$data->total;
-        //         }
+        $chart_umur = DB::table('karyawan')
+        ->addSelect(DB::raw('umur as title, COUNT(*) as total'))
+        ->groupBy('umur')
+        ->orderBy('total', 'DESC')
+        ->get();
+        $count = 0;
+        if(count($chart_umur)) {
+            foreach ($chart_umur as $key => $data) {
+                if($data->title >= 17 && $data->title <= 20){                    
+                    $umur[$key] = '17-20';
+                    $count++;
+                }
+                if($data->title >= 21 && $data->title <= 30){
+                    $umur[$key] = '21-30';
+                    $count++;
+                }
+                if($data->title >= 31 && $data->title <= 40){
+                    $umur[$key] = '31-40';
+                    $count++;
+                }
+                if($data->title >= 41 && $data->title <= 50){
+                    $umur[$key] = '40-50';
+                    $count++;
+                }
+                if($data->title > 50){
+                    $umur[$key] = '>50';
+                    $count++;
+                }
 
-        //         if($data->title >= 21 && $data->title <= 30){
-        //             $umur[$key] = '21-30';
-        //             $total_umur[]   = (int)$data->total;
-        //         }
+                $total_umur[]   =  $count;
 
-        //         if($data->title >= 31 && $data->title <= 40){
-        //             $umur[$key] = '31-40';
-        //             $total_umur[]   = (int)$data->total;
-        //         }
-                
-        //         if($data->title >= 41 && $data->title <= 50){
-        //             $umur[$key] = '40-50';
-        //             $total_umur[]   = (int)$data->total;
-        //         }
-
-        //         if($data->title > 50){
-        //             $umur[$key] = '>50';
-        //             $total_umur[]   = (int)$data->total;
-        //         }
-
-        //     }
-        // }else {
-        //     $umur[]   = "";
-        //     $total_umur[]  = "";
-        // }
-        // dd($umur);
+            }
+        }else {
+            $umur[]   = "";
+            $total_umur[]  = "";
+        }
+        // dd($total_umur);
 
         $chart_komposisi_karyawan = DB::table('karyawan')
         ->addSelect(DB::raw('komposisi_karyawan as title, COUNT(*) as total'))
         ->groupBy('komposisi_karyawan')
         ->orderBy('total', 'DESC')
+        ->where('status_karyawan', 0)
         ->get();
         if(count($chart_komposisi_karyawan)) {
             foreach ($chart_komposisi_karyawan as $key => $data) {
@@ -321,31 +354,58 @@ class DashboardController extends Controller
             $komposisi_karyawan[]   = "";
             $total_komposisi_karyawan[]  = "";
         }
+
+        $chart_karyawan_phk = DB::table('karyawan_phk')
+        ->addSelect(DB::raw('penyebab_phk as title, COUNT(*) as total'))
+        ->groupBy('penyebab_phk')
+        ->orderBy('total', 'DESC')
+        ->get();
+        if(count($chart_karyawan_phk)) {
+            foreach ($chart_karyawan_phk as $key => $data) {
+                if($data->title == 1){                    
+                    $penyebab_phk[$key] = 'Affair';
+                }
+                if($data->title == 2){
+                    $penyebab_phk[$key] = 'Fraud';
+                }
+                $total_penyebab_phk[]   = (int)$data->total;
+            }
+        }else {
+            $penyebab_phk[]   = "";
+            $total_penyebab_phk[]  = "";
+        }
+        // dd($total_penyebab_phk);
+
         
         //menampilkan data 1 bulan karyawan baru
         $bulan_lalu = date('Y-m-d', strtotime('-1 months'));
-        $karyawan_baru = Karyawan::where('tanggal_masuk', '>=', $bulan_lalu)->latest()->paginate(10)->onEachSide(1);
+        $karyawan_baru = Karyawan::with('perusahaan')->where('tanggal_masuk', '>=', $bulan_lalu)->where('status_karyawan', 0)->latest()->paginate(10)->onEachSide(1);
 
         //menampilkan data karyawan yang habis kontrak 2 bulan sebelumnya
         $dua_bulan = date('Y-m-d', strtotime('-2 months'));
-        $karyawan_kontrak = Karyawan::where('akhir_kontrak', '>=', $dua_bulan)->latest()->paginate(10)->onEachSide(1);
+        $karyawan_kontrak = Karyawan::with('perusahaan')->where('akhir_kontrak', '>=', $dua_bulan)->where('status_karyawan', 0)->latest()->paginate(10)->onEachSide(1);
 
         //menampilkan data karyawan yang mempunyai 3 pelanggaran atau lebih
         $data_pelanggaran = DB::table('karyawan')
                 ->join('catatan_pelanggaran', 'karyawan.id', '=', 'catatan_pelanggaran.karyawan_id')
-                ->select('karyawan.*', DB::raw('count(karyawan.id) as jumlah_pelanggaran'), 'catatan_pelanggaran.karyawan_id')
+                ->join('master_perusahaan', 'karyawan.pt_id', '=', 'master_perusahaan.id' )
+                ->select('karyawan.*', DB::raw('count(karyawan.id) as jumlah_pelanggaran'), 'catatan_pelanggaran.karyawan_id', 'master_perusahaan.nama_pt')
                 // ->select(array('catatan_pelanggaran.catatan'))
                 ->having(DB::raw('count(karyawan.id)'), '>=', 3)
                 ->groupBy('karyawan.id')
                 ->orderBy('karyawan.nama_lengkap', 'desc')
+                // ->where('karyawan.status_karyawan', 0)
                 ->get();
 
         //menampilkan data karyawan termuda
-        $termuda = DB::table('karyawan')->where('umur', DB::raw("(select min(`umur`) from karyawan)"))->first();
+        // $termuda = DB::table('karyawan')->where('umur', DB::raw("(select min(`umur`) from karyawan)"))->where('status_karyawan', 0)->first();
+        $termuda = Karyawan::where('status_karyawan', 0)->orderBy('umur', 'asc')->first();
 
         //menampilkan data karyawan tertua
-        $tertua = DB::table('karyawan')->where('umur', DB::raw("(select max(`umur`) from karyawan)"))->first();
-        $terlama = DB::table('karyawan')->where('masa_kerja_tahun', DB::raw("(select max(`masa_kerja_tahun`) from karyawan)"))->first();
+        // $tertua = DB::table('karyawan')->where('umur', DB::raw("(select max(`umur`) from karyawan)"))->where('status_karyawan', 0)->first();
+        $tertua = Karyawan::where('status_karyawan', 0)->orderBy('umur', 'desc')->first();
+        // $terlama = DB::table('karyawan')->where('masa_kerja_tahun', DB::raw("(select max(`masa_kerja_tahun`) from karyawan)"))->where('status_karyawan', 0)->first();
+        $terlama = Karyawan::where('status_karyawan', 0)->orderBy('masa_kerja_tahun', 'desc')->first();
 
         return Inertia::render('Apps/Dashboard/Index',[
             'hari_ini'                  => $day,
@@ -377,6 +437,10 @@ class DashboardController extends Controller
             'total_status_pernikahan'   => $total_status_pernikahan,
             'komposisi_karyawan'        => $komposisi_karyawan,
             'total_komposisi_karyawan'  => $total_komposisi_karyawan,
+            'penyebab_phk'              => $penyebab_phk,
+            'total_penyebab_phk'        => $total_penyebab_phk,
+            'umur'                      => $umur,
+            'total_umur'                => $total_umur,
         ]);
     }
 }  

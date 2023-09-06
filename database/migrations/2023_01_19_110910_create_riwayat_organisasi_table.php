@@ -26,7 +26,6 @@ class CreateRiwayatOrganisasiTable extends Migration
 
             $table->unsignedBigInteger('jabatan_id');
             $table->foreign('jabatan_id')->references('id')->on('master_jabatan')->onDelete('cascade');
-
             // $table->date('tgl_gabung_grup');
             $table->date('tgl_masuk');
             $table->date('tgl_berakhir')->nullable();

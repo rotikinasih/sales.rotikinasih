@@ -18,7 +18,7 @@ class ResignController extends Controller
             $query->where('nama_lengkap', 'like', '%'. $search . '%');
         })->latest()->paginate(10)->onEachSide(1);
 
-        $karyawan = Karyawan::all();
+        $karyawan = Karyawan::where('status_karyawan', 0)->get();
 
         //return inertia
         return Inertia::render('Apps/Resign/Index',[
@@ -39,12 +39,18 @@ class ResignController extends Controller
         ]);
 
         //create phk
-        KaryawanResign::create([
+        $data=[
             'karyawan_id'             => $request->karyawan_id,
             'penyebab_resign'            => $request->penyebab_resign,
             'tanggal_resign'             => $request->tanggal_resign,
-        ]);
+        ];
 
+        if(KaryawanResign::create($data)){
+            //jika data resign berhasil dibuat, update status karyawan menjadi 2 = resign
+            $karyawan = Karyawan::findOrfail($request->karyawan_id);
+            $karyawan->status_karyawan = 2;
+            $karyawan->save();
+        }
         //redirect
         return redirect()->route('apps.phk.index');
     }

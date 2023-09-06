@@ -4,7 +4,7 @@
     </Head>
     <main>
         <div class="row">
-            <div class="col-xl-8 col-md-6">
+            <div class="col-xl-12 col-md-6">
                 <div class="card Recent-Users">
                     <div class="card-header">
                         <h5>Total Karyawan berdasarkan Entitas</h5>
@@ -117,6 +117,26 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Rentang Umur</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartUmur" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan PHK</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKaryawanPHK" :options="options" style="height: 200px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
                         <h5>Karyawan Baru di Bulan ini</h5>
                     </div>
                     <div class="card-block px-0 py-3">
@@ -128,6 +148,7 @@
                                             <th>#</th>
                                             <!-- <th>Foto</th> -->
                                             <th>Nama Lengkap</th>
+                                            <th>Entitas</th>
                                             <th>Tanggal Masuk</th>
                                         </tr>
                                     </thead>
@@ -139,6 +160,7 @@
                                                 <h6 class="mb-1">{{ baru.nama_lengkap }}</h6>
                                                 <p class="m-0">{{ baru.nik_penduduk }}</p>
                                             </td>
+                                            <td>{{ baru.perusahaan.nama_pt }}</td>
                                             <td><h6 class="text-muted"><span class="label theme-bg text-white f-12">{{ baru.tanggal_masuk }}</span></h6></td>
                                         </tr>
                                         <!-- jika data kosong -->
@@ -175,19 +197,21 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Foto</th>
+                                            <!-- <th>Foto</th> -->
                                             <th>Nama Lengkap</th>
+                                            <th>Entitas</th>
                                             <th>Akhir Kontrak</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="unread" v-for="(kontrak, index) in karyawan_kontrak.data" :key="index">
                                             <td>{{ index + 1 }}</td>
-                                            <td><img class="rounded-circle" style="width:40px;" v-if="kontrak.foto != null" :src="`/storage/${kontrak.foto}`" alt="activity-user"></td>
+                                            <!-- <td><img class="rounded-circle" style="width:40px;" v-if="kontrak.foto != null" :src="`/storage/${kontrak.foto}`" alt="activity-user"></td> -->
                                             <td>
                                                 <h6 class="mb-1">{{ kontrak.nama_lengkap }}</h6>
                                                 <p class="m-0">{{ kontrak.nik_penduduk }}</p>
                                             </td>
+                                            <td>{{ kontrak.perusahaan.nama_pt }}</td>
                                             <td><span class="label theme-bg2 text-white f-12">{{ kontrak.akhir_kontrak }}</span></td>
                                         </tr>
                                         <!-- jika data kosong -->
@@ -223,19 +247,21 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Foto</th>
+                                        <!-- <th>Foto</th> -->
                                         <th>Nama Lengkap</th>
+                                        <th>Entitas</th>
                                         <th>Jumlah Pelanggaran</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="unread" v-for="(pl, index) in data_pelanggaran" :key="index">
                                         <td>{{ index + 1 }}</td>
-                                        <td><img class="rounded-circle" style="width:40px;" v-if="pl.foto != null" :src="`/storage/${pl.foto}`" alt="activity-user"></td>
+                                        <!-- <td><img class="rounded-circle" style="width:40px;" v-if="pl.foto != null" :src="`/storage/${pl.foto}`" alt="activity-user"></td> -->
                                         <td>
                                             <h6 class="mb-1">{{ pl.nama_lengkap }}</h6>
                                             <p class="m-0">{{ pl.nik_penduduk }}</p>
                                         </td>
+                                        <td>{{ pl.nama_pt }}</td>
                                         <td><h6 class="text-muted"><span class="label theme-bg3 text-white f-12">{{ pl.jumlah_pelanggaran }}</span></h6></td>
                                     </tr>
                                     <!-- jika data kosong -->
@@ -253,7 +279,7 @@
                 </div>
             </div>
             <!-- sisi kanan -->
-            <div class="col-xl-4 col-md-6">
+            <div class="col-xl-4 col-md-4">
                 <!-- <div class="card card-event">
                     <div class="card-block">
                         <div class="row align-items-center justify-content-center">
@@ -281,7 +307,7 @@
                     <div class="card-block" v-else>
                         <div class="row align-items-center justify-content-center">
                             <div class="col">
-                                <h5 class="m-0">Youngest Employee</h5>
+                                <h5 class="m-0">Karyawan Termuda</h5>
                             </div>
                         </div>
                         <span class="text-muted mt-4 mb-0">
@@ -308,7 +334,7 @@
                     <div class="card-block" v-else>
                         <div class="row align-items-center justify-content-center">
                             <div class="col">
-                                <h5 class="m-0">Oldest Employee</h5>
+                                <h5 class="m-0">Karyawan Tertua</h5>
                             </div>
                         </div>
                         <span class="text-muted mt-4 mb-0">
@@ -335,7 +361,7 @@
                     <div class="card-block" v-else>
                         <div class="row align-items-center justify-content-center">
                             <div class="col">
-                                <h5 class="m-0">Oldest Employee</h5>
+                                <h5 class="m-0">Karyawan Terlama</h5>
                             </div>
                         </div>
                         <span class="text-muted mt-4 mb-0">
@@ -429,6 +455,14 @@
             //chart berdasarkan komposisi karyawan
             komposisi_karyawan: Array,
             total_komposisi_karyawan: Array,
+
+            //chart berdasarkan penyebab phk
+            penyebab_phk: Array,
+            total_penyebab_phk: Array,
+
+             //chart berdasarkan rentang umur
+            umur: Array,
+            total_umur: Array,
         },
         setup(props){
              //method random color
@@ -567,6 +601,23 @@
                 }, ],
             };
 
+            //chart karyawan berdasarkan komposisi karyawan
+            const chartKaryawanPHK = {
+                labels: props.penyebab_phk,
+                datasets: [{
+                    data: props.total_penyebab_phk,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
+             //chart karyawan berdasarkan komposisi karyawan
+             const chartUmur = {
+                labels: props.umur,
+                datasets: [{
+                    data: props.total_umur,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
 
             return{
                 options,
@@ -581,6 +632,8 @@
                 chartPendidikan,
                 chartStatusPernikahan,
                 chartKomposisiKaryawan,
+                chartKaryawanPHK,
+                chartUmur,
             }
         }
     }

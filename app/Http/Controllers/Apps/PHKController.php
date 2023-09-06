@@ -18,7 +18,7 @@ class PHKController extends Controller
             $query->where('nama_lengkap', 'like', '%'. $search . '%');
         })->latest()->paginate(10)->onEachSide(1);
 
-        $karyawan = Karyawan::all();
+        $karyawan = Karyawan::where('status_karyawan', 0)->get();
 
         //return inertia
         return Inertia::render('Apps/PHK/Index',[
@@ -44,11 +44,18 @@ class PHKController extends Controller
         ]);
 
         //create phk
-        KaryawanPHK::create([
+        $data=[
             'karyawan_id'             => $request->karyawan_id,
             'penyebab_phk'            => $request->penyebab_phk,
             'tanggal_phk'             => $request->tanggal_phk,
-        ]);
+        ];
+
+        if(KaryawanPHK::create($data)){
+            //jika data phk berhasil dibuat, update status karyawan menjadi 3 = phk
+            $karyawan = Karyawan::findOrfail($request->karyawan_id);
+            $karyawan->status_karyawan = 3;
+            $karyawan->save();
+        }
 
         //redirect
         return redirect()->route('apps.phk.index');
