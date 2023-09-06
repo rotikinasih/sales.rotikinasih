@@ -180,11 +180,6 @@
                 { name: 'Fraud', value: 2 }
             ];
 
-           
-
-
-            
-
             const handleSearch = () => {
                 Inertia.get('/apps/phk', {
                     //send params "search" with value from state "search"

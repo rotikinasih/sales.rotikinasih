@@ -22,7 +22,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Nama Karyawan</th>
-                                    <!-- <th>Penyebab Resign</th> -->
+                                    <th>Penyebab Resign</th>
                                     <th>Tanggal Resign</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -31,8 +31,9 @@
                                 <tr v-for="(resign, index) in karyawan_resign.data" :key="index">
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ resign.karyawan.nama_lengkap }}</td>
-                                    <td v-if="(resign.penyebab_resign == 1)">Affair</td>
+                                    <!-- <td v-if="(resign.penyebab_resign == 1)">Affair</td> -->
                                     <!-- <td v-if="(resign.penyebab_resign == 2)">Fraud</td> -->
+                                    <td>xxx</td>
                                     <td>{{ resign.tanggal_resign }}</td>
                                     <td>
                                         <a @click="editData(resign)" v-if="hasAnyPermission(['apps.resign.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
@@ -327,7 +328,7 @@
                 updateSubmit,
                 nama_lengkap, id, data_penyebab_resign, karyawan_id, karyawan_id_edit, penyebab_resign, tanggal_resign,
                 tutupModal, buatBaruKategori, updateData,
-                storeData, peringatan
+                storeData, peringatan, isDisabled: true,
             }
         }
     }
