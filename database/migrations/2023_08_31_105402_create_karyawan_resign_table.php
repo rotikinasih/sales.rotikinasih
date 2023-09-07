@@ -19,6 +19,7 @@ class CreateKaryawanResignTable extends Migration
             $table->foreign('karyawan_id')->references('id')->on('karyawan')->onDelete('cascade');
             $table->tinyInteger('alasan_resign');
             $table->date('tanggal_resign');
+            $table->tinyInteger('created_id')->nullable();
             $table->timestamps();
         });
     }

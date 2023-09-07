@@ -116,7 +116,7 @@
             const destroy = (id) => {
                 Swal.fire({
                     title: 'Apakah Anda Yakin?',
-                    text: "Anda tidak akan dapat mengembalikan ini!",
+                    text: "Data tidak bisa dikembalikan!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -131,7 +131,7 @@
 
                         Swal.fire({
                             title: 'Sukses!',
-                            text: 'Role berhasil dihapus.',
+                            text: 'Data berhasil dihapus.',
                             icon: 'success',
                             timer: 2000,
                             showConfirmButton: false,

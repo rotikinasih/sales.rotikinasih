@@ -11,7 +11,7 @@ class MasterDivisi extends Model
 
     protected $table = "master_divisi";
 
-    protected $fillable = [
-        'nama_divisi', 'status'
+    protected $guarded = [
+        'id'
     ];
 }

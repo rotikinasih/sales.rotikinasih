@@ -40,7 +40,7 @@
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="karyawan_phk.data[0] == undefined">
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="5" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             Data Kosong
@@ -232,7 +232,7 @@
                         // form.divisi_id = data
                     }
                 })
-                judul.value = 'Edit Entitas'
+                judul.value = 'Edit PHK'
                 id.value = phk.id
                 // karyawan_id.value = data_karyawan.phk.karyawan_id
                 tanggal_phk.value = phk.tanggal_phk
@@ -241,7 +241,7 @@
 
             const peringatan = () => {
                 Swal.fire({
-                    title: 'Harap lengkapi semua entri',
+                    title: 'Mohon lengkapi isian!!',
                     width: 600,
                     padding: '3em',
                     color: '#716add',
@@ -271,7 +271,7 @@
                             //show success alert
                             Swal.fire({
                                 title: 'Sukses!',
-                                text: 'Data PHK berhasil diubah.',
+                                text: 'Data berhasil diedit.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000
@@ -301,7 +301,7 @@
                             //show success alert
                             Swal.fire({
                                 title: 'Success!',
-                                text: 'Data PHK berhasil disimpan.',
+                                text: 'Data behasil ditambah.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000

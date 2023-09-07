@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -244,6 +245,7 @@ class KaryawanController extends Controller
             'no_bpjs_kesehatan' => $request->no_bpjs_kesehatan,
             'no_bpjs_ketenagakerjaan' => $request->no_bpjs_ketenagakerjaan,
             'ukuran_baju' => $request->ukuran_baju,
+            'created_id'  => Auth::id(),
         ]);
 
         // dd($data);
@@ -469,6 +471,7 @@ class KaryawanController extends Controller
             'jabatan_id'            => 'required',
             // 'tgl_gabung_grup'       => 'required',
             'tgl_masuk'             => 'required',
+            
         ]);
 
         //create riwayat organisasi
@@ -479,7 +482,8 @@ class KaryawanController extends Controller
             'jabatan_id'        => $request->jabatan_id,
             // 'tgl_gabung_grup'   => $request->tgl_gabung_grup,
             'tgl_masuk'         => $request->tgl_masuk,
-            'tgl_berakhir'      => $request->tgl_berakhir
+            'tgl_berakhir'      => $request->tgl_berakhir,
+            'created_id'        => Auth::id(),
         ];
 
         RiwayatOrganisasi::create($data);
@@ -508,6 +512,7 @@ class KaryawanController extends Controller
             'tanggal'           => $request->tanggal,
             'tingkatan'         => $request->tingkatan,
             'status'            => $request->status,
+            'created_id'        => Auth::id(),
         ]);
 
         //redirect

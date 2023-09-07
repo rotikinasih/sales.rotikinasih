@@ -41,7 +41,7 @@
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="karyawan_resign.data[0] == undefined">
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="5" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             Data Kosong
@@ -240,7 +240,7 @@
                 //         penyebab_resign.value = data
                 //     }
                 // })
-                judul.value = 'Edit Resign Karyawan'
+                judul.value = 'Edit Resign'
                 id.value = resign.id
                 // karyawan_id.value = resign.karyawan_id
                 tanggal_resign.value = resign.tanggal_resign
@@ -249,7 +249,7 @@
 
             const peringatan = () => {
                 Swal.fire({
-                    title: 'Harap lengkapi semua entri',
+                    title: 'Mohon lengkapi isian!!',
                     width: 600,
                     padding: '3em',
                     color: '#716add',
@@ -279,7 +279,7 @@
                             //show success alert
                             Swal.fire({
                                 title: 'Sukses!',
-                                text: 'Data resign berhasil diubah.',
+                                text: 'Data berhasil diedit.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000
@@ -309,7 +309,7 @@
                             //show success alert
                             Swal.fire({
                                 title: 'Success!',
-                                text: 'Data Resign berhasil disimpan.',
+                                text: 'Data berhasil ditambah.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000

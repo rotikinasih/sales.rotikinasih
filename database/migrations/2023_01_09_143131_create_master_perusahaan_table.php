@@ -17,6 +17,7 @@ class CreateMasterPerusahaanTable extends Migration
             $table->id();
             $table->string('nama_pt');
             $table->tinyInteger('status')->comment('1 = Non Aktif, 2 = Aktif');
+            $table->tinyInteger('created_id')->nullable();
             $table->timestamps();
         });
     }

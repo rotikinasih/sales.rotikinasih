@@ -4,6 +4,107 @@
     </Head>
     <main>
         <div class="row">
+            <div class="col-md-4">
+                <!-- <div class="card card-event">
+                    <div class="card-block">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col">
+                                <h5 class="m-0">Total Employees by PT</h5>
+                            </div>
+                            <BarChart :chartData="chartKaryawanPT" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="card card-event">
+                    <div class="card-block" v-if="termuda != undefined">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col">
+                                <h5 class="m-0">Karyawan Termuda</h5>
+                            </div>
+                            <div class="col-auto">
+                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ termuda.nik_karyawan }}</label>
+                            </div>
+                        </div>
+                        <h2 class="mt-3 f-w-300">{{ termuda.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
+                        <h6 class="text-muted mt-4 mb-0">{{ termuda.nama_lengkap }}</h6>
+                        <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
+                    </div>
+                    <div class="card-block" v-else>
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col">
+                                <h5 class="m-0">Karyawan Termuda</h5>
+                            </div>
+                        </div>
+                        <span class="text-muted mt-4 mb-0">
+                            <br>
+                            <i class="fa fa-file-excel fa-5x"></i><br><br>
+                            Data Kosong
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-event">
+                    <div class="card-block" v-if="tertua != undefined">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col">
+                                <h5 class="m-0">Karyawan Tertua</h5>
+                            </div>
+                            <div class="col-auto">
+                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ tertua.nik_karyawan }}</label>
+                            </div>
+                        </div>
+                        <h2 class="mt-3 f-w-300">{{ tertua.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
+                        <h6 class="text-muted mt-4 mb-0">{{ tertua.nama_lengkap }}</h6>
+                        <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
+                    </div>
+                    <div class="card-block" v-else>
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col">
+                                <h5 class="m-0">Karyawan Tertua</h5>
+                            </div>
+                        </div>
+                        <span class="text-muted mt-4 mb-0">
+                            <br>
+                            <i class="fa fa-file-excel fa-5x"></i><br><br>
+                            Data Kosong 
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-event">
+                    <div class="card-block" v-if="terlama != undefined">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col">
+                                <h5 class="m-0">Karyawan Terlama</h5>
+                            </div>
+                            <div class="col-auto">
+                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ terlama.nik_karyawan }}</label>
+                            </div>
+                        </div>
+                        <h3 class="mt-3 f-w-300">{{ terlama.masa_kerja_tahun }}<sub class="text-muted f-14"></sub></h3>
+                        <h6 class="text-muted mt-4 mb-0">{{ terlama.nama_lengkap }}</h6>
+                        <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
+                    </div>
+                    <div class="card-block" v-else>
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col">
+                                <h5 class="m-0">Karyawan Terlama</h5>
+                            </div>
+                        </div>
+                        <span class="text-muted mt-4 mb-0">
+                            <br>
+                            <i class="fa fa-file-excel fa-5x"></i><br><br>
+                            Data Kosong 
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- grafik -->
+        <div class="row">
             <div class="col-xl-12 col-md-6">
                 <div class="card Recent-Users">
                     <div class="card-header">
@@ -11,7 +112,7 @@
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartKaryawanPT" :options="options" style="height: 200px;"/>
+                            <BarChart :chartData="chartKaryawanPT" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -21,7 +122,7 @@
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartKaryawanDivisi" :options="options" style="height: 200px;"/>
+                            <BarChart :chartData="chartKaryawanDivisi" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -31,7 +132,7 @@
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartKaryawanJabatan" :options="options" style="height: 200px;"/>
+                            <BarChart :chartData="chartKaryawanJabatan" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -41,27 +142,7 @@
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartKotaPenugasan" :options="options" style="height: 200px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="card Recent-Users">
-                    <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Jenis Kelamin</h5>
-                    </div>
-                    <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <BarChart :chartData="chartJenisKelamin" :options="options" style="height: 200px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="card Recent-Users">
-                    <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Status Kerja</h5>
-                    </div>
-                    <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <BarChart :chartData="chartStatusKerja" :options="options" style="height: 200px;"/>
+                            <BarChart :chartData="chartKotaPenugasan" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -71,7 +152,7 @@
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartKomposisiGenerasi" :options="options" style="height: 200px;"/>
+                            <BarChart :chartData="chartKomposisiGenerasi" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -81,7 +162,7 @@
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartPendidikan" :options="options" style="height: 200px;"/>
+                            <BarChart :chartData="chartPendidikan" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -91,27 +172,7 @@
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartKomposisiKaryawan" :options="options" style="height: 200px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="card Recent-Users">
-                    <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Komposisi Peran</h5>
-                    </div>
-                    <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <BarChart :chartData="chartKomposisiPeran" :options="options" style="height: 200px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="card Recent-Users">
-                    <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Status Pernikahan</h5>
-                    </div>
-                    <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <BarChart :chartData="chartStatusPernikahan" :options="options" style="height: 200px;"/>
+                            <BarChart :chartData="chartKomposisiKaryawan" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -121,7 +182,7 @@
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartUmur" :options="options" style="height: 200px;"/>
+                            <BarChart :chartData="chartUmur" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -131,10 +192,66 @@
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
-                            <BarChart :chartData="chartKaryawanPHK" :options="options" style="height: 200px;"/>
+                            <BarChart :chartData="chartKaryawanPHK" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Jenis Kelamin</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartJenisKelamin" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Komposisi Peran</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKomposisiPeran" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Status Pernikahan</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartStatusPernikahan" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Status Kerja</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartStatusKerja" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card Recent-Users">
                     <div class="card-header">
                         <h5>Karyawan Baru di Bulan ini</h5>
@@ -185,6 +302,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-12">
                 <div class="card Recent-Users">
                     <div class="card-header">
                         <!-- <h5>The employee is approaching the end of the 2 month contract</h5> -->
@@ -236,139 +355,49 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-12">
                 <div class="card Recent-Users">
                     <div class="card-header">
                         <!-- <h5>Employees that has 3 violations or more</h5> -->
                         <h5>Karyawan yang melakukan 3 kali pelanggaran atau lebih</h5>
                     </div>
                     <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <!-- <th>Foto</th> -->
-                                        <th>Nama Lengkap</th>
-                                        <th>Entitas</th>
-                                        <th>Jumlah Pelanggaran</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="unread" v-for="(pl, index) in data_pelanggaran" :key="index">
-                                        <td>{{ index + 1 }}</td>
-                                        <!-- <td><img class="rounded-circle" style="width:40px;" v-if="pl.foto != null" :src="`/storage/${pl.foto}`" alt="activity-user"></td> -->
-                                        <td>
-                                            <h6 class="mb-1">{{ pl.nama_lengkap }}</h6>
-                                            <p class="m-0">{{ pl.nik_penduduk }}</p>
-                                        </td>
-                                        <td>{{ pl.nama_pt }}</td>
-                                        <td><h6 class="text-muted"><span class="label theme-bg3 text-white f-12">{{ pl.jumlah_pelanggaran }}</span></h6></td>
-                                    </tr>
-                                    <!-- jika data kosong -->
-                                    <tr v-if="data_pelanggaran[0] == undefined">
-                                        <td colspan="4" class="text-center">
-                                            <br>
-                                            <i class="fa fa-file-excel fa-5x"></i><br><br>
-                                                Data Kosong
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- sisi kanan -->
-            <div class="col-xl-4 col-md-4">
-                <!-- <div class="card card-event">
-                    <div class="card-block">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col">
-                                <h5 class="m-0">Total Employees by PT</h5>
-                            </div>
-                            <BarChart :chartData="chartKaryawanPT" :options="options" style="height: 250px;"/>
-                        </div>
-                    </div>
-                </div> -->
-                <div class="card card-event">
-                    <div class="card-block" v-if="termuda != undefined">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col">
-                                <h5 class="m-0">Karyawan Termuda</h5>
-                            </div>
-                            <div class="col-auto">
-                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ termuda.nik_karyawan }}</label>
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <!-- <th>Foto</th> -->
+                                            <th>Nama Lengkap</th>
+                                            <th>Entitas</th>
+                                            <th>Jumlah Pelanggaran</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="unread" v-for="(pl, index) in data_pelanggaran" :key="index">
+                                            <td>{{ index + 1 }}</td>
+                                            <!-- <td><img class="rounded-circle" style="width:40px;" v-if="pl.foto != null" :src="`/storage/${pl.foto}`" alt="activity-user"></td> -->
+                                            <td>
+                                                <h6 class="mb-1">{{ pl.nama_lengkap }}</h6>
+                                                <p class="m-0">{{ pl.nik_penduduk }}</p>
+                                            </td>
+                                            <td>{{ pl.nama_pt }}</td>
+                                            <td><h6 class="text-muted"><span class="label theme-bg3 text-white f-12">{{ pl.jumlah_pelanggaran }}</span></h6></td>
+                                        </tr>
+                                        <!-- jika data kosong -->
+                                        <tr v-if="data_pelanggaran[0] == undefined">
+                                            <td colspan="4" class="text-center">
+                                                <br>
+                                                <i class="fa fa-file-excel fa-5x"></i><br><br>
+                                                    Data Kosong
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <h2 class="mt-3 f-w-300">{{ termuda.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
-                        <h6 class="text-muted mt-4 mb-0">{{ termuda.nama_lengkap }}</h6>
-                        <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
-                    </div>
-                    <div class="card-block" v-else>
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col">
-                                <h5 class="m-0">Karyawan Termuda</h5>
-                            </div>
-                        </div>
-                        <span class="text-muted mt-4 mb-0">
-                            <br>
-                            <i class="fa fa-file-excel fa-5x"></i><br><br>
-                            Data Kosong
-                        </span>
-                    </div>
-                </div>
-                <div class="card card-event">
-                    <div class="card-block" v-if="tertua != undefined">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col">
-                                <h5 class="m-0">Karyawan Tertua</h5>
-                            </div>
-                            <div class="col-auto">
-                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ tertua.nik_karyawan }}</label>
-                            </div>
-                        </div>
-                        <h2 class="mt-3 f-w-300">{{ tertua.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
-                        <h6 class="text-muted mt-4 mb-0">{{ tertua.nama_lengkap }}</h6>
-                        <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
-                    </div>
-                    <div class="card-block" v-else>
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col">
-                                <h5 class="m-0">Karyawan Tertua</h5>
-                            </div>
-                        </div>
-                        <span class="text-muted mt-4 mb-0">
-                            <br>
-                            <i class="fa fa-file-excel fa-5x"></i><br><br>
-                            Data Kosong 
-                        </span>
-                    </div>
-                </div>
-                <div class="card card-event">
-                    <div class="card-block" v-if="terlama != undefined">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col">
-                                <h5 class="m-0">Karyawan Terlama</h5>
-                            </div>
-                            <div class="col-auto">
-                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ terlama.nik_karyawan }}</label>
-                            </div>
-                        </div>
-                        <h3 class="mt-3 f-w-300">{{ terlama.masa_kerja_tahun }}<sub class="text-muted f-14"></sub></h3>
-                        <h6 class="text-muted mt-4 mb-0">{{ terlama.nama_lengkap }}</h6>
-                        <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
-                    </div>
-                    <div class="card-block" v-else>
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col">
-                                <h5 class="m-0">Karyawan Terlama</h5>
-                            </div>
-                        </div>
-                        <span class="text-muted mt-4 mb-0">
-                            <br>
-                            <i class="fa fa-file-excel fa-5x"></i><br><br>
-                            Data Kosong 
-                        </span>
                     </div>
                 </div>
             </div>

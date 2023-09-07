@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Apps;
 use App\Http\Controllers\Controller;
 use App\Models\MasterPerusahaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PerusahaanController extends Controller
@@ -37,6 +38,7 @@ class PerusahaanController extends Controller
         MasterPerusahaan::create([
             'nama_pt'           => $request->nama_pt,
             'status'            => $request->status,
+            'created_id'        => Auth::id(),
         ]);
 
         //redirect

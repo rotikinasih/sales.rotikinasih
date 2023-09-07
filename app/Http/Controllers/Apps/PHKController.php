@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
+use Illuminate\Support\Facades\Auth;
 
 class PHKController extends Controller
 {
@@ -48,6 +49,7 @@ class PHKController extends Controller
             'karyawan_id'             => $request->karyawan_id,
             'penyebab_phk'            => $request->penyebab_phk,
             'tanggal_phk'             => $request->tanggal_phk,
+            'created_id'              => Auth::id(),
         ];
 
         if(KaryawanPHK::create($data)){

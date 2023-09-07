@@ -80,9 +80,9 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <button class="btn btn-primary shadow-sm rounded-sm" type="submit">UPDATE</button>
-                                            <button class="btn btn-warning shadow-sm rounded-sm ms-3" type="reset">RESET</button>
-                                            <Link href="/apps/users" class="btn btn-success shadow-sm rounded-sm-5" style="float:right">BACK</Link>
+                                            <button class="btn btn-primary shadow-sm rounded-sm" type="submit">Update</button>
+                                            <button class="btn btn-warning shadow-sm rounded-sm ms-3" type="reset">Reset</button>
+                                            <Link href="/apps/users" class="btn btn-secondary shadow-sm rounded-sm-5" style="float:right">Kembali</Link>
                                         </div>
                                     </div>
                                 </form>

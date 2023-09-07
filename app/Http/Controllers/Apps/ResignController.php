@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
+use Illuminate\Support\Facades\Auth;
 
 class ResignController extends Controller
 {
@@ -40,9 +41,10 @@ class ResignController extends Controller
 
         //create phk
         $data=[
-            'karyawan_id'             => $request->karyawan_id,
+            'karyawan_id'                => $request->karyawan_id,
             'penyebab_resign'            => $request->penyebab_resign,
             'tanggal_resign'             => $request->tanggal_resign,
+            'created_id'                 => Auth::id(),
         ];
 
         if(KaryawanResign::create($data)){

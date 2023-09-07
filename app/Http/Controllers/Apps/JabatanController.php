@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Apps;
 use App\Http\Controllers\Controller;
 use App\Models\MasterJabatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class JabatanController extends Controller
@@ -37,6 +38,7 @@ class JabatanController extends Controller
         MasterJabatan::create([
             'nama_jabatan'      => $request->nama_jabatan,
             'status'            => $request->status,
+            'created_id'        => Auth::id(),
         ]);
 
         //redirect

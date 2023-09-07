@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Apps;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 
@@ -67,10 +68,11 @@ class UserController extends Controller
          * Create user
          */
         $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'username' => $request->username,
-            'password' => bcrypt($request->password)
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'username'      => $request->username,
+            'password'      => bcrypt($request->password),
+            'created_id'    => Auth::id(),
         ]);
 
         //assign roles to user

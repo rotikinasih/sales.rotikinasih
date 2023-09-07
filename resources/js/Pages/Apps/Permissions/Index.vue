@@ -6,6 +6,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
+                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
                     <h5>Permissions</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the <code> permission </code> data</span> -->
                 </div>
@@ -13,20 +14,24 @@
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan nama permission..." @keyup="handleSearch">
+                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan name permission..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name Permission</th>
+                                    <th>Nama Permissions</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(pe, index) in permissions.data" :key="index">
+                                <tr v-for="(pe, index) in permissions.data" :key="pe.id">
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ pe.name }}</td>
+                                    <td>
+                                        <a @click="editData(pe)" v-if="hasAnyPermission(['permissions.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                    </td>
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="permissions.data[0] == undefined">
@@ -50,20 +55,46 @@
                 </div>
             </div>
         </div>
+
+        <!-- untuk modal -->
+        <Teleport to="body">
+            <modal :show="showModal" @close="showModal = false">
+                <template #header>
+                    <h5 class="modal-title">{{ judul }}</h5>
+                </template>
+                <template #body>
+                    <div class="form-group mb-3">
+                        <label class="col-form-label">Nama Permission :</label>
+                        <input type="text" class="form-control" placeholder="Masukkan Nama Permission" v-model="name" required>
+                    </div>
+                </template>
+                <template #footer>
+					<form @submit.prevent="storeData">
+						<button type="submit" v-show="!updateSubmit" class="btn btn-success text-white m-2">Simpan</button>
+						<button type="button" v-show="updateSubmit" @click="updateData()" class="btn btn-warning text-white m-2">Update</button>
+					</form>
+                    <button
+                        class="btn btn-secondary m-2" @click="tutupModal">Keluar</button>
+                </template>
+            </modal>
+        </Teleport>
     </main>
 </template>
 
 <script>
     //import layout
     import LayoutApp from '../../../Layouts/App.vue';
-    //import component pagination
-    import Pagination from '../../../Components/Pagination.vue';
-    //import Heade and Link from Inertia
+    //import Head and useForm from Inertia
     import { Head, Link } from '@inertiajs/inertia-vue3';
-    //import ref from vue
+    //import pagination
+    import Pagination from '../../../Components/Pagination.vue';
+    //import ref
     import { ref } from 'vue';
-    //import inertia adapter
+    //imprt inertia
     import { Inertia } from '@inertiajs/inertia';
+    //import modal
+    import Modal from '../../../Components/Modal.vue';
+    import Swal from 'sweetalert2';
 
     export default {
         //layout
@@ -73,7 +104,9 @@
         components: {
             Head,
             Link,
-            Pagination
+            Pagination,
+            Modal,
+            Swal,
         },
 
         //props
@@ -82,6 +115,13 @@
         },
 
         setup() {
+
+            const showModal = ref(false);
+            const updateSubmit = ref(false);
+            const judul = ref(null);
+            const id = ref(null);
+            const name = ref();
+            
             //define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
 
@@ -93,10 +133,121 @@
                 });
             }
 
+             //membuat kategori
+            const buatBaruKategori = () =>{
+                if(updateSubmit.value == true){
+                    updateSubmit.value = !updateSubmit.value
+                }
+                judul.value = 'Tambah Permissions'
+                id.value = null
+                name.value = null
+                tampilModal()
+            }
+
+            //tampil modal
+            const tampilModal = () => {
+                showModal.value = true
+            }
+
+            //tutup modal
+            const tutupModal = () => {
+                showModal.value = false
+            }
+
+            //method edit show modal
+            const editData = (pe) => {
+                // console.log(pe.name);
+                
+                if (updateSubmit.value == false) {
+                    updateSubmit.value = !updateSubmit.value
+                }
+                
+                judul.value = 'Edit Permissions'
+                id.value = pe.id
+                name.value = pe.name
+                tampilModal()
+            }
+
+            const peringatan = () => {
+                Swal.fire({
+                    title: 'Mohon lengkapi isian!!',
+                    width: 600,
+                    padding: '3em',
+                    color: '#716add',
+                    backdrop: `
+                        rgba(0,0,123,0.4)
+                        left top
+                        no-repeat
+                    `
+                })
+            }
+
+            //method update data
+            const updateData = () => {
+                if(name.value == null){
+                    tutupModal();
+                    peringatan();
+                }else{
+                    //send data to server
+                    Inertia.put(`/apps/permissions/${id.value}`, {
+                        //data
+                        name: name.value
+                    }, {
+                        onSuccess: () => {
+                            tutupModal()
+                            //show success alert
+                            Swal.fire({
+                                title: 'Sukses!',
+                                text: 'Data berhasil diedit.',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        },
+                    });
+                }
+            }
+
+            //method "storeData"
+            const storeData = () => {
+                if(name.value == null){
+                    tutupModal();
+                    peringatan();
+                }
+                else{
+                    //send data to server
+                    Inertia.post('/apps/permissions', {
+                        //data
+                        name: name.value,
+                        
+                    }, {
+                        onSuccess: () => {
+                            tutupModal()
+                            //show success alert
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Data berhasil ditambah.',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        },
+                    });
+                }
+            }
+
+
             //return
             return {
                 search,
                 handleSearch,
+                showModal,
+                editData,
+                judul,
+                updateSubmit,
+                name,
+                tutupModal, buatBaruKategori, updateData,
+                storeData, peringatan
             }
 
         }

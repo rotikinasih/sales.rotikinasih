@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Apps;
 use App\Http\Controllers\Controller;
 use App\Models\MasterDivisi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DivisiController extends Controller
@@ -34,10 +35,15 @@ class DivisiController extends Controller
         ]);
 
         //create divisi
-        Masterdivisi::create([
+        $data = [
             'nama_divisi'       => $request->nama_divisi,
             'status'            => $request->status,
-        ]);
+            'created_id'        => Auth::user()->id,
+        ];
+
+        // dd($data);
+
+        MasterDivisi::create($data);
 
         //redirect
         return redirect()->route('apps.divisi.index');

@@ -19,6 +19,7 @@ class CreateKaryawanPhkTable extends Migration
             $table->foreign('karyawan_id')->references('id')->on('karyawan')->onDelete('cascade');
             $table->tinyInteger('penyebab_phk');
             $table->date('tanggal_phk');
+            $table->tinyInteger('created_id')->nullable();
             $table->timestamps();
         });
     }

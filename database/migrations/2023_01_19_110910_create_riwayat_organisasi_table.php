@@ -29,6 +29,7 @@ class CreateRiwayatOrganisasiTable extends Migration
             // $table->date('tgl_gabung_grup');
             $table->date('tgl_masuk');
             $table->date('tgl_berakhir')->nullable();
+            $table->tinyInteger('created_id')->nullable();
             $table->timestamps();
         });
     }

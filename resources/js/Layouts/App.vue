@@ -14,7 +14,9 @@
             <div class="pcoded-content">
                 <div class="pcoded-inner-content">
                     <slot/>
-                    <small class="fw-bold">Copyright &copy; 2023 <strong>Software Database Karyawan</strong> - RLA Group.</small>
+                    <div style="text-align: center">
+                        <small class="fw-bold">Copyright &copy; 2023 <strong>Software Database Karyawan</strong> - RLA Group.</small>
+                    </div>
                 </div>
             </div>
         </div>

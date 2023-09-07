@@ -11,7 +11,7 @@ class MasterJabatan extends Model
 
     protected $table = "master_jabatan";
 
-    protected $fillable = [
-        'nama_jabatan', 'status'
+    protected $guarded = [
+        'id'
     ];
 }

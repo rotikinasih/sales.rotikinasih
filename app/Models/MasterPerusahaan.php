@@ -10,8 +10,8 @@ class MasterPerusahaan extends Model
     use HasFactory;
     protected $table = "master_perusahaan";
 
-    protected $fillable = [
-        'nama_pt', 'status'
+    protected $guarded = [
+        'id'
     ];
 
     public function karyawan()

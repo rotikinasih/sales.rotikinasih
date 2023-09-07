@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -60,7 +61,10 @@ class RoleController extends Controller
         ]);
 
         //create role
-        $role = Role::create(['name' => $request->name]);
+        $role = Role::create([
+            'name'           => $request->name,
+            'created_id'     => Auth::id(),
+        ]);
 
         //assign permissions to role
         $role->givePermissionTo($request->permissions);

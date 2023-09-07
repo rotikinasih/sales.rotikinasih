@@ -20,6 +20,7 @@ class CreateCatatanPelanggaranTable extends Migration
             $table->date('tanggal');
             $table->text('catatan');
             $table->tinyInteger('tingkatan')->comment('1 = Ringan, 2 = Sedang, 4 = Serius, 3 = Berat');
+            $table->tinyInteger('created_id')->nullable();
             $table->timestamps();
         });
     }

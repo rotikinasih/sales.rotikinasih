@@ -122,8 +122,16 @@ Route::prefix('apps')->group(function() {
         ]);
 
 
+        //route permission       
+        Route::resource('/permissions', App\Http\Controllers\Apps\PermissionController::class, [
+            'names' => [
+                'index' => 'apps.permissions.index',
+            ]
+        ]);
+
+
         //route permission
-        Route::get('/permissions', App\Http\Controllers\Apps\PermissionController::class)->name('apps.permissions');
+        // Route::get('/permissions', App\Http\Controllers\Apps\PermissionController::class)->name('apps.permissions');
 
         //route resource roles
         Route::resource('/roles', \App\Http\Controllers\Apps\RoleController::class, ['as' => 'apps'])

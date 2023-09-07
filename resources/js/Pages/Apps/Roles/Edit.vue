@@ -35,7 +35,7 @@
                                         <div class="col-md-12">
                                             <button class="btn btn-warning shadow-sm rounded-sm" type="submit">Update</button>
                                             <button class="btn btn-info shadow-sm rounded-sm ms-3" type="reset">Reset</button>
-                                            <Link href="/apps/roles" class="btn btn-success shadow-sm rounded-sm-5" style="float:right">Kembali</Link>
+                                            <Link href="/apps/roles" class="btn btn-secondary shadow-sm rounded-sm-5" style="float:right">Kembali</Link>
                                         </div>
                                     </div>
                                 </form>
@@ -98,7 +98,7 @@
                         //show success alert
                         Swal.fire({
                             title: 'Success!',
-                            text: 'Role updated successfully.',
+                            text: 'Data berhasil diedit.',
                             icon: 'success',
                             showConfirmButton: false,
                             timer: 2000

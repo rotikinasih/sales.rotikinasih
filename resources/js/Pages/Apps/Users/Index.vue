@@ -16,7 +16,7 @@
                             <input type="text" class="form-control" v-model="search" placeholder="Cari berdasrkan nama user..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-striped table-sm table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col" style="text-align: center">#</th>

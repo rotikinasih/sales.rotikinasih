@@ -174,7 +174,7 @@
 
             const peringatan = () => {
                 Swal.fire({
-                    title: 'Harap lengkapi semua entri!',
+                    title: 'Mohon lengkapi isian!!',
                     width: 600,
                     padding: '3em',
                     color: '#716add',
@@ -207,7 +207,7 @@
                             //show success alert
                             Swal.fire({
                                 title: 'Sukses!',
-                                text: 'Jabatan berhasil disimpan.',
+                                text: 'Data berhasil ditambah.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000
@@ -234,7 +234,7 @@
                             //show success alert
                             Swal.fire({
                                 title: 'Success!',
-                                text: 'Position saved successfully.',
+                                text: 'Data berhasil diedit.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000
