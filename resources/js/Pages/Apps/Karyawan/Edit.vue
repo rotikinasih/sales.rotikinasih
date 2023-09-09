@@ -489,7 +489,8 @@
                 { name: 'Anak ke 1', value: 3},
                 { name: 'Anak ke 2', value: 4 },
                 { name: 'Anak ke 3', value: 5 },
-                { name: 'Lainnya', value: 6 },
+                { name: 'Anak ke 4', value: 6 },
+                { name: 'Anak ke 5', value: 7 },
             ];
 
             const data_jenis_sosmed = [

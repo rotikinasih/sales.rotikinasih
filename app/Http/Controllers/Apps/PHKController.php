@@ -28,11 +28,6 @@ class PHKController extends Controller
         ]);
     }
 
-    public function getNamaKaryawan($id){
-        $karyawan = Karyawan::find($id);
-        return $karyawan->name;
-    }
-
     public function store(Request $request)
     {
         /**

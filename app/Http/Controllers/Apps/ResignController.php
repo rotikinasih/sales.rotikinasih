@@ -35,14 +35,14 @@ class ResignController extends Controller
          */
         $this->validate($request, [
             'karyawan_id'                => 'required',
-            'penyebab_resign'            => 'required',
+            'alasan_resign'              => 'required',
             'tanggal_resign'             => 'required'
         ]);
 
         //create phk
         $data=[
             'karyawan_id'                => $request->karyawan_id,
-            'penyebab_resign'            => $request->penyebab_resign,
+            'alasan_resign'              => $request->alasan_resign,
             'tanggal_resign'             => $request->tanggal_resign,
             'created_id'                 => Auth::id(),
         ];
@@ -54,7 +54,7 @@ class ResignController extends Controller
             $karyawan->save();
         }
         //redirect
-        return redirect()->route('apps.phk.index');
+        return redirect()->route('apps.resign.index');
     }
 
     public function update(Request $request, $id)
@@ -76,6 +76,6 @@ class ResignController extends Controller
         $ubahData = KaryawanResign::findOrFail($id);
         $ubahData->update($data_resign);
         //redirect
-        return redirect()->route('apps.phk.index');
+        return redirect()->route('apps.resign.index');
     }
 }

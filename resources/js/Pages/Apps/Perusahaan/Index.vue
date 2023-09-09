@@ -17,22 +17,22 @@
                             <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Entitas..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"> <i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
-                        <table class="table table-hover">
-                            <thead>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama Entitas</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
+                                    <!-- <th>#</th> -->
+                                    <th class="text-center">Nama Entitas</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(pe, index) in perusahaan.data" :key="index">
-                                    <td>{{ index + 1 }}</td>
+                                    <!-- <td>{{ index + 1 }}</td> -->
                                     <td>{{ pe.nama_pt }}</td>
-                                    <td v-if="(pe.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
-                                    <td v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
-                                    <td>
+                                    <td class="text-center" v-if="(pe.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
+                                    <td class="text-center" v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
+                                    <td class="text-center">
                                         <a @click="editData(pe)" v-if="hasAnyPermission(['pt.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>

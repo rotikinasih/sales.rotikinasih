@@ -22,21 +22,21 @@
                             <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Lengkap..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        
                         </div>
-                        <table class="table table-striped table-hover">
-                            <thead>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nama Lengkap</th>
+                                    <!-- <th scope="col">#</th> -->
+                                    <th scope="col" class="text-center">Nama Lengkap</th>
                                     <th scope="col" class="text-center">Tingkat Pelanggaran</th>
-                                    <th scope="col">Catatan</th>
-                                    <th scope="col">Tanggal</th>
+                                    <th scope="col" class="text-center">Catatan</th>
+                                    <th scope="col" class="text-center">Tanggal</th>
                                     <th scope="col" class="text-center">Status Tindakan</th>
                                     <!-- <th scope="col" class="text-center">Aksi</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
-                                    <td>{{ index + 1 }}</td>
+                                    <!-- <td>{{ index + 1 }}</td> -->
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
                                     <td class="text-center" v-if="(list.tingkatan == null)"> </td>
                                     <td class="text-center" v-if="(list.tingkatan == 1)">Ringan</td>

@@ -1,44 +1,47 @@
 <template>
     <Head>
-        <title>Jabatan</title>
+        <title>Pelatihan Karyawan</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
-                    <h5>Daftar Jabatan</h5>
-                    <!-- <span class="d-block m-t-5">Page to manage the <code> position </code> data</span> -->
+                    <h5>Daftar Pelatihan</h5>
+                    <!-- <span class="d-block m-t-5">Page to manage the <code> company </code> data</span>  -->
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Jabatan..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
+                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Karyawan..." @keyup="handleSearch">
+                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"> <i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-bordered table-hover">
-                            <thead class="thead-light">
-                                <tr>
-                                    <!-- <th>#</th> -->
-                                    <th class="text-center">Nama Jabatan</th>
-                                    <th class="text-center">Status</th>
+                            <thead>
+                                <tr class="thead-light">
+                                    <!-- <th class="text-center">#</th> -->
+                                    <th class="text-center">Nama Karyawan</th>
+                                    <th class="text-center">Jenis Pelatihan</th>
+                                    <th class="text-center">Tanggal Pelatiahan</th>
+                                    <th class="text-center">Lama Pelatiahan</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(jb, index) in jabatan.data" :key="index">
+                                <tr v-for="(plth, index) in pelatihan.data" :key="index">
                                     <!-- <td>{{ index + 1 }}</td> -->
-                                    <td>{{ jb.nama_jabatan }}</td>
-                                    <td v-if="(jb.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
-                                    <td v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
-                                    <td>
-                                        <a @click="editData(jb)" v-if="hasAnyPermission(['jabatan.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                    <td>{{ plth.karyawan.nama_lengkap }}</td>
+                                    <td>{{ plth.jenis_pelatihan}}</td>
+                                    <td>{{ plth.tanggal_pelatihan}}</td>
+                                    <td>{{ plth.lama_pelatihan }}</td>
+                                    <td class="text-center">
+                                        <a @click="editData(plth)" v-if="hasAnyPermission(['apps.pelatihan.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
-                                <tr v-if="jabatan.data[0] == undefined">
-                                    <td colspan="4" class="text-center">
+                                <tr v-if="pelatihan.data[0] == undefined">
+                                    <td colspan="6" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             Data Kosong
@@ -48,16 +51,17 @@
                         </table>
                         <div class="row" style="max-width:100%; overflow-x:hidden">
                             <div class="col-md-4">
-                                <label v-if="jabatan.data[0] != undefined" align="start">Showing {{ jabatan.from }} to {{ jabatan.to }} of {{ jabatan.total }} items</label>
+                                <label v-if="pelatihan.data[0] != undefined" align="start">Showing {{ pelatihan.from }} to {{ pelatihan.to }} of {{ pelatihan.total }} items</label>
                             </div>
                             <div class="col-md-8">
-                                <Pagination v-if="jabatan.data[0] != undefined" :links="jabatan.links" align="end"/>
+                                <Pagination v-if="pelatihan.data[0] != undefined" :links="pelatihan.links" align="end"/>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- untuk modal -->
         <Teleport to="body">
             <modal :show="showModal" @close="showModal = false">
@@ -66,16 +70,29 @@
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Nama Jabatan :</label>
-                        <input type="text" class="form-control" placeholder="Masukkan Nama Jabatan" v-model="nama_jabatan" required>
+                        <label class="col-form-label" >Nama Karyawan :</label>
+                        <VueMultiselect
+                            v-model="karyawan_id"
+                            :options="karyawan"
+                            label="nama_lengkap"
+                            track-by="id"
+                            :allow-empty="false"
+                            deselect-label="Can't remove this value"
+                            placeholder="Pilih Karyawan"
+                        ></VueMultiselect>
+                        <!-- <input type="text" class="form-control" v-model="karyawan_id"> -->
                     </div>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Status :</label>
-                        <select class="form-control" aria-label="Default select example" v-model="status" required>
-                            <option :value="null">Pilih Status</option>
-                            <option value="1">Aktif</option>
-                            <option value="0">Nonaktif</option>
-                        </select>
+                        <label class="col-form-label">Jenis Pelatihan :</label>
+                        <input type="text" class="form-control" placeholder="Masukkan Jenis Pelatihan " v-model="jenis_pelatihan" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="col-form-label">Tanggal Pelatihan :</label>
+                        <input type="date" class="form-control" placeholder="Masukkan Tanggal Pelatihan" v-model="tanggal_pelatihan" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="col-form-label">Lama Pelatihan :</label>
+                        <input type="text" class="form-control" placeholder="Masukkan Lama Pelatihan" v-model="lama_pelatihan" required>
                     </div>
                 </template>
                 <template #footer>
@@ -105,6 +122,9 @@
     //import modal
     import Modal from '../../../Components/Modal.vue';
     import Swal from 'sweetalert2';
+    import VueMultiselect from 'vue-multiselect';
+    import 'vue-multiselect/dist/vue-multiselect.css';
+
 
     export default {
         //layout
@@ -115,25 +135,33 @@
             Link,
             Pagination,
             Modal,
-            Swal
+            Swal,
+            VueMultiselect,
         },
         //props
         props:{
-            jabatan: Object
+            pelatihan: Object,
+            karyawan: Array,
         },
         //composition API
+    
+
         setup(props){
             const showModal = ref(false);
             const updateSubmit = ref(false);
             const judul = ref(null);
             const id = ref(null);
-            const nama_jabatan = ref(null)
-            const status = ref(null);
+            const nama_lengkap = ref();
+            const karyawan_id = ref();
+            const karyawan_id_edit = ref();
+            const jenis_pelatihan = ref();
+            const tanggal_pelatihan = ref();
+            const lama_pelatihan = ref();
             //define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
             //define method search
             const handleSearch = () => {
-                Inertia.get('/apps/position', {
+                Inertia.get('/apps/pelatihan', {
                     //send params "search" with value from state "search"
                     search: search.value,
                 });
@@ -148,27 +176,43 @@
             const tutupModal = () => {
                 showModal.value = false
             }
-
+            
             //membuat kategori
             const buatBaruKategori = () =>{
                 if(updateSubmit.value == true){
-				    updateSubmit.value = !updateSubmit.value
+                    updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Tambah Jabatan'
+                judul.value = 'Tambah Pelatihan'
                 id.value = null
-                nama_jabatan.value = null
-                status.value = null
+                karyawan_id.value = null
+                jenis_pelatihan.value = null
+                tanggal_pelatihan.value = null
+                lama_pelatihan.value = null
                 tampilModal()
             }
+
+            // console.log(buatBaruKategori)
+
             //method edit show modal
-            const editData = (jb) => {
+            const editData = (plth) => {
+                console.log(plth);
+                
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Edit Jabatan'
-                id.value = jb.id
-                nama_jabatan.value = jb.nama_jabatan
-                status.value = jb.status
+                //karyawan
+                let data_karyawan = props.karyawan
+                data_karyawan.forEach(data => {
+                    if(plth.karyawan_id == data.id){
+                        karyawan_id.value = data
+                        // form.divisi_id = data
+                    }
+                })
+                judul.value = 'Edit Pelatihan'
+                id.value = plth.id
+                jenis_pelatihan.value = plth.jenis_pelatihan
+                tanggal_pelatihan.value = plth.tanggal_pelatihan
+                lama_pelatihan.value = plth.lama_pelatihan
                 tampilModal()
             }
 
@@ -188,26 +232,24 @@
 
             //method update data
             const updateData = () => {
-                if(nama_jabatan.value == null || status.value == null){
-                    if(nama_jabatan.value == null && status.value == null){
-                        tutupModal();
-                        peringatan();
-                    }
+                if(karyawan_id.value == null || jenis_pelatihan.value == null || tanggal_pelatihan.value == null){
                     tutupModal();
                     peringatan();
                 }else{
                     //send data to server
-                    Inertia.put(`/apps/position/${id.value}`, {
+                    Inertia.put(`/apps/pelatihan/${id.value}`, {
                         //data
-                        nama_jabatan: nama_jabatan.value,
-                        status: parseInt(status.value)
+                        karyawan_id: karyawan_id.value.id,
+                        jenis_pelatihan: jenis_pelatihan.value,
+                        tanggal_pelatihan: tanggal_pelatihan.value,
+                        lama_pelatihan: lama_pelatihan.value,
                     }, {
                         onSuccess: () => {
                             tutupModal()
                             //show success alert
                             Swal.fire({
                                 title: 'Sukses!',
-                                text: 'Data berhasil ditambah.',
+                                text: 'Data berhasil diedit.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000
@@ -219,22 +261,26 @@
 
             //method "storeData"
             const storeData = () => {
-                if(nama_jabatan.value == null || status.value == null){
+                if(karyawan_id.value == null || jenis_pelatihan.value == null || tanggal_pelatihan.value == null){
                     tutupModal();
                     peringatan();
-                }else{
+                }
+                else{
                     //send data to server
-                    Inertia.post('/apps/position', {
+                    Inertia.post('/apps/pelatihan', {
                         //data
-                        nama_jabatan: nama_jabatan.value,
-                        status: status.value,
+                        karyawan_id: karyawan_id.value.id,
+                        jenis_pelatihan: jenis_pelatihan.value,
+                        tanggal_pelatihan: tanggal_pelatihan.value,
+                        lama_pelatihan: lama_pelatihan.value,
+                        
                     }, {
                         onSuccess: () => {
                             tutupModal()
                             //show success alert
                             Swal.fire({
                                 title: 'Success!',
-                                text: 'Data berhasil diedit.',
+                                text: 'Data behasil ditambah.',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 2000
@@ -242,7 +288,6 @@
                         },
                     });
                 }
-
             }
 
             return {
@@ -252,7 +297,7 @@
                 editData,
                 judul,
                 updateSubmit,
-                nama_jabatan, status, id,
+                nama_lengkap, id, karyawan_id, jenis_pelatihan, tanggal_pelatihan, lama_pelatihan, karyawan_id_edit, 
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan
             }

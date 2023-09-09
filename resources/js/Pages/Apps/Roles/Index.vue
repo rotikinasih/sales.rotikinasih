@@ -16,18 +16,18 @@
                             <input type="text" class="form-control" v-model="search" placeholder="search by roles Name..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
-                        <table class="table table-hover">
-                            <thead>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
                                 <tr>
-                                    <th style="text-align:center">#</th>
+                                    <!-- <th style="text-align:center">#</th> -->
                                     <th scope="col" style="width:20%; text-align:center">Nama Role</th>
-                                    <th>Permissions</th>
+                                    <th class="text-center">Permissions</th>
                                     <th scope="col" style="width:20%; text-align:center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(role, index) in roles.data" :key="index">
-                                    <td>{{ index + 1 }}</td>
+                                    <!-- <td>{{ index + 1 }}</td> -->
                                     <td>{{ role.name }}</td>
                                     <td style="display:flex; flex-wrap: wrap;">
                                         <span class="label theme-bg4 text-white f-12" style="border-radius:10px" v-for="(permission, index) in role.permissions" :key="index">

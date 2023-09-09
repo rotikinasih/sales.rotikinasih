@@ -20,28 +20,30 @@
                     <div class="table-responsive">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Lengkap..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        </div>
-                        <table class="table table-striped table-hover">
-                            <thead>
+                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        
+                        </div>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nama Lengkap</th>
-                                    <th scope="col">Entitas</th>
-                                    <th scope="col">Divisi</th>
-                                    <th scope="col">Jabatan</th>
+                                    <!-- <th scope="col">#</th> -->
+                                    <th scope="col" class="text-center">Nama Lengkap</th>
+                                    <th scope="col" class="text-center">Entitas</th>
+                                    <th scope="col" class="text-center">Divisi</th>
+                                    <th scope="col" class="text-center">Jabatan</th>
                                     <!-- <th scope="col">Tanggal Gabung Group</th> -->
-                                    <th scope="col">Tanggal Masuk</th>
-                                    <th scope="col">Tanggal Berakhir</th>
+                                    <th scope="col" class="text-center">Tanggal Masuk</th>
+                                    <th scope="col" class="text-center">Tanggal Berakhir</th>
                                     <!-- <th scope="col" style="text-align: center">Aksi</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
-                                    <td>{{ index + 1 }}</td>
+                                    <!-- <td>{{ index + 1 }}</td> -->
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
                                     <td>{{ list.perusahaan.nama_pt}}</td>
                                     <td>{{ list.divisi.nama_divisi}}</td>
-                                    <td>{{ list.jabatan.nama_jabatan}}</td>
+                                    <td v-if="list.jabatan_id == null"></td>
+                                    <td v-else>{{ list.jabatan.nama_jabatan }}</td>
                                     <!-- <td>{{ list.tgl_gabung_grup }}</td> -->
                                     <td>{{ list.tgl_masuk }}</td>
                                     <td>{{ list.tgl_berakhir }}</td>

@@ -32,7 +32,7 @@
                         <table class="table table-hover table-bordered">
                             <thead class="thead-light" style="">
                                 <tr>
-                                    <th style="text-align: center;">#</th>
+                                    <!-- <th style="text-align: center;">#</th> -->
                                     <th style="text-align: center;">Nama Lengkap</th>
                                     <th style="text-align: center;">NIK (Karyawan)</th>
                                     <th style="text-align: center;">Entitas</th>
@@ -44,7 +44,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(kar, index) in karyawan.data" :key="index">
-                                    <td style="text-align: center;">{{ index + 1 }}</td>
+                                    <!-- <td style="text-align: center;">{{ index + 1 }}</td> -->
                                     <td>{{ kar.nama_lengkap }}</td>
                                     <td>{{ kar.nik_karyawan }}</td>
                                     <td v-if="(kar.perusahaan == null)"> </td> 
@@ -239,7 +239,8 @@
                                             <input v-if="status_keluarga == 3" type="text" class="form-control" value="Anak ke 1" readonly>
                                             <input v-if="status_keluarga == 4" type="text" class="form-control" value="Anak ke 2" readonly>
                                             <input v-if="status_keluarga == 5" type="text" class="form-control" value="Anak ke 3" readonly>
-                                            <input v-if="status_keluarga == 6" type="text" class="form-control" value="Lainnya" readonly>
+                                            <input v-if="status_keluarga == 6" type="text" class="form-control" value="Anak ke 4" readonly>
+                                            <input v-if="status_keluarga == 7" type="text" class="form-control" value="Anak ke 5" readonly>
                                         </div>
                                         <div class="form-group mb-3">
                                             <label class="col-form-label">Jenis Sosmed :</label>
@@ -877,7 +878,7 @@
                     karyawan_id : idnya.value,
                     pt_id :pt_id.value.id,
                     divisi_id :divisi_id.value.id,
-                    jabatan_id :jabatan_id.value.id,
+                    jabatan_id :jabatan_id.value == null ? '' : jabatan_id.value.id,
                     tgl_masuk : tgl_masuk.value,
                     tgl_berakhir : tgl_berakhir.value
                 }, {

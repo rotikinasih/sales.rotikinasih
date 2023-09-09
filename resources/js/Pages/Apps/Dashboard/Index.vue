@@ -83,7 +83,7 @@
                                 <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ terlama.nik_karyawan }}</label>
                             </div>
                         </div>
-                        <h3 class="mt-3 f-w-300">{{ terlama.masa_kerja_tahun }}<sub class="text-muted f-14"></sub></h3>
+                        <h2 class="mt-3 f-w-300">{{ terlama.masa_kerja_tahun }}<sub class="text-muted f-14"></sub></h2>
                         <h6 class="text-muted mt-4 mb-0">{{ terlama.nama_lengkap }}</h6>
                         <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
                     </div>

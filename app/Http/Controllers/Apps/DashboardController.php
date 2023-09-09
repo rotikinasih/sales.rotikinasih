@@ -101,10 +101,10 @@ class DashboardController extends Controller
         ->get();
         if(count($chart_jenis_kelamin)) {
             foreach ($chart_jenis_kelamin as $key => $data) {
-                if($data->title == null){                    
-                    $jenis_kelamin[]   = "";
-                    $total_jenis_kelamin[]  = "";
-                }
+                // if($data->title == null){                    
+                //     $jenis_kelamin[]   = "";
+                //     $total_jenis_kelamin[]  = "";
+                // }
                 if($data->title == 1){                    
                     $jenis_kelamin[$key] = 'Laki-laki';
                 }
@@ -128,10 +128,10 @@ class DashboardController extends Controller
         ->get();
         if(count($chart_status_kerja)) {
             foreach ($chart_status_kerja as $key => $data) {
-                if($data->title == null){                    
-                    $status_kerja[]   = "";
-                    $total_status_kerja[]  = "";
-                }
+                // if($data->title == null){                    
+                //     $status_kerja[]   = "";
+                //     $total_status_kerja[]  = "";
+                // }
                 if($data->title == 1){
                     $status_kerja[$key] = 'Kontrak';
                 }
@@ -175,10 +175,10 @@ class DashboardController extends Controller
         ->get();
         if(count($chart_komposisi_peran)) {
             foreach ($chart_komposisi_peran as $key => $data) {
-                if($data->title == null){                    
-                    $komposisi_peran[]   = "";
-                    $total_komposisi_peran[]  = "";
-                }
+                // if($data->title == null){                    
+                //     $komposisi_peran[]   = "";
+                //     $total_komposisi_peran[]  = "";
+                // }
                 if($data->title == 1){                    
                     $komposisi_peran[$key] = 'Support';
                 }
@@ -203,10 +203,10 @@ class DashboardController extends Controller
         ->get();
         if(count($chart_pendidikan)) {
             foreach ($chart_pendidikan as $key => $data) {
-                if($data->title == null){                    
-                    $pendidikan[]   = "";
-                    $total_pendidikan[]  = "";
-                }
+                // if($data->title == null){                    
+                //     $pendidikan[]   = "";
+                //     $total_pendidikan[]  = "";
+                // }
                 if($data->title == 1){                    
                     $pendidikan[$key] = 'SD';
                 }
@@ -254,69 +254,64 @@ class DashboardController extends Controller
         ->get();
         if(count($chart_status_pernikahan)) {
             foreach ($chart_status_pernikahan as $key => $data) {
-                if($data->title == null){                    
-                    $status_pernikahan[]   = "";
-                    $total_status_pernikahan[]  = "";
-                }
+                // if($data->title == null){                    
+                //     $status_pernikahan[]   = "";
+                //     $total_status_pernikahan[]  = "";
+                // }
                 if($data->title == 1){                    
                     $status_pernikahan[$key] = 'Belum Menikah';
+                    $total_status_pernikahan [$key]=$data->total++;
                 }
 
                 if($data->title == 2){
                     $status_pernikahan[$key] = 'Menikah';
+                    $total_status_pernikahan [$key]=$data->total++;
                 }
 
                 if($data->title == 3){
                     $status_pernikahan[$key] = 'Janda';
+                    $total_status_pernikahan [$key]=$data->total++;
                 }
                 
                 if($data->title == 4){
                     $status_pernikahan[$key] = 'Duda';
+                    $total_status_pernikahan [$key]=$data->total++;
                 }
 
-                $total_status_pernikahan[]   = (int)$data->total;
+                // $total_status_pernikahan[]   = (int)$data->total;
             }
         }else {
             $status_pernikahan[]   = "";
             $total_status_pernikahan[]  = "";
         }
 
+        // dd($status_pernikahan);
         $chart_umur = DB::table('karyawan')
         ->addSelect(DB::raw('umur as title, COUNT(*) as total'))
         ->groupBy('umur')
         ->orderBy('total', 'DESC')
         ->get();
-        $count = 0;
-        if(count($chart_umur)) {
-            foreach ($chart_umur as $key => $data) {
-                if($data->title >= 17 && $data->title <= 20){                    
-                    $umur[$key] = '17-20';
-                    $count++;
-                }
-                if($data->title >= 21 && $data->title <= 30){
-                    $umur[$key] = '21-30';
-                    $count++;
-                }
-                if($data->title >= 31 && $data->title <= 40){
-                    $umur[$key] = '31-40';
-                    $count++;
-                }
-                if($data->title >= 41 && $data->title <= 50){
-                    $umur[$key] = '40-50';
-                    $count++;
-                }
-                if($data->title > 50){
-                    $umur[$key] = '>50';
-                    $count++;
-                }
 
-                $total_umur[]   =  $count;
-
+        foreach ($chart_umur as $key => $data) {
+            if ($data->title >= 17 && $data->title <= 20) {
+                $total_umur [$key]=$data->total++;
+                $umur[$key] = '17-20';
+            } elseif ($data->title >= 21 && $data->title <= 30) {
+                $total_umur [$key]=$data->total++;
+                $umur[$key] = '21-30';
+            } elseif ($data->title >= 31 && $data->title <= 40) {
+                $total_umur [$key]=$data->total++;
+                $umur[$key] = '31-40';
+            } elseif ($data->title >= 41 && $data->title <= 50) {
+                $total_umur [$key]=$data->total++;
+                $umur[$key] = '41-50';
+            } else {
+                $total_umur [$key]=$data->total++;
+                $umur[$key] = '50';
             }
-        }else {
-            $umur[]   = "";
-            $total_umur[]  = "";
         }
+        
+        // print_r($total_umur);
         // dd($total_umur);
 
         $chart_komposisi_karyawan = DB::table('karyawan')

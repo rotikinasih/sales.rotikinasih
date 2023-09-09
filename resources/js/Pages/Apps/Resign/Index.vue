@@ -17,25 +17,28 @@
                             <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Karyawan..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"> <i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
-                        <table class="table table-hover">
-                            <thead>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama Karyawan</th>
-                                    <th>Penyebab Resign</th>
-                                    <th>Tanggal Resign</th>
-                                    <th>Aksi</th>
+                                    <!-- <th>#</th> -->
+                                    <th class="text-center">Nama Karyawan</th>
+                                    <th class="text-center">Alasan Resign</th>
+                                    <th class="text-center">Tanggal Resign</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(resign, index) in karyawan_resign.data" :key="index">
-                                    <td>{{ index + 1 }}</td>
+                                    <!-- <td>{{ index + 1 }}</td> -->
                                     <td>{{ resign.karyawan.nama_lengkap }}</td>
-                                    <!-- <td v-if="(resign.penyebab_resign == 1)">Affair</td> -->
-                                    <!-- <td v-if="(resign.penyebab_resign == 2)">Fraud</td> -->
-                                    <td>xxx</td>
+                                    <td v-if="(resign.alasan_resign == null)"></td>
+                                    <td v-if="(resign.alasan_resign == 1)">Tidak Memenuhi Target</td>
+                                    <td v-if="(resign.alasan_resign == 2)">Mendapat Pekerjaan Lain</td>
+                                    <td v-if="(resign.alasan_resign == 3)">Melanjutkan Pendidikan</td>
+                                    <td v-if="(resign.alasan_resign == 4)">Faktor Keluarga</td>
+                                    <td v-if="(resign.alasan_resign == 5)">Pekerjaan dan Passion Tak Sejalan</td>
                                     <td>{{ resign.tanggal_resign }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <a @click="editData(resign)" v-if="hasAnyPermission(['apps.resign.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
@@ -94,15 +97,15 @@
                         ></VueMultiselect>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Penyebab Resign :</label>
+                        <label class="col-form-label">Alasan Resign :</label>
                         <VueMultiselect
-                            v-model="penyebab_resign"
-                            :options="data_penyebab_resign"
+                            v-model="alasan_resign"
+                            :options="data_alasan_resign"
                             label="name"
                             track-by="value"
                             :allow-empty="false"
                             deselect-label="Can't remove this value"
-                            placeholder="Pilih Penyebab resign"
+                            placeholder="Pilih Alasan resign"
                         ></VueMultiselect>
                     </div>
                     <div class="form-group mb-3">
@@ -169,15 +172,18 @@
             const nama_lengkap = ref();
             const karyawan_id = ref();
             const karyawan_id_edit = ref();
-            const penyebab_resign = ref();
+            const alasan_resign = ref();
             const tanggal_resign = ref();
             //define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
             //define method search
 
-            const data_penyebab_resign = [
-                { name: 'Affair', value: 1 },
-                { name: 'Fraud', value: 2 }
+            const data_alasan_resign = [
+                { name: 'Tidak Memenuhi Target', value: 1 },
+                { name: 'Mendapat Pekerjaan Lain', value: 2 },
+                { name: 'Melanjutkan Pendidikan', value: 3 },
+                { name: 'Faktor Keluarga', value: 4 },
+                { name: 'Pekerjaan dan Passion Tak Sejalan', value: 5},
             ];
 
 
@@ -208,7 +214,7 @@
                 judul.value = 'Tambah Resign'
                 id.value = null
                 karyawan_id.value = null
-                penyebab_resign.value = null
+                alasan_resign.value = null
                 tanggal_resign.value = null
                 tampilModal()
             }
@@ -220,7 +226,7 @@
                     updateSubmit.value = !updateSubmit.value
                 }
 
-                // //penyebab_resign
+                // //alasan_resign
                 // data_karyawan.forEach(function (data) {
                 //     if(data.value == resign.karyawan_id){
                 //         karyawan_id.value = data
@@ -234,10 +240,10 @@
                     }
                 })
 
-                // //penyebab_resign
-                // data_penyebab_resign.forEach(function (data) {
-                //     if(data.value == resign.penyebab_resign){
-                //         penyebab_resign.value = data
+                // //alasan_resign
+                // data_alasan_resign.forEach(function (data) {
+                //     if(data.value == resign.alasan_resign){
+                //         alasan_resign.value = data
                 //     }
                 // })
                 judul.value = 'Edit Resign'
@@ -263,7 +269,7 @@
 
             //method update data
             const updateData = () => {
-                if(karyawan_id.value == null || penyebab_resign.value == null || tanggal_resign.value == null){
+                if(karyawan_id.value == null || alasan_resign.value == null || tanggal_resign.value == null){
                     tutupModal();
                     peringatan();
                 }else{
@@ -291,7 +297,7 @@
 
             //method "storeData"
             const storeData = () => {
-                if(karyawan_id.value == null || penyebab_resign.value == null || tanggal_resign.value == null){
+                if(karyawan_id.value == null || alasan_resign.value == null || tanggal_resign.value == null){
                     tutupModal();
                     peringatan();
                 }
@@ -300,7 +306,7 @@
                     Inertia.post('/apps/resign', {
                         //data
                         karyawan_id: karyawan_id.value.id,
-                        penyebab_resign: penyebab_resign.value.value,
+                        alasan_resign: alasan_resign.value.value,
                         tanggal_resign: tanggal_resign.value,
                         
                     }, {
@@ -326,7 +332,7 @@
                 editData,
                 judul,
                 updateSubmit,
-                nama_lengkap, id, data_penyebab_resign, karyawan_id, karyawan_id_edit, penyebab_resign, tanggal_resign,
+                nama_lengkap, id, data_alasan_resign, karyawan_id, karyawan_id_edit, alasan_resign, tanggal_resign,
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan, isDisabled: true,
             }

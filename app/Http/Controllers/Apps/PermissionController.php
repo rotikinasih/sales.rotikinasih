@@ -23,10 +23,11 @@ class PermissionController extends Controller
                         $permissions = $permissions->where('name', 'like', '%'. $search . '%');
                         })->latest()->paginate(10)->onEachSide(1);
 
-    
+                        $startIndex = 0;
         //return inertia view
         return inertia('Apps/Permissions/Index', [
-            'permissions' => $permissions
+            'permissions' => $permissions,
+            'no'  => $startIndex,
         ]);
     }
 

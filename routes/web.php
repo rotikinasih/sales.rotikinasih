@@ -129,6 +129,14 @@ Route::prefix('apps')->group(function() {
             ]
         ]);
 
+        
+        //route pelatihan
+        Route::resource('/pelatihan', App\Http\Controllers\Apps\PelatihanController::class, [
+            'names' => [
+                'index' => 'apps.pelatihan.index'
+            ]
+        ]);
+
 
         //route permission
         // Route::get('/permissions', App\Http\Controllers\Apps\PermissionController::class)->name('apps.permissions');

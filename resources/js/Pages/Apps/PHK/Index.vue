@@ -17,24 +17,24 @@
                             <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Karyawan..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"> <i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
-                        <table class="table table-hover">
-                            <thead>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama Karyawan</th>
-                                    <th>Penyebab PHK</th>
-                                    <th>Tanggal PHK</th>
-                                    <th>Aksi</th>
+                                    <!-- <th>#</th> -->
+                                    <th class="text-center">Nama Karyawan</th>
+                                    <th class="text-center">Penyebab PHK</th>
+                                    <th class="text-center">Tanggal PHK</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(phk, index) in karyawan_phk.data" :key="index">
-                                    <td>{{ index + 1 }}</td>
+                                    <!-- <td>{{ index + 1 }}</td> -->
                                     <td>{{ phk.karyawan.nama_lengkap }}</td>
                                     <td v-if="(phk.penyebab_phk == 1)">Affair</td>
                                     <td v-if="(phk.penyebab_phk == 2)">Fraud</td>
                                     <td>{{ phk.tanggal_phk }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <a @click="editData(phk)" v-if="hasAnyPermission(['apps.phk.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
@@ -174,18 +174,17 @@
             //define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
             //define method search
-
-            const data_penyebab_phk = [
-                { name: 'Affair', value: 1 },
-                { name: 'Fraud', value: 2 }
-            ];
-
             const handleSearch = () => {
                 Inertia.get('/apps/phk', {
                     //send params "search" with value from state "search"
                     search: search.value,
                 });
             }
+            
+            const data_penyebab_phk = [
+                { name: 'Affair', value: 1 },
+                { name: 'Fraud', value: 2 }
+            ];
 
             //tampil modal
             const tampilModal = () => {

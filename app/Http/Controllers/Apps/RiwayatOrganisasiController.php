@@ -71,8 +71,7 @@ class RiwayatOrganisasiController extends Controller
             'karyawan_id'       => 'required',
             'pt_id'             => 'required',
             'divisi_id'         => 'required',
-            'jabatan_id'        => 'required',
-            // 'tgl_gabung_grup'   => 'required',
+            // 'jabatan_id'        => 'required',
             'tgl_masuk'         => 'required',
             'tgl_berakhir'      => 'required'
         ]);
@@ -82,7 +81,6 @@ class RiwayatOrganisasiController extends Controller
             'pt_id'             => $request->pt_id,
             'divisi_id'         => $request->divisi_id,
             'jabatan_id'         => $request->jabatan_id,
-            // 'tgl_gabung_grup'   => $request->tgl_gabung_grup,
             'tgl_masuk'         => $request->tgl_masuk,
             'tgl_berakhir'      => $request->tgl_berakhir
         ];

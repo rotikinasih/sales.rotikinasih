@@ -468,7 +468,7 @@ class KaryawanController extends Controller
             'karyawan_id'           => 'required',
             'divisi_id'             => 'required',
             'pt_id'                 => 'required',
-            'jabatan_id'            => 'required',
+            // 'jabatan_id'            => 'required',
             // 'tgl_gabung_grup'       => 'required',
             'tgl_masuk'             => 'required',
             
