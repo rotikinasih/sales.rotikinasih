@@ -11,6 +11,7 @@
 <table style="width: 100%">
     <thead>
         <tr style="background-color:yellow;font-size:large">
+            {{-- data pribadi --}}
             <th scope="col" style="background-color: yellow; text-align: center; width: 1cm; border: 1px solid black;">No</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Nama Lengkap</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Nama Panggilan</th>
@@ -38,10 +39,12 @@
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Status Keluarga</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Jenis Sosmed</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Akun Sosmed</th>
+
+            {{-- data di perusahhan --}}
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">NIK (Karyawan)</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Entitas</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Divisi</th>
-            <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Jabatan</th>
+            <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Posisi</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Grade</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Tanggal Masuk</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Status Kerja</th>
@@ -49,17 +52,21 @@
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Komposisi Peran</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Komposisi Generasi</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Tanggal Kontrak</th>
-            <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Masa Kontrak</th>
+            <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Masa Kontrak (Bulan)</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Habis Kontrak</th>
+            <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Tanggal Karyawan Tetap</th>
+            <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Masa Kerja</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Kota Rekruitmen</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Kota Penugasan</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">No. NPWP</th>
+            <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Nama Bank</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">No. Rekening</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">No. BPJS Kesehatan</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 5cm; border: 1px solid black;">No. BPJS Ketenagakerjaan</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Email Internal</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 4cm; border: 1px solid black;">Ukuran Baju</th>
             <th scope="col" style="background-color: orange; text-align: center; width: 5cm; border: 1px solid black;">Pengalaman Kerja Terakhir</th>
+            <th scope="col" style="background-color: orange; text-align: center; width: 5cm; border: 1px solid black;">Posisi Kerja Terakhir</th>
 
         </tr>
     </thead>
@@ -135,12 +142,28 @@
             <td style="border: 1px solid black;">{{ $k->no_telp }}</td>
             <td style="border: 1px solid black;">{{ $k->no_wa }}</td>
             <td style="border: 1px solid black;">{{ $k->no_keluarga }}</td>
-            <td style="border: 1px solid black;">{{ $k->hubungan_keluarga }}</td>
+            <td style="border: 1px solid black;">
+                @if ($k->hubungan_keluarga == null)
+
+                @elseif ($k->hubungan_keluarga == 1)
+                    Suami/Istri
+                @elseif ($k->hubungan_keluarga == 2)
+                    Ayah
+                @elseif ($k->hubungan_keluarga == 3)
+                    Ibu
+                @elseif ($k->hubungan_keluarga == 4)
+                    Kakak/Adik
+                @elseif ($k->hubungan_keluarga == 5)
+                    Paman/Bibi
+                @else
+                    Kakek/Nenek
+                @endif
+            </td>
             <td style="border: 1px solid black;">
                 @if ($k->status_pernikahan == null)
                     
                 @elseif ($k->status_pernikahan == 1)
-                    Belom Menikah
+                    Belum Menikah
                 @elseif ($k->status_pernikahan == 2)
                     Menikah 
                 @elseif ($k->status_pernikahan == 3)
@@ -225,7 +248,7 @@
                 @elseif  ($k->komposisi_karyawan == 2)
                     Div Head
                 @elseif ($k->komposisi_karyawan == 3)
-                    Dept <Head></Head>
+                    Dept Head
                 @elseif  ($k->komposisi_karyawan == 4)
                     Sect Head
                 @elseif ($k->komposisi_karyawan == 5)
@@ -249,9 +272,12 @@
             <td style="border: 1px solid black;">{{ $k->tanggal_kontrak }}</td>
             <td style="border: 1px solid black;">{{ $k->masa_kontrak }}</td>
             <td style="border: 1px solid black;">{{ $k->akhir_kontrak }}</td>
+            <td style="border: 1px solid black;">{{ $k->tanggal_karyawan_tetap }}</td>
+            <td style="border: 1px solid black;">{{ $k->masa_kerja_tahun}}</td>
             <td style="border: 1px solid black;">{{ $k->kota_rekruitmen }}</td>
             <td style="border: 1px solid black;">{{ $k->kota_penugasan }}</td>   
             <td style="border: 1px solid black;">{{ $k->no_npwp }}</td>
+            <td style="border: 1px solid black;">{{ $k->nama_bank}}</td>
             <td style="border: 1px solid black;">{{ $k->rekening }}</td>
             <td style="border: 1px solid black;">{{ $k->no_bpjs_kesehatan }}</td>
             <td style="border: 1px solid black;">{{ $k->no_bpjs_ketenagakerjaan }}</td>
@@ -274,6 +300,7 @@
                 @endif
             </td>
             <td style="border: 1px solid black;">{{ $k->pengalaman_kerja_terakhir }}</td>
+            <td style="border: 1px solid black;">{{ $k->jabatan_kerja_terakhir }}</td>
         </tr>
         @endforeach
     </tbody>

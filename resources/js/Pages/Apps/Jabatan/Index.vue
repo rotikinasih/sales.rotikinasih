@@ -1,27 +1,27 @@
 <template>
     <Head>
-        <title>Jabatan</title>
+        <title>Posisi</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
-                    <h5>Daftar Jabatan</h5>
+                    <h5>Daftar Posisi</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the <code> position </code> data</span> -->
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Jabatan..." @keyup="handleSearch">
+                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama jabatan..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
                                     <!-- <th>#</th> -->
-                                    <th class="text-center">Nama Jabatan</th>
+                                    <th class="text-center">Nama Posisi</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
@@ -66,8 +66,8 @@
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Nama Jabatan :</label>
-                        <input type="text" class="form-control" placeholder="Masukkan Nama Jabatan" v-model="nama_jabatan" required>
+                        <label class="col-form-label">Nama Posisi :</label>
+                        <input type="text" class="form-control" placeholder="Masukkan Nama Posisi" v-model="nama_jabatan" required>
                     </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Status :</label>
@@ -154,7 +154,7 @@
                 if(updateSubmit.value == true){
 				    updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Tambah Jabatan'
+                judul.value = 'Tambah Posisi'
                 id.value = null
                 nama_jabatan.value = null
                 status.value = null
@@ -165,7 +165,7 @@
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Edit Jabatan'
+                judul.value = 'Edit Posisi'
                 id.value = jb.id
                 nama_jabatan.value = jb.nama_jabatan
                 status.value = jb.status

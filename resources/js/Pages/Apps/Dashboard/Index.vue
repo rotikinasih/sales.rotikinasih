@@ -4,17 +4,24 @@
     </Head>
     <main>
         <div class="row">
-            <div class="col-md-4">
-                <!-- <div class="card card-event">
-                    <div class="card-block">
+            <!-- <div class="col-md-3">
+                <div class="card card-event">
+                    <div class="card-block" v-if="total_karyawan_aktif != undefined">
                         <div class="row align-items-center justify-content-center">
                             <div class="col">
-                                <h5 class="m-0">Total Employees by PT</h5>
+                                <h4 class="m-0">Total Karyawan</h4>
                             </div>
-                            <BarChart :chartData="chartKaryawanPT" :options="options" style="height: 250px;"/>
+                            <div class="col-auto">
+                                <label class="label theme-bg2 text-white f-14 f-w-400 float-right"></label>
+                            </div>
                         </div>
+                        <h3 class="mt-3 f-w-300">{{ total_karyawan_aktif }}<sub class="text-muted f-14"> </sub></h3>
+                        <h4 class="text-muted mt-4 mb-0"></h4>
+                         <i class="fab fa-angellist text-c-purple f-50"></i>
                     </div>
-                </div> -->
+                </div>
+            </div> -->
+            <div class="col-md-4">
                 <div class="card card-event">
                     <div class="card-block" v-if="termuda != undefined">
                         <div class="row align-items-center justify-content-center">
@@ -25,7 +32,7 @@
                                 <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ termuda.nik_karyawan }}</label>
                             </div>
                         </div>
-                        <h2 class="mt-3 f-w-300">{{ termuda.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
+                        <h4 class="mt-3 f-w-300">{{ termuda.umur }}<sub class="text-muted f-14"> Tahun</sub></h4>
                         <h6 class="text-muted mt-4 mb-0">{{ termuda.nama_lengkap }}</h6>
                         <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
                     </div>
@@ -54,7 +61,7 @@
                                 <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ tertua.nik_karyawan }}</label>
                             </div>
                         </div>
-                        <h2 class="mt-3 f-w-300">{{ tertua.umur }}<sub class="text-muted f-14"> Tahun</sub></h2>
+                        <h4 class="mt-3 f-w-300">{{ tertua.umur }}<sub class="text-muted f-14"> Tahun</sub></h4>
                         <h6 class="text-muted mt-4 mb-0">{{ tertua.nama_lengkap }}</h6>
                         <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
                     </div>
@@ -83,7 +90,7 @@
                                 <label class="label theme-bg2 text-white f-14 f-w-400 float-right">{{ terlama.nik_karyawan }}</label>
                             </div>
                         </div>
-                        <h2 class="mt-3 f-w-300">{{ terlama.masa_kerja_tahun }}<sub class="text-muted f-14"></sub></h2>
+                        <h4 class="mt-3 f-w-300">{{ terlama.masa_kerja_tahun }}<sub class="text-muted f-14"></sub></h4>
                         <h6 class="text-muted mt-4 mb-0">{{ terlama.nama_lengkap }}</h6>
                         <!-- <i class="fab fa-angellist text-c-purple f-50"></i> -->
                     </div>
@@ -128,7 +135,7 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Jabatan</h5>
+                        <h5>Total Karyawan Berdasarkan Posisi</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
@@ -193,6 +200,16 @@
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
                             <BarChart :chartData="chartKaryawanPHK" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Resign</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKaryawanResign" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -442,6 +459,7 @@
             tertua: Object,
             termuda: Object,
             terlama: Object,
+            total_karyawan_aktif: Object,
             //chart berdasarkan PT
             pt: Array,
             total_pt: Array,
@@ -492,6 +510,11 @@
              //chart berdasarkan rentang umur
             umur: Array,
             total_umur: Array,
+
+            
+            //chart berdasarkan alasan resign
+            alasan_resign: Array,
+            total_alasan_resign: Array,
         },
         setup(props){
              //method random color
@@ -640,13 +663,23 @@
             };
 
              //chart karyawan berdasarkan komposisi karyawan
-             const chartUmur = {
+            const chartUmur = {
                 labels: props.umur,
                 datasets: [{
                     data: props.total_umur,
                     backgroundColor: randomBackgroundColor(5),
                 }, ],
             };
+
+             //chart karyawan berdasarkan komposisi karyawan
+            const chartKaryawanResign = {
+                labels: props.alasan_resign,
+                datasets: [{
+                    data: props.total_alasan_resign,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
+
 
             return{
                 options,
@@ -663,6 +696,7 @@
                 chartKomposisiKaryawan,
                 chartKaryawanPHK,
                 chartUmur,
+                chartKaryawanResign,
             }
         }
     }

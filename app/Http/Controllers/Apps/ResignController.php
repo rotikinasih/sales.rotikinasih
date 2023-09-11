@@ -15,16 +15,18 @@ class ResignController extends Controller
     {
         $search = request()->search;
         //get perusahaan
-        $karyawan_resign = KaryawanResign::with('karyawan')->whereHas('karyawan', function ($query) use ($search) {
+        $karyawan_resign = KaryawanResign::with('karyawan', 'karyawan.perusahaan', 'karyawan.divisi')->whereHas('karyawan', function ($query) use ($search) {
             $query->where('nama_lengkap', 'like', '%'. $search . '%');
         })->latest()->paginate(10)->onEachSide(1);
 
         $karyawan = Karyawan::where('status_karyawan', 0)->get();
+        $karyawan_edit = Karyawan::all();
 
         //return inertia
         return Inertia::render('Apps/Resign/Index',[
             'karyawan_resign' => $karyawan_resign,
-            'karyawan' => $karyawan
+            'karyawan' => $karyawan,
+            'karyawan_edit' => $karyawan_edit
         ]);
     }
 
@@ -48,9 +50,9 @@ class ResignController extends Controller
         ];
 
         if(KaryawanResign::create($data)){
-            //jika data resign berhasil dibuat, update status karyawan menjadi 2 = resign
+            //jika data resign berhasil dibuat, update status karyawan menjadi 1 = resign
             $karyawan = Karyawan::findOrfail($request->karyawan_id);
-            $karyawan->status_karyawan = 2;
+            $karyawan->status_karyawan = 1;
             $karyawan->save();
         }
         //redirect

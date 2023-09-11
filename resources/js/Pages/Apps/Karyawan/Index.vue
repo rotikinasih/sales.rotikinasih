@@ -37,7 +37,7 @@
                                     <th style="text-align: center;">NIK (Karyawan)</th>
                                     <th style="text-align: center;">Entitas</th>
                                     <th style="text-align: center;">Divisi</th>
-                                    <th style="text-align: center;">Jabatan</th>
+                                    <th style="text-align: center;">Posisi</th>
                                     <th style="text-align: center;">Status Kerja</th>
                                     <th style="text-align: center;">Aksi</th>
                                 </tr>
@@ -59,12 +59,12 @@
                                     <td v-else style="text-align: center;"><b style="color: rgb(160, 4, 250);">Training</b></td>
                                     <td class="text-center">
                                         <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
-                                        <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px" title="Delete" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
+                                        <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px" title="Hapus" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
                                         <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-info"></i></a>
-                                        <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Add Historical Organization" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Historical Organization" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
-                                        <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Add Violation" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-exclamation-triangle"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Violations" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
+                                        <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Tambah Organisasi" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Riwayat Organisasi" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
+                                        <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Tambah Pelanggaran" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-exclamation-triangle"></i></a>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Riwayat Pelanggaran" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -274,7 +274,7 @@
                                             <input type="text" class="form-control" v-model="divisi_id" readonly>
                                         </div>
                                         <div class="form-group mb-3">
-                                            <label class="col-form-label">Jabatan :</label>
+                                            <label class="col-form-label">Posisi :</label>
                                             <input type="text" class="form-control" v-model="jabatan_id" readonly>
                                         </div>
                                         <div class="form-group mb-3">
@@ -384,7 +384,7 @@
                                             <input type="text" class="form-control" v-model="pengalaman_kerja_terakhir" readonly>
                                         </div>
                                         <div class="form-group mb-3">
-                                            <label class="col-form-label">Jabatan Kerja Terakhir :</label>
+                                            <label class="col-form-label">Posisi Kerja Terakhir :</label>
                                             <input type="text" class="form-control" v-model="jabatan_kerja_terakhir" readonly>
                                         </div>
                                     </div>
@@ -439,7 +439,7 @@
                     </div>
                 
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Jabatan :</label>
+                        <label class="col-form-label">Posisi :</label>
                         <VueMultiselect
                             v-model="jabatan_id"
                             :options="jabatans"
@@ -447,7 +447,7 @@
                             track-by="id"
                             :allow-empty="false"
                             deselect-label="Can't remove this value"
-                            placeholder="Pilih Jabatan"
+                            placeholder="Pilih Posisi"
                         ></VueMultiselect>
                     </div>
                     

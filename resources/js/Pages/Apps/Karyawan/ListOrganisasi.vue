@@ -22,7 +22,7 @@
                                     <th scope="col" class="text-center">Nama Lengkap</th>
                                     <th scope="col" class="text-center">Entitas</th>
                                     <th scope="col" class="text-center">Divisi</th>
-                                    <th scope="col" class="text-center">Jabatan</th>
+                                    <th scope="col" class="text-center">Posisi</th>
                                     <th scope="col" class="text-center">Tanggal Masuk</th>
                                     <th scope="col" class="text-center">Tanggal Berakhir</th>
                                     <th scope="col" style="text-align: center">Aksi</th>
@@ -111,7 +111,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Jabatan :</label>
+                                <label class="col-form-label">Posisi :</label>
                                 <VueMultiselect
                                     v-model="jabatan_id"
                                     :options="jabatan"
@@ -120,7 +120,7 @@
                                     :allow-empty="false"
                                     deselect-label="..."
                                     select-label=" "    
-                                    placeholder="Pilih Jabatan"
+                                    placeholder="Pilih Posisi"
                                 ></VueMultiselect>
                             </div>
                         </div> 

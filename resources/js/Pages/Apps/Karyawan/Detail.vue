@@ -202,7 +202,7 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Jabatan</label>
+                                                <label class="fw-bold">Posisi</label>
                                                 <VueMultiselect
                                                     v-model="form.jabatan_id"
                                                     :options="jabatan"
@@ -407,7 +407,7 @@
             ];
 
             const data_status_pernikahan = [
-                { name: 'Belom Menikah', value: 1 },
+                { name: 'Belum Menikah', value: 1 },
                 { name: 'Menikah', value: 2 },
                 { name: 'Janda', value: 3 },
                 { name: 'Duda', value: 4 },

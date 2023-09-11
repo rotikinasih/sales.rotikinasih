@@ -15,16 +15,18 @@ class PHKController extends Controller
     {
         $search = request()->search;
         //get perusahaan
-        $karyawan_phk = KaryawanPHK::with('karyawan')->whereHas('karyawan', function ($query) use ($search) {
+        $karyawan_phk = KaryawanPHK::with('karyawan', 'karyawan.perusahaan', 'karyawan.divisi')->whereHas('karyawan', function ($query) use ($search) {
             $query->where('nama_lengkap', 'like', '%'. $search . '%');
         })->latest()->paginate(10)->onEachSide(1);
 
         $karyawan = Karyawan::where('status_karyawan', 0)->get();
+        $karyawan_edit = Karyawan::all();
 
         //return inertia
         return Inertia::render('Apps/PHK/Index',[
             'karyawan_phk' => $karyawan_phk,
             'karyawan' => $karyawan,
+            'karyawan_edit' => $karyawan_edit,
         ]);
     }
 
@@ -48,9 +50,9 @@ class PHKController extends Controller
         ];
 
         if(KaryawanPHK::create($data)){
-            //jika data phk berhasil dibuat, update status karyawan menjadi 3 = phk
+            //jika data phk berhasil dibuat, update status karyawan menjadi 2 = phk
             $karyawan = Karyawan::findOrfail($request->karyawan_id);
-            $karyawan->status_karyawan = 3;
+            $karyawan->status_karyawan = 2;
             $karyawan->save();
         }
 

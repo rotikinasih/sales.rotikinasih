@@ -22,6 +22,9 @@
                                 <tr>
                                     <!-- <th>#</th> -->
                                     <th class="text-center">Nama Karyawan</th>
+                                    <th class="text-center">NIK (Karyawan)</th>
+                                    <th class="text-center">Entitas</th>
+                                    <th class="text-center">Divisi</th>
                                     <th class="text-center">Alasan Resign</th>
                                     <th class="text-center">Tanggal Resign</th>
                                     <th class="text-center">Aksi</th>
@@ -31,12 +34,17 @@
                                 <tr v-for="(resign, index) in karyawan_resign.data" :key="index">
                                     <!-- <td>{{ index + 1 }}</td> -->
                                     <td>{{ resign.karyawan.nama_lengkap }}</td>
+                                    <td>{{ resign.karyawan.nik_karyawan }}</td>
+                                    <td v-if="(resign.karyawan.pt_id == null)"></td>
+                                    <td v-if="(resign.karyawan.pt_id)">{{ resign.karyawan.perusahaan.nama_pt }}</td>
+                                    <td v-if="(resign.karyawan.divisi_id == null)"></td>
+                                    <td v-if="(resign.karyawan.divisi_id)">{{ resign.karyawan.divisi.nama_divisi }}</td>
                                     <td v-if="(resign.alasan_resign == null)"></td>
                                     <td v-if="(resign.alasan_resign == 1)">Tidak Memenuhi Target</td>
                                     <td v-if="(resign.alasan_resign == 2)">Mendapat Pekerjaan Lain</td>
                                     <td v-if="(resign.alasan_resign == 3)">Melanjutkan Pendidikan</td>
                                     <td v-if="(resign.alasan_resign == 4)">Faktor Keluarga</td>
-                                    <td v-if="(resign.alasan_resign == 5)">Pekerjaan dan Passion Tak Sejalan</td>
+                                    <td v-if="(resign.alasan_resign == 5)">Pekerjaan dan Passion Tidak Sejalan</td>
                                     <td>{{ resign.tanggal_resign }}</td>
                                     <td class="text-center">
                                         <a @click="editData(resign)" v-if="hasAnyPermission(['apps.resign.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
@@ -44,7 +52,7 @@
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="karyawan_resign.data[0] == undefined">
-                                    <td colspan="5" class="text-center">
+                                    <td colspan="8" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             Data Kosong
@@ -87,7 +95,7 @@
                         <VueMultiselect
                             v-show="updateSubmit"
                             v-model="karyawan_id_edit"
-                            :options="karyawan"
+                            :options="karyawan_edit"
                             label="nama_lengkap"
                             track-by="id"
                             :allow-empty="false"
@@ -160,6 +168,7 @@
         props:{
             karyawan_resign: Object,
             karyawan: Array,
+            karyawan_edit: Array,
         },
         //composition API
     
@@ -183,7 +192,7 @@
                 { name: 'Mendapat Pekerjaan Lain', value: 2 },
                 { name: 'Melanjutkan Pendidikan', value: 3 },
                 { name: 'Faktor Keluarga', value: 4 },
-                { name: 'Pekerjaan dan Passion Tak Sejalan', value: 5},
+                { name: 'Pekerjaan dan Passion Tidak Sejalan', value: 5},
             ];
 
 
@@ -233,19 +242,19 @@
                 //     }
                 // })
 
-                let data_karyawan = props.karyawan
+                let data_karyawan = props.karyawan_edit
                 data_karyawan.forEach(data => {
                     if(resign.karyawan_id == data.id){
                         karyawan_id_edit.value = data
                     }
                 })
 
-                // //alasan_resign
-                // data_alasan_resign.forEach(function (data) {
-                //     if(data.value == resign.alasan_resign){
-                //         alasan_resign.value = data
-                //     }
-                // })
+                //alasan_resign
+                data_alasan_resign.forEach(function (data) {
+                    if(data.value == resign.alasan_resign){
+                        alasan_resign.value = data
+                    }
+                })
                 judul.value = 'Edit Resign'
                 id.value = resign.id
                 // karyawan_id.value = resign.karyawan_id

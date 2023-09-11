@@ -22,6 +22,9 @@
                                 <tr>
                                     <!-- <th>#</th> -->
                                     <th class="text-center">Nama Karyawan</th>
+                                    <th class="text-center">NIK (Karyawan)</th>
+                                    <th class="text-center">Entitas</th>
+                                    <th class="text-center">Divisi</th>
                                     <th class="text-center">Penyebab PHK</th>
                                     <th class="text-center">Tanggal PHK</th>
                                     <th class="text-center">Aksi</th>
@@ -31,6 +34,11 @@
                                 <tr v-for="(phk, index) in karyawan_phk.data" :key="index">
                                     <!-- <td>{{ index + 1 }}</td> -->
                                     <td>{{ phk.karyawan.nama_lengkap }}</td>
+                                    <td>{{ phk.karyawan.nik_karyawan }}</td>
+                                    <td v-if="(phk.karyawan.pt_id == null)"></td>
+                                    <td v-if="(phk.karyawan.pt_id)">{{ phk.karyawan.perusahaan.nama_pt }}</td>
+                                    <td v-if="(phk.karyawan.divisi_id == null)"></td>
+                                    <td v-if="(phk.karyawan.divisi_id)">{{ phk.karyawan.divisi.nama_divisi }}</td>
                                     <td v-if="(phk.penyebab_phk == 1)">Affair</td>
                                     <td v-if="(phk.penyebab_phk == 2)">Fraud</td>
                                     <td>{{ phk.tanggal_phk }}</td>
@@ -40,7 +48,7 @@
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="karyawan_phk.data[0] == undefined">
-                                    <td colspan="5" class="text-center">
+                                    <td colspan="8" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             Data Kosong
@@ -83,7 +91,7 @@
                         <VueMultiselect
                             v-show="updateSubmit"
                             v-model="karyawan_id_edit"
-                            :options="karyawan"
+                            :options="karyawan_edit"
                             label="nama_lengkap"
                             track-by="id"
                             :allow-empty="false"
@@ -157,6 +165,7 @@
         props:{
             karyawan_phk: Object,
             karyawan: Array,
+            karyawan_edit: Array,
         },
         //composition API
     
@@ -224,7 +233,7 @@
                 })
 
                 //divisi
-                let data_karyawan = props.karyawan
+                let data_karyawan = props.karyawan_edit
                 data_karyawan.forEach(data => {
                     if(phk.karyawan_id == data.id){
                         karyawan_id_edit.value = data

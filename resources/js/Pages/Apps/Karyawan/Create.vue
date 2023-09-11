@@ -204,7 +204,7 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Jabatan</label>
+                                                <label class="fw-bold">Posisi</label>
                                                 <VueMultiselect
                                                     v-model="form.jabatan"
                                                     :options="jabatan"
@@ -212,7 +212,7 @@
                                                     track-by="nama_jabatan"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
-                                                    placeholder="Pilih Jabatan"
+                                                    placeholder="Pilih Posisi"
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
@@ -328,8 +328,8 @@
                                                 <input type="text" class="form-control" v-model="form.pengalaman_kerja_terakhir" placeholder="Masukkan Pengalaman Kerja Terakhir">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Jabatan Kerja Terakhir</label>
-                                                <input type="text" class="form-control" v-model="form.jabatan_kerja_terakhir" placeholder="Masukkan Jabatan Kerja Terakhir">
+                                                <label class="fw-bold">Posisi Kerja Terakhir</label>
+                                                <input type="text" class="form-control" v-model="form.jabatan_kerja_terakhir" placeholder="Masukkan Posisi Kerja Terakhir">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label" name="foto">Foto</label><br>

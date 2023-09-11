@@ -15,7 +15,7 @@
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Nama Lengkap</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Entitas</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Divisi</th>
-            <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Jabatan</th>
+            <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Posisi</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Tanggal Masuk</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Tanggal Berakhir</th>
         </tr>

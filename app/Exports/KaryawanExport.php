@@ -21,7 +21,7 @@ class KaryawanExport implements FromView
     public function view(): View
     {
         return view('exports.karyawan', [
-            'karyawan' => Karyawan::with('perusahaan', 'divisi', 'jabatan')->orderBy('pt_id','ASC')->orderBy('divisi_id','ASC')->orderBy('jabatan_id','ASC')->get(), 
+            'karyawan' => Karyawan::with('perusahaan', 'divisi', 'jabatan')->where('status_karyawan', 0)->get(), 
             'waktu_sekarang' => date("d-m-Y H:i:s")
         ]);
     }

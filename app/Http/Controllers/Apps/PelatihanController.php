@@ -15,14 +15,16 @@ class PelatihanController extends Controller
         $search = request()->serach;
 
         //ambil pelatihan
-        $pelatihan = Pelatihan::with('karyawan')->whereHas('karyawan', function($q) use($search){
-            $q->where('nama_lengkap', 'like', '%'. $search . '%');
-            })->latest()->paginate(10)->onEachSide(1);
+        $pelatihan = Pelatihan::with('karyawan')
+        ->whereHas('karyawan', function ($q) use ($search) {
+            $q->where('nama_lengkap', 'like', '%' . $search . '%');
+        })
+        ->latest()
+        ->paginate(10)
+        ->onEachSide(1);
 
         //ambil karyawan
         $karyawan = Karyawan::where('status_karyawan', 0)->get();
-
-        // dd($karyawan);
 
         //return inertia render
         return Inertia::render('Apps/Pelatihan/Index', [

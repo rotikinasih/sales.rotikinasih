@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use App\Models\MasterDivisi;
-use App\Models\MasterJabatan;
+use App\Models\Masterjabatan;
 use App\Models\MasterPerusahaan;
 use App\Models\RiwayatOrganisasi;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ class RiwayatOrganisasiController extends Controller
         //get data divisi
         $perusahaan = MasterPerusahaan::where('status', 1)->get();
         $divisi = MasterDivisi::where('status', 1)->get();
-        $jabatan = MasterJabatan::where('status', 1)->get();
+        $jabatan = Masterjabatan::where('status', 1)->get();
 
         return Inertia::render('Apps/Karyawan/ListOrganisasi', [
             'id_karyawan'   => $id,

@@ -29,7 +29,7 @@
                                     <th scope="col" class="text-center">Nama Lengkap</th>
                                     <th scope="col" class="text-center">Entitas</th>
                                     <th scope="col" class="text-center">Divisi</th>
-                                    <th scope="col" class="text-center">Jabatan</th>
+                                    <th scope="col" class="text-center">Posisi</th>
                                     <!-- <th scope="col">Tanggal Gabung Group</th> -->
                                     <th scope="col" class="text-center">Tanggal Masuk</th>
                                     <th scope="col" class="text-center">Tanggal Berakhir</th>

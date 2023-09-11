@@ -62,5 +62,8 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'apps.phk.index', 'guard_name' => 'web']);
         Permission::create(['name' => 'apps.phk.edit', 'guard_name' => 'web']);
 
+        Permission::create(['name' => 'apps.pelatihan.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'apps.pelatihan.edit', 'guard_name' => 'web']);
+
     }
 }

@@ -15,6 +15,7 @@
 
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Karyawan..." @keyup="handleSearch">
+                            <!-- <input type="text" v-model="search" @input="searchPelatihan" placeholder="Cari Karyawan" /> -->
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"> <i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-bordered table-hover">
@@ -143,6 +144,18 @@
             pelatihan: Object,
             karyawan: Array,
         },
+
+        // methods: {
+        //     searchPelatihan() {
+        //     this.$inertia.get(`/apps/pelatihan`, { search: this.search });
+        //     },
+        // },
+
+        // data() {
+        //     return {
+        //     search: '',
+        //     };
+        // },
         //composition API
     
 
@@ -157,7 +170,7 @@
             const jenis_pelatihan = ref();
             const tanggal_pelatihan = ref();
             const lama_pelatihan = ref();
-            //define state search
+            // define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
             //define method search
             const handleSearch = () => {
@@ -291,9 +304,9 @@
             }
 
             return {
-                search,
-                handleSearch,
                 showModal,
+                search, 
+                handleSearch,
                 editData,
                 judul,
                 updateSubmit,
@@ -301,6 +314,8 @@
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan
             }
+
+            
         }
     }
 </script>

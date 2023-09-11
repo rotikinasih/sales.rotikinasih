@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
+use App\Models\KaryawanPHK;
+use App\Models\KaryawanResign;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,352 +25,311 @@ class DashboardController extends Controller
         $day = date('d F Y');
 
         //jumlah karyawan berdasarkan PT
-        $chart_pt = DB::table('karyawan')
-            ->addSelect(DB::raw('master_perusahaan.nama_pt as title, COUNT(*) as total'))
+        $chart_pt = Karyawan::select('master_perusahaan.nama_pt AS title', DB::raw('COUNT(*) AS total'))
             ->join('master_perusahaan', 'master_perusahaan.id', '=', 'karyawan.pt_id')
-            ->groupBy('karyawan.pt_id')
-            ->orderBy('total', 'DESC')
             ->where('status_karyawan', 0)
+            ->groupBy('title')
             ->get();
-        if(count($chart_pt)) {
-            foreach ($chart_pt as $data) {
-                $pt[] = $data->title;
-                $total_pt[]   = (int)$data->total;
-            }
-        }else {
-            $pt[]   = "";
-            $total_pt[]  = "";
-        }
 
+            if(count($chart_pt)) {
+                foreach ($chart_pt as $data) {
+                    if ($data->title !== null) {
+                        $pt []= $data->title;
+                        $total_pt []= $data->total;
+                    }
+                }
+            }else{
+                $pt[]   = "";
+                $total_pt[]  = "";
+            }
 
         //jumlah karyawan berdasarkan Divisi
-        $chart_divisi = DB::table('karyawan')
-            ->addSelect(DB::raw('master_divisi.nama_divisi as title, COUNT(*) as total'))
-            ->join('master_divisi', 'master_divisi.id', '=', 'karyawan.divisi_id')
-            ->groupBy('karyawan.divisi_id')
-            ->orderBy('total', 'DESC')
-            ->where('status_karyawan', 0)
-            ->get();
+        $chart_divisi = Karyawan::select('master_divisi.nama_divisi AS title', DB::raw('COUNT(*) AS total'))
+        ->join('master_divisi', 'master_divisi.id', '=', 'karyawan.divisi_id')
+        ->where('status_karyawan', 0)
+        ->groupBy('title')
+        ->get();
+
         if(count($chart_divisi)) {
             foreach ($chart_divisi as $data) {
-                $divisi[] = $data->title;
-                $total_divisi[]   = (int)$data->total;
+                if ($data->title !== null) {
+                    $divisi []= $data->title;
+                    $total_divisi []= $data->total;
+                }
             }
-        }else {
+        }else{
             $divisi[]   = "";
             $total_divisi[]  = "";
         }
 
         //jumlah karyawan berdasarkan Jabatan
-        $chart_jabatan = DB::table('karyawan')
-            ->addSelect(DB::raw('master_jabatan.nama_jabatan as title, COUNT(*) as total'))
-            ->join('master_jabatan', 'master_jabatan.id', '=', 'karyawan.jabatan_id')
-            ->groupBy('karyawan.jabatan_id')
-            ->orderBy('total', 'DESC')
-            ->where('status_karyawan', 0)
-            ->get();
+        $chart_jabatan = Karyawan::select('master_jabatan.nama_jabatan AS title', DB::raw('COUNT(*) AS total'))
+        ->join('master_jabatan', 'master_jabatan.id', '=', 'karyawan.jabatan_id')
+        ->where('status_karyawan', 0)
+        ->groupBy('title')
+        ->get();
+
         if(count($chart_jabatan)) {
             foreach ($chart_jabatan as $data) {
-                $jabatan[] = $data->title;
-                $total_jabatan[]   = (int)$data->total;
+                if ($data->title !== null) {
+                    $jabatan []= $data->title;
+                    $total_jabatan []= $data->total;
+                }
             }
-        }else {
+        }else{
             $jabatan[]   = "";
             $total_jabatan[]  = "";
         }
 
-        $chart_kota_penugasan = DB::table('karyawan')
-        ->addSelect(DB::raw('kota_penugasan as title, COUNT(*) as total'))
-        ->groupBy('kota_penugasan')
-        ->orderBy('total', 'DESC')
+        //kota penugasan
+        $chart_kota_penugasan = Karyawan::select('karyawan.kota_penugasan AS title', DB::raw('COUNT(*) AS total'))
         ->where('status_karyawan', 0)
+        ->groupBy('title')
+        ->orderBy('total', 'DESC')
         ->get();
+
         if(count($chart_kota_penugasan)) {
-            foreach ($chart_kota_penugasan as $data) {
-                $kota_penugasan[] = $data->title;
-                $total_kota_penugasan[]   = (int)$data->total;
+            foreach ($chart_kota_penugasan as $key => $data) {
+                if ($data->title !== null) {
+                    $kota_penugasan[] = $data->title;
+                    $total_kota_penugasan[] = $data->total;
+                }
             }
-        }else {
-            $kota_penugasan[]   = "";
-            $total_kota_penugasan[]  = "";
+        }else{
+            $kota_penugasan[] = "";
+            $total_kota_penugasan[] = "";
         }
 
-        $chart_jenis_kelamin = DB::table('karyawan')
-        ->addSelect(DB::raw('jenis_kelamin as title, COUNT(*) as total'))
-        ->groupBy('jenis_kelamin')
-        ->orderBy('total', 'DESC')
-        ->where('status_karyawan', 0)
-        ->get();
-        if(count($chart_jenis_kelamin)) {
-            foreach ($chart_jenis_kelamin as $key => $data) {
-                // if($data->title == null){                    
-                //     $jenis_kelamin[]   = "";
-                //     $total_jenis_kelamin[]  = "";
-                // }
-                if($data->title == 1){                    
-                    $jenis_kelamin[$key] = 'Laki-laki';
-                }
+        // dd($total_kota_penugasan);
 
-                if($data->title == 2){
-                    $jenis_kelamin[$key] = 'Perempuan';
-                }
-
-                $total_jenis_kelamin[]   = (int)$data->total;
-            }
-        }else {
-            $jenis_kelamin[]   = "";
-            $total_jenis_kelamin[]  = "";
-        }
-
-        $chart_status_kerja = DB::table('karyawan')
-        ->addSelect(DB::raw('status_kerja as title, COUNT(*) as total'))
-        ->groupBy('status_kerja')
-        ->orderBy('total', 'DESC')
-        ->where('status_karyawan', 0)
-        ->get();
-        if(count($chart_status_kerja)) {
-            foreach ($chart_status_kerja as $key => $data) {
-                // if($data->title == null){                    
-                //     $status_kerja[]   = "";
-                //     $total_status_kerja[]  = "";
-                // }
-                if($data->title == 1){
-                    $status_kerja[$key] = 'Kontrak';
-                }
-
-                if($data->title == 2){
-                    $status_kerja[$key] = 'Tetap';
-                }
-
-                if($data->title == 3){
-                    $status_kerja[$key] = 'Training';
-                }
-                
-                $total_status_kerja[] = (int)$data->total;
-            }
-        }else {
-            $status_kerja[]   = "";
-            $total_status_kerja[]  = "";
-        }
-
-        $chart_komposisi_generasi = DB::table('karyawan')
-        ->addSelect(DB::raw('komposisi_generasi as title, COUNT(*) as total'))
+        $chart_komposisi_generasi = Karyawan::select('karyawan.komposisi_generasi AS title', DB::raw('COUNT(*) AS total'))
+        ->where('status_karyawan', '=', 0)
         ->groupBy('komposisi_generasi')
-        ->orderBy('total', 'DESC')
-        ->where('status_karyawan', 0)
         ->get();
+
         if(count($chart_komposisi_generasi)) {
             foreach ($chart_komposisi_generasi as $data) {
-                $komposisi_generasi[] = $data->title;
-                $total_komposisi_generasi[]   = (int)$data->total;
+                if ($data->title !== null) {
+                    $komposisi_generasi[] = $data->title;
+                    $total_komposisi_generasi[] = $data->total;
+                }
             }
-        }else {
-            $komposisi_generasi[]   = "";
-            $total_komposisi_generasi[]  = "";
+        }else{
+            $komposisi_generasi[] = "";
+            $total_komposisi_generasi[] = "";
         }
 
-        $chart_komposisi_peran = DB::table('karyawan')
-        ->addSelect(DB::raw('komposisi_peran as title, COUNT(*) as total'))
-        ->groupBy('komposisi_peran')
-        ->orderBy('total', 'DESC')
+        // dd( $total_komposisi_generasi);
+        $chart_jenis_kelamin = Karyawan::selectRaw('CASE WHEN jenis_kelamin = 1 THEN "Laki-laki" ELSE "Perempuan" END AS title')
+        ->selectRaw('COUNT(*) AS total')
         ->where('status_karyawan', 0)
+        ->groupBy('title')
         ->get();
+
+        if(count($chart_jenis_kelamin)) {
+            foreach ($chart_jenis_kelamin as $data) {
+                if ($data->title !== null) {
+                    $jenis_kelamin[] = $data->title;
+                    $total_jenis_kelamin[] = $data->total;
+                }
+            }
+        }else{
+            $jenis_kelamin[] = "";
+            $total_jenis_kelamin[] = "";
+        }
+
+        $chart_status_kerja = Karyawan::selectRaw('CASE 
+        WHEN status_kerja = 1 THEN "Kontrak" 
+        WHEN status_kerja = 2 THEN "Tetap" 
+        ELSE "Training" END
+        AS title')
+        ->selectRaw('COUNT(*) AS total')
+        ->where('status_karyawan', 0)
+        ->groupBy('title')
+        ->get();
+
+        if(count($chart_status_kerja)) {
+            foreach ($chart_status_kerja as $data) {
+                if ($data->title !== null) {
+                    $status_kerja[] = $data->title;
+                    $total_status_kerja[] = $data->total;
+                }
+            }
+        }else{
+            $status_kerja[] = "";
+            $total_status_kerja[] = "";
+        }
+
+
+        $chart_komposisi_peran = Karyawan::selectRaw('CASE 
+        WHEN komposisi_peran = 1 THEN "Support" 
+        ELSE "Core" END 
+        AS title')
+        ->selectRaw('COUNT(*) AS total')
+        ->where('status_karyawan', 0)
+        ->groupBy('title')
+        ->get();
+
         if(count($chart_komposisi_peran)) {
-            foreach ($chart_komposisi_peran as $key => $data) {
-                // if($data->title == null){                    
-                //     $komposisi_peran[]   = "";
-                //     $total_komposisi_peran[]  = "";
-                // }
-                if($data->title == 1){                    
-                    $komposisi_peran[$key] = 'Support';
+            foreach ($chart_komposisi_peran as $data) {
+                if ($data->title !== null) {
+                    $komposisi_peran[] = $data->title;
+                    $total_komposisi_peran[] = $data->total;
                 }
-
-                if($data->title == 2){
-                    $komposisi_peran[$key] = 'Core';
-                }
-
-                $total_komposisi_peran[]   = (int)$data->total;
             }
-        }else {
-            $komposisi_peran[]   = "";
-            $total_komposisi_peran[]  = "";
+        }else{
+            $komposisi_peran[] = "";
+            $total_komposisi_peran[] = "";
         }
 
-        
-        $chart_pendidikan = DB::table('karyawan')
-        ->addSelect(DB::raw('pendidikan as title, COUNT(*) as total'))
-        ->groupBy('pendidikan')
-        ->orderBy('total', 'DESC')
+        $chart_pendidikan = Karyawan::selectRaw('CASE 
+        WHEN pendidikan=1 THEN "SD" 
+        WHEN pendidikan=2 THEN "SMP" 
+        WHEN pendidikan=3 THEN "SMA" 
+        WHEN pendidikan=4 THEN "D1" 
+        WHEN pendidikan=5 THEN "D2" 
+        WHEN pendidikan=6 THEN "D3" 
+        WHEN pendidikan=7 THEN "D4" 
+        WHEN pendidikan=8 THEN "S1" 
+        WHEN pendidikan=9 THEN "S2" 
+        ELSE "S3" END 
+        AS title')
+        ->selectRaw('COUNT(*) AS total')
         ->where('status_karyawan', 0)
+        ->groupBy('title')
         ->get();
+
         if(count($chart_pendidikan)) {
-            foreach ($chart_pendidikan as $key => $data) {
-                // if($data->title == null){                    
-                //     $pendidikan[]   = "";
-                //     $total_pendidikan[]  = "";
-                // }
-                if($data->title == 1){                    
-                    $pendidikan[$key] = 'SD';
+            foreach ($chart_pendidikan as $data) {
+                if ($data->title !== null) {
+                    $pendidikan[] = $data->title;
+                    $total_pendidikan[] = $data->total;
                 }
-                if($data->title == 2){
-                    $pendidikan[$key] = 'SMP';
-                }
-                if($data->title == 3){
-                    $pendidikan[$key] = 'SMA';
-                }
-                if($data->title == 4){
-                    $pendidikan[$key] = 'D1';
-                }
-                if($data->title == 5){
-                    $pendidikan[$key] = 'D2';
-                }
-                if($data->title == 6){
-                    $pendidikan[$key] = 'D3';
-                }
-                if($data->title == 7){
-                    $pendidikan[$key] = 'D4';
-                }
-                if($data->title == 8){
-                    $pendidikan[$key] = 'S1';
-                }
-                if($data->title == 9){
-                    $pendidikan[$key] = 'S2';
-                }
-                if($data->title == 10){
-                    $pendidikan[$key] = 'S3';
-                }
-                $total_pendidikan[] = (int)$data->total;
             }
-        }else {
-            $pendidikan[]   = "";
-            $total_pendidikan[]  = "";
+        }else{
+            $pendidikan[] = "";
+            $total_pendidikan[] = "";
         }
 
         // dd($pendidikan);
 
-        $chart_status_pernikahan = DB::table('karyawan')
-        ->addSelect(DB::raw('status_pernikahan as title, COUNT(*) as total'))
-        ->groupBy('status_pernikahan')
-        ->orderBy('total', 'DESC')
+        $chart_status_pernikahan = Karyawan::selectRaw('CASE 
+        WHEN status_pernikahan=1 THEN "Belum Menikah" 
+        WHEN status_pernikahan=2 THEN "Menikah" 
+        WHEN status_pernikahan=3 THEN "Janda"
+        ELSE "Duda" END 
+        AS title')
+        ->selectRaw('COUNT(*) AS total')
         ->where('status_karyawan', 0)
+        ->groupBy('title')
         ->get();
+
         if(count($chart_status_pernikahan)) {
-            foreach ($chart_status_pernikahan as $key => $data) {
-                // if($data->title == null){                    
-                //     $status_pernikahan[]   = "";
-                //     $total_status_pernikahan[]  = "";
-                // }
-                if($data->title == 1){                    
-                    $status_pernikahan[$key] = 'Belum Menikah';
-                    $total_status_pernikahan [$key]=$data->total++;
+            foreach ($chart_status_pernikahan as $data) {
+                if ($data->title !== null) {
+                    $status_pernikahan[] = $data->title;
+                    $total_status_pernikahan[] = $data->total;
                 }
-
-                if($data->title == 2){
-                    $status_pernikahan[$key] = 'Menikah';
-                    $total_status_pernikahan [$key]=$data->total++;
-                }
-
-                if($data->title == 3){
-                    $status_pernikahan[$key] = 'Janda';
-                    $total_status_pernikahan [$key]=$data->total++;
-                }
-                
-                if($data->title == 4){
-                    $status_pernikahan[$key] = 'Duda';
-                    $total_status_pernikahan [$key]=$data->total++;
-                }
-
-                // $total_status_pernikahan[]   = (int)$data->total;
             }
-        }else {
-            $status_pernikahan[]   = "";
-            $total_status_pernikahan[]  = "";
+        }else{
+            $status_pernikahan[] = "";
+            $total_status_pernikahan[] = "";
         }
 
         // dd($status_pernikahan);
-        $chart_umur = DB::table('karyawan')
-        ->addSelect(DB::raw('umur as title, COUNT(*) as total'))
-        ->groupBy('umur')
-        ->orderBy('total', 'DESC')
-        ->get();
-
-        foreach ($chart_umur as $key => $data) {
-            if ($data->title >= 17 && $data->title <= 20) {
-                $total_umur [$key]=$data->total++;
-                $umur[$key] = '17-20';
-            } elseif ($data->title >= 21 && $data->title <= 30) {
-                $total_umur [$key]=$data->total++;
-                $umur[$key] = '21-30';
-            } elseif ($data->title >= 31 && $data->title <= 40) {
-                $total_umur [$key]=$data->total++;
-                $umur[$key] = '31-40';
-            } elseif ($data->title >= 41 && $data->title <= 50) {
-                $total_umur [$key]=$data->total++;
-                $umur[$key] = '41-50';
-            } else {
-                $total_umur [$key]=$data->total++;
-                $umur[$key] = '50';
-            }
-        }
-        
-        // print_r($total_umur);
-        // dd($total_umur);
-
-        $chart_komposisi_karyawan = DB::table('karyawan')
-        ->addSelect(DB::raw('komposisi_karyawan as title, COUNT(*) as total'))
-        ->groupBy('komposisi_karyawan')
-        ->orderBy('total', 'DESC')
+        $chart_umur = Karyawan::selectRaw('CASE 
+        WHEN umur >= 17 && umur <= 20 THEN "17-20" 
+        WHEN umur >= 21 && umur <= 30 THEN "21-30" 
+        WHEN umur >= 31 && umur <= 40 THEN "31-40" 
+        WHEN umur >= 41 && umur <= 50 THEN "41-50" 
+        ELSE "> 50" END 
+        AS title')
+        ->selectRaw('COUNT(*) AS total')
         ->where('status_karyawan', 0)
+        ->groupBy('title')
         ->get();
-        if(count($chart_komposisi_karyawan)) {
-            foreach ($chart_komposisi_karyawan as $key => $data) {
-                if($data->title == 1){                    
-                    $komposisi_karyawan[$key] = 'Direktor';
+
+        if(count($chart_umur)) {
+            foreach ($chart_umur as $data) {
+                if ($data->title !== null) {
+                    $umur[] = $data->title;
+                    $total_umur[] = $data->total;
                 }
-                if($data->title == 2){
-                    $komposisi_karyawan[$key] = 'Div Head';
-                }
-                if($data->title == 3){
-                    $komposisi_karyawan[$key] = 'Dept Head';
-                }
-                if($data->title == 4){
-                    $komposisi_karyawan[$key] = 'Sect Head';
-                }
-                if($data->title == 5){
-                    $komposisi_karyawan[$key] = 'Head';
-                }
-                if($data->title == 6){
-                    $komposisi_karyawan[$key] = 'Staff';
-                }
-                if($data->title == 7){
-                    $komposisi_karyawan[$key] = 'Non Staff';
-                }
-                $total_komposisi_karyawan[]   = (int)$data->total;
             }
-        }else {
-            $komposisi_karyawan[]   = "";
-            $total_komposisi_karyawan[]  = "";
+        }else{
+            $umur[] = "";
+            $total_umur[] = "";
         }
 
-        $chart_karyawan_phk = DB::table('karyawan_phk')
-        ->addSelect(DB::raw('penyebab_phk as title, COUNT(*) as total'))
-        ->groupBy('penyebab_phk')
-        ->orderBy('total', 'DESC')
+        $chart_komposisi_karyawan = Karyawan::selectRaw('CASE 
+        WHEN komposisi_karyawan=1 THEN "Director" 
+        WHEN komposisi_karyawan=2 THEN "Div Head" 
+        WHEN komposisi_karyawan=3 THEN "Dept Head" 
+        WHEN komposisi_karyawan=4 THEN "Sect Head" 
+        WHEN komposisi_karyawan=5 THEN "Head" 
+        WHEN komposisi_karyawan=6 THEN "Staff" 
+        ELSE "Non Staff" END 
+        AS title')
+        ->selectRaw('COUNT(*) AS total')
+        ->where('status_karyawan', 0)
+        ->groupBy('title')
         ->get();
-        if(count($chart_karyawan_phk)) {
-            foreach ($chart_karyawan_phk as $key => $data) {
-                if($data->title == 1){                    
-                    $penyebab_phk[$key] = 'Affair';
+
+        if(count($chart_komposisi_karyawan)) {
+            foreach ($chart_komposisi_karyawan as $data) {
+                if ($data->title !== null) {
+                    $komposisi_karyawan[] = $data->title;
+                    $total_komposisi_karyawan[] = $data->total;
                 }
-                if($data->title == 2){
-                    $penyebab_phk[$key] = 'Fraud';
-                }
-                $total_penyebab_phk[]   = (int)$data->total;
             }
-        }else {
-            $penyebab_phk[]   = "";
-            $total_penyebab_phk[]  = "";
+        }else{
+            $komposisi_karyawan[] = "";
+            $total_komposisi_karyawan[] = "";
         }
+
+        $chart_karyawan_phk = KaryawanPHK::selectRaw('CASE 
+        WHEN penyebab_phk=1 THEN "Affair" 
+        ELSE "Fraud" END 
+        AS title')
+        ->selectRaw('COUNT(*) AS total')
+        ->groupBy('title')
+        ->get();
+
+        if(count($chart_karyawan_phk)) {
+            foreach ($chart_karyawan_phk as $data) {
+                if ($data->title !== null) {
+                    $penyebab_phk[] = $data->title;
+                    $total_penyebab_phk[] = $data->total;
+                }
+            }
+        }else{
+            $penyebab_phk[] = "";
+            $total_penyebab_phk[] = "";
+        }
+
+        $chart_karyawan_resign = KaryawanResign::selectRaw('CASE 
+        WHEN alasan_resign=1 THEN "Tidak Memenuhi Target" 
+        WHEN alasan_resign=2 THEN "Mendapatkan Pekerjaan Lain" 
+        WHEN alasan_resign=3 THEN "Melanjutkan Pendidikan" 
+        WHEN alasan_resign=4 THEN "Faktor Keluarga"
+        ELSE "Pekerjaan dan Passion Tidak Sejalan" END 
+        AS title')
+        ->selectRaw('COUNT(*) AS total')
+        ->groupBy('title')
+        ->get();
+
+        if(count($chart_karyawan_resign)) {
+            foreach ($chart_karyawan_resign as $data) {
+                if ($data->title !== null) {
+                    $alasan_resign[] = $data->title;
+                    $total_alasan_resign[] = $data->total;
+                }
+            }
+        }else{
+            $alasan_resign[] = "";
+            $total_alasan_resign[] = "";
+        }
+
         // dd($total_penyebab_phk);
 
         
@@ -392,6 +353,10 @@ class DashboardController extends Controller
                 // ->where('karyawan.status_karyawan', 0)
                 ->get();
 
+        //total karyawan aktif
+        $total_karyawan_aktif = Karyawan::where('status_karyawan', 0)->count();
+        // dd($total_karyawan_aktif);
+
         //menampilkan data karyawan termuda
         // $termuda = DB::table('karyawan')->where('umur', DB::raw("(select min(`umur`) from karyawan)"))->where('status_karyawan', 0)->first();
         $termuda = Karyawan::where('status_karyawan', 0)->orderBy('umur', 'asc')->first();
@@ -404,6 +369,7 @@ class DashboardController extends Controller
 
         return Inertia::render('Apps/Dashboard/Index',[
             'hari_ini'                  => $day,
+            'total_karyawan_aktif'      => $total_karyawan_aktif,
             'karyawan_baru'             => $karyawan_baru,
             'karyawan_kontrak'          => $karyawan_kontrak,
             'data_pelanggaran'          => $data_pelanggaran,
@@ -436,6 +402,8 @@ class DashboardController extends Controller
             'total_penyebab_phk'        => $total_penyebab_phk,
             'umur'                      => $umur,
             'total_umur'                => $total_umur,
+            'alasan_resign'             => $alasan_resign,
+            'total_alasan_resign'       => $total_alasan_resign,
         ]);
     }
 }  
