@@ -35,7 +35,7 @@ class Karyawan extends Model
 
     public function jabatan()
     {
-        return $this->belongsTo(Masterjabatan::class, 'jabatan_id', 'id');
+        return $this->belongsTo(MasterJabatan::class, 'jabatan_id', 'id');
     }
 
     public function phk()
