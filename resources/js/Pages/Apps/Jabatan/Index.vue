@@ -30,9 +30,9 @@
                                 <tr v-for="(jb, index) in jabatan.data" :key="index">
                                     <!-- <td>{{ index + 1 }}</td> -->
                                     <td>{{ jb.nama_jabatan }}</td>
-                                    <td v-if="(jb.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
-                                    <td v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
-                                    <td>
+                                    <td class="text-center" v-if="(jb.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
+                                    <td class="text-center" v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
+                                    <td class="text-center">
                                         <a @click="editData(jb)" v-if="hasAnyPermission(['jabatan.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>

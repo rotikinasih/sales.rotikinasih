@@ -61,8 +61,8 @@
                                         <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
                                         <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px" title="Hapus" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
                                         <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-info"></i></a>
-                                        <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Tambah Organisasi" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Riwayat Organisasi" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
+                                        <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Tambah Mutasi" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Riwayat Mutasi" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
                                         <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Tambah Pelanggaran" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-exclamation-triangle"></i></a>
                                         <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Riwayat Pelanggaran" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
                                     </td>
@@ -104,7 +104,7 @@
             <modalScroll :show="showModalKarirDetail" @close="showModalKarirDetail = false">
                 <template #header>
                     <h5 class="modal-title">Detail Data Karyawan</h5>
-                    <a :href="`/apps/karyawan/download-pdf/${id}`" target="_blank" type="button" class="btn btn-danger" style="float: right; margin-right: 0px;"><i class='far fa-file-pdf'></i>Download PDF</a>
+                    <!-- <a :href="`/apps/karyawan/download-pdf/${id}`" target="_blank" type="button" class="btn btn-danger" style="float: right; margin-right: 0px;"><i class='far fa-file-pdf'></i>Download PDF</a> -->
                 </template>
                 <template #body>
                     <div class="mb-3">

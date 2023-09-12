@@ -16,5 +16,6 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         Role::create(['name' => 'itbrocin2023']);
+        Role::create(['name' => 'hrd']);
     }
 }

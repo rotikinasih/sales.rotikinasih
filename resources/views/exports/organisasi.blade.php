@@ -1,7 +1,7 @@
 <table style="width: 100%">
     <thead>
         <tr>
-            <th><b>Daftar Organisasi/Mutasi Karyawan</b></th>
+            <th><b>Daftar Mutasi Karyawan</b></th>
         </tr>
         <tr>
             <th><b>Dicetak pada : {{$waktu_sekarang}}</b></th>

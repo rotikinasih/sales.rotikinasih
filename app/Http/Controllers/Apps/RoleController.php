@@ -63,7 +63,7 @@ class RoleController extends Controller
         //create role
         $role = Role::create([
             'name'           => $request->name,
-            'created_id'     => Auth::id(),
+            // 'created_id'     => Auth::id(),
         ]);
 
         //assign permissions to role

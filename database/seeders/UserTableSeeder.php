@@ -25,6 +25,35 @@ class UserTableSeeder extends Seeder
             'password' => bcrypt('it123456'),
         ]);
 
+        // $user = User::create([
+        //     'name' => 'Hasun',
+        //     'email' => '',
+        //     'username' => 'hasun',
+        //     'password' => bcrypt('hasun123456'),
+        // ]);
+
+        // $user = User::create([
+        //     'name' => 'Bintang',
+        //     'email' => '',
+        //     'username' => 'bintang',
+        //     'password' => bcrypt('bintang123456'),
+        // ]);
+
+        
+        // $user = User::create([
+        //     'name' => 'Vita',
+        //     'email' => '',
+        //     'username' => 'Vita',
+        //     'password' => bcrypt('vita123456'),
+        // ]);
+
+        // $user = User::create([
+        //     'name' => 'Khudlori',
+        //     'email' => '',
+        //     'username' => 'khudlori',
+        //     'password' => bcrypt('khudlori123456'),
+        // ]);
+
         //get all permissions
         $permissions = Permission::all();
 

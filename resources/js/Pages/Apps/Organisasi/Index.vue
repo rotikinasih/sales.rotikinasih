@@ -1,12 +1,12 @@
 <template>
     <Head>
-        <title>Organisasi</title>
+        <title>Mutasi</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>Daftar Organisasi</h5>
+                    <h5>Daftar Mutasi</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the list of <code>{{ nama }}</code> organizations</span> -->
                     <button class="btn btn-success dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer; border:none; margin-right: 0px;">
                         <i class="fa fa-file-excel"></i> Excel
@@ -87,12 +87,12 @@
                         <input type="text" class="form-control" :value="id_list" readonly>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label class="col-form-label">Tanggal Bergabung Group : </label>
                                 <input type="date" class="form-control" placeholder="Group Joining Date" v-model="tgl_gabung_grup" required>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label class="col-form-label">Divisi :</label>

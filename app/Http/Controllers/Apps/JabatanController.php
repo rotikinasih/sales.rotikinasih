@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
-use App\Models\Masterjabatan;
+use App\Models\MasterJabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -14,7 +14,7 @@ class jabatanController extends Controller
     {
         $search = request()->search;
         //get jabatan
-        $jabatan = Masterjabatan::when($search, function($jabatan, $search) {
+        $jabatan = MasterJabatan::when($search, function($jabatan, $search) {
             $jabatan = $jabatan->where('nama_jabatan', 'like', '%'. $search . '%');
         })->latest()->paginate(10)->onEachSide(1);
 
@@ -35,7 +35,7 @@ class jabatanController extends Controller
         ]);
 
         //create jabatan
-        Masterjabatan::create([
+        MasterJabatan::create([
             'nama_jabatan'      => $request->nama_jabatan,
             'status'            => $request->status,
             'created_id'        => Auth::id(),
@@ -59,7 +59,7 @@ class jabatanController extends Controller
             'nama_jabatan'  => $request->nama_jabatan,
             'status'        => $request->status,
         ];
-        $ubahData = Masterjabatan::findOrFail($id);
+        $ubahData = MasterJabatan::findOrFail($id);
         $ubahData->update($data_jabatan);
         //redirect
         return redirect()->route('apps.jabatan.index');

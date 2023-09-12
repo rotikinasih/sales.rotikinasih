@@ -95,7 +95,7 @@ class RiwayatOrganisasiController extends Controller
         $bulan = date("M");
         $tahun = date("Y");
         $jam = date("H:i:s");
-        $response = Excel::download(new OrganisasiExport, 'Daftar Organisasi '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
+        $response = Excel::download(new OrganisasiExport, 'Daftar Mutasi Karyawan '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
         ob_end_clean();
         return $response;
     }
