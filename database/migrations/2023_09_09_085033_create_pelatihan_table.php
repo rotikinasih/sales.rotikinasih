@@ -17,9 +17,10 @@ class CreatePelatihanTable extends Migration
             $table->id();
             $table->unsignedBigInteger('karyawan_id');
             $table->foreign('karyawan_id')->references('id')->on('karyawan')->onDelete('cascade');
-            $table->string('jenis_pelatihan');
+            $table->strtinyIntegering('kategori_pelatihan')->comment('1 = Internal Perusahaan, 2 = Personal(Individu), 3 = Pemerintah');
+            $table->string('nama_pelatihan');
             $table->date('tanggal_pelatihan');
-            $table->string('lama_pelatihan')->nullable();
+            $table->string('durasi_pelatihan')->nullable();
             $table->tinyInteger('created_id')->nullable();
             $table->timestamps();
         });

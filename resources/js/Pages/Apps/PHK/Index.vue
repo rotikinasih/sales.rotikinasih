@@ -7,6 +7,11 @@
             <div class="card">
                 <div class="card-header">
                     <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
+                    <button class="btn btn-success dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer; border:none;"><i class="fa fa-file-excel"></i> Excel</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a  :href="`/apps/list-organisasi/export`" target="_blank" class="dropdown-item">Export</a>
+                        <!-- <button @click="importExcel" target="_blank" class="dropdown-item">Import</button> -->
+                    </div>
                     <h5>Daftar PHK</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the <code> company </code> data</span>  -->
                 </div>

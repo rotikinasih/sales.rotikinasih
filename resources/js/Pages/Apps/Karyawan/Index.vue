@@ -32,7 +32,7 @@
                         <table class="table table-hover table-bordered">
                             <thead class="thead-light" style="">
                                 <tr>
-                                    <!-- <th style="text-align: center;">#</th> -->
+                                    <th style="text-align: center;">#</th>
                                     <th style="text-align: center;">Nama Lengkap</th>
                                     <th style="text-align: center;">NIK (Karyawan)</th>
                                     <th style="text-align: center;">Entitas</th>
@@ -44,7 +44,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(kar, index) in karyawan.data" :key="index">
-                                    <!-- <td style="text-align: center;">{{ index + 1 }}</td> -->
+                                    <td style="text-align: center;">{{ index + karyawan.from }}</td>
                                     <td>{{ kar.nama_lengkap }}</td>
                                     <td>{{ kar.nik_karyawan }}</td>
                                     <td v-if="(kar.perusahaan == null)"> </td> 
