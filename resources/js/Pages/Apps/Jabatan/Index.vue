@@ -20,15 +20,20 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
+<<<<<<< HEAD
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Nama Posisi</th>
+=======
                                     <!-- <th>#</th> -->
                                     <th class="text-center">Nama Jabatan</th>
+>>>>>>> 7813ad886e619bd18e7ac214ca6fd3fbbeda20f0
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(jb, index) in jabatan.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + jabatan.from }}</td>
                                     <td>{{ jb.nama_jabatan }}</td>
                                     <td class="text-center" v-if="(jb.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
                                     <td class="text-center" v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>

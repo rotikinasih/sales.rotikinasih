@@ -20,7 +20,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th>#</th> -->
+                                    <th class="text-center">#</th>
                                     <th class="text-center">Nama Divisi</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Aksi</th>
@@ -28,12 +28,12 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(dv, index) in divisi.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + divisi.from }}</td>
                                     <td>{{ dv.nama_divisi }}</td>
                                     <td class="text-center" v-if="(dv.status == 1)"><b style="color: rgb(9, 240, 9);">Aktif</b></td>
                                     <td class="text-center" v-if="(dv.status == 2)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
                                     <td class="text-center">
-                                        <a @click="editData(dv)" v-if="hasAnyPermission(['divisi.edit'])" class="label theme-bg3 text-white f-17" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="editData(dv)" v-if="hasAnyPermission(['divisi.edit'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->

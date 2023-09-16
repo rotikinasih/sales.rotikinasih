@@ -7,6 +7,11 @@
             <div class="card">
                 <div class="card-header">
                     <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
+                    <button class="btn btn-success dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer; border:none;"><i class="fa fa-file-excel"></i> Excel</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a  :href="`/apps/list-organisasi/export`" target="_blank" class="dropdown-item">Export</a>
+                        <!-- <button @click="importExcel" target="_blank" class="dropdown-item">Import</button> -->
+                    </div>
                     <h5>Daftar Pelatihan</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the <code> company </code> data</span>  -->
                 </div>
@@ -21,21 +26,26 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr class="thead-light">
-                                    <!-- <th class="text-center">#</th> -->
+                                    <th class="text-center">#</th>
                                     <th class="text-center">Nama Karyawan</th>
-                                    <th class="text-center">Jenis Pelatihan</th>
-                                    <th class="text-center">Tanggal Pelatiahan</th>
-                                    <th class="text-center">Lama Pelatiahan</th>
+                                    <th class="text-center">Kategori Pelatihan</th>
+                                    <th class="text-center">Nama Pelatihan</th>
+                                    <th class="text-center">Tanggal </th>
+                                    <th class="text-center">Durasi (Jam)</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(plth, index) in pelatihan.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ pelatihan.from + index }}</td>
                                     <td>{{ plth.karyawan.nama_lengkap }}</td>
-                                    <td>{{ plth.jenis_pelatihan}}</td>
+                                    <td v-if="(plth.kategori_pelatihan == null)"></td> 
+                                    <td v-if="(plth.kategori_pelatihan == 1)">Internal Perusahaan</td>
+                                    <td v-if="(plth.kategori_pelatihan == 2)">Personal (Individu)</td>
+                                    <td v-if="(plth.kategori_pelatihan == 3)">Pemerintah</td>
+                                    <td>{{ plth.nama_pelatihan}}</td>
                                     <td>{{ plth.tanggal_pelatihan}}</td>
-                                    <td>{{ plth.lama_pelatihan }}</td>
+                                    <td class="text-center">{{ plth.durasi_pelatihan }}</td>
                                     <td class="text-center">
                                         <a @click="editData(plth)" v-if="hasAnyPermission(['apps.pelatihan.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
@@ -84,16 +94,34 @@
                         <!-- <input type="text" class="form-control" v-model="karyawan_id"> -->
                     </div>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Jenis Pelatihan :</label>
-                        <input type="text" class="form-control" placeholder="Masukkan Jenis Pelatihan " v-model="jenis_pelatihan" required>
+                        <label class="col-form-label">Kategori Pelatihan :</label>
+                        <VueMultiselect
+                            v-model="kategori_pelatihan"
+                            :options="data_kategori_pelatihan"
+                            label="name"
+                            track-by="value"
+                            :allow-empty="false"
+                            deselect-label="Can't remove this value"
+                            placeholder="Pilih Kategori Pelatihan"
+                        ></VueMultiselect>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Tanggal Pelatihan :</label>
-                        <input type="date" class="form-control" placeholder="Masukkan Tanggal Pelatihan" v-model="tanggal_pelatihan" required>
+                        <label class="col-form-label">Nama Pelatihan :</label>
+                        <input type="text" class="form-control" placeholder="Masukkan Nama Pelatihan " v-model="nama_pelatihan" required>
                     </div>
-                    <div class="form-group mb-3">
-                        <label class="col-form-label">Lama Pelatihan :</label>
-                        <input type="text" class="form-control" placeholder="Masukkan Lama Pelatihan" v-model="lama_pelatihan" required>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="col-form-label">Tanggal Pelatihan :</label>
+                                <input type="date" class="form-control" placeholder="Masukkan Tanggal Pelatihan" v-model="tanggal_pelatihan" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="col-form-label">Durasi Pelatihan (Jam) :</label>
+                                <input type="number" class="form-control" placeholder="Masukkan Durasi Pelatihan (Jam)" v-model="durasi_pelatihan" required>
+                            </div>
+                        </div>
                     </div>
                 </template>
                 <template #footer>
@@ -167,9 +195,10 @@
             const nama_lengkap = ref();
             const karyawan_id = ref();
             const karyawan_id_edit = ref();
-            const jenis_pelatihan = ref();
+            const kategori_pelatihan = ref();
+            const nama_pelatihan = ref();
             const tanggal_pelatihan = ref();
-            const lama_pelatihan = ref();
+            const durasi_pelatihan = ref();
             // define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
             //define method search
@@ -179,6 +208,12 @@
                     search: search.value,
                 });
             }
+
+            const data_kategori_pelatihan = [
+                { name: 'Internal Perusahaan', value: 1 },
+                { name: 'Personal (Individu)', value: 2 },
+                { name: 'Pemerintah', value: 3 },
+            ];
 
             //tampil modal
             const tampilModal = () => {
@@ -198,9 +233,10 @@
                 judul.value = 'Tambah Pelatihan'
                 id.value = null
                 karyawan_id.value = null
-                jenis_pelatihan.value = null
+                kategori_pelatihan.value = null
+                nama_pelatihan.value = null
                 tanggal_pelatihan.value = null
-                lama_pelatihan.value = null
+                durasi_pelatihan.value = null
                 tampilModal()
             }
 
@@ -221,11 +257,18 @@
                         // form.divisi_id = data
                     }
                 })
+                 //penyebab_phk
+                data_kategori_pelatihan.forEach(function (data) {
+                    if(data.value == plth.kategori_pelatihan){
+                        kategori_pelatihan.value = data
+                    }
+                })
+
                 judul.value = 'Edit Pelatihan'
                 id.value = plth.id
-                jenis_pelatihan.value = plth.jenis_pelatihan
+                nama_pelatihan.value = plth.nama_pelatihan
                 tanggal_pelatihan.value = plth.tanggal_pelatihan
-                lama_pelatihan.value = plth.lama_pelatihan
+                durasi_pelatihan.value = plth.durasi_pelatihan
                 tampilModal()
             }
 
@@ -245,7 +288,7 @@
 
             //method update data
             const updateData = () => {
-                if(karyawan_id.value == null || jenis_pelatihan.value == null || tanggal_pelatihan.value == null){
+                if(karyawan_id.value == null || kategori_pelatihan.value == null || nama_pelatihan.value == null || tanggal_pelatihan.value == null){
                     tutupModal();
                     peringatan();
                 }else{
@@ -253,9 +296,10 @@
                     Inertia.put(`/apps/pelatihan/${id.value}`, {
                         //data
                         karyawan_id: karyawan_id.value.id,
-                        jenis_pelatihan: jenis_pelatihan.value,
+                        kategori_pelatihan: kategori_pelatihan.value.value,
+                        nama_pelatihan: nama_pelatihan.value,
                         tanggal_pelatihan: tanggal_pelatihan.value,
-                        lama_pelatihan: lama_pelatihan.value,
+                        durasi_pelatihan: durasi_pelatihan.value,
                     }, {
                         onSuccess: () => {
                             tutupModal()
@@ -274,7 +318,7 @@
 
             //method "storeData"
             const storeData = () => {
-                if(karyawan_id.value == null || jenis_pelatihan.value == null || tanggal_pelatihan.value == null){
+                if(karyawan_id.value == null || kategori_pelatihan.value == null || nama_pelatihan.value == null || tanggal_pelatihan.value == null){
                     tutupModal();
                     peringatan();
                 }
@@ -283,9 +327,10 @@
                     Inertia.post('/apps/pelatihan', {
                         //data
                         karyawan_id: karyawan_id.value.id,
-                        jenis_pelatihan: jenis_pelatihan.value,
+                        kategori_pelatihan: kategori_pelatihan.value.value,
+                        nama_pelatihan: nama_pelatihan.value,
                         tanggal_pelatihan: tanggal_pelatihan.value,
-                        lama_pelatihan: lama_pelatihan.value,
+                        durasi_pelatihan: durasi_pelatihan.value,
                         
                     }, {
                         onSuccess: () => {
@@ -310,9 +355,9 @@
                 editData,
                 judul,
                 updateSubmit,
-                nama_lengkap, id, karyawan_id, jenis_pelatihan, tanggal_pelatihan, lama_pelatihan, karyawan_id_edit, 
+                nama_lengkap, id, karyawan_id, kategori_pelatihan, nama_pelatihan, tanggal_pelatihan, durasi_pelatihan, karyawan_id_edit, 
                 tutupModal, buatBaruKategori, updateData,
-                storeData, peringatan
+                storeData, peringatan, data_kategori_pelatihan,
             }
 
             

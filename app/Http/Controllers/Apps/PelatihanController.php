@@ -40,16 +40,18 @@ class PelatihanController extends Controller
          */
         $this->validate($request, [
             'karyawan_id'             => 'required',
-            'jenis_pelatihan'         => 'required',
+            'kategori_pelatihan'      => 'required',
+            'nama_pelatihan'          => 'required',
             'tanggal_pelatihan'       => 'required',
         ]);
 
         //create phk
         $data=[
             'karyawan_id'             => $request->karyawan_id,
-            'jenis_pelatihan'         => $request->jenis_pelatihan,
+            'kategori_pelatihan'      => $request->kategori_pelatihan,
+            'nama_pelatihan'          => $request->nama_pelatihan,
             'tanggal_pelatihan'       => $request->tanggal_pelatihan,
-            'lama_pelatihan'          => $request->lama_pelatihan,
+            'durasi_pelatihan'        => $request->durasi_pelatihan,
             'created_id'              => Auth::id(),
         ];
 
@@ -66,15 +68,17 @@ class PelatihanController extends Controller
          */
         $this->validate($request, [
             'karyawan_id'             => 'required',
-            'jenis_pelatihan'         => 'required',
+            'kategori_pelatihan'      => 'required',
+            'nama_pelatihan'          => 'required',
             'tanggal_pelatihan'       => 'required',
         ]);
         //update divisi
         $data = [
             'karyawan_id'             => $request->karyawan_id,
-            'jenis_pelatihan'         => $request->jenis_pelatihan,
+            'kategori_pelatihan'      => $request->kategori_pelatihan,
+            'nama_pelatihan'          => $request->nama_pelatihan,
             'tanggal_pelatihan'       => $request->tanggal_pelatihan,
-            'lama_pelatihan'          => $request->lama_pelatihan,
+            'durasi_pelatihan'        => $request->durasi_pelatihan,
         ];
         $ubahData = Pelatihan::findOrFail($id);
         $ubahData->update($data);
