@@ -46,9 +46,16 @@ Route::prefix('apps')->group(function() {
         ]);
 
         //route jabatan
-        Route::resource('/position', App\Http\Controllers\Apps\JabatanController::class, [
+        Route::resource('/jabatan', App\Http\Controllers\Apps\JabatanController::class, [
             'names' => [
                 'index' => 'apps.jabatan.index'
+            ]
+        ]);
+
+         //route posisi
+        Route::resource('/posisi', App\Http\Controllers\Apps\PosisiController::class, [
+            'names' => [
+                'index' => 'apps.posisi.index'
             ]
         ]);
 
