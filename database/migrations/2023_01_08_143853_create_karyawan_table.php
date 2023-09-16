@@ -44,7 +44,7 @@ class CreateKaryawanTable extends Migration
             $table->string('nama_sosmed')->nullable();
             
             //data di perusahaan
-            $table->integer('nik_karyawan')->nullable();
+            $table->string('nik_karyawan')->nullable();
             $table->unsignedBigInteger('divisi_id')->nullable();
             $table->unsignedBigInteger('pt_id')->nullable();
             $table->unsignedBigInteger('jabatan_id')->nullable();

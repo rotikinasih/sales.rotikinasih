@@ -1,48 +1,43 @@
 <template>
     <Head>
-        <title>Jabatan</title>
+        <title>Posisi</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
-                    <h5>Daftar Jabatan</h5>
-                    <!-- <span class="d-block m-t-5">Page to manage the <code> position </code> data</span> -->
+                    <h5>Daftar Posisi</h5>
+                    <!-- <span class="d-block m-t-5">Page to manage the <code> division </code> data</span> -->
                 </div>
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama jabatan..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
+                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Posisi..." @keyup="handleSearch">
+                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-<<<<<<< HEAD
-                                    <th class="text-center">#</th>
-                                    <th class="text-center">Nama Posisi</th>
-=======
                                     <!-- <th>#</th> -->
-                                    <th class="text-center">Nama Jabatan</th>
->>>>>>> 7813ad886e619bd18e7ac214ca6fd3fbbeda20f0
+                                    <th class="text-center">Nama Posisi</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(jb, index) in jabatan.data" :key="index">
-                                    <td class="text-center">{{ index + jabatan.from }}</td>
-                                    <td>{{ jb.nama_jabatan }}</td>
-                                    <td class="text-center" v-if="(jb.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
-                                    <td class="text-center" v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
+                                <tr v-for="(pss, index) in posisi.data" :key="index">
+                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td>{{ pss.nama_posisi }}</td>
+                                    <td class="text-center" v-if="(pss.status == 1)"><b style="color: rgb(9, 240, 9);">Aktif</b></td>
+                                    <td class="text-center" v-if="(pss.status == 2)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
                                     <td class="text-center">
-                                        <a @click="editData(jb)" v-if="hasAnyPermission(['jabatan.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="editData(pss)" v-if="hasAnyPermission(['posisi.edit'])" class="label theme-bg3 text-white f-17" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
-                                <tr v-if="jabatan.data[0] == undefined">
+                                <tr v-if="posisi.data[0] == undefined">
                                     <td colspan="4" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
@@ -53,10 +48,10 @@
                         </table>
                         <div class="row" style="max-width:100%; overflow-x:hidden">
                             <div class="col-md-4">
-                                <label v-if="jabatan.data[0] != undefined" align="start">Showing {{ jabatan.from }} to {{ jabatan.to }} of {{ jabatan.total }} items</label>
+                                <label v-if="posisi.data[0] != undefined" align="start">Showing {{ posisi.from }} to {{ posisi.to }} of {{ posisi.total }} items</label>
                             </div>
                             <div class="col-md-8">
-                                <Pagination v-if="jabatan.data[0] != undefined" :links="jabatan.links" align="end"/>
+                                <Pagination v-if="posisi.data[0] != undefined" :links="posisi.links" align="end"/>
                             </div>
                         </div>
                     </div>
@@ -72,14 +67,14 @@
                 <template #body>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Nama Posisi :</label>
-                        <input type="text" class="form-control" placeholder="Masukkan Nama Posisi" v-model="nama_jabatan" required>
+                        <input type="text" class="form-control" placeholder="Masukkan Nama Posisi" v-model="nama_posisi" required>
                     </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Status :</label>
                         <select class="form-control" aria-label="Default select example" v-model="status" required>
                             <option :value="null">Pilih Status</option>
                             <option value="1">Aktif</option>
-                            <option value="0">Nonaktif</option>
+                            <option value="2">Nonaktif</option>
                         </select>
                     </div>
                 </template>
@@ -124,7 +119,7 @@
         },
         //props
         props:{
-            jabatan: Object
+            posisi: Object
         },
         //composition API
         setup(props){
@@ -132,13 +127,13 @@
             const updateSubmit = ref(false);
             const judul = ref(null);
             const id = ref(null);
-            const nama_jabatan = ref(null)
+            const nama_posisi = ref(null);
             const status = ref(null);
             //define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
             //define method search
             const handleSearch = () => {
-                Inertia.get('/apps/jabatan', {
+                Inertia.get('/apps/posisi', {
                     //send params "search" with value from state "search"
                     search: search.value,
                 });
@@ -159,21 +154,21 @@
                 if(updateSubmit.value == true){
 				    updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Tambah Jabatan'
+                judul.value = 'Tambah Posisi'
                 id.value = null
-                nama_jabatan.value = null
+                nama_posisi.value = null
                 status.value = null
                 tampilModal()
             }
             //method edit show modal
-            const editData = (jb) => {
+            const editData = (pe) => {
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Edit Jabatan'
-                id.value = jb.id
-                nama_jabatan.value = jb.nama_jabatan
-                status.value = jb.status
+                judul.value = 'Edit Posisi'
+                id.value = pe.id
+                nama_posisi.value = pe.nama_posisi
+                status.value = pe.status
                 tampilModal()
             }
 
@@ -193,8 +188,8 @@
 
             //method update data
             const updateData = () => {
-                if(nama_jabatan.value == null || status.value == null){
-                    if(nama_jabatan.value == null && status.value == null){
+                if(nama_posisi.value == null || status.value == null){
+                    if(nama_posisi.value == null && status.value == null){
                         tutupModal();
                         peringatan();
                     }
@@ -202,16 +197,16 @@
                     peringatan();
                 }else{
                     //send data to server
-                    Inertia.put(`/apps/jabatan/${id.value}`, {
+                    Inertia.put(`/apps/posisi/${id.value}`, {
                         //data
-                        nama_jabatan: nama_jabatan.value,
+                        nama_posisi: nama_posisi.value,
                         status: parseInt(status.value)
                     }, {
                         onSuccess: () => {
                             tutupModal()
                             //show success alert
                             Swal.fire({
-                                title: 'Sukses!',
+                                title: 'Success!',
                                 text: 'Data berhasil ditambah.',
                                 icon: 'success',
                                 showConfirmButton: false,
@@ -224,14 +219,14 @@
 
             //method "storeData"
             const storeData = () => {
-                if(nama_jabatan.value == null || status.value == null){
+                if(nama_posisi.value == null || status.value == null){
                     tutupModal();
                     peringatan();
                 }else{
                     //send data to server
-                    Inertia.post('/apps/jabatan', {
+                    Inertia.post('/apps/posisi', {
                         //data
-                        nama_jabatan: nama_jabatan.value,
+                        nama_posisi: nama_posisi.value,
                         status: status.value,
                     }, {
                         onSuccess: () => {
@@ -257,7 +252,7 @@
                 editData,
                 judul,
                 updateSubmit,
-                nama_jabatan, status, id,
+                nama_posisi, status, id,
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan
             }

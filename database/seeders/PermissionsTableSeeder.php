@@ -32,6 +32,11 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'jabatan.create', 'guard_name' => 'web']);
         Permission::create(['name' => 'jabatan.edit', 'guard_name' => 'web']);
 
+         //permission jabatan
+        Permission::create(['name' => 'posisi.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'posisi.create', 'guard_name' => 'web']);
+        Permission::create(['name' => 'posisi.edit', 'guard_name' => 'web']);
+
         //permission karyawan
         Permission::create(['name' => 'karyawan.index', 'guard_name' => 'web']);
         Permission::create(['name' => 'karyawan.create', 'guard_name' => 'web']);
