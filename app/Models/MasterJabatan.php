@@ -14,4 +14,9 @@ class MasterJabatan extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function karyawan()
+    {
+        return $this->hasMany(Karyawan::class);
+    }
 }

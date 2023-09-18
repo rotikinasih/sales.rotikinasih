@@ -64,16 +64,16 @@
                                                 <input type="text" class="form-control" v-model="form.riwayat_penyakit" placeholder="Masukkan Riwayat Penyakit">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">No. KTP</label>
-                                                <input type="text" class="form-control" v-model="form.nik_penduduk" placeholder="No. KTP">
-                                            </div>
-                                            <div class="mb-3">
                                                 <label class="fw-bold">No. KK</label>
-                                                <input type="text" class="form-control" v-model="form.no_kk" placeholder="Masukkan KK Number">
+                                                <input type="number" class="form-control" v-model="form.no_kk" placeholder="Masukkan KK Number">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Kode Pos</label>
-                                                <input type="text" class="form-control" v-model="form.kode_pos" placeholder="Masukkan Kode Pos">
+                                                <input type="number" class="form-control" v-model="form.kode_pos" placeholder="Masukkan Kode Pos">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="fw-bold">No. KTP</label>
+                                                <input type="number" class="form-control" v-model="form.nik_penduduk" placeholder="No. KTP">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Alamat KTP</label>
@@ -96,7 +96,7 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Nama Sekolah</label>
+                                                <label class="fw-bold">Nama Sekolah/Universitas</label>
                                                 <input type="text" class="form-control" v-model="form.nama_sekolah" placeholder="Masukkan Nama Sekolah">
                                             </div>
                                             <div class="mb-3">
@@ -204,12 +204,24 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Posisi</label>
+                                                <label class="fw-bold">Jabatan</label>
                                                 <VueMultiselect
                                                     v-model="form.jabatan"
                                                     :options="jabatan"
                                                     label="nama_jabatan"
                                                     track-by="nama_jabatan"
+                                                    :allow-empty="false"
+                                                    deselect-label="Can't remove this value"
+                                                    placeholder="Pilih Jabatan"
+                                                ></VueMultiselect>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="fw-bold">Posisi</label>
+                                                <VueMultiselect
+                                                    v-model="form.posisi"
+                                                    :options="posisi"
+                                                    label="nama_posisi"
+                                                    track-by="nama_posisi"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
                                                     placeholder="Pilih Posisi"
@@ -255,7 +267,7 @@
                                                     placeholder="Pilih Status Kerja"
                                                 ></VueMultiselect>
                                             </div>
-                                            <div class="mb-3">
+                                            <!-- <div class="mb-3">
                                                 <label class="fw-bold">Komposisi Karyawan</label>
                                                 <VueMultiselect
                                                     v-model="form.komposisi_karyawan"
@@ -266,7 +278,7 @@
                                                     deselect-label="Can't remove this value"
                                                     placeholder="Pilih Komposisi Karyawan"
                                                 ></VueMultiselect>
-                                            </div>
+                                            </div> -->
                                             <div class="mb-3">
                                                 <label class="fw-bold">Komposisi Peran</label>
                                                 <VueMultiselect
@@ -393,6 +405,7 @@
             divisi: Array,
             perusahaan: Array,
             jabatan: Array,
+            posisi: Array,
             errors: Object
         },
         setup() {
@@ -550,6 +563,7 @@
                 pt: '',
                 divisi: '',
                 jabatan:'',
+                posisi:'',
                 grade:'',
                 tanggal_masuk: '',
                 tanggal_kontrak: '',
@@ -639,6 +653,7 @@
                     pt_id: form.pt.id,
                     divisi_id: form.divisi.id,
                     jabatan_id: form.jabatan.id,
+                    posisi_id: form.posisi.id,
                     grade: form.grade.name,
                     tanggal_masuk: form.tanggal_masuk,
                     tanggal_kontrak: form.tanggal_kontrak,

@@ -23,6 +23,11 @@ class Karyawan extends Model
         return $this->belongsTo(MasterDivisi::class, 'divisi_id', 'id');
     }
 
+    public function posisi()
+    {
+        return $this->belongsTo(MasterPosisi::class, 'posisi_id', 'id');
+    }
+
     public function organisasi()
     {
         return $this->hasMany(RiwayatOrganisasi::class);

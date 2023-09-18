@@ -59,6 +59,7 @@
                                     <td v-else style="text-align: center;"><b style="color: rgb(160, 4, 250);">Training</b></td>
                                     <td class="text-center">
                                         <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
+                                        <Link :href="`/apps/karyawan/${kar.id}/detail`" v-if="hasAnyPermission(['karyawan.detail'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="detail1" data-toggle="tooltip-inner"><i class="fa fa-info"></i></Link>
                                         <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px" title="Hapus" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
                                         <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-info"></i></a>
                                         <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Tambah Mutasi" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>

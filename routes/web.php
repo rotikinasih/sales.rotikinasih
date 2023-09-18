@@ -71,6 +71,8 @@ Route::prefix('apps')->group(function() {
         //route karyawan show detail
         Route::get('/karyawan/detail', [App\Http\Controllers\Apps\KaryawanController::class, 'detail'])->name('apps.karyawan.detail');
 
+        Route::get('/karyawan/{id}/detail', [App\Http\Controllers\Apps\KaryawanController::class, 'detail'])->name('apps.karyawan.detail');
+
         //route download pdf detail karyawan
         Route::get('/karyawan/download-pdf/{id}', [App\Http\Controllers\Apps\KaryawanController::class, 'downloadPDF'])->name('apps.karyawan.downloadPDF');
 

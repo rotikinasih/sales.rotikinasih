@@ -11,6 +11,7 @@ use App\Models\Karyawan;
 use App\Models\MasterDivisi;
 use App\Models\MasterJabatan;
 use App\Models\MasterPerusahaan;
+use App\Models\MasterPosisi;
 use App\Models\RiwayatOrganisasi;
 use Carbon\Carbon;
 use DateTime;
@@ -43,10 +44,16 @@ class KaryawanController extends Controller
 
         //get data divisi
         $divisi = MasterDivisi::where('status', 1)->get();
+
         //get data PT
         $perusahaan = MasterPerusahaan::where('status', 1)->get();
+
         //get data master jabatan
         $jabatan = MasterJabatan::where('status', 1)->get();
+
+        //get master posisi
+        $posisi = MasterPosisi::where('status', 1)->get();
+
         //menghitung umur
         if($karyawan->isNotEmpty()){
             foreach ($karyawan as $k){
@@ -145,7 +152,8 @@ class KaryawanController extends Controller
             'karyawan'  => $karyawan,
             'divisi'    => $divisi,
             'pt'        => $perusahaan,
-            'jabatans'   => $jabatan
+            'jabatans'  => $jabatan,
+            'posisi'    => $posisi,
         ]);
     }
 
@@ -158,15 +166,22 @@ class KaryawanController extends Controller
     {
         //get PT
         $perusahaan = MasterPerusahaan::where('status', 1)->get();
+
         //get divisi
         $divisi = MasterDivisi::where('status', 1)->get();
+
         //get data master jabatan
         $jabatan = MasterJabatan::where('status', 1)->get();
+
+        //get data master posisi
+        $posisi = MasterPosisi::where('status', 1)->get();
+
 
         return Inertia::render('Apps/Karyawan/Create', [
             'perusahaan'        => $perusahaan,
             'divisi'            => $divisi,
-            'jabatan'           => $jabatan
+            'jabatan'           => $jabatan,
+            'posisi'            => $posisi,
         ]);
     }
 
@@ -195,61 +210,57 @@ class KaryawanController extends Controller
         $karyawan = Karyawan::create([
 
             //data pribadi
-            'nama_lengkap' => $request->nama_lengkap,
-            'nama_panggilan' => $request->nama_panggilan,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'gol_darah' => $request->gol_darah,
-            'riwayat_penyakit' => $request->riwayat_penyakit,
-            'nik_penduduk' => $request->nik_penduduk,
-            'no_kk' => $request->no_kk,
-            'kode_pos' => $request->kode_pos,
-            'alamat_ktp' => $request->alamat_ktp,
-            'alamat_domisili' => $request->alamat_domisili,
-            'pendidikan' => $request->pendidikan,
-            'nama_sekolah' => $request->nama_sekolah,
-            'jurusan' => $request->jurusan,
-            'email_pribadi' => $request->email_pribadi,
-            'no_telp' => $request->no_telp,
-            'no_wa' => $request->no_wa,
-            'no_keluarga' => $request->no_keluarga,
-            'hubungan_keluarga' => $request->hubungan_keluarga,
-            'status_pernikahan' => $request->status_pernikahan,
-            'status_keluarga' => $request->status_keluarga,
-            'jenis_sosmed' => $request->jenis_sosmed,
-            'nama_sosmed' => $request->nama_sosmed,
+            'nama_lengkap'              => strtoupper($request->nama_lengkap),
+            'nama_panggilan'            => strtoupper($request->nama_panggilan),
+            'tempat_lahir'              => strtoupper($request->tempat_lahir),
+            'tanggal_lahir'             => $request->tanggal_lahir,
+            'gol_darah'                 => $request->gol_darah,
+            'jenis_kelamin'             => $request->jenis_kelamin,
+            'riwayat_penyakit'          => strtoupper($request->riwayat_penyakit),
+            'no_kk'                     => $request->no_kk,
+            'kode_pos'                  => $request->kode_pos,
+            'alamat_ktp'                => strtoupper($request->alamat_ktp),
+            'alamat_domisili'           => strtoupper($request->alamat_domisili),
+            'pendidikan'                => $request->pendidikan,
+            'nama_sekolah'              => strtoupper($request->nama_sekolah),
+            'jurusan'                   => strtoupper($request->jurusan),
+            'email_pribadi'             => $request->email_pribadi,
+            'no_telp'                   => $request->no_telp,
+            'no_wa'                     => $request->no_wa,
+            'no_keluarga'               => $request->no_keluarga,
+            'hubungan_keluarga'         => $request->hubungan_keluarga,
+            'status_pernikahan'         => $request->status_pernikahan,
+            'status_keluarga'           => $request->status_keluarga,
+            'jenis_sosmed'              => $request->jenis_sosmed,
+            'nama_sosmed'               => $request->nama_sosmed,
 
             //data di perusahaan
-            'nik_karyawan' => $request->nik_karyawan,
-            'pt_id' => $request->pt_id,
-            'divisi_id' => $request->divisi_id,
-            'jabatan_id' => $request->jabatan_id,
-            'grade' => $request->grade,
-            'tanggal_masuk' => $request->tanggal_masuk,
-            'tanggal_karyawan_tetap' => $request->tanggal_karyawan_tetap,
-            'tanggal_kontrak' => $request->tanggal_kontrak,
-            'masa_kontrak' => $request->masa_kontrak,
-            // 'masa_kerja' => $request->masa_kontrak,
-            'status_kerja' => $request->status_kerja,
-            'komposisi_karyawan' => $request->komposisi_karyawan,
-            'komposisi_peran' => $request->komposisi_peran,
-            'kota_rekruitmen' => $request->kota_rekruitmen,
-            'kota_penugasan' => $request->kota_penugasan,
+            'nik_karyawan'              => $request->nik_karyawan,
+            'pt_id'                     => $request->pt_id,
+            'divisi_id'                 => $request->divisi_id,
+            'jabatan_id'                => $request->jabatan_id,
+            'posisi_id'                 => $request->posisi_id,
+            'grade'                     => $request->grade,
+            'tanggal_masuk'             => $request->tanggal_masuk,
+            'tanggal_karyawan_tetap'    => $request->tanggal_karyawan_tetap,
+            'tanggal_kontrak'           => $request->tanggal_kontrak,
+            'masa_kontrak'              => $request->masa_kontrak,
+            'status_kerja'              => $request->status_kerja,
+            // 'komposisi_karyawan' => $request->komposisi_karyawan,
+            'komposisi_peran'           => $request->komposisi_peran,
+            'kota_rekruitmen'           => strtoupper($request->kota_rekruitmen),
+            'kota_penugasan'            => strtoupper($request->kota_penugasan),
+            'nama_bank'                 => strtoupper($request->nama_bank),
+            'rekening'                  => $request->rekening,
+            'no_npwp'                   => $request->no_npwp,
+            'email_internal'            => $request->email_internal,
+            'no_bpjs_kesehatan'         => $request->no_bpjs_kesehatan,
+            'no_bpjs_ketenagakerjaan'   => $request->no_bpjs_ketenagakerjaan,
+            'ukuran_baju'               => $request->ukuran_baju,
             'pengalaman_kerja_terakhir' => $request->pengalaman_kerja_terakhir,
-            'jabatan_kerja_terakhir' => $request->jabatan_kerja_terakhir,
-            'nama_bank' => $request->nama_bank,
-            'rekening' => $request->rekening,
-            'no_npwp' => $request->no_npwp,
-            'email_interanl' => $request->email_interanl,
-            'no_bpjs_kesehatan' => $request->no_bpjs_kesehatan,
-            'no_bpjs_ketenagakerjaan' => $request->no_bpjs_ketenagakerjaan,
-            'ukuran_baju' => $request->ukuran_baju,
+            'jabatan_kerja_terakhir'    => $request->jabatan_kerja_terakhir,
             'created_id'  => Auth::id(),
         ]);
-
-        // dd($data);
-
 
         //update umur
         $now = Carbon::now()->isoFormat('Y-MM-D');
@@ -298,16 +309,22 @@ class KaryawanController extends Controller
     {
         //get PT
         $perusahaan = MasterPerusahaan::where('status', 1)->get();
+
         //get divisi
         $divisi = MasterDivisi::where('status', 1)->get();
+
         //get data master jabatan
         $jabatan = MasterJabatan::where('status', 1)->get();
+
+        //get master posisi
+        $posisi = MasterPosisi::where('status', 1)->get();
 
         return Inertia::render('Apps/Karyawan/Edit', [
             'karyawan'          => $karyawan,
             'perusahaan'        => $perusahaan,
             'divisi'            => $divisi,
-            'jabatan'           => $jabatan
+            'jabatan'           => $jabatan,
+            'posisi'            => $posisi,
         ]);
     }
 
@@ -348,58 +365,59 @@ class KaryawanController extends Controller
         }
         //update karyawan
         $karyawan->update([
-            'foto'           => $nama_file,
-            'nama_lengkap' => $request->nama_lengkap,
-            'nama_panggilan' => $request->nama_panggilan,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'gol_darah' => $request->gol_darah,
-            'riwayat_penyakit' => $request->riwayat_penyakit,
-            'nik_penduduk' => $request->nik_penduduk,
-            'no_kk' => $request->no_kk,
-            'kode_pos' => $request->kode_pos,
-            'alamat_ktp' => $request->alamat_ktp,
-            'alamat_domisili' => $request->alamat_domisili,
-            'pendidikan' => $request->pendidikan,
-            'nama_sekolah' => $request->nama_sekolah,
-            'jurusan' => $request->jurusan,
-            'email_pribadi' => $request->email_pribadi,
-            'no_telp' => $request->no_telp,
-            'no_wa' => $request->no_wa,
-            'no_keluarga' => $request->no_keluarga,
-            'hubungan_keluarga' => $request->hubungan_keluarga,
-            'status_pernikahan' => $request->status_pernikahan,
-            'status_keluarga' => $request->status_keluarga,
-            'jenis_sosmed' => $request->jenis_sosmed,
-            'nama_sosmed' => $request->nama_sosmed,
+            //data pribadi
+            'nama_lengkap'              => strtoupper($request->nama_lengkap),
+            'nama_panggilan'            => strtoupper($request->nama_panggilan),
+            'tempat_lahir'              => strtoupper($request->tempat_lahir),
+            'tanggal_lahir'             => $request->tanggal_lahir,
+            'gol_darah'                 => $request->gol_darah,
+            'jenis_kelamin'             => $request->jenis_kelamin,
+            'riwayat_penyakit'          => strtoupper($request->riwayat_penyakit),
+            'no_kk'                     => $request->no_kk,
+            'kode_pos'                  => $request->kode_pos,
+            'alamat_ktp'                => strtoupper($request->alamat_ktp),
+            'alamat_domisili'           => strtoupper($request->alamat_domisili),
+            'pendidikan'                => $request->pendidikan,
+            'nama_sekolah'              => strtoupper($request->nama_sekolah),
+            'jurusan'                   => strtoupper($request->jurusan),
+            'email_pribadi'             => $request->email_pribadi,
+            'no_telp'                   => $request->no_telp,
+            'no_wa'                     => $request->no_wa,
+            'no_keluarga'               => $request->no_keluarga,
+            'hubungan_keluarga'         => $request->hubungan_keluarga,
+            'status_pernikahan'         => $request->status_pernikahan,
+            'status_keluarga'           => $request->status_keluarga,
+            'jenis_sosmed'              => $request->jenis_sosmed,
+            'nama_sosmed'               => $request->nama_sosmed,
 
             //data di perusahaan
-            'nik_karyawan' => $request->nik_karyawan,
-            'pt_id' => $request->pt_id,
-            'divisi_id' => $request->divisi_id,
-            'jabatan_id' => $request->jabatan_id,
-            'grade' => $request->grade,
-            'tanggal_masuk' => $request->tanggal_masuk,
-            'tanggal_karyawan_tetap' => $request->tanggal_karyawan_tetap,
-            'tanggal_kontrak' => $request->tanggal_kontrak,
-            'masa_kontrak' => $request->masa_kontrak,
-            'status_kerja' => $request->status_kerja,
-            'komposisi_karyawan' => $request->komposisi_karyawan,
-            'komposisi_peran' => $request->komposisi_peran,
-            'kota_rekruitmen' => $request->kota_rekruitmen,
-            'kota_penugasan' => $request->kota_penugasan,
-            'nama_bank' => $request->nama_bank,
-            'rekening' => $request->rekening,
-            'no_npwp' => $request->no_npwp,
-            'email_internal' => $request->email_internal,
-            'no_bpjs_kesehatan' => $request->no_bpjs_kesehatan,
-            'no_bpjs_ketenagakerjaan' => $request->no_bpjs_ketenagakerjaan,
-            'ukuran_baju' => $request->ukuran_baju,
+            'nik_karyawan'              => $request->nik_karyawan,
+            'pt_id'                     => $request->pt_id,
+            'divisi_id'                 => $request->divisi_id,
+            'jabatan_id'                => $request->jabatan_id,
+            'posisi_id'                 => $request->posisi_id,
+            'grade'                     => $request->grade,
+            'tanggal_masuk'             => $request->tanggal_masuk,
+            'tanggal_karyawan_tetap'    => $request->tanggal_karyawan_tetap,
+            'tanggal_kontrak'           => $request->tanggal_kontrak,
+            'masa_kontrak'              => $request->masa_kontrak,
+            'status_kerja'              => $request->status_kerja,
+            // 'komposisi_karyawan' => $request->komposisi_karyawan,
+            'komposisi_peran'           => $request->komposisi_peran,
+            'kota_rekruitmen'           => strtoupper($request->kota_rekruitmen),
+            'kota_penugasan'            => strtoupper($request->kota_penugasan),
+            'nama_bank'                 => strtoupper($request->nama_bank),
+            'rekening'                  => $request->rekening,
+            'no_npwp'                   => $request->no_npwp,
+            'email_internal'            => $request->email_internal,
+            'no_bpjs_kesehatan'         => $request->no_bpjs_kesehatan,
+            'no_bpjs_ketenagakerjaan'   => $request->no_bpjs_ketenagakerjaan,
+            'ukuran_baju'               => $request->ukuran_baju,
             'pengalaman_kerja_terakhir' => $request->pengalaman_kerja_terakhir,
-            'jabatan_kerja_terakhir' => $request->jabatan_kerja_terakhir,
+            'jabatan_kerja_terakhir'    => $request->jabatan_kerja_terakhir,
+            'foto'                      => $nama_file,
         ]);
-
+        
         // //update umur
         // $now = Carbon::now()->isoFormat('Y-MM-D');
         // $tanggal_lahir = $karyawan->tanggal_lahir;
@@ -422,22 +440,34 @@ class KaryawanController extends Controller
         return redirect()->route('apps.karyawan.index');
     }
 
-    // public function detail(Karyawan $karyawan)
-    // {
-    //     //get PT
-    //     $perusahaan = MasterPerusahaan::where('status', 1)->get();
-    //     //get divisi
-    //     $divisi = MasterDivisi::where('status', 1)->get();
-    //     //get data master jabatan
-    //     $jabatan = MasterJabatan::where('status', 1)->get();
+    public function detail($id)
+    {
+        $karyawan = Karyawan::with('perusahaan', 'divisi', 'jabatan', 'posisi')
+        ->where('karyawan.id', $id)
+        ->where('status_karyawan', 0)
+        ->first();
 
-    //     return Inertia::render('Apps/Karyawan/Edit', [
-    //         'karyawan'          => $karyawan,
-    //         'perusahaan'        => $perusahaan,
-    //         'divisi'            => $divisi,
-    //         'jabatan'           => $jabatan
-    //     ]);
-    // }
+        // dd($karyawan);
+        //get PT
+        $perusahaan = MasterPerusahaan::where('status', 1)->get();
+
+        //get divisi
+        $divisi = MasterDivisi::where('status', 1)->get();
+
+        //get data master jabatan
+        $jabatan = MasterJabatan::where('status', 1)->get();
+
+        //get master posisi
+        $posisi = MasterPosisi::where('status', 1)->get();
+
+        return Inertia::render('Apps/Karyawan/Detail', [
+            'karyawan'          => $karyawan,
+            'perusahaan'        => $perusahaan,
+            'divisi'            => $divisi,
+            'jabatan'           => $jabatan,
+            'posisi'            => $posisi,
+        ]);
+    }
 
     /**
      * Remove the specified resource from storage.

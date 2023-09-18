@@ -20,7 +20,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th>#</th> -->
+                                    <th class="text-center">#</th>
                                     <th class="text-center">Nama Posisi</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Aksi</th>
@@ -28,7 +28,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(pss, index) in posisi.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + posisi.from }}</td>
                                     <td>{{ pss.nama_posisi }}</td>
                                     <td class="text-center" v-if="(pss.status == 1)"><b style="color: rgb(9, 240, 9);">Aktif</b></td>
                                     <td class="text-center" v-if="(pss.status == 2)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>

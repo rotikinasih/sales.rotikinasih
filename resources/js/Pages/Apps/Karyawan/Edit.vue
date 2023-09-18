@@ -63,15 +63,15 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">No. KK</label>
-                                                <input type="text" class="form-control" v-model="form.no_kk" placeholder="Masukkan No. KK">
+                                                <input type="number" class="form-control" v-model="form.no_kk" placeholder="Masukkan No. KK">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Kode Pos</label>
-                                                <input type="text" class="form-control" v-model="form.kode_pos" placeholder="Masukkan Kode Pos">
+                                                <input type="number" class="form-control" v-model="form.kode_pos" placeholder="Masukkan Kode Pos">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">No. KTP</label>
-                                                <input type="text" class="form-control" v-model="form.nik_penduduk" placeholder="Masukkan No. KTP">
+                                                <input type="number" class="form-control" v-model="form.nik_penduduk" placeholder="Masukkan No. KTP">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Alamat KTP</label>
@@ -94,7 +94,7 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Nama Sekolah</label>
+                                                <label class="fw-bold">Nama Sekolah/Universitas</label>
                                                 <input type="text" class="form-control" v-model="form.nama_sekolah" placeholder="Masukkan Nama Sekolah">
                                             </div>
                                             <div class="mb-3">
@@ -202,11 +202,23 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="fw-bold">Posisi</label>
+                                                <label class="fw-bold">Jabatan</label>
                                                 <VueMultiselect
                                                     v-model="form.jabatan_id"
                                                     :options="jabatan"
                                                     label="nama_jabatan"
+                                                    track-by="id"
+                                                    :allow-empty="false"
+                                                    deselect-label="Can't remove this value"
+                                                    placeholder="Pilih Jabatan"
+                                                ></VueMultiselect>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="fw-bold">Posisi</label>
+                                                <VueMultiselect
+                                                    v-model="form.posisi_id"
+                                                    :options="posisi"
+                                                    label="nama_posisi"
                                                     track-by="id"
                                                     :allow-empty="false"
                                                     deselect-label="Can't remove this value"
@@ -237,7 +249,7 @@
                                                     placeholder="Pilih Status Karyawan"
                                                 ></VueMultiselect>
                                             </div>
-                                            <div class="mb-3">
+                                            <!-- <div class="mb-3">
                                                 <label class="fw-bold">Komposisi Karyawan</label>
                                                 <VueMultiselect
                                                     v-model="form.komposisi_karyawan"
@@ -248,7 +260,7 @@
                                                     deselect-label="Can't remove this value"
                                                     placeholder="Pilih Komposisi Karyawan"
                                                 ></VueMultiselect>
-                                            </div>
+                                            </div> -->
                                             <div class="mb-3">
                                                 <label class="fw-bold">Komposisi Peran</label>
                                                 <VueMultiselect
@@ -393,7 +405,8 @@
             divisi: Array,
             perusahaan: Array,
             karyawan: Object,
-            jabatan: Array
+            jabatan: Array,
+            posisi: Array,
         },
         setup(props) {
             //define state search
@@ -498,7 +511,7 @@
                 { name: 'Facebook', value: 2 },
                 { name: 'Tiktok', value: 3},
                 { name: 'Youtube', value: 4 },
-                { name: 'Lainnya', value: 5 },
+                // { name: 'Lainnya', value: 5 },
             ];
 
             const data_komposisi_peran = [
@@ -522,6 +535,8 @@
 
             //mendapatkan object dari masing2 FK
             const getData = () => {
+
+                console.log(props.karyawan.jenis_kelamin)
                 //pt
                 let datapt_nya = props.perusahaan
                 datapt_nya.forEach(data => {
@@ -552,6 +567,15 @@
                     if(props.karyawan.jabatan_id == data.id){
                         props.karyawan.jabatan_id = data
                         form.jabatan_id = data
+                    }
+                })
+
+                 //posisi
+                let datapss_nya = props.posisi
+                datapss_nya.forEach(data => {
+                    if(props.karyawan.posisi_id == data.id){
+                        props.karyawan.posisi_id = data
+                        form.posisi_id = data
                     }
                 })
 
@@ -666,7 +690,8 @@
                 nik_karyawan: props.karyawan.nik_karyawan,
                 pt_id: props.karyawan.pt_id,
                 divisi_id: props.karyawan.divisi_id,
-                jabatan_id: props.karyawan.jabatan,
+                jabatan_id: props.karyawan.jabatan_id,
+                posisi_id: props.karyawan.posisi_id,
                 grade: props.karyawan.grade,
                 status_kerja: props.karyawan.status_kerja,
                 komposisi_karyawan: props.karyawan.komposisi_karyawan,
@@ -689,29 +714,6 @@
                 foto: props.karyawan.foto,
             });
 
-            const goToStep = (step) => {
-                activePhase.value = step
-            }
-
-            const cekData1 = computed(() => {
-                return form.nama_lengkap.length == 0 || form.status_kerja.length == 0 || form.nik_karyawan.length == 0 || form.pt_id.length == 0 || form.divisi_id.length == 0;
-            })
-
-            const cekData2 = computed(() => {
-                return form.grade.length == 0 || form.tanggal_masuk.length == 0 || form.nik_penduduk.length == 0 || form.jabatan_id.length == 0;
-            })
-
-            const cekData3 = computed(() => {
-                return form.no_hp.length == 0 || form.no_wa.length == 0 || form.gol_darah.length == 0 || form.email.length == 0;
-            })
-
-            const cekData4 = computed(() => {
-                return form.tempat_lahir.length == 0 || form.tanggal_lahir.length == 0 || form.alamat_ktp.length == 0 || form.alamat_domisili.length == 0 || form.jenis_kelamin.length == 0 || form.status_pernikahan.length == 0;
-            })
-
-            const cekData5 = computed(() => {
-                return form.pendidikan.length == 0 || form.nama_sekolah.length == 0 || form.kab_penugasan.length == 0 || form.ukuran_baju.length == 0 || form.no_sdr.length == 0 || form.hubungan.length == 0;
-            })
 
             const fileImage = (event) => {
                 foto.value = event.target.files[0];
@@ -758,6 +760,7 @@
                         pt_id: form.pt_id ? form.pt_id.id : '',
                         divisi_id: form.divisi_id ? form.divisi_id.id : '',
                         jabatan_id: form.jabatan_id ? form.jabatan_id.id : '',
+                        posisi_id: form.posisi_id ? form.posisi_id.id : '',
                         grade: form.grade ? form.grade.name : '',
                         tanggal_masuk: form.tanggal_masuk,
                         status_kerja: form.status_kerja ? form.status_kerja.value : '',
@@ -822,6 +825,7 @@
                         pt_id: form.pt_id ? form.pt_id.id : '',
                         divisi_id: form.divisi_id ? form.divisi_id.id : '',
                         jabatan_id: form.jabatan_id ? form.jabatan_id.id : '',
+                        posisi_id: form.posisi_id ? form.posisi_id.id : '',
                         grade: form.grade ? form.grade.name : '',
                         tanggal_masuk: form.tanggal_masuk,
                         status_kerja: form.status_kerja ? form.status_kerja.value : '',
@@ -860,11 +864,11 @@
 
             return {
                 activePhase,
-                goToStep, foto,
+                foto,
                 preview,
                 data_golongan_darah, data_jenis_kelamin, data_status_pernikahan, data_status_keluarga, data_jenis_sosmed,
                 data_ukuran_baju, data_status_kerja, data_pendidikan, data_grade, data_hubungan_keluarga, data_komposisi_peran, data_komposisi_karyawan,
-                storeData, form, fileImage, cekData1, cekData2, cekData3, cekData4, cekData5
+                storeData, form, fileImage
             }
         }
     }

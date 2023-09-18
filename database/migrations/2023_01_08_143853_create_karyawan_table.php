@@ -48,10 +48,11 @@ class CreateKaryawanTable extends Migration
             $table->unsignedBigInteger('divisi_id')->nullable();
             $table->unsignedBigInteger('pt_id')->nullable();
             $table->unsignedBigInteger('jabatan_id')->nullable();
+            $table->unsignedBigInteger('posisi_id')->nullable();
             $table->string('grade')->nullable();
             $table->date('tanggal_masuk')->nullable();
             $table->tinyInteger('status_kerja')->comment('1 = Kontrak, 2 = Tetap, 3 = Training')->nullable();
-            $table->tinyInteger('komposisi_karyawan')->comment('1 = Direktor, 2 = Div Head, 3 = Dept Head, 4 = Sect Head, 5 = Head, 6 = Staff, 7 = Non Staff')->nullable();
+            // $table->tinyInteger('komposisi_karyawan')->comment('1 = Direktor, 2 = Div Head, 3 = Dept Head, 4 = Sect Head, 5 = Head, 6 = Staff, 7 = Non Staff')->nullable();
             $table->tinyInteger('komposisi_peran')->comment('1 = Support, 2 = Core')->nullable();
             $table->string('komposisi_generasi')->nullable();
             $table->date('tanggal_kontrak')->nullable();
@@ -62,6 +63,7 @@ class CreateKaryawanTable extends Migration
             $table->string('masa_kerja_tahun')->nullable();
             $table->string('kota_rekruitmen')->nullable();
             $table->string('kota_penugasan')->nullable();
+            $table->string('posisi_awal_diterima')->nullable();
             $table->string('email_internal')->nullable();
             $table->string('no_npwp')->nullable();
             $table->string('no_bpjs_kesehatan')->nullable();

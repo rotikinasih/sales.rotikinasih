@@ -21,7 +21,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th class="text-center">Nama Posisi</th>
+                                    <th class="text-center">Nama Jabatan</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
@@ -66,8 +66,8 @@
                 </template>
                 <template #body>
                     <div class="form-group mb-3">
-                        <label class="col-form-label">Nama Posisi :</label>
-                        <input type="text" class="form-control" placeholder="Masukkan Nama Posisi" v-model="nama_jabatan" required>
+                        <label class="col-form-label">Nama Jabatan :</label>
+                        <input type="text" class="form-control" placeholder="Masukkan Nama Jabatan" v-model="nama_jabatan" required>
                     </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Status :</label>
