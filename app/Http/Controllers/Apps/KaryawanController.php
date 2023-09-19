@@ -418,6 +418,7 @@ class KaryawanController extends Controller
             'foto'                      => $nama_file,
         ]);
         
+        
         // //update umur
         // $now = Carbon::now()->isoFormat('Y-MM-D');
         // $tanggal_lahir = $karyawan->tanggal_lahir;
