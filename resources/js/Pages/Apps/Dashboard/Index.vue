@@ -17,7 +17,7 @@
                         </div>
                         <h3 class="mt-3 f-w-300">{{ total_karyawan_aktif }}<sub class="text-muted f-14"> </sub></h3>
                         <h4 class="text-muted mt-4 mb-0"></h4>
-                         <i class="fab fa-angellist text-c-purple f-50"></i>
+                        <i class="fab fa-angellist text-c-purple f-50"></i>
                     </div>
                 </div>
             </div> -->
@@ -173,7 +173,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card Recent-Users">
+                <!-- <div class="card Recent-Users">
                     <div class="card-header">
                         <h5>Total Karyawan Berdasarkan Komposisi Karyawan</h5>
                     </div>
@@ -182,7 +182,7 @@
                             <BarChart :chartData="chartKomposisiKaryawan" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="card Recent-Users">
                     <div class="card-header">
                         <h5>Total Karyawan Berdasarkan Rentang Umur</h5>
@@ -500,8 +500,8 @@
             total_status_pernikahan: Array,
 
             //chart berdasarkan komposisi karyawan
-            komposisi_karyawan: Array,
-            total_komposisi_karyawan: Array,
+            // komposisi_karyawan: Array,
+            // total_komposisi_karyawan: Array,
 
             //chart berdasarkan penyebab phk
             penyebab_phk: Array,
@@ -645,13 +645,13 @@
             };
 
             //chart karyawan berdasarkan komposisi karyawan
-            const chartKomposisiKaryawan = {
-                labels: props.komposisi_karyawan,
-                datasets: [{
-                    data: props.total_komposisi_karyawan,
-                    backgroundColor: randomBackgroundColor(5),
-                }, ],
-            };
+            // const chartKomposisiKaryawan = {
+            //     labels: props.komposisi_karyawan,
+            //     datasets: [{
+            //         data: props.total_komposisi_karyawan,
+            //         backgroundColor: randomBackgroundColor(5),
+            //     }, ],
+            // };
 
             //chart karyawan berdasarkan komposisi karyawan
             const chartKaryawanPHK = {
@@ -693,7 +693,7 @@
                 chartKomposisiPeran,
                 chartPendidikan,
                 chartStatusPernikahan,
-                chartKomposisiKaryawan,
+                // chartKomposisiKaryawan,
                 chartKaryawanPHK,
                 chartUmur,
                 chartKaryawanResign,
