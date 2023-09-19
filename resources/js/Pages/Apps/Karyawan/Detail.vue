@@ -7,6 +7,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
+                        <!-- <a :href="`/apps/karyawan/download-pdf/${id}`" target="_blank" type="button" class="btn btn-danger" style="float: right; margin-right: 0px;"><i class='far fa-file-pdf'></i>Cetak PDF</a> -->
                         <h5>Detail Karyawan</h5>
                     </div>
                     <div class="card-body">
@@ -176,70 +177,36 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Grade</label>
-                                                <VueMultiselect
-                                                    v-model="form.grade"
-                                                    :options="data_grade"
-                                                    label="name"
-                                                    track-by="value"
-                                                    :allow-empty="false"
-                                                    deselect-label="Can't remove this value"
-                                                    placeholder="Pilih Grade"
-                                                    :disabled="true"
-                                                ></VueMultiselect>
+                                                <input disabled type="text" class="form-control" v-model="grade" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Status Kerja</label>
-                                                <VueMultiselect
-                                                    v-model="form.status_kerja"
-                                                    :options="data_status_kerja"
-                                                    label="name"
-                                                    track-by="value"
-                                                    :allow-empty="false"
-                                                    deselect-label="Can't remove this value"
-                                                    placeholder="Pilih Status Karyawan"
-                                                    :disabled="true"
-                                                ></VueMultiselect>
+                                                <input disabled type="text" class="form-control" v-if="form.status_kerja == null" value="" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.status_kerja.value == 1" value="Kontrak" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.status_kerja.value == 2" value="Tetap" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.status_kerja.value == 3" value="Training" placeholder="">
                                             </div>
-                                            <!-- <div class="mb-3">
-                                                <label class="fw-bold">Komposisi Karyawan</label>
-                                                <VueMultiselect
-                                                    v-model="form.komposisi_karyawan"
-                                                    :options="data_komposisi_karyawan"
-                                                    label="name"
-                                                    track-by="value"
-                                                    :allow-empty="false"
-                                                    deselect-label="Can't remove this value"
-                                                    placeholder="Pilih Komposisi Karyawan"
-                                                ></VueMultiselect>
-                                            </div> -->
                                             <div class="mb-3">
                                                 <label class="fw-bold">Komposisi Peran</label>
-                                                <VueMultiselect
-                                                    v-model="form.komposisi_peran"
-                                                    :options="data_komposisi_peran"
-                                                    label="name"
-                                                    track-by="value"
-                                                    :allow-empty="false"
-                                                    deselect-label="Can't remove this value"
-                                                    placeholder="Pilih Komposisi Peran"
-                                                    :disabled="true"
-                                                ></VueMultiselect>
+                                                <input disabled type="text" class="form-control" v-if="form.komposisi_peran == null" value="" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.komposisi_peran.value == 1" value="Support" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.komposisi_peran.value == 2" value="Core" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Tanggal Masuk</label>
-                                                <input disabled type="date" class="form-control" v-model="form.tanggal_masuk" placeholder="Masukkan Tanggal Masuk">
+                                                <input disabled type="date" class="form-control" v-model="form.tanggal_masuk" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Tanggal Kontrak</label>
-                                                <input disabled type="date" class="form-control" v-model="form.tanggal_kontrak" placeholder="Masukkan Tanggal Kontrak">
+                                                <input disabled type="date" class="form-control" v-model="form.tanggal_kontrak" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Masa Kontrak (Bulan)</label>
-                                                <input disabled type="number" class="form-control" v-model="form.masa_kontrak" placeholder="Masukkan Masa Kontrak">
+                                                <input disabled type="number" class="form-control" v-model="form.masa_kontrak" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Tanggal Karyawan Tetap</label>
-                                                <input disabled type="date" class="form-control" v-model="form.tanggal_karyawan_tetap" placeholder="Masukkan Tanggal Karywan Tetap">
+                                                <input disabled type="date" class="form-control" v-model="form.tanggal_karyawan_tetap" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Masa Kerja</label>
@@ -247,75 +214,60 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Kota Rekruitmen</label>
-                                                <input disabled type="text" class="form-control" v-model="form.kota_rekruitmen" placeholder="Masukkan Kota Penugasan">
+                                                <input disabled type="text" class="form-control" v-model="form.kota_rekruitmen" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Kota Penugasan</label>
-                                                <input disabled type="text" class="form-control" v-model="form.kota_penugasan" placeholder="Masukkan Kota Penugasan">
+                                                <input disabled type="text" class="form-control" v-model="form.kota_penugasan" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Nama Bank</label>
-                                                <input disabled type="text" class="form-control" v-model="form.nama_bank" placeholder="Masukkan Nama Bank">
+                                                <input disabled type="text" class="form-control" v-model="form.nama_bank" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Rekening Bank</label>
-                                                <input disabled type="text" class="form-control" v-model="form.rekening" placeholder="Masukkan Rekening Bank">
+                                                <input disabled type="text" class="form-control" v-model="form.rekening" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">No. NPWP</label>
-                                                <input disabled type="text" class="form-control" v-model="form.no_npwp" placeholder="Masukkan No. NPWP">
+                                                <input disabled type="text" class="form-control" v-model="form.no_npwp" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Email Internal</label>
-                                                <input disabled type="email" class="form-control" v-model="form.email_internal" placeholder="Masukkan Email Internal">
+                                                <input disabled type="email" class="form-control" v-model="form.email_internal" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">No. BPJS Kesehatan</label>
-                                                <input disabled type="text" class="form-control" v-model="form.no_bpjs_kesehatan" placeholder="Masukkan No. BPJS Kesehatan">
+                                                <input disabled type="text" class="form-control" v-model="form.no_bpjs_kesehatan" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">No. BPJS Ketenagakerjaan</label>
-                                                <input disabled type="text" class="form-control" v-model="form.no_bpjs_ketenagakerjaan" placeholder="Masukkan No. BPJS Ketenagakerjaan">
+                                                <input disabled type="text" class="form-control" v-model="form.no_bpjs_ketenagakerjaan" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Ukuran Baju</label>
-                                                <VueMultiselect
-                                                    v-model="form.ukuran_baju"
-                                                    :options="data_ukuran_baju"
-                                                    label="name"
-                                                    track-by="value"
-                                                    :allow-empty="false"
-                                                    deselect-label="Can't remove this value"
-                                                    placeholder="Pilih Ukuran Baju"
-                                                    :disabled="true"
-                                                ></VueMultiselect>
+                                                <input disabled type="text" class="form-control" v-if="form.ukuran_baju == null" value=" " placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.ukuran_baju.value == 1" value="S" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.ukuran_baju.value == 2" value="M" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.ukuran_baju.value == 3" value="L" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.ukuran_baju.value == 4" value="XL" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.ukuran_baju.value == 5" value="XXL" placeholder="">
+                                                <input disabled type="text" class="form-control" v-else-if="form.ukuran_baju.value == 6" value="Jumbo" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Pengalaman Kerja Terakhir</label>
-                                                <input disabled type="text" class="form-control" v-model="form.pengalaman_kerja_terakhir" placeholder="Masukkan Pengalaman Kerja Terakhir">
+                                                <input disabled type="text" class="form-control" v-model="form.pengalaman_kerja_terakhir" placeholder="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Jabatan Kerja Terakhir</label>
-                                                <input disabled type="text" class="form-control" v-model="form.jabatan_kerja_terakhir" placeholder="Masukkan Jabatan Kerja Terakhir">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label" name="foto">Foto</label><br>
-                                                <input disabled type="file" name="foto" @change="fileImage">
-                                            </div>
-                                            <label class="form-label">{{ form['foto'] }}</label><br>
-                                            <div class="mb-3">
-                                                <div class="preview" v-show="preview">
-                                                    <label class="form-label" name="preview">Preview</label><br>
-                                                    <img :src="preview" width="200" height="150">
-                                                </div>
-                                                <img v-if="form['foto'] != null && foto == null" :src="`/storage/${form['foto']}`" alt="photo" style="width:20%"><br>
+                                                <input disabled type="text" class="form-control" v-model="form.jabatan_kerja_terakhir" placeholder="">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">Kembali</Link>
-                                            <button type="submit" class="btn btn-warning mt-3" @click.prevent="storeData" style="float:right">Update</button>
+                                            <!-- <button type="submit" class="btn btn-warning mt-3" @click.prevent="storeData" style="float:right">Update</button> -->
+                                            <Link href="/apps/karyawan" class="btn btn-secondary shadow-sm rounded-sm-5 mt-3" style="float:right">Kembali</Link>
                                             <!-- <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Previous</button> -->
                                         </div>
                                     </div>
@@ -623,6 +575,7 @@
             const nama_jabatan = props.karyawan.jabatan_id == null ? '' : props.karyawan.jabatan.nama_jabatan;
             const nama_posisi = props.karyawan.posisi_id == null ? '' : props.karyawan.posisi.nama_posisi;
             const masa_kerja_tahun = props.karyawan.masa_kerja_tahun == null ? '' : props.karyawan.masa_kerja_tahun;
+            const grade = props.karyawan.grade == null ? '' : props.karyawan.grade;
 
             //define form with reactive
             const form = reactive({
@@ -830,7 +783,7 @@
             return {
                 activePhase,
                 foto,
-                preview, nama_pt, nama_divisi, nama_jabatan, nama_posisi, masa_kerja_tahun,
+                preview, nama_pt, nama_divisi, nama_jabatan, nama_posisi, masa_kerja_tahun, grade,
                 data_golongan_darah, data_jenis_kelamin, data_status_pernikahan, data_status_keluarga, data_jenis_sosmed,
                 data_ukuran_baju, data_status_kerja, data_pendidikan, data_grade, data_hubungan_keluarga, data_komposisi_peran, data_komposisi_karyawan,
                 storeData, form, fileImage

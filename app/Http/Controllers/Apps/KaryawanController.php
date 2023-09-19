@@ -36,7 +36,7 @@ class KaryawanController extends Controller
     {
         $search = request()->search;
         //get karyawan
-        $karyawan = Karyawan::with('perusahaan', 'divisi', 'jabatan')->when($search, function($karyawan, $search) {
+        $karyawan = Karyawan::with('perusahaan', 'divisi', 'jabatan', 'posisi')->when($search, function($karyawan, $search) {
             $karyawan = $karyawan->where('nama_lengkap', 'like', '%'. $search . '%')
                                 ->orWhere('nik_karyawan', 'like', '%'. $search . '%')
                                 ->orWhere('nik_penduduk', 'like', '%'. $search . '%');

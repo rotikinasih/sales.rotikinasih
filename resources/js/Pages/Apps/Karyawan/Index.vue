@@ -37,6 +37,7 @@
                                     <th style="text-align: center;">NIK (Karyawan)</th>
                                     <th style="text-align: center;">Entitas</th>
                                     <th style="text-align: center;">Divisi</th>
+                                    <th style="text-align: center;">Jabatan</th>
                                     <th style="text-align: center;">Posisi</th>
                                     <th style="text-align: center;">Status Kerja</th>
                                     <th style="text-align: center;">Aksi</th>
@@ -53,15 +54,17 @@
                                     <td v-else>{{ kar.divisi.nama_divisi}}</td>                                    
                                     <td v-if="(kar.jabatan == null)"> </td>
                                     <td v-else>{{ kar.jabatan.nama_jabatan }}</td>
+                                    <td v-if="(kar.posisi == null)"> </td>
+                                    <td v-else>{{ kar.posisi.nama_posisi }}</td>
                                     <td v-if="(kar.status_kerja == null)"></td>
                                     <td v-else-if="(kar.status_kerja == 1)" style="text-align: center;"><b style="color: rgb(250, 213, 4);">Kontrak</b></td>
                                     <td v-else-if="(kar.status_kerja == 2)" style="text-align: center;"><b style="color: rgb(45, 250, 4);">Tetap</b></td>
                                     <td v-else style="text-align: center;"><b style="color: rgb(160, 4, 250);">Training</b></td>
                                     <td class="text-center">
                                         <Link :href="`/apps/karyawan/${kar.id}/edit`" v-if="hasAnyPermission(['karyawan.edit'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Edit" data-toggle="tooltip-inner"><i class="fa fa-pencil-alt me-1"></i></Link>
-                                        <Link :href="`/apps/karyawan/${kar.id}/detail`" v-if="hasAnyPermission(['karyawan.detail'])" class="label theme-bg3 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="detail1" data-toggle="tooltip-inner"><i class="fa fa-info"></i></Link>
+                                        <Link :href="`/apps/karyawan/${kar.id}/detail`" v-if="hasAnyPermission(['karyawan.detail'])" class="label theme-bg8 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="detail1" data-toggle="tooltip-inner"><i class="fa fa-info"></i></Link>
                                         <a @click.prevent="destroy(kar.id)" v-if="hasAnyPermission(['karyawan.delete'])" class="label theme-bg6 text-white f-12" style="cursor:pointer; border-radius:10px" title="Hapus" data-toggle="tooltip-inner"><i class="fa fa-trash"></i></a>
-                                        <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-info"></i></a>
+                                        <!-- <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-info"></i></a> -->
                                         <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Tambah Mutasi" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-user-plus"></i></a>
                                         <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Riwayat Mutasi" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
                                         <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Tambah Pelanggaran" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-exclamation-triangle"></i></a>
