@@ -290,6 +290,10 @@
                                                 <input type="date" class="form-control" v-model="form.tanggal_karyawan_tetap" placeholder="Masukkan Tanggal Karywan Tetap">
                                             </div>
                                             <div class="mb-3">
+                                                <label class="fw-bold">Posisi Awal Diterima</label>
+                                                <input type="text" class="form-control" v-model="form.posisi_awal_diterima" placeholder="Masukkan Posisi Awal Diterima">
+                                            </div>
+                                            <div class="mb-3">
                                                 <label class="fw-bold">Kota Rekruitmen</label>
                                                 <input type="text" class="form-control" v-model="form.kota_rekruitmen" placeholder="Masukkan Kota Penugasan">
                                             </div>
@@ -357,7 +361,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">Kembali</Link>
+                                            <Link href="/apps/karyawan" class="btn btn-secondary shadow-sm rounded-sm-5 mt-3">Kembali</Link>
                                             <button type="submit" class="btn btn-warning mt-3" @click.prevent="storeData" style="float:right">Update</button>
                                             <!-- <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Previous</button> -->
                                         </div>
@@ -696,6 +700,7 @@
                 status_kerja: props.karyawan.status_kerja,
                 komposisi_karyawan: props.karyawan.komposisi_karyawan,
                 komposisi_peran: props.karyawan.komposisi_peran,
+                posisi_awal_diterima: props.karyawan.posisi_awal_diterima,
                 tanggal_masuk: props.karyawan.tanggal_masuk,
                 tanggal_kontrak: props.karyawan.tanggal_kontrak,
                 tanggal_karyawan_tetap: props.karyawan.tanggal_karyawan_tetap,
@@ -763,6 +768,7 @@
                         posisi_id: form.posisi_id ? form.posisi_id.id : '',
                         grade: form.grade ? form.grade.name : '',
                         tanggal_masuk: form.tanggal_masuk,
+                        posisi_awal_diterima: form.posisi_awal_diterima,
                         status_kerja: form.status_kerja ? form.status_kerja.value : '',
                         komposisi_karyawan: form.komposisi_karyawan ? form.komposisi_karyawan.value : '',
                         komposisi_peran: form.komposisi_peran ? form.komposisi_peran.value : '',
@@ -827,6 +833,7 @@
                         jabatan_id: form.jabatan_id ? form.jabatan_id.id : '',
                         posisi_id: form.posisi_id ? form.posisi_id.id : '',
                         grade: form.grade ? form.grade.name : '',
+                        posisi_awal_diterima: form.posisi_awal_diterima,
                         tanggal_masuk: form.tanggal_masuk,
                         status_kerja: form.status_kerja ? form.status_kerja.value : '',
                         komposisi_karyawan: form.komposisi_karyawan ? form.komposisi_karyawan.value : '',

@@ -6,6 +6,7 @@ use App\Models\Karyawan;
 use App\Models\MasterDivisi;
 use App\Models\MasterJabatan;
 use App\Models\MasterPerusahaan;
+use App\Models\MasterPosisi;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithMappedCells;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -25,7 +26,7 @@ class KaryawanImport implements ToModel, WithStartRow
     private $errors = []; // array to accumulate errors
     private $status_kerja = ['Kontrak' => 1, 'Tetap' => 2, 'Training' => 3];
     private $jenis_kelamin = ['Laki-laki' => 1, 'Perempuan' => 2];
-    private $komposisi_karyawan = ['Director' => 1, 'Div Head' => 2, 'Dept Head' => 3, 'Sect Head' => 4, 'Head' => 5, 'Staff' => 6, 'Non Staff' => 7];
+    // private $komposisi_karyawan = ['Director' => 1, 'Div Head' => 2, 'Dept Head' => 3, 'Sect Head' => 4, 'Head' => 5, 'Staff' => 6, 'Non Staff' => 7];
     private $komposisi_peran = ['Support' => 1, 'Core' => 2];
     private $gol_darah = ['A' => 1, 'B' => 2, 'O' => 3, 'AB' => 4];
     private $status_pernikahan = ['Belum Menikah' => 1, 'Menikah' => 2, 'Janda' => 3, 'Duda' => 4];
@@ -78,25 +79,27 @@ class KaryawanImport implements ToModel, WithStartRow
             'pt_id' => $row[26] == null ? null : MasterPerusahaan::where('nama_pt', $row[26])->firstOrFail()->id,
             'divisi_id' => $row[27]  == null ? null : MasterDivisi::where('nama_divisi', $row[27])->firstOrFail()->id,
             'jabatan_id' => $row[28] == null ? null : MasterJabatan::where('nama_jabatan', $row[28])->firstOrFail()->id,
-            'grade' => $row[29] == null ? null : $row[29],
-            'tanggal_masuk' => $row[30]  == null ? null : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[30])->format('Y-m-d'),
-            'status_kerja' => $row[31] == null ? null : $this->status_kerja[$row[31]], 
-            'komposisi_karyawan' => $row[32] == null ? null : $this->komposisi_karyawan[$row[32]], 
+            'jabatan_id' => $row[29] == null ? null : MasterPosisi::where('nama_posisi', $row[29])->firstOrFail()->id,
+            'grade' => $row[30] == null ? null : $row[30],
+            'tanggal_masuk' => $row[31]  == null ? null : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[31])->format('Y-m-d'),
+            'status_kerja' => $row[32] == null ? null : $this->status_kerja[$row[32]], 
+            // 'komposisi_karyawan' => $row[32] == null ? null : $this->komposisi_karyawan[$row[32]], 
             'komposisi_peran' => $row[33] == null ? null : $this->komposisi_peran[$row[33]], 
             'tanggal_kontrak' => $row[34]  == null ? null : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[34])->format('Y-m-d'),
             'masa_kontrak' => $row[35] == null ? null : $row[35],
             'tanggal_karyawan_tetap' => $row[36]  == null ? null : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[36])->format('Y-m-d'),
-            'kota_rekruitmen' => $row[37] == null ? null : $row[37],
-            'kota_penugasan' => $row[38] == null ? null : $row[38],
-            'no_npwp' => $row[39] == null ? null : $row[39],
-            'no_bpjs_kesehatan' => $row[40] == null ? null : $row[40],
-            'no_bpjs_ketenagakerjaan' => $row[41] == null ? null : $row[41],
-            'email_internal'  => $row[42] == null ? null : $row[42],
-            'nama_bank'  => $row[43] == null ? null : $row[43],
-            'rekening'  => $row[44] == null ? null : $row[44],
-            'ukuran_baju' => $row[45] == null ? null : $this->ukuran_baju[$row[45]],
-            'pengalaman_kerja_terakhir' => $row[46] == null ? null : $row[46],
-            'jabatan_kerja_terakhir' => $row[47] == null ? null : $row[47],
+            'posisi_awal_diterima' => $row[37] == null ? null : $row[37],
+            'kota_rekruitmen' => $row[38] == null ? null : $row[38],
+            'kota_penugasan' => $row[39] == null ? null : $row[39],
+            'no_npwp' => $row[40] == null ? null : $row[40],
+            'no_bpjs_kesehatan' => $row[41] == null ? null : $row[41],
+            'no_bpjs_ketenagakerjaan' => $row[42] == null ? null : $row[42],
+            'email_internal'  => $row[43] == null ? null : $row[43],
+            'nama_bank'  => $row[44] == null ? null : $row[44],
+            'rekening'  => $row[45] == null ? null : $row[45],
+            'ukuran_baju' => $row[46] == null ? null : $this->ukuran_baju[$row[46]],
+            'pengalaman_kerja_terakhir' => $row[47] == null ? null : $row[47],
+            'jabatan_kerja_terakhir' => $row[48] == null ? null : $row[48],
         ]);
     }
 

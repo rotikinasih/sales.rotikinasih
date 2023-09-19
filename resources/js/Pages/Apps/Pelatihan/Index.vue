@@ -52,7 +52,7 @@
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="pelatihan.data[0] == undefined">
-                                    <td colspan="6" class="text-center">
+                                    <td colspan="7" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             Data Kosong

@@ -292,6 +292,10 @@
                                                 ></VueMultiselect>
                                             </div>
                                             <div class="mb-3">
+                                                <label class="fw-bold">Posisi Awal Diterima</label>
+                                                <input type="text" class="form-control" v-model="form.posisi_awal_diterima" placeholder="Masukkan Posisi Awal Diterima">
+                                            </div>
+                                            <div class="mb-3">
                                                 <label class="fw-bold">Kota/Kab Rekruitmen</label>
                                                 <input type="text" class="form-control" v-model="form.kota_rekruitmen" placeholder="Masukkan Kota/Kab Rekruitmen">
                                             </div>
@@ -357,7 +361,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <Link href="/apps/karyawan" class="btn btn-success shadow-sm rounded-sm-5 mt-3">Kembali</Link>
+                                            <Link href="/apps/karyawan" class="btn btn-secondary shadow-sm rounded-sm-5 mt-3">Kembali</Link>
                                             <button type="button" class="btn btn-primary mt-3" @click.prevent="storeData" style="float:right">Simpan</button>
                                             <!-- <button type="button" class="btn btn-primary mt-3" @click.prevent="goToStep(4)" style="float:right">Previous</button> -->
                                         </div>
@@ -565,6 +569,7 @@
                 jabatan:'',
                 posisi:'',
                 grade:'',
+                posisi_awal_diterima: '',
                 tanggal_masuk: '',
                 tanggal_kontrak: '',
                 masa_kontrak: '',
@@ -655,6 +660,7 @@
                     jabatan_id: form.jabatan.id,
                     posisi_id: form.posisi.id,
                     grade: form.grade.name,
+                    posisi_awal_diterima: form.posisi_awal_diterima,
                     tanggal_masuk: form.tanggal_masuk,
                     tanggal_kontrak: form.tanggal_kontrak,
                     masa_kontrak: form.masa_kontrak,

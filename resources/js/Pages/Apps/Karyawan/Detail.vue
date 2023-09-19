@@ -213,6 +213,10 @@
                                                 <input disabled class="form-control" v-model="masa_kerja_tahun" type="text" placeholder="">
                                             </div>
                                             <div class="mb-3">
+                                                <label class="fw-bold">Posisi Awal Diterima</label>
+                                                <input disabled type="text" class="form-control" v-model="form.posisi_awal_diterima" placeholder="">
+                                            </div>
+                                            <div class="mb-3">
                                                 <label class="fw-bold">Kota Rekruitmen</label>
                                                 <input disabled type="text" class="form-control" v-model="form.kota_rekruitmen" placeholder="">
                                             </div>
@@ -614,6 +618,7 @@
                 status_kerja: props.karyawan.status_kerja,
                 komposisi_karyawan: props.karyawan.komposisi_karyawan,
                 komposisi_peran: props.karyawan.komposisi_peran,
+                posisi_awal_diterima: props.karyawan.posisi_awal_diterima,
                 tanggal_masuk: props.karyawan.tanggal_masuk,
                 tanggal_kontrak: props.karyawan.tanggal_kontrak,
                 tanggal_karyawan_tetap: props.karyawan.tanggal_karyawan_tetap,
