@@ -26,7 +26,11 @@ class CreateRiwayatOrganisasiTable extends Migration
 
             $table->unsignedBigInteger('jabatan_id');
             $table->foreign('jabatan_id')->references('id')->on('master_jabatan')->onDelete('cascade');
+
+            $table->unsignedBigInteger('posisi_id');
+            $table->foreign('posisi_id')->references('id')->on('master_posisi')->onDelete('cascade');
             // $table->date('tgl_gabung_grup');
+            $table->tinyInteger('kategori_karir');
             $table->date('tgl_masuk');
             $table->date('tgl_berakhir')->nullable();
             $table->tinyInteger('created_id')->nullable();

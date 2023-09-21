@@ -79,7 +79,7 @@ class KaryawanImport implements ToModel, WithStartRow
             'pt_id' => $row[26] == null ? null : MasterPerusahaan::where('nama_pt', $row[26])->firstOrFail()->id,
             'divisi_id' => $row[27]  == null ? null : MasterDivisi::where('nama_divisi', $row[27])->firstOrFail()->id,
             'jabatan_id' => $row[28] == null ? null : MasterJabatan::where('nama_jabatan', $row[28])->firstOrFail()->id,
-            'jabatan_id' => $row[29] == null ? null : MasterPosisi::where('nama_posisi', $row[29])->firstOrFail()->id,
+            'posisi_id' => $row[29] == null ? null : MasterPosisi::where('nama_posisi', $row[29])->firstOrFail()->id,
             'grade' => $row[30] == null ? null : $row[30],
             'tanggal_masuk' => $row[31]  == null ? null : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[31])->format('Y-m-d'),
             'status_kerja' => $row[32] == null ? null : $this->status_kerja[$row[32]], 

@@ -1,12 +1,12 @@
 <template>
     <Head>
-        <title>Karir</title>
+        <title>Karir {{ nama }}</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>{{ nama }}</h5>
+                    <h5>Riwayat Karir {{ nama }}</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the list of <code>{{ nama }}</code> organizations</span> -->
                 </div>
                 <div class="card-block table-border-style">
@@ -20,28 +20,37 @@
                                 <tr>
                                     <th scope="col" class="text-center">#</th>
                                     <th scope="col" class="text-center">Nama Lengkap</th>
+                                    <th scope="col" class="text-center">Kategori Karir</th>
                                     <th scope="col" class="text-center">Entitas</th>
                                     <th scope="col" class="text-center">Divisi</th>
+                                    <th scope="col" class="text-center">Jabatan</th>
                                     <th scope="col" class="text-center">Posisi</th>
                                     <th scope="col" class="text-center">Tanggal Masuk</th>
                                     <th scope="col" class="text-center">Tanggal Berakhir</th>
-                                    <th scope="col" style="text-align: center">Aksi</th>
+                                    <!-- <th scope="col" style="text-align: center">Aksi</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
                                     <td class="text-center">{{ index + lists.from}}</td>
                                     <td>{{ list.karyawan.nama_lengkap}}</td>
-                                    <td>{{ list.perusahaan.nama_pt }}</td>
-                                    <td>{{ list.divisi.nama_divisi }}</td>
+                                    <td v-if="(list.kategori_karir == null || list.kategori_karir == 0)"></td> 
+                                    <td v-if="(list.kategori_karir == 1)">Promosi</td>
+                                    <td v-if="(list.kategori_karir == 2)">Demosi</td>
+                                    <td v-if="(list.kategori_karir == 3)">Mutasi</td>
+                                    <td v-if="list.pt_id == null"></td>
+                                    <td v-else>{{ list.perusahaan.nama_pt }}</td>
+                                    <td v-if="list.divisi_id == null"></td>
+                                    <td v-else>{{ list.divisi.nama_divisi }}</td>
                                     <td v-if="list.jabatan_id == null"></td>
                                     <td v-else>{{ list.jabatan.nama_jabatan }}</td>
-                                    <!-- <td>{{ list.tgl_gabung_grup }}</td> -->
+                                    <td v-if="list.posisi_id == null"></td>
+                                    <td v-else>{{ list.posisi.nama_posisi }}</td>
                                     <td>{{ list.tgl_masuk }}</td>
                                     <td>{{ list.tgl_berakhir }}</td>
-                                    <td class="text-center">
+                                    <!-- <td class="text-center">
                                         <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="lists.data[0] == undefined">

@@ -28,6 +28,11 @@ class RiwayatOrganisasi extends Model
         return $this->belongsTo(MasterJabatan::class, 'jabatan_id', 'id');
     }
 
+    public function posisi()
+    {
+        return $this->belongsTo(MasterPosisi::class, 'posisi_id', 'id');
+    }
+
     public function perusahaan()
     {
         return $this->belongsTo(MasterPerusahaan::class, 'pt_id', 'id');

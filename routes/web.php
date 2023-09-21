@@ -87,9 +87,14 @@ Route::prefix('apps')->group(function() {
         
         //route listOrganisasiAll
         Route::get('/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'indexAll'])->name('apps.organisasi.indexAll');
+
+        //route update listKarir
+        Route::post('list-organisasi/store', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'store'])->name('apps.organisasi.store');
+
+        Route::put('list-organisasi/{id}/update', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'update'])->name('apps.organisasi.update');
         
         //route update listKarir
-        Route::put('/karyawan/{id}/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'update'])->name('apps.organisasi.update');
+        // Route::put('/karyawan/{id}/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'update'])->name('apps.organisasi.update');
         
         //route organisasi export excel
         Route::get('/list-organisasi/export', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'export'])->name('apps.organisasi.export');

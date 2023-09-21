@@ -40,7 +40,7 @@ class KaryawanController extends Controller
             $karyawan = $karyawan->where('nama_lengkap', 'like', '%'. $search . '%')
                                 ->orWhere('nik_karyawan', 'like', '%'. $search . '%')
                                 ->orWhere('nik_penduduk', 'like', '%'. $search . '%');
-        })->where('status_karyawan', 0)->latest()->paginate(10)->onEachSide(1);
+        })->where('status_karyawan', 0)->orderBy('nik_karyawan', 'ASC')->latest()->paginate(20)->onEachSide(1);
 
         //get data divisi
         $divisi = MasterDivisi::where('status', 1)->get();

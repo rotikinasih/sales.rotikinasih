@@ -69,7 +69,7 @@ class CreateKaryawanTable extends Migration
             $table->string('no_bpjs_kesehatan')->nullable();
             $table->string('no_bpjs_ketenagakerjaan')->nullable();
             $table->string('nama_bank')->nullable();
-            $table->integer('rekening')->nullable();
+            $table->string('rekening')->nullable();
             $table->tinyInteger('ukuran_baju')->comment('1 = S, 2 = M, 3 = L, 4 = XL, 5 = XXL, 6 = Jumbo')->nullable();
             $table->string('pengalaman_kerja_terakhir')->nullable();
             $table->string('jabatan_kerja_terakhir')->nullable();

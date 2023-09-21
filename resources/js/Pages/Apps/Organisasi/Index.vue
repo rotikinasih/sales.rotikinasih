@@ -6,7 +6,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
+                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;" v-if="hasAnyPermission(['apps.list-organisasi.create'])"><i class="fa fa-plus"></i>Tambah</button>
                     <button class="btn btn-success dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer; border:none;">
                         <i class="fa fa-file-excel"></i> Excel
                     </button>
@@ -31,35 +31,38 @@
                                     <th scope="col" class="text-center">Kategori Karir</th>
                                     <th scope="col" class="text-center">Entitas</th>
                                     <th scope="col" class="text-center">Divisi</th>
+                                    <th scope="col" class="text-center">Jabatan</th>
                                     <th scope="col" class="text-center">Posisi</th>
-                                    <!-- <th scope="col">Tanggal Gabung Group</th> -->
                                     <th scope="col" class="text-center">Tanggal Masuk</th>
                                     <th scope="col" class="text-center">Tanggal Berakhir</th>
-                                    <!-- <th scope="col" style="text-align: center">Aksi</th> -->
+                                    <th scope="col" style="text-align: center" v-if="hasAnyPermission(['apps.list-organisasi.edit'])">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
                                     <td class="text-center">{{ index + lists.from}}</td>
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
-                                    <td v-if="(list.kategori_jenjang_karir == null)"></td> 
-                                    <td v-if="(list.kategori_jenjang_karir == 1)">Promosi</td>
-                                    <td v-if="(list.kategori_jenjang_karir == 2)">Demosi</td>
-                                    <td v-if="(list.kategori_jenjang_karir == 3)">Mutasi</td>
-                                    <td>{{ list.perusahaan.nama_pt}}</td>
-                                    <td>{{ list.divisi.nama_divisi}}</td>
+                                    <td v-if="(list.kategori_karir == null || list.kategori_karir == 0)"></td> 
+                                    <td v-if="(list.kategori_karir == 1)">Promosi</td>
+                                    <td v-if="(list.kategori_karir == 2)">Demosi</td>
+                                    <td v-if="(list.kategori_karir == 3)">Mutasi</td>
+                                    <td v-if="list.pt_id == null"></td>
+                                    <td v-else>{{ list.perusahaan.nama_pt }}</td>
+                                    <td v-if="list.divisi_id == null"></td>
+                                    <td v-else>{{ list.divisi.nama_divisi }}</td>
                                     <td v-if="list.jabatan_id == null"></td>
                                     <td v-else>{{ list.jabatan.nama_jabatan }}</td>
-                                    <!-- <td>{{ list.tgl_gabung_grup }}</td> -->
+                                    <td v-if="list.posisi_id == null"></td>
+                                    <td v-else>{{ list.posisi.nama_posisi }}</td>
                                     <td>{{ list.tgl_masuk }}</td>
                                     <td>{{ list.tgl_berakhir }}</td>
-                                    <!-- <td class="text-center">
-                                        <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
-                                    </td> -->
+                                    <td class="text-center" v-if="hasAnyPermission(['apps.list-organisasi.edit'])">
+                                        <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px" v-if="hasAnyPermission(['apps.list-organisasi.edit'])"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                    </td>
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="lists.data[0] == undefined">
-                                    <td colspan="8" class="text-center">
+                                    <td colspan="10" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             Data Kosong
@@ -91,7 +94,7 @@
                 <template #body>
                     <div class="form-group mb-0 mt-0">
                         <label class="col-form-label" >Nama Karyawan :</label>
-                        <!-- <VueMultiselect
+                        <VueMultiselect
                             v-model="karyawan_id"
                             :options="karyawan"
                             label="nama_lengkap"
@@ -99,62 +102,83 @@
                             :allow-empty="false"
                             deselect-label="Can't remove this value"
                             placeholder="Pilih Karyawan"
-                        ></VueMultiselect> -->
-                        <input type="text" class="form-control" v-model="karyawan_id">
-                    </div>
-                    <div class="form-group mb-0 mt-0">
-                        <label class="col-form-label" >Entitas :</label>
-                        <!-- <VueMultiselect
-                            v-model="karyawan_id"
-                            :options="karyawan"
-                            label="nama_lengkap"
-                            track-by="id"
-                            :allow-empty="false"
-                            deselect-label="Can't remove this value"
-                            placeholder="Pilih Karyawan"
-                        ></VueMultiselect> -->
-                        <input type="text" class="form-control" v-model="pt_id">
-                    </div>
-                    <div class="form-group mb-0 mt-0">
-                        <label class="col-form-label" >Divisi :</label>
-                        <!-- <VueMultiselect
-                            v-model="karyawan_id"
-                            :options="karyawan"
-                            label="nama_lengkap"
-                            track-by="id"
-                            :allow-empty="false"
-                            deselect-label="Can't remove this value"
-                            placeholder="Pilih Karyawan"
-                        ></VueMultiselect> -->
-                        <input type="text" class="form-control" v-model="divisi_id">
-                    </div>
-                    <div class="form-group mb-0 mt-0">
-                        <label class="col-form-label" >Posisi :</label>
-                        <!-- <VueMultiselect
-                            v-model="karyawan_id"
-                            :options="karyawan"
-                            label="nama_lengkap"
-                            track-by="id"
-                            :allow-empty="false"
-                            deselect-label="Can't remove this value"
-                            placeholder="Pilih Karyawan"
-                        ></VueMultiselect> -->
-                        <input type="text" class="form-control" v-model="jabatan_id">
+                        ></VueMultiselect>
                     </div>
                     <div class="form-group mb-0 mt-0">
                         <label class="col-form-label">Kategori :</label>
                         <VueMultiselect
-                            v-model="kategori_jenjang_karir"
-                            :options="data_kategori_jenjang_karir"
+                            v-model="kategori_karir"
+                            :options="data_kategori_karir"
                             label="name"
                             track-by="value"
                             :allow-empty="false"
                             deselect-label="Can't remove this value"
                             placeholder="Pilih Kategori Karir"
                         ></VueMultiselect>
-                        <!-- <input type="text" class="form-control" v-model="karyawan_id"> -->
-
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-0 mt-0">
+                                <label class="col-form-label" >Entitas :</label>
+                                <VueMultiselect
+                                    v-model="pt_id"
+                                    :options="perusahaan"
+                                    label="nama_pt"
+                                    track-by="id"
+                                    :allow-empty="false"
+                                    deselect-label="Can't remove this value"
+                                    placeholder="Pilih Entitas"
+                                ></VueMultiselect>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-0 mt-0">
+                                <label class="col-form-label" >Divisi :</label>
+                                <VueMultiselect
+                                    v-model="divisi_id"
+                                    :options="divisi"
+                                    label="nama_divisi"
+                                    track-by="id"
+                                    :allow-empty="false"
+                                    deselect-label="Can't remove this value"
+                                    placeholder="Pilih Divisi"
+                                ></VueMultiselect>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-0 mt-0">
+                                <label class="col-form-label" >Jabatan :</label>
+                                <VueMultiselect
+                                    v-model="jabatan_id"
+                                    :options="jabatan"
+                                    label="nama_jabatan"
+                                    track-by="id"
+                                    :allow-empty="false"
+                                    deselect-label="Can't remove this value"
+                                    placeholder="Pilih Jabatan"
+                                ></VueMultiselect>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-0 mt-0">
+                                <label class="col-form-label" >Posisi :</label>
+                                <VueMultiselect
+                                    v-model="posisi_id"
+                                    :options="posisi"
+                                    label="nama_posisi"
+                                    track-by="id"
+                                    :allow-empty="false"
+                                    deselect-label="Can't remove this value"
+                                    placeholder="Pilih Posisi"
+                                ></VueMultiselect>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-0 mt-0">
@@ -218,9 +242,11 @@
             lists: Object,
             nama: String,
             // id_karyawan: String,
-            divisi: Array,
             karyawan: Array,
+            perusahaan: Array,
+            divisi: Array,
             jabatan: Array,
+            posisi: Array,
 
         },
 
@@ -234,8 +260,9 @@
             const divisi_id = ref();
             const pt_id = ref();
             const jabatan_id = ref();
+            const posisi_id = ref();
             const karyawan_id = ref();
-            const kategori_jenjang_karir = ref();
+            const kategori_karir = ref();
             const tgl_masuk = ref();
             const tgl_berakhir = ref();
             const id_list = ref();
@@ -248,7 +275,7 @@
                 });
             }
 
-            const data_kategori_jenjang_karir = [
+            const data_kategori_karir = [
                 { name: 'Promosi', value: 1 },
                 { name: 'Demosi', value: 2 },
                 { name: 'Mutasi', value: 3 },
@@ -270,11 +297,13 @@
                     updateSubmit.value = !updateSubmit.value
                 }
                 judul.value = 'Tambah Karir'
-                id.value = null
+                // id.value = null
                 karyawan_id.value = null
-                kategori_jenjang_karir.value = null
+                kategori_karir.value = null
+                pt_id.value = null
                 divisi_id.value = null
                 jabatan_id.value = null
+                posisi_id.value = null
                 tgl_masuk.value = null
                 tgl_berakhir.value = null
                 tampilModal()
@@ -283,8 +312,8 @@
             // console.log(buatBaruKategori)
 
             //method edit show modal
-            const editData = (jk) => {
-                console.log(jk);
+            const editData = (krr) => {
+                console.log(krr);
                 
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
@@ -292,27 +321,51 @@
                 //karyawan
                 let data_karyawan = props.karyawan
                 data_karyawan.forEach(data => {
-                    if(jk.karyawan_id == data.id){
+                    if(krr.karyawan_id == data.id){
                         karyawan_id.value = data
-                        // form.divisi_id = data
                     }
                 })
-                 //penyebab_phk
-                data_kategori_pelatihan.forEach(function (data) {
-                    if(data.value == jk.kategori_pelatihan){
-                        kategori_pelatihan.value = data
+
+                let data_entitas = props.perusahaan
+                data_entitas.forEach(data => {
+                    if(krr.pt_id == data.id){
+                        pt_id.value = data
+                    }
+                })
+
+                let data_divisi = props.divisi
+                data_divisi.forEach(data => {
+                    if(krr.divisi_id == data.id){
+                        divisi_id.value = data
+                    }
+                })
+
+                let data_jabatan = props.jabatan
+                data_jabatan.forEach(data => {
+                    if(krr.jabatan_id == data.id){
+                        jabatan_id.value = data
+                    }
+                })
+
+                let data_posisi = props.posisi
+                data_posisi.forEach(data => {
+                    if(krr.posisi_id == data.id){
+                        posisi_id.value = data
+                    }
+                })
+
+                //penyebab_phk
+                data_kategori_karir.forEach(function (data) {
+                    if(data.value == krr.kategori_karir){
+                        kategori_karir.value = data
                     }
                 })
 
                 judul.value = 'Edit Karir'
-                id.value = jk.id
-                karyawan_id.value = jk.karyawan_id
-                pt_id.value = jk.pt_id
-                divisi_id.value = jk.divisi_id
-                jabatan_id.value = jk.jabatan_id
-                kategori_jenjang_karir.value = jk.kategori_jenjang_karir
-                tgl_masuk.value = jk.tgl_masuk
-                tgl_berakhir.value = jk.durasi_pelatihan
+                id.value = krr.id
+                // kategori_karir.value = krr.kategori_karir
+                tgl_masuk.value = krr.tgl_masuk
+                tgl_berakhir.value = krr.tgl_berakhir
                 tampilModal()
             }
 
@@ -332,18 +385,19 @@
 
             //method update data
             const updateData = () => {
-                if(karyawan_id.value == null || divisi_id.value == null || jabatan_id.value == null || pt_id.value == null || kategori_jenjang_karir.value == null || tgl_masuk.value == null || tgl_berakhir.value == null){
+                if(karyawan_id.value == null || kategori_karir.value.value == null ||  pt_id.value == null || divisi_id.value == null || jabatan_id.value == null || posisi_id.value == null  || tgl_masuk.value == null){
                     tutupModal();
                     peringatan();
                 }else{
                     //send data to server
-                    Inertia.put(`/apps/pelatihan/${id.value}`, {
+                    Inertia.put(`/apps/list-organisasi/${id.value}/update`, {
                         //data
                         karyawan_id: karyawan_id.value.id,
                         pt_id: pt_id.value.id,
                         divisi_id: divisi_id.value.id,
                         jabatan_id: jabatan_id.value.id,
-                        kategori_jenjang_karir: kategori_jenjang_karir.value.value,
+                        posisi_id: posisi_id.value.id,
+                        kategori_karir: kategori_karir.value.value,
                         tgl_masuk: tgl_masuk.value,
                         tgl_berakhir: tgl_berakhir.value,
                     }, {
@@ -364,19 +418,20 @@
 
             //method "storeData"
             const storeData = () => {
-                if(karyawan_id.value == null || divisi_id.value == null || jabatan_id.value == null || pt_id.value == null || kategori_jenjang_karir.value == null || tgl_masuk.value == null || tgl_berakhir.value == null){
+                if(karyawan_id.value == null || kategori_karir.value.value == null ||  pt_id.value == null || divisi_id.value == null || jabatan_id.value == null || posisi_id.value == null  || tgl_masuk.value == null){
                     tutupModal();
                     peringatan();
                 }
                 else{
                     //send data to server
-                    Inertia.post('/apps/pelatihan', {
+                    Inertia.post('/apps/list-organisasi/store', {
                         //data
                         karyawan_id: karyawan_id.value.id,
                         pt_id: pt_id.value.id,
                         divisi_id: divisi_id.value.id,
                         jabatan_id: jabatan_id.value.id,
-                        kategori_jenjang_karir: kategori_jenjang_karir.value.value,
+                        posisi_id: posisi_id.value.id,
+                        kategori_karir: kategori_karir.value.value,
                         tgl_masuk: tgl_masuk.value,
                         tgl_berakhir: tgl_berakhir.value,
                         
@@ -401,8 +456,8 @@
             return {
                 search,
                 handleSearch, id,
-                editData, showModal, tutupModal, divisi_id, karyawan_id, jabatan_id, kategori_jenjang_karir, tgl_masuk, tgl_berakhir, buatBaruKategori, data_kategori_jenjang_karir,
-                updateData, peringatan, updateSubmit, judul,
+                editData, showModal, tutupModal, divisi_id, karyawan_id, jabatan_id, pt_id, posisi_id, kategori_karir, tgl_masuk, tgl_berakhir, buatBaruKategori, data_kategori_karir,
+                updateData, storeData, peringatan, updateSubmit, judul,
             }
 
         }
