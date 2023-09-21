@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <title>Riwayat Organisasi/Mutasi</title>
+        <title>Karir</title>
     </Head>
     <main>
         <div class="col-xl-12">
@@ -18,7 +18,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light" style="">
                                 <tr>
-                                    <!-- <th scope="col">#</th> -->
+                                    <th scope="col" class="text-center">#</th>
                                     <th scope="col" class="text-center">Nama Lengkap</th>
                                     <th scope="col" class="text-center">Entitas</th>
                                     <th scope="col" class="text-center">Divisi</th>
@@ -30,7 +30,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + lists.from}}</td>
                                     <td>{{ list.karyawan.nama_lengkap}}</td>
                                     <td>{{ list.perusahaan.nama_pt }}</td>
                                     <td>{{ list.divisi.nama_divisi }}</td>
@@ -45,7 +45,7 @@
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="lists.data[0] == undefined">
-                                    <td colspan="7" class="text-center">
+                                    <td colspan="8" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             Data Kosong

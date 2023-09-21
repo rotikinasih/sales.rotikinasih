@@ -19,7 +19,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th scope="col" style="text-align: center">#</th> -->
+                                    <th scope="col" style="text-align: center">#</th>
                                     <th scope="col" style="text-align: center">Nama Lengkap</th>
                                     <th scope="col" style="text-align: center">Email Address</th>
                                     <th scope="col" style="text-align: center">Username</th>
@@ -29,7 +29,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(user, index) in users.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + users.from }}</td>
                                     <td>{{ user.name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>{{ user.username }}</td>

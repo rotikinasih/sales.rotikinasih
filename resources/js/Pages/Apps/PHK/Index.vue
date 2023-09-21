@@ -6,10 +6,10 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
+                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;" v-if="hasAnyPermission(['apps.phk.create'])"><i class="fa fa-plus"></i>Tambah</button>
                     <button class="btn btn-success dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer; border:none;"><i class="fa fa-file-excel"></i> Excel</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a  :href="`/apps/list-organisasi/export`" target="_blank" class="dropdown-item">Export</a>
+                        <a  :href="`/apps/phk/export`" target="_blank" class="dropdown-item">Export</a>
                         <!-- <button @click="importExcel" target="_blank" class="dropdown-item">Import</button> -->
                     </div>
                     <h5>Daftar PHK</h5>
@@ -25,29 +25,29 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th>#</th> -->
+                                    <th class="text-center">#</th>
                                     <th class="text-center">Nama Karyawan</th>
                                     <th class="text-center">NIK (Karyawan)</th>
-                                    <th class="text-center">Entitas</th>
-                                    <th class="text-center">Divisi</th>
+                                    <!-- <th class="text-center">Entitas</th>
+                                    <th class="text-center">Divisi</th> -->
                                     <th class="text-center">Penyebab PHK</th>
                                     <th class="text-center">Tanggal PHK</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th class="text-center" v-if="hasAnyPermission(['apps.phk.edit'])">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(phk, index) in karyawan_phk.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + karyawan_phk.from }}</td>
                                     <td>{{ phk.karyawan.nama_lengkap }}</td>
                                     <td>{{ phk.karyawan.nik_karyawan }}</td>
-                                    <td v-if="(phk.karyawan.pt_id == null)"></td>
+                                    <!-- <td v-if="(phk.karyawan.pt_id == null)"></td>
                                     <td v-if="(phk.karyawan.pt_id)">{{ phk.karyawan.perusahaan.nama_pt }}</td>
                                     <td v-if="(phk.karyawan.divisi_id == null)"></td>
-                                    <td v-if="(phk.karyawan.divisi_id)">{{ phk.karyawan.divisi.nama_divisi }}</td>
+                                    <td v-if="(phk.karyawan.divisi_id)">{{ phk.karyawan.divisi.nama_divisi }}</td> -->
                                     <td v-if="(phk.penyebab_phk == 1)">Affair</td>
                                     <td v-if="(phk.penyebab_phk == 2)">Fraud</td>
                                     <td>{{ phk.tanggal_phk }}</td>
-                                    <td class="text-center">
+                                    <td class="text-center" v-if="hasAnyPermission(['apps.phk.edit'])">
                                         <a @click="editData(phk)" v-if="hasAnyPermission(['apps.phk.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>

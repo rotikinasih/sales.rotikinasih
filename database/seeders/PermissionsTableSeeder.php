@@ -63,12 +63,15 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'apps.pelanggaran.indexAll', 'guard_name' => 'web']);
 
         Permission::create(['name' => 'apps.resign.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'apps.resign.create', 'guard_name' => 'web']);
         Permission::create(['name' => 'apps.resign.edit', 'guard_name' => 'web']);
 
         Permission::create(['name' => 'apps.phk.index', 'guard_name' => 'web']);
         Permission::create(['name' => 'apps.phk.edit', 'guard_name' => 'web']);
+        Permission::create(['name' => 'apps.phk.create', 'guard_name' => 'web']);
 
         Permission::create(['name' => 'apps.pelatihan.index', 'guard_name' => 'web']);
+        Permission::create(['name' => 'apps.pelatihan.create', 'guard_name' => 'web']);
         Permission::create(['name' => 'apps.pelatihan.edit', 'guard_name' => 'web']);
 
     }

@@ -6,7 +6,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
+                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;" v-if="hasAnyPermission(['jabatan.create'])"><i class="fa fa-plus"></i>Tambah</button>
                     <h5>Daftar Jabatan</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the <code> position </code> data</span> -->
                 </div>
@@ -14,7 +14,7 @@
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama jabatan..." @keyup="handleSearch">
+                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Jabatan..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-bordered table-hover">
@@ -23,7 +23,7 @@
                                     <th class="text-center">#</th>
                                     <th class="text-center">Nama Jabatan</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th class="text-center" v-if="hasAnyPermission(['jabatan.edit'])">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,7 +32,7 @@
                                     <td>{{ jb.nama_jabatan }}</td>
                                     <td class="text-center" v-if="(jb.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
                                     <td class="text-center" v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
-                                    <td class="text-center">
+                                    <td class="text-center" v-if="hasAnyPermission(['jabatan.edit'])">
                                         <a @click="editData(jb)" v-if="hasAnyPermission(['jabatan.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>

@@ -8,6 +8,9 @@ use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\PHK_Export;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class PHKController extends Controller
 {
@@ -80,5 +83,15 @@ class PHKController extends Controller
         $ubahData->update($data_phk);
         //redirect
         return redirect()->route('apps.phk.index');
+    }
+
+    public function export(){
+        $tanggal = date("d");
+        $bulan = date("M");
+        $tahun = date("Y");
+        $jam = date("H:i:s");
+        $response = Excel::download(new PHK_Export, 'Daftar PHK '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
+        ob_end_clean();
+        return $response;
     }
 }

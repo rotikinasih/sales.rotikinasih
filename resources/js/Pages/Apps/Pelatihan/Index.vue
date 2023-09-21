@@ -6,10 +6,10 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
+                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;" v-if="hasAnyPermission(['apps.pelatihan.create'])"><i class="fa fa-plus"></i>Tambah</button>
                     <button class="btn btn-success dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer; border:none;"><i class="fa fa-file-excel"></i> Excel</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a  :href="`/apps/list-organisasi/export`" target="_blank" class="dropdown-item">Export</a>
+                        <a  :href="`/apps/pelatihan/export`" target="_blank" class="dropdown-item">Export</a>
                         <!-- <button @click="importExcel" target="_blank" class="dropdown-item">Import</button> -->
                     </div>
                     <h5>Daftar Pelatihan</h5>
@@ -32,7 +32,7 @@
                                     <th class="text-center">Nama Pelatihan</th>
                                     <th class="text-center">Tanggal </th>
                                     <th class="text-center">Durasi (Jam)</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th class="text-center" v-if="hasAnyPermission(['apps.pelatihan.edit'])">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,8 +46,8 @@
                                     <td>{{ plth.nama_pelatihan}}</td>
                                     <td>{{ plth.tanggal_pelatihan}}</td>
                                     <td class="text-center">{{ plth.durasi_pelatihan }}</td>
-                                    <td class="text-center">
-                                        <a @click="editData(plth)" v-if="hasAnyPermission(['apps.pelatihan.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                    <td class="text-center" v-if="hasAnyPermission(['apps.pelatihan.edit'])">
+                                        <a @click="editData(plth)" v-if="hasAnyPermission(['apps.pelatihan.edit'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->

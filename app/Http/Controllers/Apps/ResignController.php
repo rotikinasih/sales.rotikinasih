@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Apps;
 
+use App\Exports\ResignExport;
 use App\Models\KaryawanResign;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
+
 
 class ResignController extends Controller
 {
@@ -79,5 +83,15 @@ class ResignController extends Controller
         $ubahData->update($data_resign);
         //redirect
         return redirect()->route('apps.resign.index');
+    }
+
+    public function export(){
+        $tanggal = date("d");
+        $bulan = date("M");
+        $tahun = date("Y");
+        $jam = date("H:i:s");
+        $response = Excel::download(new ResignExport, 'Daftar Resign '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
+        ob_end_clean();
+        return $response;
     }
 }

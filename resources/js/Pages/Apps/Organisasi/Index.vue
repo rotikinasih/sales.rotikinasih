@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <title>Jenjang Karir</title>
+        <title>Karir</title>
     </Head>
     <main>
         <div class="col-xl-12">
@@ -14,7 +14,7 @@
                         <a  :href="`/apps/list-organisasi/export`" target="_blank" class="dropdown-item">Export</a>
                         <!-- <button @click="importExcel" target="_blank" class="dropdown-item">Import</button> -->
                     </div>
-                    <h5>Daftar Jenjang Karir</h5>
+                    <h5>Daftar Karir</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the list of <code>{{ nama }}</code> organizations</span> -->
                 </div>
                 <div class="card-block table-border-style">
@@ -26,9 +26,9 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th scope="col">#</th> -->
+                                    <th scope="col" class="text-center">#</th>
                                     <th scope="col" class="text-center">Nama Lengkap</th>
-                                    <th scope="col" class="text-center">Kategori Jenjang Karir</th>
+                                    <th scope="col" class="text-center">Kategori Karir</th>
                                     <th scope="col" class="text-center">Entitas</th>
                                     <th scope="col" class="text-center">Divisi</th>
                                     <th scope="col" class="text-center">Posisi</th>
@@ -40,7 +40,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + lists.from}}</td>
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
                                     <td v-if="(list.kategori_jenjang_karir == null)"></td> 
                                     <td v-if="(list.kategori_jenjang_karir == 1)">Promosi</td>
@@ -59,7 +59,7 @@
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="lists.data[0] == undefined">
-                                    <td colspan="7" class="text-center">
+                                    <td colspan="8" class="text-center">
                                         <br>
                                         <i class="fa fa-file-excel fa-5x"></i><br><br>
                                             Data Kosong
@@ -150,7 +150,7 @@
                             track-by="value"
                             :allow-empty="false"
                             deselect-label="Can't remove this value"
-                            placeholder="Pilih Kategori Jenjang Karir"
+                            placeholder="Pilih Kategori Karir"
                         ></VueMultiselect>
                         <!-- <input type="text" class="form-control" v-model="karyawan_id"> -->
 
@@ -269,7 +269,7 @@
                 if(updateSubmit.value == true){
                     updateSubmit.value = !updateSubmit.value
                 }
-                judul.value = 'Tambah Jenjang Karir'
+                judul.value = 'Tambah Karir'
                 id.value = null
                 karyawan_id.value = null
                 kategori_jenjang_karir.value = null
@@ -304,7 +304,7 @@
                     }
                 })
 
-                judul.value = 'Edit Jenjang Karir'
+                judul.value = 'Edit Karir'
                 id.value = jk.id
                 karyawan_id.value = jk.karyawan_id
                 pt_id.value = jk.pt_id

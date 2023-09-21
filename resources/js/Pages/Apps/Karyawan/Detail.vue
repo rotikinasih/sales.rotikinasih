@@ -610,7 +610,7 @@
                 
 
                 nik_karyawan: props.karyawan.nik_karyawan,
-                pt_id: props.karyawan.perusahaan.nama_pt,
+                pt_id: props.karyawan.pt_id,
                 divisi_id: props.karyawan.divisi_id,
                 jabatan_id: props.karyawan.jabatan_id,
                 posisi_id: props.karyawan.posisi_id,

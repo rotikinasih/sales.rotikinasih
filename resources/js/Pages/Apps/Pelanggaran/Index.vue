@@ -25,7 +25,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th scope="col">#</th> -->
+                                    <th scope="col" class="text-center">#</th>
                                     <th scope="col" class="text-center">Nama Lengkap</th>
                                     <th scope="col" class="text-center">Tingkat Pelanggaran</th>
                                     <th scope="col" class="text-center">Catatan</th>
@@ -36,7 +36,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + lists.from }}</td>
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
                                     <td class="text-center" v-if="(list.tingkatan == null)"> </td>
                                     <td class="text-center" v-if="(list.tingkatan == 1)">Ringan</td>

@@ -6,10 +6,10 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
+                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;" v-if="hasAnyPermission(['apps.resign.create'])" ><i class="fa fa-plus"></i>Tambah</button>
                     <button class="btn btn-success dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer; border:none;"><i class="fa fa-file-excel"></i> Excel</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a  :href="`/apps/list-organisasi/export`" target="_blank" class="dropdown-item">Export</a>
+                        <a  :href="`/apps/resign/export`" target="_blank" class="dropdown-item">Export</a>
                         <!-- <button @click="importExcel" target="_blank" class="dropdown-item">Import</button> -->
                     </div>
                     <h5>Daftar Resign</h5>
@@ -25,25 +25,25 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th>#</th> -->
+                                    <th class="text-center">#</th>
                                     <th class="text-center">Nama Karyawan</th>
                                     <th class="text-center">NIK (Karyawan)</th>
-                                    <th class="text-center">Entitas</th>
-                                    <th class="text-center">Divisi</th>
+                                    <!-- <th class="text-center">Entitas</th>
+                                    <th class="text-center">Divisi</th> -->
                                     <th class="text-center">Alasan Resign</th>
                                     <th class="text-center">Tanggal Resign</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th class="text-center" v-if="hasAnyPermission(['apps.resign.edit'])">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(resign, index) in karyawan_resign.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + karyawan_resign.from }}</td>
                                     <td>{{ resign.karyawan.nama_lengkap }}</td>
                                     <td>{{ resign.karyawan.nik_karyawan }}</td>
-                                    <td v-if="(resign.karyawan.pt_id == null)"></td>
+                                    <!-- <td v-if="(resign.karyawan.pt_id == null)"></td>
                                     <td v-if="(resign.karyawan.pt_id)">{{ resign.karyawan.perusahaan.nama_pt }}</td>
                                     <td v-if="(resign.karyawan.divisi_id == null)"></td>
-                                    <td v-if="(resign.karyawan.divisi_id)">{{ resign.karyawan.divisi.nama_divisi }}</td>
+                                    <td v-if="(resign.karyawan.divisi_id)">{{ resign.karyawan.divisi.nama_divisi }}</td> -->
                                     <td v-if="(resign.alasan_resign == null)"></td>
                                     <td v-if="(resign.alasan_resign == 1)">Tidak Memenuhi Target</td>
                                     <td v-if="(resign.alasan_resign == 2)">Mendapat Pekerjaan Lain</td>
@@ -51,8 +51,8 @@
                                     <td v-if="(resign.alasan_resign == 4)">Faktor Keluarga</td>
                                     <td v-if="(resign.alasan_resign == 5)">Pekerjaan dan Passion Tidak Sejalan</td>
                                     <td>{{ resign.tanggal_resign }}</td>
-                                    <td class="text-center">
-                                        <a @click="editData(resign)" v-if="hasAnyPermission(['apps.resign.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                    <td class="text-center" v-if="hasAnyPermission(['apps.resign.edit'])">
+                                        <a @click="editData(resign)"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->

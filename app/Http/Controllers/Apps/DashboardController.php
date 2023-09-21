@@ -81,6 +81,25 @@ class DashboardController extends Controller
             $total_jabatan[]  = "";
         }
 
+        //jumlah karyawan berdasarkan Jabatan
+        $chart_posisi = Karyawan::select('master_posisi.nama_posisi AS title', DB::raw('COUNT(*) AS total'))
+        ->join('master_posisi', 'master_posisi.id', '=', 'karyawan.posisi_id')
+        ->where('status_karyawan', 0)
+        ->groupBy('title')
+        ->get();
+
+        if(count($chart_posisi)) {
+            foreach ($chart_posisi as $data) {
+                if ($data->title !== null) {
+                    $posisi []= $data->title;
+                    $total_posisi []= $data->total;
+                }
+            }
+        }else{
+            $posisi[]   = "";
+            $total_posisi[]  = "";
+        }
+
         //kota penugasan
         $chart_kota_penugasan = Karyawan::select('karyawan.kota_penugasan AS title', DB::raw('COUNT(*) AS total'))
         ->where('status_karyawan', 0)
@@ -396,8 +415,8 @@ class DashboardController extends Controller
             'total_pendidikan'          => $total_pendidikan,
             'status_pernikahan'         => $status_pernikahan,
             'total_status_pernikahan'   => $total_status_pernikahan,
-            // 'komposisi_karyawan'        => $komposisi_karyawan,
-            // 'total_komposisi_karyawan'  => $total_komposisi_karyawan,
+            'posisi'                    => $posisi,
+            'total_posisi'              => $total_posisi,
             'penyebab_phk'              => $penyebab_phk,
             'total_penyebab_phk'        => $total_penyebab_phk,
             'umur'                      => $umur,

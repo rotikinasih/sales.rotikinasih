@@ -29,13 +29,13 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
-                                    <td>{{ index + 1 }}</td>
+                                    <td>{{ index + lists.from }}</td>
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
                                     <td class="text-center" v-if="(list.tingkatan == null)"> </td>
                                     <td class="text-center" v-if="(list.tingkatan == 1)">Ringan</td>
                                     <td class="text-center" v-if="(list.tingkatan == 2)">Sedang</td>
                                     <td class="text-center" v-if="(list.tingkatan == 3)">Serius</td>
-                                    <td class="text-center" v-if="(list.tingkatan == 4)">Berat></td>
+                                    <td class="text-center" v-if="(list.tingkatan == 4)">Berat</td>
                                     <td>{{ list.catatan }}</td>
                                     <td>{{ list.tanggal }}</td>
                                     <td class="text-center" v-if="(list.status == null)"> </td>

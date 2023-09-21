@@ -135,11 +135,21 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Posisi</h5>
+                        <h5>Total Karyawan Berdasarkan Jabatan</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
                             <BarChart :chartData="chartKaryawanJabatan" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Posisi</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartPosisi" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -173,16 +183,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="card Recent-Users">
-                    <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Komposisi Karyawan</h5>
-                    </div>
-                    <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <BarChart :chartData="chartKomposisiKaryawan" :options="options" style="height: 250px;"/>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="card Recent-Users">
                     <div class="card-header">
                         <h5>Total Karyawan Berdasarkan Rentang Umur</h5>
@@ -500,8 +500,8 @@
             total_status_pernikahan: Array,
 
             //chart berdasarkan komposisi karyawan
-            // komposisi_karyawan: Array,
-            // total_komposisi_karyawan: Array,
+            posisi: Array,
+            total_posisi: Array,
 
             //chart berdasarkan penyebab phk
             penyebab_phk: Array,
@@ -644,14 +644,14 @@
                 }, ],
             };
 
-            //chart karyawan berdasarkan komposisi karyawan
-            // const chartKomposisiKaryawan = {
-            //     labels: props.komposisi_karyawan,
-            //     datasets: [{
-            //         data: props.total_komposisi_karyawan,
-            //         backgroundColor: randomBackgroundColor(5),
-            //     }, ],
-            // };
+            // chart karyawan berdasarkan komposisi karyawan
+            const chartPosisi = {
+                labels: props.posisi,
+                datasets: [{
+                    data: props.total_posisi,
+                    backgroundColor: randomBackgroundColor(5),
+                }, ],
+            };
 
             //chart karyawan berdasarkan komposisi karyawan
             const chartKaryawanPHK = {
@@ -693,7 +693,7 @@
                 chartKomposisiPeran,
                 chartPendidikan,
                 chartStatusPernikahan,
-                // chartKomposisiKaryawan,
+                chartPosisi,
                 chartKaryawanPHK,
                 chartUmur,
                 chartKaryawanResign,

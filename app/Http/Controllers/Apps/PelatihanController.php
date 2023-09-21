@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Apps;
 
+use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use App\Models\Pelatihan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\PelatihanExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
+
 
 class PelatihanController extends Controller
 {
@@ -84,5 +88,15 @@ class PelatihanController extends Controller
         $ubahData->update($data);
         //redirect
         return redirect()->route('apps.pelatihan.index');
+    }
+
+    public function export(){
+        $tanggal = date("d");
+        $bulan = date("M");
+        $tahun = date("Y");
+        $jam = date("H:i:s");
+        $response = Excel::download(new PelatihanExport, 'Daftar Pelatihan '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
+        ob_end_clean();
+        return $response;
     }
 }

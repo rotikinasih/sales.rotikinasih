@@ -6,7 +6,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
+                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;" v-if="hasAnyPermission(['posisi.create'])"><i class="fa fa-plus"></i>Tambah</button>
                     <h5>Daftar Posisi</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the <code> division </code> data</span> -->
                 </div>
@@ -23,7 +23,7 @@
                                     <th class="text-center">#</th>
                                     <th class="text-center">Nama Posisi</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th class="text-center" v-if="hasAnyPermission(['posisi.edit'])">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,7 +32,7 @@
                                     <td>{{ pss.nama_posisi }}</td>
                                     <td class="text-center" v-if="(pss.status == 1)"><b style="color: rgb(9, 240, 9);">Aktif</b></td>
                                     <td class="text-center" v-if="(pss.status == 2)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
-                                    <td class="text-center">
+                                    <td class="text-center" v-if="hasAnyPermission(['posisi.edit'])">
                                         <a @click="editData(pss)" v-if="hasAnyPermission(['posisi.edit'])" class="label theme-bg3 text-white f-17" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>

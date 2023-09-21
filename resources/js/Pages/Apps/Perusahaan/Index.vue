@@ -6,7 +6,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;"><i class="fa fa-plus"></i>Tambah</button>
+                    <button @click="buatBaruKategori" class="btn theme-bg4 text-white f-12 float-right" style="cursor:pointer; border:none; margin-right: 0px;" v-if="hasAnyPermission(['pt.create'])"><i class="fa fa-plus" ></i>Tambah</button>
                     <h5>Daftar Entitas</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the <code> company </code> data</span>  -->
                 </div>
@@ -20,19 +20,19 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <!-- <th>#</th> -->
+                                    <th class="text-center">#</th>
                                     <th class="text-center">Nama Entitas</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th class="text-center" v-if="hasAnyPermission(['pt.edit'])">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(pe, index) in perusahaan.data" :key="index">
-                                    <!-- <td>{{ index + 1 }}</td> -->
+                                    <td class="text-center">{{ index + perusahaan.from }}</td>
                                     <td>{{ pe.nama_pt }}</td>
                                     <td class="text-center" v-if="(pe.status == 0)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
                                     <td class="text-center" v-else><b style="color: rgb(9, 240, 9);">Aktif</b></td>
-                                    <td class="text-center">
+                                    <td class="text-center" v-if="hasAnyPermission(['pt.edit'])">
                                         <a @click="editData(pe)" v-if="hasAnyPermission(['pt.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
