@@ -81,6 +81,25 @@ class DashboardController extends Controller
             $total_jabatan[]  = "";
         }
 
+        //jumlah karyawan berdasarkan Jabatan
+        $chart_posisi = Karyawan::select('master_posisi.nama_posisi AS title', DB::raw('COUNT(*) AS total'))
+        ->join('master_posisi', 'master_posisi.id', '=', 'karyawan.posisi_id')
+        ->where('status_karyawan', 0)
+        ->groupBy('title')
+        ->get();
+
+        if(count($chart_posisi)) {
+            foreach ($chart_posisi as $data) {
+                if ($data->title !== null) {
+                    $posisi []= $data->title;
+                    $total_posisi []= $data->total;
+                }
+            }
+        }else{
+            $posisi[]   = "";
+            $total_posisi[]  = "";
+        }
+
         //kota penugasan
         $chart_kota_penugasan = Karyawan::select('karyawan.kota_penugasan AS title', DB::raw('COUNT(*) AS total'))
         ->where('status_karyawan', 0)
@@ -261,31 +280,31 @@ class DashboardController extends Controller
             $total_umur[] = "";
         }
 
-        $chart_komposisi_karyawan = Karyawan::selectRaw('CASE 
-        WHEN komposisi_karyawan=1 THEN "Director" 
-        WHEN komposisi_karyawan=2 THEN "Div Head" 
-        WHEN komposisi_karyawan=3 THEN "Dept Head" 
-        WHEN komposisi_karyawan=4 THEN "Sect Head" 
-        WHEN komposisi_karyawan=5 THEN "Head" 
-        WHEN komposisi_karyawan=6 THEN "Staff" 
-        ELSE "Non Staff" END 
-        AS title')
-        ->selectRaw('COUNT(*) AS total')
-        ->where('status_karyawan', 0)
-        ->groupBy('title')
-        ->get();
+        // $chart_komposisi_karyawan = Karyawan::selectRaw('CASE 
+        // WHEN komposisi_karyawan=1 THEN "Director" 
+        // WHEN komposisi_karyawan=2 THEN "Div Head" 
+        // WHEN komposisi_karyawan=3 THEN "Dept Head" 
+        // WHEN komposisi_karyawan=4 THEN "Sect Head" 
+        // WHEN komposisi_karyawan=5 THEN "Head" 
+        // WHEN komposisi_karyawan=6 THEN "Staff" 
+        // ELSE "Non Staff" END 
+        // AS title')
+        // ->selectRaw('COUNT(*) AS total')
+        // ->where('status_karyawan', 0)
+        // ->groupBy('title')
+        // ->get();
 
-        if(count($chart_komposisi_karyawan)) {
-            foreach ($chart_komposisi_karyawan as $data) {
-                if ($data->title !== null) {
-                    $komposisi_karyawan[] = $data->title;
-                    $total_komposisi_karyawan[] = $data->total;
-                }
-            }
-        }else{
-            $komposisi_karyawan[] = "";
-            $total_komposisi_karyawan[] = "";
-        }
+        // if(count($chart_komposisi_karyawan)) {
+        //     foreach ($chart_komposisi_karyawan as $data) {
+        //         if ($data->title !== null) {
+        //             $komposisi_karyawan[] = $data->title;
+        //             $total_komposisi_karyawan[] = $data->total;
+        //         }
+        //     }
+        // }else{
+        //     $komposisi_karyawan[] = "";
+        //     $total_komposisi_karyawan[] = "";
+        // }
 
         $chart_karyawan_phk = KaryawanPHK::selectRaw('CASE 
         WHEN penyebab_phk=1 THEN "Affair" 
@@ -396,8 +415,8 @@ class DashboardController extends Controller
             'total_pendidikan'          => $total_pendidikan,
             'status_pernikahan'         => $status_pernikahan,
             'total_status_pernikahan'   => $total_status_pernikahan,
-            'komposisi_karyawan'        => $komposisi_karyawan,
-            'total_komposisi_karyawan'  => $total_komposisi_karyawan,
+            'posisi'                    => $posisi,
+            'total_posisi'              => $total_posisi,
             'penyebab_phk'              => $penyebab_phk,
             'total_penyebab_phk'        => $total_penyebab_phk,
             'umur'                      => $umur,

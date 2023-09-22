@@ -17,7 +17,7 @@
                         </div>
                         <h3 class="mt-3 f-w-300">{{ total_karyawan_aktif }}<sub class="text-muted f-14"> </sub></h3>
                         <h4 class="text-muted mt-4 mb-0"></h4>
-                         <i class="fab fa-angellist text-c-purple f-50"></i>
+                        <i class="fab fa-angellist text-c-purple f-50"></i>
                     </div>
                 </div>
             </div> -->
@@ -135,11 +135,21 @@
                 </div>
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Posisi</h5>
+                        <h5>Total Karyawan Berdasarkan Jabatan</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
                             <BarChart :chartData="chartKaryawanJabatan" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Berdasarkan Posisi</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartPosisi" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -170,16 +180,6 @@
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
                             <BarChart :chartData="chartPendidikan" :options="options" style="height: 250px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="card Recent-Users">
-                    <div class="card-header">
-                        <h5>Total Karyawan Berdasarkan Komposisi Karyawan</h5>
-                    </div>
-                    <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <BarChart :chartData="chartKomposisiKaryawan" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -500,8 +500,8 @@
             total_status_pernikahan: Array,
 
             //chart berdasarkan komposisi karyawan
-            komposisi_karyawan: Array,
-            total_komposisi_karyawan: Array,
+            posisi: Array,
+            total_posisi: Array,
 
             //chart berdasarkan penyebab phk
             penyebab_phk: Array,
@@ -644,11 +644,11 @@
                 }, ],
             };
 
-            //chart karyawan berdasarkan komposisi karyawan
-            const chartKomposisiKaryawan = {
-                labels: props.komposisi_karyawan,
+            // chart karyawan berdasarkan komposisi karyawan
+            const chartPosisi = {
+                labels: props.posisi,
                 datasets: [{
-                    data: props.total_komposisi_karyawan,
+                    data: props.total_posisi,
                     backgroundColor: randomBackgroundColor(5),
                 }, ],
             };
@@ -693,7 +693,7 @@
                 chartKomposisiPeran,
                 chartPendidikan,
                 chartStatusPernikahan,
-                chartKomposisiKaryawan,
+                chartPosisi,
                 chartKaryawanPHK,
                 chartUmur,
                 chartKaryawanResign,
