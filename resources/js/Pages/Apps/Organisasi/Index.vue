@@ -79,7 +79,7 @@
                             </div>
 
                         </div>
-                        <!-- <Link href="/apps/karyawan" class="btn btn-success shadow-sm" style="float:right">BACK</Link> -->
+                        <!-- <Link href="/apps/list-organisasi" class="btn btn-secondary shadow-sm" style="float: right; margin-right: 2px">Kembali</Link> -->
                     </div>
                 </div>
             </div>
@@ -269,7 +269,7 @@
 
             //define method search
             const handleSearch = () => {
-                Inertia.get('/apps/phk', {
+                Inertia.get('/apps/list-organisasi', {
                     //send params "search" with value from state "search"
                     search: search.value,
                 });

@@ -1,12 +1,12 @@
 <template>
     <Head>
-        <title>Pelanggaran</title>
+        <title>Pelanggaran {{ nama }}</title>
     </Head>
     <main>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>{{ nama }}</h5>
+                    <h5>Riwayat Pelanggaran {{ nama }}</h5>
                     <!-- <span class="d-block m-t-5">Page to manage the list of <code>{{ nama }}</code> violations</span> -->
                 </div>
                 <div class="card-block table-border-style">
@@ -15,37 +15,36 @@
                             <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Catatan..." @keyup="handleSearch">
                             <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        
                         </div>
-                        <table class="table table-striped table-hover">
+                        <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nama Lengkap</th>
-                                    <th scope="col" class="text-center">Tingkat Pelanggaran</th>
-                                    <th scope="col">Catatan</th>
-                                    <th scope="col">Tanggal</th>
-                                    <th scope="col" class="text-center">Status Tindakan</th>
-                                    <th scope="col" class="text-center">Aksi</th>
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Nama Lengkap</th>
+                                    <th scope="col" class="text-center">Catatan</th>
+                                    <th scope="col" class="text-center">Tanggal</th>
+                                    <th scope="col" class="text-center">Sanksi</th>
+                                    <th scope="col" class="text-center">Status</th>
+                                    <!-- <th scope="col" class="text-center">Aksi</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(list, index) in lists.data" :key="index">
-                                    <td>{{ index + lists.from }}</td>
+                                    <td class="text-center">{{ index + lists.from }}</td>
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
-                                    <td class="text-center" v-if="(list.tingkatan == null)"> </td>
-                                    <td class="text-center" v-if="(list.tingkatan == 1)">Ringan</td>
-                                    <td class="text-center" v-if="(list.tingkatan == 2)">Sedang</td>
-                                    <td class="text-center" v-if="(list.tingkatan == 3)">Serius</td>
-                                    <td class="text-center" v-if="(list.tingkatan == 4)">Berat</td>
-                                    <td>{{ list.catatan }}</td>
                                     <td>{{ list.tanggal }}</td>
+                                    <td>{{ list.catatan }}</td>
+                                    <td class="text-center" v-if="(list.tingkatan == null)"> </td>
+                                    <td class="text-center" v-if="(list.tingkatan == 1)"><a class="label theme-bg9 text-white f-12" style="border-radius:10px">Teguran Lisan</a></td>
+                                    <td class="text-center" v-if="(list.tingkatan == 2)"><a class="label theme-bg9 text-white f-12" style="border-radius:10px">Teguran Tertulis</a></td>
+                                    <td class="text-center" v-if="(list.tingkatan == 3)"><a class="label theme-bg10 text-white f-12" style="border-radius:10px">SP 1</a></td>
+                                    <td class="text-center" v-if="(list.tingkatan == 4)"><a class="label theme-bg7 text-white f-12" style="border-radius:10px">SP 2</a></td>
+                                    <td class="text-center" v-if="(list.tingkatan == 4)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">SP 3</a></td>
                                     <td class="text-center" v-if="(list.status == null)"> </td>
-                                    <td class="text-center" v-if="(list.status == 1)"><a class="label theme-bg9 text-white f-12" style="border-radius:10px">Teguran Lisan</a></td>
-                                    <td class="text-center" v-if="(list.status == 2)"><a class="label theme-bg10 text-white f-12" style="border-radius:10px">SP 1</a></td>
-                                    <td class="text-center" v-if="(list.status == 3)"><a class="label theme-bg7 text-white f-12" style="border-radius:10px">SP 2</a></td>
-                                    <td class="text-center" v-if="(list.status == 4)"><a class="label theme-bg6 text-white f-12" style="border-radius:10px">SP 3</a></td>
-                                    <td class="text-center">
+                                    <td class="text-center" v-if="(list.status == 1)"><b style="color: rgb(240, 167, 9);">Diproses</b></td>
+                                    <td class="text-center" v-if="(list.status == 2)"><b style="color: rgb(9, 240, 28);">Selesai</b></td>
+                                    <!-- <td class="text-center">
                                         <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> </a>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 <!-- jika data kosong -->
                                 <tr v-if="lists.data[0] == undefined">
@@ -65,7 +64,7 @@
                                 <Pagination v-if="lists.data[0] != undefined" :links="lists.links" align="end"/>
                             </div>
                         </div>
-                        <Link href="/apps/karyawan" class="btn btn-success shadow-sm" style="float: right; margin-right: 2px">Kembali</Link>
+                        <Link href="/apps/karyawan" class="btn btn-secondary shadow-sm" style="float: right; margin-right: 2px">Kembali</Link>
                     </div>
                 </div>
             </div>

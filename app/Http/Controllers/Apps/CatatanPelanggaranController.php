@@ -8,6 +8,7 @@ use App\Models\Karyawan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Exports\PelanggaranExport;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 
@@ -40,13 +41,46 @@ class CatatanPelanggaranController extends Controller
             })->orderBy('tanggal', 'DESC')->latest()->paginate(10)->onEachSide(1);
 
             // dd($lists);
-        // $nama_karyawan = Karyawan::where('id', $id)->first()->nama_lengkap;
+        //get karyawan
+        $karyawan= Karyawan::where('status_karyawan', 0)->get();
 
         return Inertia::render('Apps/Pelanggaran/Index', [
             // 'id_karyawan'   => $id,
             'lists'         => $lists,
-            // 'nama'          => $nama_karyawan,
+            'karyawan'          => $karyawan,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        /**
+         * validate
+         */
+        $this->validate($request, [
+            'karyawan_id'       => 'required',
+            'tanggal'           => 'required',
+            'catatan'           => 'required',
+            'tingkatan'         => 'required',
+            'status'            => 'required',
+            
+        ]);
+
+        //create riwayat organisasi
+        $data = [
+            'karyawan_id'       => $request->karyawan_id,
+            'tanggal'           => $request->tanggal,
+            'catatan'           => $request->catatan,
+            'tingkatan'         => $request->tingkatan,
+            'status'            => $request->status,
+            'created_id'        => Auth::id(),
+        ];
+
+        // dd($data);
+
+        CatatanPelanggaran::create($data);
+
+        //redirect
+        return redirect()->route('apps.pelanggaran.indexAll');
     }
 
     //untuk memperbaruhi data

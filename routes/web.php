@@ -88,9 +88,10 @@ Route::prefix('apps')->group(function() {
         //route listOrganisasiAll
         Route::get('/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'indexAll'])->name('apps.organisasi.indexAll');
 
-        //route update listKarir
+        //route store listKarir
         Route::post('list-organisasi/store', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'store'])->name('apps.organisasi.store');
 
+        //route update listKarir
         Route::put('list-organisasi/{id}/update', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'update'])->name('apps.organisasi.update');
         
         //route update listKarir
@@ -99,14 +100,20 @@ Route::prefix('apps')->group(function() {
         //route organisasi export excel
         Route::get('/list-organisasi/export', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'export'])->name('apps.organisasi.export');
         
-        //route listPelanggaran
+        //route listPelanggaran dihalaman karyawan
         Route::get('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'index'])->name('apps.pelanggaran.index');
-        
+
         //route listPelanggaranAll
         Route::get('/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'indexAll'])->name('apps.pelanggaran.indexAll');
         
+        //route store list pelanggaran
+        Route::post('list-pelanggaran/store', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'store'])->name('apps.pelanggaran.store');
+        
+        //route update listKarir
+        Route::put('list-organisasi/{id}/update', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.organisasi.update');
+        
         //route update listPelanggaran
-        Route::put('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.pelanggaran.update');
+        // Route::put('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.pelanggaran.update');
         
         //route organisasi export excel
         Route::get('/list-pelanggaran/export', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'export'])->name('apps.pelanggaran.export');

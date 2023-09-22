@@ -19,7 +19,8 @@ class CreateCatatanPelanggaranTable extends Migration
             $table->foreign('karyawan_id')->references('id')->on('karyawan')->onDelete('cascade');
             $table->date('tanggal');
             $table->text('catatan');
-            $table->tinyInteger('tingkatan')->comment('1 = Ringan, 2 = Sedang, 4 = Serius, 3 = Berat');
+            $table->tinyInteger('tingkatan')->comment('1 = Teguran Lisan, 2 = Teguran Tertulis, 4 = SP 1, 3 = SP 2, 4 = SP 3');
+            $table->tinyInteger('status')->comment('1 = Diproses, 2 = Selesai');
             $table->tinyInteger('created_id')->nullable();
             $table->timestamps();
         });

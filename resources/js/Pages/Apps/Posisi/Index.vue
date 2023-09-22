@@ -33,7 +33,7 @@
                                     <td class="text-center" v-if="(pss.status == 1)"><b style="color: rgb(9, 240, 9);">Aktif</b></td>
                                     <td class="text-center" v-if="(pss.status == 2)"><b style="color: rgb(247, 76, 9);">Nonaktif</b></td>
                                     <td class="text-center" v-if="hasAnyPermission(['posisi.edit'])">
-                                        <a @click="editData(pss)" v-if="hasAnyPermission(['posisi.edit'])" class="label theme-bg3 text-white f-17" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="editData(pss)" v-if="hasAnyPermission(['posisi.edit'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->

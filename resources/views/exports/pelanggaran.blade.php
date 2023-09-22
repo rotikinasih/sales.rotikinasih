@@ -13,10 +13,10 @@
         <tr style="background-color:yellow;font-size:large">
             <th scope="col" style="background-color: yellow; text-align: center; width: 1cm; border: 1px solid black;">No</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Nama Lengkap</th>
-            <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Tingkat Pelangaran</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Catatan</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Tanggal</th>
-            <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Status Tindakan</th>
+            <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Sanksi</th>
+            <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Status</th>
         </tr>
     </thead>
     <tbody>
@@ -28,32 +28,30 @@
         <tr>
             <td style="text-align: center; border: 1px solid black;">{{ $i++ }}</td>
             <td scope="col" style="border: 1px solid black;">{{ $val->karyawan->nama_lengkap }}</td>
+            <td scope="col" style="border: 1px solid black;">{{ $val->catatan}}</td>
+            <td scope="col" style="border: 1px solid black;">{{ $val->tanggal}}</td>
             <td scope="col" style="border: 1px solid black;">
                 @if ($val->tingkatan == null)
                     
                 @elseif ($val->tingkatan == 1)
-                    Ringan
+                    Teguran Lisan
                 @elseif ($val->tingkatan == 2)
-                    Sedang
+                    Teguran Tertulis
                 @elseif ($val->tingkatan == 3)
-                    Serius
+                    SP 1
                 @elseif ($val->tingkatan == 4)
-                    Berat
+                    SP 2
+                @elseif ($val->tingkatan == 5)
+                    SP 3
                 @endif
             </td>
-            <td scope="col" style="border: 1px solid black;">{{ $val->catatan}}</td>
-            <td scope="col" style="border: 1px solid black;">{{ $val->tanggal}}</td>
             <td scope="col" style="border: 1px solid black;">
                 @if ($val->status == null)
                     
                 @elseif ($val->status == 1)
-                    Teguran Lisan
+                    Diproses
                 @elseif ($val->status == 2)
-                    SP 1
-                @elseif ($val->status == 3)
-                    SP 2
-                @elseif ($val->status == 4)
-                    SP 3
+                    Selesai
                 @endif
             </td>
         </tr>

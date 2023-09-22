@@ -67,8 +67,8 @@
                                         <!-- <a @click.prevent="detail(kar)" class="label theme-bg8 text-white f-12" title="Detail" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px"><i class="fa fa-info"></i></a> -->
                                         <!-- <a @click.prevent="addKarir(kar)" class="label theme-bg2 text-white f-12" title="Tambah Mutasi" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px" v-if="hasAnyPermission(['karyawan.create'])"><i class="fa fa-user-plus"></i></a> -->
                                         <Link :href="`/apps/karyawan/${kar.id}/list-organisasi`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Karir" data-toggle="tooltip-inner"><i class="fa fa-users"></i></Link>
-                                        <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Tambah Pelanggaran" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px" v-if="hasAnyPermission(['karyawan.create'])"><i class="fa fa-exclamation-triangle"></i></a>
-                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Pelanggaran" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
+                                        <!-- <a @click.prevent="addPelanggaran(kar)" class="label theme-bg2 text-white f-12" title="Tambah Pelanggaran" data-toggle="tooltip-inner" style="cursor:pointer; border-radius:10px" v-if="hasAnyPermission(['karyawan.create'])"><i class="fa fa-exclamation-triangle"></i></a> -->
+                                        <Link :href="`/apps/karyawan/${kar.id}/list-pelanggaran`" class="label theme-bg2 text-white f-12 me-2" style="cursor:pointer; border-radius:10px" title="Pelanggaran" data-toggle="tooltip-inner"><i class="fa fa-exclamation-circle"></i></Link>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
