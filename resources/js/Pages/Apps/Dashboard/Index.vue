@@ -112,7 +112,7 @@
 
         <!-- grafik -->
         <div class="row">
-            <div class="col-xl-12 col-md-6">
+            <div class="col-md-12">
                 <div class="card Recent-Users">
                     <div class="card-header">
                         <h5>Total Karyawan berdasarkan Entitas</h5>
@@ -143,7 +143,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card Recent-Users">
+                <!-- <div class="card Recent-Users">
                     <div class="card-header">
                         <h5>Total Karyawan Berdasarkan Posisi</h5>
                     </div>
@@ -152,7 +152,7 @@
                             <BarChart :chartData="chartPosisi" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="card Recent-Users">
                     <div class="card-header">
                         <h5>Total Karyawan Berdasarkan Kota Penugasan</h5>
@@ -190,26 +190,6 @@
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
                             <BarChart :chartData="chartUmur" :options="options" style="height: 250px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="card Recent-Users">
-                    <div class="card-header">
-                        <h5>Total Karyawan PHK</h5>
-                    </div>
-                    <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <BarChart :chartData="chartKaryawanPHK" :options="options" style="height: 250px;"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="card Recent-Users">
-                    <div class="card-header">
-                        <h5>Total Karyawan Resign</h5>
-                    </div>
-                    <div class="card-block px-0 py-3">
-                        <div class="table-responsive">
-                            <BarChart :chartData="chartKaryawanResign" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
@@ -262,6 +242,30 @@
                     <div class="card-block px-0 py-3">
                         <div class="table-responsive">
                             <BarChart :chartData="chartStatusKerja" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan PHK</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKaryawanPHK" :options="options" style="height: 250px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card Recent-Users">
+                    <div class="card-header">
+                        <h5>Total Karyawan Resign</h5>
+                    </div>
+                    <div class="card-block px-0 py-3">
+                        <div class="table-responsive">
+                            <BarChart :chartData="chartKaryawanResign" :options="options" style="height: 250px;"/>
                         </div>
                     </div>
                 </div>
