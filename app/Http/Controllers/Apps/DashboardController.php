@@ -358,7 +358,8 @@ class DashboardController extends Controller
 
         //menampilkan data karyawan yang habis kontrak 2 bulan sebelumnya
         $dua_bulan = date('Y-m-d', strtotime('-2 months'));
-        $karyawan_kontrak = Karyawan::with('perusahaan')->where('akhir_kontrak', '>=', $dua_bulan)->where('status_karyawan', 0)->latest()->paginate(10)->onEachSide(1);
+        $karyawan_kontrak = Karyawan::with('perusahaan')->where('akhir_kontrak', '>=', $dua_bulan)->where('status_karyawan', 0)
+        ->orderBy('akhir_kontrak', 'asc')->latest()->paginate(10)->onEachSide(1);
 
         //menampilkan data karyawan yang mempunyai 3 pelanggaran atau lebih
         $data_pelanggaran = DB::table('karyawan')
