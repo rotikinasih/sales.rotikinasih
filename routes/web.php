@@ -127,6 +127,9 @@ Route::prefix('apps')->group(function() {
         //route resign export excel
         Route::get('/resign/export', [App\Http\Controllers\Apps\ResignController::class, 'export'])->name('apps.resign.export');
 
+        //route listPelatihan
+        Route::get('/karyawan/{id}/list-pelatihan', [App\Http\Controllers\Apps\PelatihanController::class, 'list_pelatihan'])->name('apps.organisasi.list_pelatihan');
+
 
         //route karyawan
         Route::resource('/karyawan', App\Http\Controllers\Apps\KaryawanController::class, [
@@ -151,7 +154,6 @@ Route::prefix('apps')->group(function() {
                 'index' => 'apps.phk.index'
             ]
         ]);
-
 
         //route permission       
         Route::resource('/permissions', App\Http\Controllers\Apps\PermissionController::class, [

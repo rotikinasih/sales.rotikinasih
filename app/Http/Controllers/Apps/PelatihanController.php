@@ -37,6 +37,24 @@ class PelatihanController extends Controller
         ]);
     }
 
+    public function list_pelatihan ($id){
+        $search = request()->search;
+        //pengelompokan kategori
+        
+        //get list
+        $lists = Pelatihan::with('karyawan')->whereHas('karyawan', function($q) use($search){
+            $q->where('nama_pelatihan', 'like', '%'. $search . '%');
+            })->where('karyawan_id', $id)->latest()->paginate(10)->onEachSide(1);
+
+        $nama_karyawan = Karyawan::where('id', $id)->first()->nama_lengkap;
+
+        return Inertia::render('Apps/Karyawan/ListPelatihan', [
+            'id_karyawan'   => $id,
+            'lists'         => $lists,
+            'nama'          => $nama_karyawan,
+        ]);
+    }
+
     public function store(Request $request)
     {
         /**

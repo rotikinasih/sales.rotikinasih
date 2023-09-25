@@ -65,7 +65,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">No. KK</label>
-                                                <input type="number" class="form-control" v-model="form.no_kk" placeholder="Masukkan KK Number">
+                                                <input type="number" class="form-control" v-model="form.no_kk" placeholder="Masukkan No. KK">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Kode Pos</label>
