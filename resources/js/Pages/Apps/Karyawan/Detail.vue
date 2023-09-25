@@ -16,6 +16,11 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <template id="form" v-if="activePhase == 1">
+                                    <div class="mb-3">
+                                        <div class="form-group mb-3">
+                                            <img v-if="form['foto'] != null && foto == null" :src="`/storage/${form['foto']}`" alt="photo" style="width:20%"><br>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
