@@ -34154,7 +34154,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.search = $event;
     }),
-    placeholder: "search by division...",
+    placeholder: "search by Divisi...",
     onKeyup: _cache[1] || (_cache[1] = function () {
       return $setup.handleSearch && $setup.handleSearch.apply($setup, arguments);
     })
@@ -34397,7 +34397,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.search = $event;
     }),
-    placeholder: "search by division...",
+    placeholder: "Cari Berdasarkan Nama Pelatihan...",
     onKeyup: _cache[1] || (_cache[1] = function () {
       return $setup.handleSearch && $setup.handleSearch.apply($setup, arguments);
     })
