@@ -111,7 +111,7 @@ class CatatanPelanggaranController extends Controller
         // dd($ubahData);
         $ubahData->update($data_pelanggaran);
         //redirect
-        return redirect()->route('apps.pelanggaran.index', ['id' => $request->karyawan_id]);
+        return redirect()->route('apps.pelanggaran.indexAll');
     }
 
     public function export(){

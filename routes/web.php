@@ -110,7 +110,7 @@ Route::prefix('apps')->group(function() {
         Route::post('list-pelanggaran/store', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'store'])->name('apps.pelanggaran.store');
         
         //route update listKarir
-        Route::put('list-organisasi/{id}/update', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.organisasi.update');
+        Route::put('list-pelanggaran/{id}/update', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.organisasi.update');
         
         //route update listPelanggaran
         // Route::put('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.pelanggaran.update');

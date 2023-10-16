@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Carbon\Carbon;
 
-class KaryawanImport implements ToModel, WithStartRow
+class KaryawanImport implements ToModel, WithStartRow, WithValidation
 {
     /**
     * @param array $row
@@ -104,54 +104,25 @@ class KaryawanImport implements ToModel, WithStartRow
     }
 
 
-    // this function returns all validation errors after import:
-    // public function getErrors()
-    // {
-    //     return $this->errors;
-    // }
+    public function rules(): array
+{
+    return [
+    
+        '26' => 'required|exists:master_perusahaan,nama_pt', // Nama PT harus valid
+        '27' => 'required|exists:master_divisi,nama_divisi', // Nama Divisi harus valid
+        '28' => 'required|exists:master_jabatan,nama_jabatan', // Nama Jabatan harus valid
+        '29' => 'required|exists:master_posisi,nama_posisi', // Nama Posisi harus valid
+    ];
+}
 
-    // public function rules(): array
-    // {
-    //     return [
-    //         '*.employee_name' => 'required|max:255',
-    //         '*.employment_identity_number' => 'required|max:255',
-    //         '*.employment_status' => 'required|in:Contract,Fixed,Training',
-    //         '*.division' => 'required|exists:master_divisi,nama_divisi',
-    //         '*.pt' => 'required|exists:master_perusahaan,nama_pt',
-    //         '*.entry_date' => 'required|max:255',
-    //         '*.kk_number' => 'nullable',
-    //         '*.resident_number_nik' => 'required|max:255',
-    //         '*.grade' => 'required|max:255',
-    //         '*.position' => 'required|exists:master_jabatan,nama_jabatan',
-    //         '*.hp_number' => 'required|max:255',
-    //         '*.wa_number' => 'required|max:255',
-    //         '*.blood_group' => 'required|in:A,B,O,AB',
-    //         '*.email' => 'required|unique:karyawan,email|email|max:255',
-    //         '*.place_of_birth' => 'required|max:255',
-    //         '*.date_of_birth' => 'required|max:255',
-    //         '*.age' => 'required|max:255',
-    //         '*.ktp_address' => 'required|max:255',
-    //         '*.residence_address' => 'required|max:255',
-    //         '*.gender' => 'required|in:Male,Female',
-    //         '*.married_status' => 'required|in:Single,Married',
-    //         '*.education' => 'required|in:SD,SMP,SMA,S1,S2,S3',
-    //         '*.school_name' => 'required|max:255',
-    //         '*.assignment_district' => 'required|max:255',
-    //         '*.clothes_size' => 'required|in:S,M,L,XL,XXL,Jumbo',
-    //         '*.contact_number_family' => 'required|max:255',
-    //         '*.family_relationship' => 'required|max:255',
-    //     ];
-    // }
-
-    // public function validationMessages()
-    // {
-    //     return [
-    //         // 'employment_status.required' => 'harusss',
-    //         // '3.required' => trans('karyawan.Employment Identity Number is required'),
-    //         // 'division.exists' => trans('karyawan.Not an existing ID'),
-    //         // 'pt.exists' => trans('karyawan.Not an existing ID'),
-    //         // 'employment_status.required' => trans('karyawan.sesuaikan'),
-    //     ];
-    // }
+public function customValidationMessages()
+{
+    return [
+        '26.exists' => 'Nama PT tidak valid, ',
+        '27.exists' => 'Nama Divisi tidak valid, ',
+        '28.exists' => 'Nama Jabatan tidak valid, ',
+        '29.exists' => 'Nama Posisi tidak valid, ',
+    ];
+}
 
 }

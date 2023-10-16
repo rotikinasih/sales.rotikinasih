@@ -568,23 +568,43 @@ class KaryawanController extends Controller
 
     public function import(Request $request)
 	{
+        $this->validate($request, [
+            'file' => 'required|mimes:xlsx,csv'
+        ]);
+
+        try {
+            $file = $request->file('file');
+            $import = new KaryawanImport();
+            Excel::import($import, $file);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            $errorMessages = [];
+            foreach ($failures as $failure) {
+                $row = $failure->row();
+                $column = $failure->attribute();
+                $message = $failure->errors()[0];
+                $errorMessages[] = "$message";
+            }
+            
+            return back()->with('error', implode($errorMessages));
+        }
         // try {
             // validasi
-            $this->validate($request, [
-                'file' => 'required|mimes:csv,xls,xlsx'
-            ]);
+            // $this->validate($request, [
+            //     'file' => 'required|mimes:csv,xls,xlsx'
+            // ]);
             // menangkap file excel
-            $file = $request->file('file');
+            // $file = $request->file('file');
 
             // dd($file);
             // membuat nama file unik
-            $nama_file = rand().$file->getClientOriginalName();
+            // $nama_file = rand().$file->getClientOriginalName();
             // upload ke folder file_karyawan di dalam folder public
-            $file->move('file_karyawan',$nama_file);
+            // $file->move('file_karyawan',$nama_file);
             // import data
-            Excel::import(new KaryawanImport, public_path('/file_karyawan/'.$nama_file));
+            // Excel::import(new KaryawanImport, public_path('/file_karyawan/'.$nama_file));
             //redirect
-            return redirect()->back()->with('success', 'Import Data Saved Successfully');
+            return redirect()->back()->with('success', 'Import Data Karyawan Berhasil');
         // } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
         //     $failures = $e->failures();
         //     foreach ($failures as $failure) {

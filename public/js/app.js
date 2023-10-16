@@ -25339,7 +25339,7 @@ __webpack_require__.r(__webpack_exports__);
       //karyawan
       var data_karyawan = props.karyawan;
       data_karyawan.forEach(function (data) {
-        if (krr.karyawan_id == data.id) {
+        if (list.karyawan_id == data.id) {
           karyawan_id.value = data;
         }
       });
@@ -25359,8 +25359,8 @@ __webpack_require__.r(__webpack_exports__);
       });
       catatan.value = list.catatan;
       tanggal.value = list.tanggal;
-      // id_list.value = list.id
-      status.value = status.id;
+      id_list.value = list.id;
+      // status.value = status.id
       showModal.value = true;
     };
     var peringatan = function peringatan() {
@@ -25379,7 +25379,7 @@ __webpack_require__.r(__webpack_exports__);
         tutupModal();
         peringatan();
       } else {
-        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__.Inertia.put("/apps/list-pelanggaran/".concat(id.value, "/update"), {
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__.Inertia.put("/apps/list-pelanggaran/".concat(id_list.value, "/update"), {
           // id : id_list.value,
           karyawan_id: karyawan_id.value.id,
           catatan: catatan.value,

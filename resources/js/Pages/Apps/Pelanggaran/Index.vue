@@ -253,7 +253,7 @@
                 //karyawan
                 let data_karyawan = props.karyawan
                 data_karyawan.forEach(data => {
-                    if(krr.karyawan_id == data.id){
+                    if(list.karyawan_id == data.id){
                         karyawan_id.value = data
                     }
                 })
@@ -274,8 +274,8 @@
                 
                 catatan.value = list.catatan
                 tanggal.value = list.tanggal
-                // id_list.value = list.id
-                status.value = status.id
+                id_list.value = list.id
+                // status.value = status.id
                 showModal.value = true
             }
 
@@ -299,7 +299,7 @@
                     tutupModal();
                     peringatan();
                 }else{
-                    Inertia.put(`/apps/list-pelanggaran/${id.value}/update`, {
+                    Inertia.put(`/apps/list-pelanggaran/${id_list.value}/update`, {
                         // id : id_list.value,
                         karyawan_id : karyawan_id.value.id,
                         catatan : catatan.value,
