@@ -108,10 +108,10 @@ class KaryawanImport implements ToModel, WithStartRow, WithValidation
 {
     return [
     
-        '26' => 'required|exists:master_perusahaan,nama_pt', // Nama PT harus valid
-        '27' => 'required|exists:master_divisi,nama_divisi', // Nama Divisi harus valid
-        '28' => 'required|exists:master_jabatan,nama_jabatan', // Nama Jabatan harus valid
-        '29' => 'required|exists:master_posisi,nama_posisi', // Nama Posisi harus valid
+        '26' => 'exists:master_perusahaan,nama_pt', // Nama PT harus valid
+        '27' => 'exists:master_divisi,nama_divisi', // Nama Divisi harus valid
+        '28' => 'exists:master_jabatan,nama_jabatan', // Nama Jabatan harus valid
+        '29' => 'exists:master_posisi,nama_posisi', // Nama Posisi harus valid
     ];
 }
 
