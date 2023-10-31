@@ -65,7 +65,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">No. KK</label>
-                                                <input type="number" class="form-control" v-model="form.no_kk" placeholder="Masukkan No. KK">
+                                                <input type="text" class="form-control" v-model="form.no_kk" placeholder="Masukkan No. KK">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Kode Pos</label>
@@ -73,7 +73,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">No. KTP</label>
-                                                <input type="number" class="form-control" v-model="form.nik_penduduk" placeholder="No. KTP">
+                                                <input type="text" class="form-control" v-model="form.nik_penduduk" placeholder="No. KTP">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Alamat KTP</label>
