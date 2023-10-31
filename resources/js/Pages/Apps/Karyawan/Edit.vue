@@ -71,7 +71,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">No. KTP</label>
-                                                <input type="number" class="form-control" v-model="form.nik_penduduk" placeholder="Masukkan No. KTP">
+                                                <input type="text" class="form-control" v-model="form.nik_penduduk" placeholder="Masukkan No. KTP">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="fw-bold">Alamat KTP</label>
