@@ -69,16 +69,17 @@ class ResignController extends Controller
          * validate
          */
         $this->validate($request, [
-            'karyawan_id'             => 'required',
-            'penyebab_resign'            => 'required',
+            'karyawan_id'                => 'required',
+            'alasan_resign'            => 'required',
             'tanggal_resign'             => 'required'
         ]);
         //update divisi
         $data_resign = [
-            'karyawan_id'             => $request->karyawan_id,
-            'penyebab_resign'            => $request->penyebab_resign,
+            'karyawan_id'                => $request->karyawan_id,
+            'alasan_resign'            => $request->alasan_resign,
             'tanggal_resign'             => $request->tanggal_resign,
         ];
+
         $ubahData = KaryawanResign::findOrFail($id);
         $ubahData->update($data_resign);
         //redirect

@@ -375,6 +375,7 @@ class KaryawanController extends Controller
             'riwayat_penyakit'          => strtoupper($request->riwayat_penyakit),
             'no_kk'                     => $request->no_kk,
             'kode_pos'                  => $request->kode_pos,
+            'nik_penduduk'              => $request->nik_penduduk,
             'alamat_ktp'                => strtoupper($request->alamat_ktp),
             'alamat_domisili'           => strtoupper($request->alamat_domisili),
             'pendidikan'                => $request->pendidikan,

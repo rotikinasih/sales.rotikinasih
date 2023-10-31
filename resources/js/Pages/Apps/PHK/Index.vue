@@ -268,16 +268,16 @@
 
             //method update data
             const updateData = () => {
-                if(karyawan_id.value == null || penyebab_phk.value == null || tanggal_phk.value == null){
+                if(karyawan_id_edit.value == null || penyebab_phk.value == null || tanggal_phk.value == null){
                     tutupModal();
                     peringatan();
                 }else{
                     //send data to server
                     Inertia.put(`/apps/phk/${id.value}`, {
                         //data
-                        karyawan_id: karyawan_id.value.id,
-                        tanggal_phk: tanggal_phk.value.value,
-                        penyabab_phk: penyabab_phk.value
+                        karyawan_id: karyawan_id_edit.value.id,
+                        penyebab_phk: penyebab_phk.value.value,
+                        tanggal_phk: tanggal_phk.value,
                     }, {
                         onSuccess: () => {
                             tutupModal()

@@ -49,7 +49,9 @@
                                     <td v-if="(resign.alasan_resign == 2)">Mendapat Pekerjaan Lain</td>
                                     <td v-if="(resign.alasan_resign == 3)">Melanjutkan Pendidikan</td>
                                     <td v-if="(resign.alasan_resign == 4)">Faktor Keluarga</td>
-                                    <td v-if="(resign.alasan_resign == 5)">Pekerjaan dan Passion Tidak Sejalan</td>
+                                    <td v-if="(resign.alasan_resign == 5)">Habis Kontrak</td>
+                                    <td v-if="(resign.alasan_resign == 6)">Usia Pensiun</td>
+                                    <td v-if="(resign.alasan_resign == 7)">Meninggal Dunia</td>
                                     <td>{{ resign.tanggal_resign }}</td>
                                     <td class="text-center" v-if="hasAnyPermission(['apps.resign.edit'])">
                                         <a @click="editData(resign)"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
@@ -123,7 +125,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label class="col-form-label">Tanggal Resign :</label>
-                        <input type="date" class="form-control" placeholder="Masukkan Tanggal THK" v-model="tanggal_resign" required>
+                        <input type="date" class="form-control" placeholder="Masukkan Tanggal Resign" v-model="tanggal_resign" required>
                     </div>
                 </template>
                 <template #footer>
@@ -197,7 +199,9 @@
                 { name: 'Mendapat Pekerjaan Lain', value: 2 },
                 { name: 'Melanjutkan Pendidikan', value: 3 },
                 { name: 'Faktor Keluarga', value: 4 },
-                { name: 'Pekerjaan dan Passion Tidak Sejalan', value: 5},
+                { name: 'Habis Kontak', value: 5},
+                { name: 'Usia Pensiun', value: 6},
+                { name: 'Meninggal Dunia', value: 7},
             ];
 
 
@@ -234,7 +238,7 @@
             }
             //method edit show modal
             const editData = (resign) => {
-                // console.log(data_karyawan);
+                // console.log(resign);
                 
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
@@ -283,16 +287,16 @@
 
             //method update data
             const updateData = () => {
-                if(karyawan_id.value == null || alasan_resign.value == null || tanggal_resign.value == null){
+                if(karyawan_id_edit.value == null || alasan_resign.value == null || tanggal_resign.value == null){
                     tutupModal();
                     peringatan();
                 }else{
                     //send data to server
                     Inertia.put(`/apps/resign/${id.value}`, {
                         //data
-                        karyawan_id: karyawan_id.value.id,
-                        tanggal_resign: tanggal_resign.value.value,
-                        penyabab_resign: penyabab_resign.value
+                        karyawan_id: karyawan_id_edit.value.id,
+                        alasan_resign: alasan_resign.value.value,
+                        tanggal_resign: tanggal_resign.value,
                     }, {
                         onSuccess: () => {
                             tutupModal()
