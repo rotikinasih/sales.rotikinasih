@@ -92,13 +92,18 @@ class DashboardController extends Controller
                     }
                     $new_awal_kontrak = new DateTime($awal_kontrak);
                     //menghitung interval lama kontrak
-                    $interval = $new_awal_kontrak->diff(new DateTime($akhir_kontrak));
+                    $interval = $new_awal_kontrak->diff(new DateTime($waktu_sekarang));
+
+                    $years = $interval->y;
+                    $months = $interval->m;
+
+                    $masa_kerja_bulan = $years * 12 + $months;
                     //format interval lama kontrak
                     $masa_kerja_tahun = $interval->format('%y tahun, %m bulan, %d hari');
 
                     $k->update([
                         'akhir_kontrak' => $akhir_kontrak,
-                        'masa_kerja_bulan' => $masa_kontrak,
+                        'masa_kerja_bulan' => $masa_kerja_bulan,
                         'masa_kerja_tahun' => $masa_kerja_tahun,
                     ]);
                 }
