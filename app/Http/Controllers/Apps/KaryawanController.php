@@ -54,7 +54,7 @@ class KaryawanController extends Controller
         //get master posisi
         $posisi = MasterPosisi::where('status', 1)->get();
 
-        //menghitung umur dan masa kerja
+        //menghitung umur dan masa kerja(dihitung mulai karyawan di kontrak)
         if($karyawan->isNotEmpty()){
             foreach ($karyawan as $k){
                 

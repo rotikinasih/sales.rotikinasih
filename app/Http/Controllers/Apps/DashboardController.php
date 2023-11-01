@@ -484,7 +484,7 @@ class DashboardController extends Controller
 
         //menampilkan data karyawan tertua
         // $tertua = DB::table('karyawan')->where('umur', DB::raw("(select max(`umur`) from karyawan)"))->where('status_karyawan', 0)->first();
-        $tertua = Karyawan::where('status_karyawan', 0)->orderBy('umur')->first();
+        $tertua = Karyawan::where('status_karyawan', 0)->orderBy('umur', 'desc')->first();
         // $terlama = DB::table('karyawan')->where('masa_kerja_tahun', DB::raw("(select max(`masa_kerja_tahun`) from karyawan)"))->where('status_karyawan', 0)->first();
         $terlama = Karyawan::select('karyawan.nama_lengkap', 'karyawan.masa_kerja_tahun')->where('status_karyawan', 0)->orderBy('masa_kerja_tahun', 'desc')->first();
 
