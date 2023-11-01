@@ -54,7 +54,7 @@ class KaryawanController extends Controller
         //get master posisi
         $posisi = MasterPosisi::where('status', 1)->get();
 
-        //menghitung umur
+        //menghitung umur dan masa kerja
         if($karyawan->isNotEmpty()){
             foreach ($karyawan as $k){
                 
@@ -97,6 +97,16 @@ class KaryawanController extends Controller
                     }
                 }
 
+                //status kerja training
+                if($k->status_kerja == 3){
+                    $k->update([
+                        // 'akhir_kontrak' => $akhir_kontrak,
+                        'masa_kontrak' => 0,
+                        'masa_kerja_bulan' => 0,
+                        'masa_kerja_tahun' => 0,
+                    ]);
+                }
+
                 //status kerja kontrak
                 $awal_kontrak = $k->tanggal_kontrak;
                 $masa_kontrak = $k->masa_kontrak;
@@ -123,25 +133,18 @@ class KaryawanController extends Controller
                 
                 //status kerja tetap
                 if($k->status_kerja == 2){
-                    // $masa_kontrak = $k->masa_kontrak;
-                    // $awal_kontrak =$k->tanggal_kontrak;
-                    $tanggal_karyawan_tetap =$k->tanggal_karyawan_tetap;
-                     //tanggal akhir kontrak
-                    $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
-                    //menghitung interval lama karyawan tetap
-                    $interval_pertama = date_diff(new DateTime($tanggal_karyawan_tetap), new DateTime($waktu_sekarang));
-                    // dd($interval_pertama);
-                    
-                    $masa_kerja = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month" . "+$interval_pertama->days day"));
-                    $new_tanggal_karyawan_tetap = new DateTime($awal_kontrak);
-                    $interval_kedua = $new_tanggal_karyawan_tetap->diff(new DateTime($masa_kerja));
-                    $all_time = $interval_kedua->format('%y tahun, %m bulan, %d hari');
-                    $masa_kerja_bulan = ($interval_kedua->y * 12) + $interval_kedua->m;
+                    $awal_kontrak =$k->tanggal_kontrak;
+                
+                    $interval_pertama = date_diff(new DateTime($awal_kontrak), new DateTime($waktu_sekarang));
+
+                    $all_time = $interval_pertama->format('%y tahun, %m bulan, %d hari');
+
+                    $masa_kerja_bulan = ($interval_pertama->y * 12) + $interval_pertama->m;
                     // dd($new2);
                     $k->update([
                         'masa_kerja_tahun' => $all_time,
                         'masa_kerja_bulan' => $masa_kerja_bulan,
-                        'akhir_kontrak' => $akhir_kontrak,
+                        // 'akhir_kontrak' => $akhir_kontrak,
                     ]);
                 }
             }
