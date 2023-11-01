@@ -437,7 +437,9 @@ class DashboardController extends Controller
         WHEN alasan_resign=2 THEN "Mendapatkan Pekerjaan Lain" 
         WHEN alasan_resign=3 THEN "Melanjutkan Pendidikan" 
         WHEN alasan_resign=4 THEN "Faktor Keluarga"
-        ELSE "Pekerjaan dan Passion Tidak Sejalan" END 
+        WHEN alasan_resign=5 THEN "Habis Kontrak"
+        WHEN alasan_resign=6 THEN "Usia Pensiun"
+        ELSE "Meninggal Dunia" END 
         AS title')
         ->selectRaw('COUNT(*) AS total')
         ->groupBy('title')
