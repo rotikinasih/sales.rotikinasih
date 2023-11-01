@@ -100,7 +100,7 @@ class KaryawanController extends Controller
                 //status kerja training
                 if($k->status_kerja == 3){
                     $k->update([
-                        // 'akhir_kontrak' => $akhir_kontrak,
+                        'akhir_kontrak' => null,
                         'masa_kontrak' => 0,
                         'masa_kerja_bulan' => 0,
                         'masa_kerja_tahun' => 0,

@@ -72,7 +72,7 @@ class DashboardController extends Controller
                 //status kerja training
                 if($k->status_kerja == 3){
                     $k->update([
-                        // 'akhir_kontrak' => $akhir_kontrak,
+                        'akhir_kontrak' => null,
                         'masa_kontrak' => 0,
                         'masa_kerja_bulan' => 0,
                         'masa_kerja_tahun' => 0,
@@ -490,8 +490,9 @@ class DashboardController extends Controller
         //menampilkan data karyawan tertua
         // $tertua = DB::table('karyawan')->where('umur', DB::raw("(select max(`umur`) from karyawan)"))->where('status_karyawan', 0)->first();
         $tertua = Karyawan::where('status_karyawan', 0)->orderBy('umur', 'desc')->first();
-        // $terlama = DB::table('karyawan')->where('masa_kerja_tahun', DB::raw("(select max(`masa_kerja_tahun`) from karyawan)"))->where('status_karyawan', 0)->first();
+        // $terlama = DB::table('karyawan')->where('masa_kerja_bulan', DB::raw("(select max(`masa_kerja_bulan`) from karyawan)"))->where('status_karyawan', 0)->first();
         $terlama = Karyawan::where('status_karyawan', 0)->orderBy('masa_kerja_bulan', 'desc')->first();
+        // dd($terlama);
 
         return Inertia::render('Apps/Dashboard/Index',[
             'hari_ini'                  => $day,
