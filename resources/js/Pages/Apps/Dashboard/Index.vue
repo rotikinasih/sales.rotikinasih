@@ -287,6 +287,9 @@
                                             <!-- <th>Foto</th> -->
                                             <th>Nama Lengkap</th>
                                             <th>Entitas</th>
+                                            <th>Divisi</th>
+                                            <th>Jabatan</th>
+                                            <th>posisi</th>
                                             <th>Tanggal Masuk</th>
                                         </tr>
                                     </thead>
@@ -299,6 +302,9 @@
                                                 <p class="m-0">{{ baru.nik_penduduk }}</p>
                                             </td>
                                             <td>{{ baru.perusahaan.nama_pt }}</td>
+                                            <td>{{ baru.divisi.nama_divisi }}</td>
+                                            <td>{{ baru.jabatan.nama_jabatan }}</td>
+                                            <td>{{ baru.posisi.nama_posisi }}</td>
                                             <td><h6 class="text-muted"><span class="label theme-bg text-white f-12">{{ baru.tanggal_masuk }}</span></h6></td>
                                         </tr>
                                         <!-- jika data kosong -->
@@ -339,7 +345,11 @@
                                             <th>#</th>
                                             <!-- <th>Foto</th> -->
                                             <th>Nama Lengkap</th>
+                                            <th>NIK (Karyawan)</th>
                                             <th>Entitas</th>
+                                            <th>Divisi</th>
+                                            <th>Jabatan</th>
+                                            <th>posisi</th>
                                             <th>Akhir Kontrak</th>
                                         </tr>
                                     </thead>
@@ -351,7 +361,11 @@
                                                 <h6 class="mb-1">{{ kontrak.nama_lengkap }}</h6>
                                                 <p class="m-0">{{ kontrak.nik_penduduk }}</p>
                                             </td>
+                                            <td>{{ kontrak.nik_karyawan }}</td>
                                             <td>{{ kontrak.perusahaan.nama_pt }}</td>
+                                            <td>{{ kontrak.divisi.nama_divisi }}</td>
+                                            <td>{{ kontrak.jabatan.nama_jabatan }}</td>
+                                            <td>{{ kontrak.posisi.nama_posisi }}</td>
                                             <td><span class="label theme-bg2 text-white f-12">{{ kontrak.akhir_kontrak }}</span></td>
                                         </tr>
                                         <!-- jika data kosong -->
@@ -388,27 +402,35 @@
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <thead>
-                                        <tr>
+                                        <tr class="text-center">
                                             <th>#</th>
                                             <!-- <th>Foto</th> -->
                                             <th>Nama Lengkap</th>
+                                            <th>NIK (Karyawan)</th>
                                             <th>Entitas</th>
+                                            <th>Divisi</th>
+                                            <th>Jabatan</th>
+                                            <th>posisi</th>
                                             <th>Jumlah Pelanggaran</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="unread" v-for="(pl, index) in data_pelanggaran" :key="index">
-                                            <td>{{ index + 1 }}</td>
+                                        <tr class="unread" v-for="(pl, index) in data_pelanggaran.data" :key="index">
+                                            <td class="text-center">{{ index + 1 }}</td>
                                             <!-- <td><img class="rounded-circle" style="width:40px;" v-if="pl.foto != null" :src="`/storage/${pl.foto}`" alt="activity-user"></td> -->
                                             <td>
                                                 <h6 class="mb-1">{{ pl.nama_lengkap }}</h6>
                                                 <p class="m-0">{{ pl.nik_penduduk }}</p>
                                             </td>
-                                            <td>{{ pl.nama_pt }}</td>
-                                            <td><h6 class="text-muted"><span class="label theme-bg3 text-white f-12">{{ pl.jumlah_pelanggaran }}</span></h6></td>
+                                            <td class="text-center">{{ pl.nik_karyawan }}</td>
+                                            <td class="text-center">{{ pl.nama_pt }}</td>
+                                            <td class="text-center">{{ pl.nama_divisi }}</td>
+                                            <td class="text-center">{{ pl.nama_jabatan }}</td>
+                                            <td class="text-center">{{ pl.nama_posisi }}</td>
+                                            <td class="text-center"><h6 class="text-muted"><span class="label theme-bg3 text-white f-12">{{ pl.jumlah_pelanggaran }}</span></h6></td>
                                         </tr>
                                         <!-- jika data kosong -->
-                                        <tr v-if="data_pelanggaran[0] == undefined">
+                                        <tr v-if="data_pelanggaran.data[0] == undefined">
                                             <td colspan="4" class="text-center">
                                                 <br>
                                                 <i class="fa fa-file-excel fa-5x"></i><br><br>
@@ -417,6 +439,14 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="row" style="max-width:100%; overflow-x:hidden">
+                                    <div class="col-md-4">
+                                        <label v-if="data_pelanggaran.data[0] != undefined" align="start">Showing {{ data_pelanggaran.from }} to {{ data_pelanggaran.to }} of {{ data_pelanggaran.total }} items</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <Pagination v-if="data_pelanggaran.data[0] != undefined" :links="data_pelanggaran.links" align="end"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
