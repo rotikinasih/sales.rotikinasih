@@ -294,8 +294,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="unread" v-for="(baru, index) in karyawan_baru.data" :key="index">
-                                            <td>{{ index + 1 }}</td>
+                                        <tr class="unread" v-for="(baru, index) in karyawan_baru" :key="index">
+                                            <td>{{ index + 1}}</td>
                                             <!-- <td><img class="rounded-circle" style="width:40px;" v-if="baru.foto != null" :src="`/storage/${baru.foto}`" alt="activity-user"></td> -->
                                             <td>
                                                 <h6 class="mb-1">{{ baru.nama_lengkap }}</h6>
@@ -308,7 +308,7 @@
                                             <td><h6 class="text-muted"><span class="label theme-bg text-white f-12">{{ baru.tanggal_masuk }}</span></h6></td>
                                         </tr>
                                         <!-- jika data kosong -->
-                                        <tr v-if="karyawan_baru.data[0] == undefined">
+                                        <tr v-if="karyawan_baru[0] == undefined">
                                             <td colspan="4" class="text-center">
                                                 <br>
                                                 <i class="fa fa-file-excel fa-5x"></i><br><br>
@@ -317,14 +317,14 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="row" style="max-width:100%; overflow-x:hidden">
+                                <!-- <div class="row" style="max-width:100%; overflow-x:hidden">
                                     <div class="col-md-4">
-                                        <label v-if="karyawan_baru.data[0] != undefined" align="start">Showing {{ karyawan_baru.from }} to {{ karyawan_baru.to }} of {{ karyawan_baru.total }} items</label>
+                                        <label v-if="karyawan_baru[0] != undefined" align="start">Showing {{ karyawan_baru.from }} to {{ karyawan_baru.to }} of {{ karyawan_baru.total }} items</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <Pagination v-if="karyawan_baru.data[0] != undefined" :links="karyawan_baru.links" align="end"/>
+                                        <Pagination v-if="karyawan_baru[0] != undefined" :links="karyawan_baru.links" align="end"/>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -354,7 +354,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="unread" v-for="(kontrak, index) in karyawan_kontrak.data" :key="index">
+                                        <tr class="unread" v-for="(kontrak, index) in karyawan_kontrak" :key="index">
                                             <td>{{ index + 1 }}</td>
                                             <!-- <td><img class="rounded-circle" style="width:40px;" v-if="kontrak.foto != null" :src="`/storage/${kontrak.foto}`" alt="activity-user"></td> -->
                                             <td>
@@ -369,7 +369,7 @@
                                             <td><span class="label theme-bg2 text-white f-12">{{ kontrak.akhir_kontrak }}</span></td>
                                         </tr>
                                         <!-- jika data kosong -->
-                                        <tr v-if="karyawan_kontrak.data[0] == undefined">
+                                        <tr v-if="karyawan_kontrak[0] == undefined">
                                             <td colspan="4" class="text-center">
                                                 <br>
                                                 <i class="fa fa-file-excel fa-5x"></i><br><br>
@@ -378,14 +378,14 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="row" style="max-width:100%; overflow-x:hidden">
+                                <!-- <div class="row" style="max-width:100%; overflow-x:hidden">
                                     <div class="col-md-4">
-                                        <label v-if="karyawan_kontrak.data[0] != undefined" align="start">Showing {{ karyawan_kontrak.from }} to {{ karyawan_kontrak.to }} of {{ karyawan_kontrak.total }} items</label>
+                                        <label v-if="karyawan_kontrak[0] != undefined" align="start">Showing {{ karyawan_kontrak.from }} to {{ karyawan_kontrak.to }} of {{ karyawan_kontrak.total }} items</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <Pagination v-if="karyawan_kontrak.data[0] != undefined" :links="karyawan_kontrak.links" align="end"/>
+                                        <Pagination v-if="karyawan_kontrak[0] != undefined" :links="karyawan_kontrak.links" align="end"/>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -415,7 +415,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="unread" v-for="(pl, index) in data_pelanggaran.data" :key="index">
+                                        <tr class="unread" v-for="(pl, index) in data_pelanggaran" :key="index">
                                             <td class="text-center">{{ index + 1 }}</td>
                                             <!-- <td><img class="rounded-circle" style="width:40px;" v-if="pl.foto != null" :src="`/storage/${pl.foto}`" alt="activity-user"></td> -->
                                             <td>
@@ -430,7 +430,7 @@
                                             <td class="text-center"><h6 class="text-muted"><span class="label theme-bg3 text-white f-12">{{ pl.jumlah_pelanggaran }}</span></h6></td>
                                         </tr>
                                         <!-- jika data kosong -->
-                                        <tr v-if="data_pelanggaran.data[0] == undefined">
+                                        <tr v-if="data_pelanggaran[0] == undefined">
                                             <td colspan="4" class="text-center">
                                                 <br>
                                                 <i class="fa fa-file-excel fa-5x"></i><br><br>
@@ -439,14 +439,14 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="row" style="max-width:100%; overflow-x:hidden">
+                                <!-- <div class="row" style="max-width:100%; overflow-x:hidden">
                                     <div class="col-md-4">
-                                        <label v-if="data_pelanggaran.data[0] != undefined" align="start">Showing {{ data_pelanggaran.from }} to {{ data_pelanggaran.to }} of {{ data_pelanggaran.total }} items</label>
+                                        <label v-if="data_pelanggaran[0] != undefined" align="start">Showing {{ data_pelanggaran.from }} to {{ data_pelanggaran.to }} of {{ data_pelanggaran.total }} items</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <Pagination v-if="data_pelanggaran.data[0] != undefined" :links="data_pelanggaran.links" align="end"/>
+                                        <Pagination v-if="data_pelanggaran[0] != undefined" :links="data_pelanggaran.links" align="end"/>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

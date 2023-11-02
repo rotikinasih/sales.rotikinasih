@@ -462,12 +462,12 @@ class DashboardController extends Controller
         
         //menampilkan data 1 bulan karyawan baru
         $bulan_lalu = date('Y-m-d', strtotime('-1 months'));
-        $karyawan_baru = Karyawan::with('perusahaan', 'divisi', 'jabatan', 'posisi')->where('tanggal_masuk', '>=', $bulan_lalu)->where('status_karyawan', 0)->latest()->paginate(5)->onEachSide(1);
+        $karyawan_baru = Karyawan::with('perusahaan', 'divisi', 'jabatan', 'posisi')->where('tanggal_masuk', '>=', $bulan_lalu)->where('status_karyawan', 0)->get();
 
         //menampilkan data karyawan yang habis kontrak 2 bulan sebelumnya
         $dua_bulan = date('Y-m-d', strtotime('-2 months'));
         $karyawan_kontrak = Karyawan::with('perusahaan', 'divisi', 'jabatan', 'posisi')->where('akhir_kontrak', '>=', $dua_bulan)->where('status_karyawan', 0)
-        ->orderBy('akhir_kontrak', 'asc')->latest()->paginate(5)->onEachSide(1);
+        ->orderBy('akhir_kontrak', 'asc')->get();
 
         //menampilkan data karyawan yang mempunyai 3 pelanggaran atau lebih
         $data_pelanggaran = DB::table('karyawan')
@@ -476,13 +476,14 @@ class DashboardController extends Controller
                 ->join('master_divisi', 'karyawan.pt_id', '=', 'master_divisi.id' )
                 ->join('master_jabatan', 'karyawan.pt_id', '=', 'master_jabatan.id' )
                 ->join('master_posisi', 'karyawan.pt_id', '=', 'master_posisi.id' )
-                ->select('karyawan.*', DB::raw('count(karyawan.id) as jumlah_pelanggaran'), 'catatan_pelanggaran.karyawan_id', 'master_perusahaan.nama_pt', 'master_divisi.nama_divisi', 'master_jabatan.nama_jabatan', 'master_posisi.nama_posisi')
+                ->select('karyawan.*', DB::raw('count(karyawan.id) as jumlah_pelanggaran'), 'catatan_pelanggaran.karyawan_id', 'catatan_pelanggaran.tanggal', 'master_perusahaan.nama_pt', 'master_divisi.nama_divisi', 'master_jabatan.nama_jabatan', 'master_posisi.nama_posisi')
                 // ->select(array('catatan_pelanggaran.catatan'))
                 ->having(DB::raw('count(karyawan.id)'), '>=', 3)
                 ->groupBy('karyawan.id')
                 ->orderBy('karyawan.nama_lengkap', 'desc')
-                // ->where('karyawan.status_karyawan', 0)
-                ->latest()->paginate(5)->onEachSide(1);
+                ->where('karyawan.status_karyawan', 0)
+                ->whereRaw('catatan_pelanggaran.tanggal >= DATE_SUB(NOW(), INTERVAL 3 MONTH)')
+                ->get();
 
         //total karyawan aktif
         $total_karyawan_aktif = Karyawan::where('status_karyawan', 0)->count();
@@ -496,7 +497,7 @@ class DashboardController extends Controller
         // $tertua = DB::table('karyawan')->where('umur', DB::raw("(select max(`umur`) from karyawan)"))->where('status_karyawan', 0)->first();
         $tertua = Karyawan::where('status_karyawan', 0)->orderBy('umur', 'desc')->first();
         // $terlama = DB::table('karyawan')->where('masa_kerja_bulan', DB::raw("(select max(`masa_kerja_bulan`) from karyawan)"))->where('status_karyawan', 0)->first();
-        $terlama = Karyawan::where('status_karyawan', 0)->orderBy('masa_kerja_bulan', 'desc')->first();
+        $terlama = Karyawan::where('status_karyawan', 0)->orderBy('masa_kerja_bulan', 'desc')->where('jabatan_id', '!=', 1)->first();
         // dd($terlama);
 
         return Inertia::render('Apps/Dashboard/Index',[
