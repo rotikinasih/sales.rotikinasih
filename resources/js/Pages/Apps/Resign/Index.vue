@@ -38,8 +38,8 @@
                             <tbody>
                                 <tr v-for="(resign, index) in karyawan_resign.data" :key="index">
                                     <td class="text-center">{{ index + karyawan_resign.from }}</td>
-                                    <td>{{ resign.karyawan.nama_lengkap }}</td>
-                                    <td>{{ resign.karyawan.nik_karyawan }}</td>
+                                    <td>{{ resign.nama_lengkap }}</td>
+                                    <td>{{ resign.nik_karyawan }}</td>
                                     <!-- <td v-if="(resign.karyawan.pt_id == null)"></td>
                                     <td v-if="(resign.karyawan.pt_id)">{{ resign.karyawan.perusahaan.nama_pt }}</td>
                                     <td v-if="(resign.karyawan.divisi_id == null)"></td>

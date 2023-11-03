@@ -18,16 +18,23 @@ class PHKController extends Controller
     {
         $search = request()->search;
         //get perusahaan
-        $karyawan_phk = KaryawanPHK::with('karyawan', 'karyawan.perusahaan', 'karyawan.divisi')->whereHas('karyawan', function ($query) use ($search) {
-            $query->where('nama_lengkap', 'like', '%'. $search . '%');
-        })->latest()->paginate(10)->onEachSide(1);
+        $karyawan_phk = KaryawanPHK::select('karyawan_phk.*', 'karyawan.nama_lengkap', 'karyawan.nik_karyawan')
+            ->join('karyawan', 'karyawan_phk.karyawan_id', '=', 'karyawan.id')
+            ->orderBy('karyawan.nik_karyawan', 'asc');
+
+        if ($search == null) {
+            $result = $karyawan_phk->paginate(10)->onEachSide(1);
+        }else{
+            $karyawan_phk->where('karyawan.nama_lengkap', 'like', '%' . $search . '%');
+            $result = $karyawan_phk->paginate(10)->onEachSide(1);
+        }
 
         $karyawan = Karyawan::where('status_karyawan', 0)->get();
         $karyawan_edit = Karyawan::all();
 
         //return inertia
         return Inertia::render('Apps/PHK/Index',[
-            'karyawan_phk' => $karyawan_phk,
+            'karyawan_phk' => $result,
             'karyawan' => $karyawan,
             'karyawan_edit' => $karyawan_edit,
         ]);

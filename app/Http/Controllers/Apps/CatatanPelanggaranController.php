@@ -38,7 +38,11 @@ class CatatanPelanggaranController extends Controller
         //get list
         $lists = CatatanPelanggaran::with('karyawan')->whereHas('karyawan', function($q) use($search){
             $q->where('catatan', 'like', '%'. $search . '%');
-            })->orderBy('tanggal', 'DESC')->latest()->paginate(10)->onEachSide(1);
+            })
+            ->orderBy('status', 'ASC')
+            ->orderBy('tanggal', 'DESC')
+            ->paginate(10)
+            ->onEachSide(1);
 
             // dd($lists);
         //get karyawan

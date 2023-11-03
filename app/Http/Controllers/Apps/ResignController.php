@@ -18,17 +18,28 @@ class ResignController extends Controller
     public function index()
     {
         $search = request()->search;
-        //get perusahaan
-        $karyawan_resign = KaryawanResign::with('karyawan', 'karyawan.perusahaan', 'karyawan.divisi')->whereHas('karyawan', function ($query) use ($search) {
-            $query->where('nama_lengkap', 'like', '%'. $search . '%');
-        })->latest()->paginate(10)->onEachSide(1);
+
+        $karyawan_resign = KaryawanResign::select('karyawan_resign.*', 'karyawan.nama_lengkap', 'karyawan.nik_karyawan')
+            ->join('karyawan', 'karyawan_resign.karyawan_id', '=', 'karyawan.id')
+            ->orderBy('karyawan.nik_karyawan', 'asc');
+
+        if ($search == null) {
+            $result = $karyawan_resign->paginate(10)->onEachSide(1);
+        }else{
+            $karyawan_resign->where('karyawan.nama_lengkap', 'like', '%' . $search . '%');
+            $result = $karyawan_resign->paginate(10)->onEachSide(1);
+        }
+
+        // dd($result);
+
+
 
         $karyawan = Karyawan::where('status_karyawan', 0)->get();
         $karyawan_edit = Karyawan::all();
 
         //return inertia
         return Inertia::render('Apps/Resign/Index',[
-            'karyawan_resign' => $karyawan_resign,
+            'karyawan_resign' => $result,
             'karyawan' => $karyawan,
             'karyawan_edit' => $karyawan_edit
         ]);
