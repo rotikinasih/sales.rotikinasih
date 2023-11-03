@@ -275,7 +275,7 @@
             <div class="col-md-12">
                 <div class="card Recent-Users">
                     <div class="card-header">
-                        <h5>Karyawan Baru di Bulan ini</h5>
+                        <h5>Karyawan Baru Kurang Lebih 1 bulan</h5>
                     </div>
                     <div class="card-block px-0 py-3">
                         <div class="container">
@@ -309,7 +309,7 @@
                                         </tr>
                                         <!-- jika data kosong -->
                                         <tr v-if="karyawan_baru[0] == undefined">
-                                            <td colspan="4" class="text-center">
+                                            <td colspan="8" class="text-center">
                                                 <br>
                                                 <i class="fa fa-file-excel fa-5x"></i><br><br>
                                                     Data Kosong
@@ -370,7 +370,7 @@
                                         </tr>
                                         <!-- jika data kosong -->
                                         <tr v-if="karyawan_kontrak[0] == undefined">
-                                            <td colspan="4" class="text-center">
+                                            <td colspan="8" class="text-center">
                                                 <br>
                                                 <i class="fa fa-file-excel fa-5x"></i><br><br>
                                                     Data Kosong
@@ -431,7 +431,7 @@
                                         </tr>
                                         <!-- jika data kosong -->
                                         <tr v-if="data_pelanggaran[0] == undefined">
-                                            <td colspan="4" class="text-center">
+                                            <td colspan="8" class="text-center">
                                                 <br>
                                                 <i class="fa fa-file-excel fa-5x"></i><br><br>
                                                     Data Kosong

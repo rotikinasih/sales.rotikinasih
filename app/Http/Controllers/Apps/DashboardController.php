@@ -461,13 +461,21 @@ class DashboardController extends Controller
 
         
         //menampilkan data 1 bulan karyawan baru
-        $bulan_lalu = date('Y-m-d', strtotime('-1 months'));
-        $karyawan_baru = Karyawan::with('perusahaan', 'divisi', 'jabatan', 'posisi')->where('tanggal_masuk', '>=', $bulan_lalu)->where('status_karyawan', 0)->get();
+        // $bulan_lalu = date('Y-m-d', strtotime('-1 months'));
+        $karyawan_baru = Karyawan::with('perusahaan', 'divisi', 'jabatan', 'posisi')
+        ->whereDate('tanggal_masuk', '>=', now()->subMonths(1))
+        ->whereDate('tanggal_masuk', '<=', now())
+        ->where('status_karyawan', 0)
+        ->get();
 
         //menampilkan data karyawan yang habis kontrak 2 bulan sebelumnya
-        $dua_bulan = date('Y-m-d', strtotime('-2 months'));
-        $karyawan_kontrak = Karyawan::with('perusahaan', 'divisi', 'jabatan', 'posisi')->where('akhir_kontrak', '>=', $dua_bulan)->where('status_karyawan', 0)
-        ->orderBy('akhir_kontrak', 'asc')->get();
+        // $dua_bulan = date('Y-m-d', strtotime('-2 months'));
+        $karyawan_kontrak = Karyawan::with('perusahaan', 'divisi', 'jabatan', 'posisi')
+        ->whereDate('akhir_kontrak', '<=', now())
+        ->whereDate('akhir_kontrak', '>=', now()->subMonths(2))
+        ->where('status_karyawan', 0)
+        ->orderBy('akhir_kontrak', 'asc')
+        ->get();
 
         //menampilkan data karyawan yang mempunyai 3 pelanggaran atau lebih
         $data_pelanggaran = DB::table('karyawan')

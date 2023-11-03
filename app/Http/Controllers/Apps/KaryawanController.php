@@ -113,11 +113,12 @@ class KaryawanController extends Controller
                 $waktu_sekarang = date('Y-m-d');
                 if($k->status_kerja == 1){
                     //tanggal akhir kontrak
-                    if($k->tanggal_kontrak){
-                        $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
-                    }else{
+                    if($k->tanggal_kontrak == null || $k->tanggal_kontrak == 0 || $k->tanggal_kontrak == '0'){
                         $akhir_kontrak =  null;
+                    }else{
+                        $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
                     }
+
                     $new_awal_kontrak = new DateTime($awal_kontrak);
                     //menghitung interval lama kontrak
                     $interval = $new_awal_kontrak->diff(new DateTime($waktu_sekarang));

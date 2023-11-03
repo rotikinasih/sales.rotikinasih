@@ -210,6 +210,10 @@
                                                 <input disabled type="number" class="form-control" v-model="form.masa_kontrak" placeholder="">
                                             </div>
                                             <div class="mb-3">
+                                                <label class="fw-bold">Akhir Kontrak</label>
+                                                <input disabled type="date" class="form-control" v-model="form.akhir_kontrak" placeholder="">
+                                            </div>
+                                            <div class="mb-3">
                                                 <label class="fw-bold">Tanggal Karyawan Tetap</label>
                                                 <input disabled type="date" class="form-control" v-model="form.tanggal_karyawan_tetap" placeholder="">
                                             </div>
@@ -626,6 +630,7 @@
                 posisi_awal_diterima: props.karyawan.posisi_awal_diterima,
                 tanggal_masuk: props.karyawan.tanggal_masuk,
                 tanggal_kontrak: props.karyawan.tanggal_kontrak,
+                akhir_kontrak: props.karyawan.akhir_kontrak,
                 tanggal_karyawan_tetap: props.karyawan.tanggal_karyawan_tetap,
                 masa_kontrak: props.karyawan.masa_kontrak,
                 kota_rekruitmen: props.karyawan.kota_rekruitmen,
@@ -695,6 +700,7 @@
                         komposisi_karyawan: form.komposisi_karyawan ? form.komposisi_karyawan.value : '',
                         komposisi_peran: form.komposisi_peran ? form.komposisi_peran.value : '',
                         tanggal_kontrak: form.tanggal_kontrak,
+                        akhir_kontrak: form.akhir_kontrak,
                         tanggal_karyawan_tetap: form.tanggal_karyawan_tetap,
                         masa_kontrak: form.masa_kontrak,
                         kota_rekruitmen: form.kota_rekruitmen,
@@ -760,6 +766,7 @@
                         komposisi_karyawan: form.komposisi_karyawan ? form.komposisi_karyawan.value : '',
                         komposisi_peran: form.komposisi_peran ? form.komposisi_peran.value : '',
                         tanggal_kontrak: form.tanggal_kontrak,
+                        akhir_kontrak: form.akhir_kontrak,
                         tanggal_karyawan_tetap: form.tanggal_karyawan_tetap,
                         masa_kontrak: form.masa_kontrak,
                         kota_rekruitmen: form.kota_rekruitmen,
