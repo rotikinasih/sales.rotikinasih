@@ -29,100 +29,103 @@ class DashboardController extends Controller
         //menghitung umur dan masa kerja
         if($karyawan->isNotEmpty()){
             foreach ($karyawan as $k){
-                
-                $now = Carbon::now()->isoFormat('Y-MM-D');
-                $tanggal_lahir = $k->tanggal_lahir;
-                // cek tanggal lahir
-                if($tanggal_lahir == null){
-                    $tahun_lahir = 'null';
-                    $age = 0;
-                    //update umur karyawan
-                    $k->update(['umur' => $age]);
-                    // update komposisi generasi
-                    $k->update(['komposisi_generasi' => null]);
-                }else{
-                    $tahun_lahir = date('Y', strtotime($k->tanggal_lahir));
-                    $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
-                    //update umur karyawan
-                    $k->update(['umur' => $age]);
-
-                    // update komposisi generasi
-                    //gen Boomers (1946-1964)
-                    if($tahun_lahir >= 1946 && $tahun_lahir <= 1964){
-                        $k->update(['komposisi_generasi' => 'Gen Boomers']);
-                    }
-                    //gen X (1965-1980)
-                    if($tahun_lahir >= 1965 && $tahun_lahir <= 1980){
-                        $k->update(['komposisi_generasi' => 'Gen X']);
-                    }
-                    //gen Y atau Milenial(1981-1996)
-                    if($tahun_lahir >= 1981 && $tahun_lahir <= 1996){
-                        $k->update(['komposisi_generasi' => 'Gen Milenial']);
-                    }
-                    //gen Z (1997-2012)
-                    if($tahun_lahir >= 1997 && $tahun_lahir <= 2012){
-                        $k->update(['komposisi_generasi' => 'Gen Z']);
-                    }
-                    //gen Alpha/Milenium (2013-2025)
-                    if($tahun_lahir >= 2013 && $tahun_lahir <= 2025){
-                        $k->update(['komposisi_generasi' => 'Gen Alpha']);
-                    }
-                }
-
-                //status kerja training
-                if($k->status_kerja == 3){
-                    $k->update([
-                        'akhir_kontrak' => null,
-                        'masa_kontrak' => 0,
-                        'masa_kerja_bulan' => 0,
-                        'masa_kerja_tahun' => 0,
-                    ]);
-                }
-
-                //status kerja kontrak
-                $awal_kontrak = $k->tanggal_kontrak;
-                $masa_kontrak = $k->masa_kontrak;
-                $waktu_sekarang = date('Y-m-d');
-                if($k->status_kerja == 1){
-                    //tanggal akhir kontrak
-                    if($k->tanggal_kontrak){
-                        $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
+                 //jika status kerja = 0 (masih kerja), (1 = resign, 2 = phk)
+                if($k->status_karyawan == null || $k->status_karyawan == 0 || $k->status_karyawan == '0'){
+                    $now = Carbon::now()->isoFormat('Y-MM-D');
+                    $tanggal_lahir = $k->tanggal_lahir;
+                    // cek tanggal lahir
+                    if($tanggal_lahir == null){
+                        $tahun_lahir = 'null';
+                        $age = 0;
+                        //update umur karyawan
+                        $k->update(['umur' => $age]);
+                        // update komposisi generasi
+                        $k->update(['komposisi_generasi' => null]);
                     }else{
-                        $akhir_kontrak =  null;
+                        $tahun_lahir = date('Y', strtotime($k->tanggal_lahir));
+                        $age = Carbon::parse($tanggal_lahir)->diffInYears($now);
+                        //update umur karyawan
+                        $k->update(['umur' => $age]);
+
+                        // update komposisi generasi
+                        //gen Boomers (1946-1964)
+                        if($tahun_lahir >= 1946 && $tahun_lahir <= 1964){
+                            $k->update(['komposisi_generasi' => 'Gen Boomers']);
+                        }
+                        //gen X (1965-1980)
+                        if($tahun_lahir >= 1965 && $tahun_lahir <= 1980){
+                            $k->update(['komposisi_generasi' => 'Gen X']);
+                        }
+                        //gen Y atau Milenial(1981-1996)
+                        if($tahun_lahir >= 1981 && $tahun_lahir <= 1996){
+                            $k->update(['komposisi_generasi' => 'Gen Milenial']);
+                        }
+                        //gen Z (1997-2012)
+                        if($tahun_lahir >= 1997 && $tahun_lahir <= 2012){
+                            $k->update(['komposisi_generasi' => 'Gen Z']);
+                        }
+                        //gen Alpha/Milenium (2013-2025)
+                        if($tahun_lahir >= 2013 && $tahun_lahir <= 2025){
+                            $k->update(['komposisi_generasi' => 'Gen Alpha']);
+                        }
                     }
-                    $new_awal_kontrak = new DateTime($awal_kontrak);
-                    //menghitung interval lama kontrak
-                    $interval = $new_awal_kontrak->diff(new DateTime($waktu_sekarang));
 
-                    $years = $interval->y;
-                    $months = $interval->m;
+                    //status kerja training
+                    if($k->status_kerja == 3){
+                        $k->update([
+                            'akhir_kontrak' => null,
+                            'masa_kontrak' => 0,
+                            'masa_kerja_bulan' => 0,
+                            'masa_kerja_tahun' => 0,
+                        ]);
+                    }
 
-                    $masa_kerja_bulan = $years * 12 + $months;
-                    //format interval lama kontrak
-                    $masa_kerja_tahun = $interval->format('%y tahun, %m bulan, %d hari');
+                    //status kerja kontrak
+                    $awal_kontrak = $k->tanggal_kontrak;
+                    $masa_kontrak = $k->masa_kontrak;
+                    $waktu_sekarang = date('Y-m-d');
+                    if($k->status_kerja == 1){
+                        //tanggal akhir kontrak
+                        if($k->tanggal_kontrak == null || $k->tanggal_kontrak == 0 || $k->tanggal_kontrak == '0'){
+                            $akhir_kontrak =  null;
+                        }else{
+                            $akhir_kontrak = date('Y-m-d', strtotime( $awal_kontrak . "+$masa_kontrak month"));
+                        }
 
-                    $k->update([
-                        'akhir_kontrak' => $akhir_kontrak,
-                        'masa_kerja_bulan' => $masa_kerja_bulan,
-                        'masa_kerja_tahun' => $masa_kerja_tahun,
-                    ]);
-                }
-                
-                //status kerja tetap
-                if($k->status_kerja == 2){
-                    $awal_kontrak =$k->tanggal_kontrak;
-                
-                    $interval_pertama = date_diff(new DateTime($awal_kontrak), new DateTime($waktu_sekarang));
+                        $new_awal_kontrak = new DateTime($awal_kontrak);
+                        //menghitung interval lama kontrak
+                        $interval = $new_awal_kontrak->diff(new DateTime($waktu_sekarang));
 
-                    $all_time = $interval_pertama->format('%y tahun, %m bulan, %d hari');
+                        $years = $interval->y;
+                        $months = $interval->m;
 
-                    $masa_kerja_bulan = ($interval_pertama->y * 12) + $interval_pertama->m;
-                    // dd($new2);
-                    $k->update([
-                        'masa_kerja_tahun' => $all_time,
-                        'masa_kerja_bulan' => $masa_kerja_bulan,
-                        // 'akhir_kontrak' => $akhir_kontrak,
-                    ]);
+                        $masa_kerja_bulan = $years * 12 + $months;
+                        //format interval lama kontrak
+                        $masa_kerja_tahun = $interval->format('%y tahun, %m bulan, %d hari');
+
+                        $k->update([
+                            'akhir_kontrak' => $akhir_kontrak,
+                            'masa_kerja_bulan' => $masa_kerja_bulan,
+                            'masa_kerja_tahun' => $masa_kerja_tahun,
+                        ]);
+                    }
+                    
+                    //status kerja tetap
+                    if($k->status_kerja == 2){
+                        $awal_kontrak =$k->tanggal_kontrak;
+                    
+                        $interval_pertama = date_diff(new DateTime($awal_kontrak), new DateTime($waktu_sekarang));
+
+                        $all_time = $interval_pertama->format('%y tahun, %m bulan, %d hari');
+
+                        $masa_kerja_bulan = ($interval_pertama->y * 12) + $interval_pertama->m;
+                        // dd($new2);
+                        $k->update([
+                            'masa_kerja_tahun' => $all_time,
+                            'masa_kerja_bulan' => $masa_kerja_bulan,
+                            // 'akhir_kontrak' => $akhir_kontrak,
+                        ]);
+                    }
                 }
             }
         }
