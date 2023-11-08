@@ -287,9 +287,9 @@
                                             <!-- <th>Foto</th> -->
                                             <th>Nama Lengkap</th>
                                             <th>Entitas</th>
-                                            <th>Divisi</th>
+                                            <!-- <th>Divisi</th>
                                             <th>Jabatan</th>
-                                            <th>posisi</th>
+                                            <th>Posisi</th> -->
                                             <th>Tanggal Masuk</th>
                                         </tr>
                                     </thead>
@@ -302,9 +302,9 @@
                                                 <p class="m-0">{{ baru.nik_penduduk }}</p>
                                             </td>
                                             <td>{{ baru.perusahaan.nama_pt }}</td>
-                                            <td>{{ baru.divisi.nama_divisi }}</td>
+                                            <!-- <td>{{ baru.divisi.nama_divisi }}</td>
                                             <td>{{ baru.jabatan.nama_jabatan }}</td>
-                                            <td>{{ baru.posisi.nama_posisi }}</td>
+                                            <td>{{ baru.posisi.nama_posisi }}</td> -->
                                             <td><h6 class="text-muted"><span class="label theme-bg text-white f-12">{{ baru.tanggal_masuk }}</span></h6></td>
                                         </tr>
                                         <!-- jika data kosong -->
@@ -347,9 +347,9 @@
                                             <th>Nama Lengkap</th>
                                             <th>NIK (Karyawan)</th>
                                             <th>Entitas</th>
-                                            <th>Divisi</th>
+                                            <!-- <th>Divisi</th>
                                             <th>Jabatan</th>
-                                            <th>posisi</th>
+                                            <th>Posisi</th> -->
                                             <th>Akhir Kontrak</th>
                                         </tr>
                                     </thead>
@@ -363,9 +363,9 @@
                                             </td>
                                             <td>{{ kontrak.nik_karyawan }}</td>
                                             <td>{{ kontrak.perusahaan.nama_pt }}</td>
-                                            <td>{{ kontrak.divisi.nama_divisi }}</td>
+                                            <!-- <td>{{ kontrak.divisi.nama_divisi }}</td>
                                             <td>{{ kontrak.jabatan.nama_jabatan }}</td>
-                                            <td>{{ kontrak.posisi.nama_posisi }}</td>
+                                            <td>{{ kontrak.posisi.nama_posisi }}</td> -->
                                             <td><span class="label theme-bg2 text-white f-12">{{ kontrak.akhir_kontrak }}</span></td>
                                         </tr>
                                         <!-- jika data kosong -->
@@ -402,16 +402,16 @@
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <thead>
-                                        <tr class="text-center">
+                                        <tr class="">
                                             <th>#</th>
                                             <!-- <th>Foto</th> -->
                                             <th>Nama Lengkap</th>
                                             <th>NIK (Karyawan)</th>
                                             <th>Entitas</th>
-                                            <th>Divisi</th>
+                                            <!-- <th>Divisi</th>
                                             <th>Jabatan</th>
-                                            <th>posisi</th>
-                                            <th>Jumlah Pelanggaran</th>
+                                            <th>Posisi</th> -->
+                                            <th class="text-center">Jumlah Pelanggaran</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -422,11 +422,11 @@
                                                 <h6 class="mb-1">{{ pl.nama_lengkap }}</h6>
                                                 <p class="m-0">{{ pl.nik_penduduk }}</p>
                                             </td>
-                                            <td class="text-center">{{ pl.nik_karyawan }}</td>
-                                            <td class="text-center">{{ pl.nama_pt }}</td>
-                                            <td class="text-center">{{ pl.nama_divisi }}</td>
-                                            <td class="text-center">{{ pl.nama_jabatan }}</td>
-                                            <td class="text-center">{{ pl.nama_posisi }}</td>
+                                            <td>{{ pl.nik_karyawan }}</td>
+                                            <td>{{ pl.nama_pt }}</td>
+                                            <!-- <td class="text-center">{{ pl.nama_divisi }}</td> -->
+                                            <!-- <td class="text-center">{{ pl.nama_jabatan }}</td> -->
+                                            <!-- <td class="text-center">{{ pl.nama_posisi }}</td> -->
                                             <td class="text-center"><h6 class="text-muted"><span class="label theme-bg3 text-white f-12">{{ pl.jumlah_pelanggaran }}</span></h6></td>
                                         </tr>
                                         <!-- jika data kosong -->

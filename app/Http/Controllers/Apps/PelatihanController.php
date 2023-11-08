@@ -23,7 +23,7 @@ class PelatihanController extends Controller
         ->whereHas('karyawan', function ($q) use ($search) {
             $q->where('nama_lengkap', 'like', '%' . $search . '%');
         })
-        ->orderBy('tanggal_pelatihan', 'desc')
+        ->orderBy('created_at', 'desc')
         ->paginate(10)
         ->onEachSide(1);
 
@@ -64,7 +64,8 @@ class PelatihanController extends Controller
             'karyawan_id'             => 'required',
             'kategori_pelatihan'      => 'required',
             'nama_pelatihan'          => 'required',
-            'tanggal_pelatihan'       => 'required',
+            'tanggal_mulai'           => 'required',
+            // 'tanggal_selesai'       => 'required',
         ]);
 
         //create phk
@@ -72,7 +73,8 @@ class PelatihanController extends Controller
             'karyawan_id'             => $request->karyawan_id,
             'kategori_pelatihan'      => $request->kategori_pelatihan,
             'nama_pelatihan'          => $request->nama_pelatihan,
-            'tanggal_pelatihan'       => $request->tanggal_pelatihan,
+            'tanggal_mulai'           => $request->tanggal_mulai,
+            'tanggal_selesai'         => $request->tanggal_selesai,
             'durasi_pelatihan'        => $request->durasi_pelatihan,
             'created_id'              => Auth::id(),
         ];
@@ -92,14 +94,15 @@ class PelatihanController extends Controller
             'karyawan_id'             => 'required',
             'kategori_pelatihan'      => 'required',
             'nama_pelatihan'          => 'required',
-            'tanggal_pelatihan'       => 'required',
+            'tanggal_mulai'           => 'required',
         ]);
         //update divisi
         $data = [
             'karyawan_id'             => $request->karyawan_id,
             'kategori_pelatihan'      => $request->kategori_pelatihan,
             'nama_pelatihan'          => $request->nama_pelatihan,
-            'tanggal_pelatihan'       => $request->tanggal_pelatihan,
+            'tanggal_mulai'           => $request->tanggal_mulai,
+            'tanggal_selesai'         => $request->tanggal_selesai,
             'durasi_pelatihan'        => $request->durasi_pelatihan,
         ];
         $ubahData = Pelatihan::findOrFail($id);

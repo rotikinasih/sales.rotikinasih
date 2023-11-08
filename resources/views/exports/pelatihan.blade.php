@@ -15,7 +15,8 @@
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Nama Lengkap</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Nama Pelatihan</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Kategori Pelatihan</th>
-            <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Tanggal</th>
+            <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Tanggal Mulai</th>
+            <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Tanggal Selesai</th>
             <th scope="col" style="background-color: yellow; text-align: center; width: 4cm; border: 1px solid black;">Durasi (Jam)</th>
         </tr>
     </thead>
@@ -40,7 +41,8 @@
                     Pemerintah
                 @endif
             </td>
-            <td scope="col" style="border: 1px solid black;">{{ $val->tanggal_pelatihan}}</td>
+            <td scope="col" style="border: 1px solid black;">{{ $val->tanggal_mulai}}</td>
+            <td scope="col" style="border: 1px solid black;">{{ $val->tanggal_selesai}}</td>
             <td scope="col" style="border: 1px solid black;">{{ $val->durasi_pelatihan}}</td>
         </tr>
         @endforeach

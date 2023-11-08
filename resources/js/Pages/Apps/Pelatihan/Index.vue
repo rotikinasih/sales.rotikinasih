@@ -30,7 +30,8 @@
                                     <th class="text-center">Nama Karyawan</th>
                                     <th class="text-center">Kategori Pelatihan</th>
                                     <th class="text-center">Nama Pelatihan</th>
-                                    <th class="text-center">Tanggal </th>
+                                    <th class="text-center">Tanggal Mulai</th>
+                                    <th class="text-center">Tanggal Selesai</th>
                                     <th class="text-center">Durasi (Jam)</th>
                                     <th class="text-center" v-if="hasAnyPermission(['apps.pelatihan.edit'])">Aksi</th>
                                 </tr>
@@ -44,7 +45,8 @@
                                     <td v-if="(plth.kategori_pelatihan == 2)">Personal (Individu)</td>
                                     <td v-if="(plth.kategori_pelatihan == 3)">Pemerintah</td>
                                     <td>{{ plth.nama_pelatihan}}</td>
-                                    <td>{{ plth.tanggal_pelatihan}}</td>
+                                    <td>{{ plth.tanggal_mulai}}</td>
+                                    <td>{{ plth.tanggal_selesai}}</td>
                                     <td class="text-center">{{ plth.durasi_pelatihan }}</td>
                                     <td class="text-center" v-if="hasAnyPermission(['apps.pelatihan.edit'])">
                                         <a @click="editData(plth)" v-if="hasAnyPermission(['apps.pelatihan.edit'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
@@ -112,8 +114,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label class="col-form-label">Tanggal Pelatihan :</label>
-                                <input type="date" class="form-control" placeholder="Masukkan Tanggal Pelatihan" v-model="tanggal_pelatihan" required>
+                                <label class="col-form-label">Tanggal Mulai :</label>
+                                <input type="date" class="form-control" placeholder="Masukkan Tanggal Mulai" v-model="tanggal_mulai" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="col-form-label">Tanggal Selesai :</label>
+                                <input type="date" class="form-control" placeholder="Masukkan Tanggal Selesai" v-model="tanggal_selesai" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -197,7 +205,8 @@
             const karyawan_id_edit = ref();
             const kategori_pelatihan = ref();
             const nama_pelatihan = ref();
-            const tanggal_pelatihan = ref();
+            const tanggal_mulai = ref();
+            const tanggal_selesai = ref();
             const durasi_pelatihan = ref();
             // define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
@@ -235,7 +244,8 @@
                 karyawan_id.value = null
                 kategori_pelatihan.value = null
                 nama_pelatihan.value = null
-                tanggal_pelatihan.value = null
+                tanggal_mulai.value = null
+                tanggal_selesai.value = null
                 durasi_pelatihan.value = null
                 tampilModal()
             }
@@ -267,7 +277,8 @@
                 judul.value = 'Edit Pelatihan'
                 id.value = plth.id
                 nama_pelatihan.value = plth.nama_pelatihan
-                tanggal_pelatihan.value = plth.tanggal_pelatihan
+                tanggal_mulai.value = plth.tanggal_mulai
+                tanggal_selesai.value = plth.tanggal_selesai
                 durasi_pelatihan.value = plth.durasi_pelatihan
                 tampilModal()
             }
@@ -288,7 +299,7 @@
 
             //method update data
             const updateData = () => {
-                if(karyawan_id.value == null || kategori_pelatihan.value == null || nama_pelatihan.value == null || tanggal_pelatihan.value == null){
+                if(karyawan_id.value == null || kategori_pelatihan.value == null || nama_pelatihan.value == null || tanggal_mulai.value == null){
                     tutupModal();
                     peringatan();
                 }else{
@@ -298,7 +309,8 @@
                         karyawan_id: karyawan_id.value.id,
                         kategori_pelatihan: kategori_pelatihan.value.value,
                         nama_pelatihan: nama_pelatihan.value,
-                        tanggal_pelatihan: tanggal_pelatihan.value,
+                        tanggal_mulai: tanggal_mulai.value,
+                        tanggal_selesai: tanggal_selesai.value,
                         durasi_pelatihan: durasi_pelatihan.value,
                     }, {
                         onSuccess: () => {
@@ -318,7 +330,7 @@
 
             //method "storeData"
             const storeData = () => {
-                if(karyawan_id.value == null || kategori_pelatihan.value == null || nama_pelatihan.value == null || tanggal_pelatihan.value == null){
+                if(karyawan_id.value == null || kategori_pelatihan.value == null || nama_pelatihan.value == null || tanggal_mulai.value == null){
                     tutupModal();
                     peringatan();
                 }
@@ -329,7 +341,8 @@
                         karyawan_id: karyawan_id.value.id,
                         kategori_pelatihan: kategori_pelatihan.value.value,
                         nama_pelatihan: nama_pelatihan.value,
-                        tanggal_pelatihan: tanggal_pelatihan.value,
+                        tanggal_mulai: tanggal_mulai.value,
+                        tanggal_selesai: tanggal_selesai.value,
                         durasi_pelatihan: durasi_pelatihan.value,
                         
                     }, {
@@ -355,7 +368,7 @@
                 editData,
                 judul,
                 updateSubmit,
-                nama_lengkap, id, karyawan_id, kategori_pelatihan, nama_pelatihan, tanggal_pelatihan, durasi_pelatihan, karyawan_id_edit, 
+                nama_lengkap, id, karyawan_id, kategori_pelatihan, nama_pelatihan, tanggal_mulai, tanggal_selesai, durasi_pelatihan, karyawan_id_edit, 
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan, data_kategori_pelatihan,
             }
