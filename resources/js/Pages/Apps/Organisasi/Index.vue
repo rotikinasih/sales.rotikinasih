@@ -43,9 +43,10 @@
                                     <td class="text-center">{{ index + lists.from}}</td>
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
                                     <td v-if="(list.kategori_karir == null || list.kategori_karir == 0)"></td> 
-                                    <td v-if="(list.kategori_karir == 1)">Promosi</td>
-                                    <td v-if="(list.kategori_karir == 2)">Demosi</td>
-                                    <td v-if="(list.kategori_karir == 3)">Mutasi</td>
+                                    <td v-if="(list.kategori_karir == 1)">Awal Diterima</td>
+                                    <td v-if="(list.kategori_karir == 2)">Promosi</td>
+                                    <td v-if="(list.kategori_karir == 3)">Demosi</td>
+                                    <td v-if="(list.kategori_karir == 4)">Mutasi</td>
                                     <td v-if="list.pt_id == null"></td>
                                     <td v-else>{{ list.perusahaan.nama_pt }}</td>
                                     <td v-if="list.divisi_id == null"></td>
@@ -276,9 +277,10 @@
             }
 
             const data_kategori_karir = [
-                { name: 'Promosi', value: 1 },
-                { name: 'Demosi', value: 2 },
-                { name: 'Mutasi', value: 3 },
+                { name: 'Awal Diterima', value: 1 },
+                { name: 'Promosi', value: 2 },
+                { name: 'Demosi', value: 3 },
+                { name: 'Mutasi', value: 4 },
             ];
 
             //tampil modal
