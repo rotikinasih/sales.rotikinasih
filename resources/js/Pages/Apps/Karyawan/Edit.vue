@@ -170,7 +170,7 @@
                                                 <input class="form-control" v-model="form.nama_sosmed" type="text" placeholder="Masukkan Nama Akun Sosmed">
                                             </div>
                                         </div>
-                                        
+
                                         <!-- data di perusahaan -->
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -452,30 +452,30 @@
             ];
 
             const data_grade = [
-                { name: '1A' },
-                { name: '1B' },
-                { name: '1C' },
-                { name: '2A' },
-                { name: '2B' },
-                { name: '2C' },
-                { name: '2D' },
-                { name: '2E' },
-                { name: '2F' },
-                { name: '3A' },
-                { name: '3B' },
-                { name: '3C' },
-                { name: '3D' },
-                { name: '3E' },
-                { name: '4A' },
-                { name: '4B' },
-                { name: '4C' },
-                { name: '4D' },
-                { name: '5A' },
-                { name: '5B' },
-                { name: '5C' },
-                { name: '6A' },
-                { name: '6B' },
-                { name: '6C' },
+                { name: "1A", value: "1A" },
+                { name: "1B", value: "1B" },
+                { name: "1C", value: "1C" },
+                { name: "2A", value: "2A" },
+                { name: "2B", value: "2B" },
+                { name: "2C", value: "2C" },
+                { name: "2D", value: "2D" },
+                { name: "2E", value: "2E" },
+                { name: "2F", value: "2F" },
+                { name: "3A", value: "3A" },
+                { name: "3B", value: "3B" },
+                { name: "3C", value: "3C" },
+                { name: "3D", value: "3D" },
+                { name: "3E", value: "3E" },
+                { name: "4A", value: "4A" },
+                { name: "4B", value: "4B" },
+                { name: "4C", value: "4C" },
+                { name: "4D", value: "4D" },
+                { name: "5A", value: "5A" },
+                { name: "5B", value: "5B" },
+                { name: "5C", value: "5C" },
+                { name: "6A", value: "6A" },
+                { name: "6B", value: "6B" },
+                { name: "6C", value: "6C" },
             ];
 
             const data_pendidikan = [
@@ -585,7 +585,7 @@
 
                 //grade
                 data_grade.forEach(function (data) {
-                    if(data.name == props.karyawan.grade){
+                    if(data.value == props.karyawan.grade){
                         form.grade = data
                     }
                 })
@@ -689,7 +689,7 @@
                 status_keluarga: props.karyawan.status_keluarga,
                 jenis_sosmed: props.karyawan.jenis_sosmed,
                 nama_sosmed: props.karyawan.nama_sosmed,
-                
+
 
                 nik_karyawan: props.karyawan.nik_karyawan,
                 pt_id: props.karyawan.pt_id,
@@ -759,7 +759,7 @@
                         status_keluarga: form.status_keluarga ? form.status_keluarga.value : '',
                         jenis_sosmed: form.jenis_sosmed ? form.jenis_sosmed.value : '',
                         nama_sosmed: form.nama_sosmed,
-                        
+
                         //data di perusahaan
                         nik_karyawan: form.nik_karyawan,
                         pt_id: form.pt_id ? form.pt_id.id : '',
@@ -825,7 +825,7 @@
                         status_keluarga: form.status_keluarga ? form.status_keluarga.value : '',
                         jenis_sosmed: form.jenis_sosmed ? form.jenis_sosmed.value : '',
                         nama_sosmed: form.nama_sosmed,
-                        
+
                         //data di perusahaan
                         nik_karyawan: form.nik_karyawan,
                         pt_id: form.pt_id ? form.pt_id.id : '',
