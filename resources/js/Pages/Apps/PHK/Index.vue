@@ -49,6 +49,7 @@
                                     <td>{{ phk.tanggal_phk }}</td>
                                     <td class="text-center" v-if="hasAnyPermission(['apps.phk.edit'])">
                                         <a @click="editData(phk)" v-if="hasAnyPermission(['apps.phk.edit'])"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="deleteData(phk.id)" v-if="hasAnyPermission(['apps.phk.delete'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px; margin-left: 5px;"><i class="fa fa-trash-alt"></i> Delete</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -101,7 +102,7 @@
                             track-by="id"
                             :allow-empty="false"
                             deselect-label="Can't remove this value"
-                            placeholder="Pilih Karyawan" 
+                            placeholder="Pilih Karyawan"
                             :disabled="isDisabled"
                         ></VueMultiselect>
                         <!-- <input type="text" v-show="updateSubmit" class="form-control" v-model="karyawan_id" readonly> -->
@@ -173,7 +174,7 @@
             karyawan_edit: Array,
         },
         //composition API
-    
+
 
         setup(props){
             const showModal = ref(false);
@@ -194,7 +195,7 @@
                     search: search.value,
                 });
             }
-            
+
             const data_penyebab_phk = [
                 { name: 'Affair', value: 1 },
                 { name: 'Fraud', value: 2 }
@@ -209,7 +210,7 @@
             const tutupModal = () => {
                 showModal.value = false
             }
-            
+
             //membuat kategori
             const buatBaruKategori = () =>{
                 if(updateSubmit.value == true){
@@ -226,7 +227,7 @@
             //method edit show modal
             const editData = (phk) => {
                 console.log(phk.karyawan_id);
-                
+
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
@@ -250,6 +251,31 @@
                 // karyawan_id.value = data_karyawan.phk.karyawan_id
                 tanggal_phk.value = phk.tanggal_phk
                 tampilModal()
+            }
+
+            const deleteData = (id) => {
+                Swal.fire({
+                    title: 'Apakah Anda Yakin?',
+                    text: "Anda tidak akan dapat mengembalikan ini!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya!',
+                    cancelButtonText: 'Batal'
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        Inertia.post(`/apps/phk/${id}/delete`);
+                        Swal.fire({
+                            title: 'Sukses!',
+                            text: 'Data Karyawan berhasil dihapus.',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false,
+                        });
+                    }
+                })
             }
 
             const peringatan = () => {
@@ -307,7 +333,7 @@
                         karyawan_id: karyawan_id.value.id,
                         penyebab_phk: penyebab_phk.value.value,
                         tanggal_phk: tanggal_phk.value,
-                        
+
                     }, {
                         onSuccess: () => {
                             tutupModal()
@@ -334,6 +360,7 @@
                 nama_lengkap, id, data_penyebab_phk, karyawan_id, karyawan_id_edit, penyebab_phk, tanggal_phk,
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan, isDisabled: true,
+                deleteData,
             }
         }
     }

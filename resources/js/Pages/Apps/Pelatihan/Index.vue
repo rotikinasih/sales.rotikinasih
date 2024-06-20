@@ -40,7 +40,7 @@
                                 <tr v-for="(plth, index) in pelatihan.data" :key="index">
                                     <td class="text-center">{{ pelatihan.from + index }}</td>
                                     <td>{{ plth.karyawan.nama_lengkap }}</td>
-                                    <td v-if="(plth.kategori_pelatihan == null)"></td> 
+                                    <td v-if="(plth.kategori_pelatihan == null)"></td>
                                     <td v-if="(plth.kategori_pelatihan == 1)">Internal Perusahaan</td>
                                     <td v-if="(plth.kategori_pelatihan == 2)">Personal (Individu)</td>
                                     <td v-if="(plth.kategori_pelatihan == 3)">Pemerintah</td>
@@ -50,6 +50,7 @@
                                     <td class="text-center">{{ plth.durasi_pelatihan }}</td>
                                     <td class="text-center" v-if="hasAnyPermission(['apps.pelatihan.edit'])">
                                         <a @click="editData(plth)" v-if="hasAnyPermission(['apps.pelatihan.edit'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="deleteData(plth.id)" v-if="hasAnyPermission(['apps.pelatihan.delete'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px; margin-left: 5px;"><i class="fa fa-trash-alt"></i> Delete</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -193,7 +194,7 @@
         //     };
         // },
         //composition API
-    
+
 
         setup(props){
             const showModal = ref(false);
@@ -233,7 +234,7 @@
             const tutupModal = () => {
                 showModal.value = false
             }
-            
+
             //membuat kategori
             const buatBaruKategori = () =>{
                 if(updateSubmit.value == true){
@@ -255,7 +256,7 @@
             //method edit show modal
             const editData = (plth) => {
                 console.log(plth);
-                
+
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
@@ -281,6 +282,31 @@
                 tanggal_selesai.value = plth.tanggal_selesai
                 durasi_pelatihan.value = plth.durasi_pelatihan
                 tampilModal()
+            }
+
+            const deleteData = (id) => {
+                Swal.fire({
+                    title: 'Apakah Anda Yakin?',
+                    text: "Anda tidak akan dapat mengembalikan ini!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya!',
+                    cancelButtonText: 'Batal'
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        Inertia.post(`/apps/pelatihan/${id}/delete`);
+                        Swal.fire({
+                            title: 'Sukses!',
+                            text: 'Data Karyawan berhasil dihapus.',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false,
+                        });
+                    }
+                })
             }
 
             const peringatan = () => {
@@ -344,7 +370,7 @@
                         tanggal_mulai: tanggal_mulai.value,
                         tanggal_selesai: tanggal_selesai.value,
                         durasi_pelatihan: durasi_pelatihan.value,
-                        
+
                     }, {
                         onSuccess: () => {
                             tutupModal()
@@ -363,17 +389,17 @@
 
             return {
                 showModal,
-                search, 
+                search,
                 handleSearch,
                 editData,
                 judul,
                 updateSubmit,
-                nama_lengkap, id, karyawan_id, kategori_pelatihan, nama_pelatihan, tanggal_mulai, tanggal_selesai, durasi_pelatihan, karyawan_id_edit, 
+                nama_lengkap, id, karyawan_id, kategori_pelatihan, nama_pelatihan, tanggal_mulai, tanggal_selesai, durasi_pelatihan, karyawan_id_edit,
                 tutupModal, buatBaruKategori, updateData,
-                storeData, peringatan, data_kategori_pelatihan,
+                storeData, peringatan, data_kategori_pelatihan, deleteData,
             }
 
-            
+
         }
     }
 </script>

@@ -19,7 +19,7 @@
                     <div class="table-responsive">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Lengkap..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        
+                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
@@ -50,6 +50,7 @@
                                     <td class="text-center" v-if="(list.status == 2)"><b style="color: rgb(9, 240, 28);">Selesai</b></td>
                                     <td class="text-center" v-if="hasAnyPermission(['apps.list-pelanggaran.edit'])">
                                         <a @click="editData(list)" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px" v-if="hasAnyPermission(['apps.list-pelanggaran.edit'])"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="deleteData(list.id)" v-if="hasAnyPermission(['apps.pelanggaran.delete'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px; margin-left: 5px;"><i class="fa fa-trash-alt"></i> Delete</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -117,7 +118,7 @@
                                 ></VueMultiselect>
                             </div>
                         </div>
-                    
+
                         <div class="col-md-6">
                             <div class="form-group mb-0 mt-0">
                                 <label class="col-form-label">Status :</label>
@@ -217,7 +218,7 @@
                 });
             }
 
-            
+
             //tampil modal
             const tampilModal = () => {
                 showModal.value = true
@@ -245,7 +246,7 @@
 
             //edit data
             const editData = (list) => {
-                
+
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
@@ -271,12 +272,37 @@
                         status.value = data
                     }
                 })
-                
+
                 catatan.value = list.catatan
                 tanggal.value = list.tanggal
                 id_list.value = list.id
                 // status.value = status.id
                 showModal.value = true
+            }
+
+            const deleteData = (id) => {
+                Swal.fire({
+                    title: 'Apakah Anda Yakin?',
+                    text: "Anda tidak akan dapat mengembalikan ini!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya!',
+                    cancelButtonText: 'Batal'
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        Inertia.post(`/apps/pelatihan/${id}/delete`);
+                        Swal.fire({
+                            title: 'Sukses!',
+                            text: 'Data Karyawan berhasil dihapus.',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false,
+                        });
+                    }
+                })
             }
 
             const peringatan = () => {
@@ -338,7 +364,7 @@
                         catatan : catatan.value,
                         tingkatan: tingkatan.value.value,
                         status: status.value.value,
-                        
+
                     }, {
                         onSuccess: () => {
                             tutupModal()
@@ -359,8 +385,8 @@
             return {
                 search,
                 handleSearch,
-                editData, showModal, tampilModal, tutupModal, catatan, tingkatan, karyawan_id, tanggal, status, daftar_tingkatan, daftar_status, 
-                updateData, buatBaruKategori, judul, storeData, updateSubmit, peringatan
+                editData, showModal, tampilModal, tutupModal, catatan, tingkatan, karyawan_id, tanggal, status, daftar_tingkatan, daftar_status,
+                updateData, buatBaruKategori, judul, storeData, updateSubmit, peringatan, deleteData,
             }
 
         }

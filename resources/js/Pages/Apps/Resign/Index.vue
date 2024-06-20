@@ -55,6 +55,7 @@
                                     <td>{{ resign.tanggal_resign }}</td>
                                     <td class="text-center" v-if="hasAnyPermission(['apps.resign.edit'])">
                                         <a @click="editData(resign)"  class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px"><i class="fa fa-pencil-alt"></i> Edit</a>
+                                        <a @click="deleteData(resign.id)" v-if="hasAnyPermission(['apps.resign.delete'])" class="label theme-bg3 text-white f-12" style="cursor:pointer; border-radius:10px; margin-left: 5px;"><i class="fa fa-trash-alt"></i> Delete</a>
                                     </td>
                                 </tr>
                                 <!-- jika data kosong -->
@@ -107,7 +108,7 @@
                             track-by="id"
                             :allow-empty="false"
                             deselect-label="Can't remove this value"
-                            placeholder="Pilih Karyawan" 
+                            placeholder="Pilih Karyawan"
                             :disabled="isDisabled"
                         ></VueMultiselect>
                     </div>
@@ -178,7 +179,7 @@
             karyawan_edit: Array,
         },
         //composition API
-    
+
 
         setup(props){
             const showModal = ref(false);
@@ -205,7 +206,7 @@
             ];
 
 
-            
+
 
             const handleSearch = () => {
                 Inertia.get('/apps/resign', {
@@ -223,7 +224,7 @@
             const tutupModal = () => {
                 showModal.value = false
             }
-            
+
             //membuat kategori
             const buatBaruKategori = () =>{
                 if(updateSubmit.value == true){
@@ -239,7 +240,7 @@
             //method edit show modal
             const editData = (resign) => {
                 // console.log(resign);
-                
+
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
@@ -269,6 +270,31 @@
                 // karyawan_id.value = resign.karyawan_id
                 tanggal_resign.value = resign.tanggal_resign
                 tampilModal()
+            }
+
+            const deleteData = (id) => {
+                Swal.fire({
+                    title: 'Apakah Anda Yakin?',
+                    text: "Anda tidak akan dapat mengembalikan ini!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya!',
+                    cancelButtonText: 'Batal'
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        Inertia.post(`/apps/resign/${id}/delete`);
+                        Swal.fire({
+                            title: 'Sukses!',
+                            text: 'Data Karyawan berhasil dihapus.',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false,
+                        });
+                    }
+                })
             }
 
             const peringatan = () => {
@@ -326,7 +352,7 @@
                         karyawan_id: karyawan_id.value.id,
                         alasan_resign: alasan_resign.value.value,
                         tanggal_resign: tanggal_resign.value,
-                        
+
                     }, {
                         onSuccess: () => {
                             tutupModal()
@@ -353,6 +379,7 @@
                 nama_lengkap, id, data_alasan_resign, karyawan_id, karyawan_id_edit, alasan_resign, tanggal_resign,
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan, isDisabled: true,
+                deleteData,
             }
         }
     }
