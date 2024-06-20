@@ -101,4 +101,17 @@ class PHKController extends Controller
         ob_end_clean();
         return $response;
     }
+
+    public function delete($id)
+    {
+        $data = KaryawanPHK::findOrFail($id);
+        $data->deleted_status = 1;
+        if ($data->save()) {
+            $msg = 'Hapus Data Berhasil';
+        } else {
+            $msg = 'Hapus Data Gagal';
+        }
+
+        return redirect()->back()->with('msg', $msg);
+    }
 }

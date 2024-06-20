@@ -40,7 +40,7 @@ class PelatihanController extends Controller
     public function list_pelatihan ($id){
         $search = request()->search;
         //pengelompokan kategori
-        
+
         //get list
         $lists = Pelatihan::with('karyawan')->whereHas('karyawan', function($q) use($search){
             $q->where('nama_pelatihan', 'like', '%'. $search . '%');
@@ -119,5 +119,18 @@ class PelatihanController extends Controller
         $response = Excel::download(new PelatihanExport, 'Daftar Pelatihan '.$tanggal." ".$bulan." ".Str::upper($tahun)." ".Str::upper($jam)." WIB".'.xlsx');
         ob_end_clean();
         return $response;
+    }
+
+    public function delete($id)
+    {
+        $data = Pelatihan::findOrFail($id);
+        $data->deleted_status = 1;
+        if ($data->save()) {
+            $msg = 'Hapus Data Berhasil';
+        } else {
+            $msg = 'Hapus Data Gagal';
+        }
+
+        return redirect()->back()->with('msg', $msg);
     }
 }

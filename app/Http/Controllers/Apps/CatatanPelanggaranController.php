@@ -17,7 +17,7 @@ class CatatanPelanggaranController extends Controller
     public function index ($id){
         $search = request()->search;
         //pengelompokan kategori
-        
+
         //get list
         $lists = CatatanPelanggaran::with('karyawan')->whereHas('karyawan', function($q) use($search){
             $q->where('catatan', 'like', '%'. $search . '%');
@@ -66,7 +66,7 @@ class CatatanPelanggaranController extends Controller
             'catatan'           => 'required',
             'tingkatan'         => 'required',
             'status'            => 'required',
-            
+
         ]);
 
         //create riwayat organisasi
@@ -110,7 +110,7 @@ class CatatanPelanggaranController extends Controller
             'status'            => $request->status,
         ];
 
-        
+
         $ubahData = CatatanPelanggaran::findOrFail((int)$id);
         // dd($ubahData);
         $ubahData->update($data_pelanggaran);
@@ -127,4 +127,18 @@ class CatatanPelanggaranController extends Controller
         ob_end_clean();
         return $response;
     }
+
+    public function delete($id)
+    {
+        $data = CatatanPelanggaran::findOrFail($id);
+        $data->deleted_status = 1;
+        if ($data->save()) {
+            $msg = 'Hapus Data Berhasil';
+        } else {
+            $msg = 'Hapus Data Gagal';
+        }
+
+        return redirect()->back()->with('msg', $msg);
+    }
+
 }
