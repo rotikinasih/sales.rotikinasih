@@ -20,8 +20,21 @@
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Lengkap..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>                        
+                            <input
+                            type="text"
+                            class="form-control"
+                            v-model="search"
+                            placeholder="Cari berdasarkan Nama Organisasi..."
+                            style="width: 0%"
+                            @input="debouncedSearch"
+                            >
+                            <button
+                                class="btn btn theme-bg5 text-white f-12"
+                                style="margin-left: 10px;"
+                                @click="handleSearch"
+                            >
+                                <i style="margin-left: 10px" class="fa fa-search me-2"></i>
+                            </button>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
@@ -42,7 +55,7 @@
                                 <tr v-for="(list, index) in lists.data" :key="index">
                                     <td class="text-center">{{ index + lists.from}}</td>
                                     <td>{{ list.karyawan.nama_lengkap }}</td>
-                                    <td v-if="(list.kategori_karir == null || list.kategori_karir == 0)"></td> 
+                                    <td v-if="(list.kategori_karir == null || list.kategori_karir == 0)"></td>
                                     <td v-if="(list.kategori_karir == 1)">Awal Diterima</td>
                                     <td v-if="(list.kategori_karir == 2)">Promosi</td>
                                     <td v-if="(list.kategori_karir == 3)">Demosi</td>
@@ -179,7 +192,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-0 mt-0">
@@ -224,6 +237,8 @@
     import Modal from '../../../Components/Modal.vue';
     import VueMultiselect from 'vue-multiselect';
     import 'vue-multiselect/dist/vue-multiselect.css';
+    //import debounce [searching]
+    import debounce from 'lodash/debounce';
 
     export default {
         //layout
@@ -276,6 +291,8 @@
                 });
             }
 
+            const debouncedSearch = debounce(handleSearch, 1000);
+
             const data_kategori_karir = [
                 { name: 'Awal Diterima', value: 1 },
                 { name: 'Promosi', value: 2 },
@@ -292,7 +309,7 @@
             const tutupModal = () => {
                 showModal.value = false
             }
-            
+
             //membuat kategori
             const buatBaruKategori = () =>{
                 if(updateSubmit.value == true){
@@ -316,7 +333,7 @@
             //method edit show modal
             const editData = (krr) => {
                 console.log(krr);
-                
+
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
@@ -436,7 +453,7 @@
                         kategori_karir: kategori_karir.value.value,
                         tgl_masuk: tgl_masuk.value,
                         tgl_berakhir: tgl_berakhir.value,
-                        
+
                     }, {
                         onSuccess: () => {
                             tutupModal()
@@ -459,7 +476,7 @@
                 search,
                 handleSearch, id,
                 editData, showModal, tutupModal, divisi_id, karyawan_id, jabatan_id, pt_id, posisi_id, kategori_karir, tgl_masuk, tgl_berakhir, buatBaruKategori, data_kategori_karir,
-                updateData, storeData, peringatan, updateSubmit, judul,
+                updateData, storeData, peringatan, updateSubmit, judul, debouncedSearch,
             }
 
         }

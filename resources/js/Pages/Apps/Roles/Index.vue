@@ -13,8 +13,21 @@
                 <div class="card-block table-border-style">
                     <div class="table-responsive">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="search by roles Name..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
+                            <input
+                            type="text"
+                            class="form-control"
+                            v-model="search"
+                            placeholder="Cari berdasarkan Nama Roles nya..."
+                            style="width: 0%"
+                            @input="debouncedSearch"
+                            >
+                            <button
+                                class="btn btn theme-bg5 text-white f-12"
+                                style="margin-left: 10px;"
+                                @click="handleSearch"
+                            >
+                                <i style="margin-left: 10px" class="fa fa-search me-2"></i>
+                            </button>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
@@ -82,6 +95,9 @@
 
     //import sweet alert2
     import Swal from 'sweetalert2';
+    //import debounce [searching]
+    import debounce from 'lodash/debounce';
+
 
     export default {
         //layout
@@ -111,6 +127,7 @@
                     q: search.value,
                 });
             }
+            const debouncedSearch = debounce(handleSearch, 1000);
 
             //define method destroy
             const destroy = (id) => {
@@ -144,7 +161,8 @@
             return {
                 search,
                 handleSearch,
-                destroy
+                destroy,
+                debouncedSearch,
             }
 
         }

@@ -19,8 +19,21 @@
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Karyawan..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"> <i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
+                            <input
+                            type="text"
+                            class="form-control"
+                            v-model="search"
+                            placeholder="Cari berdasarkan Nama Lengkap, Nomor Induk Karyawan..."
+                            style="width: 0%"
+                            @input="debouncedSearch"
+                            >
+                            <button
+                                class="btn btn theme-bg5 text-white f-12"
+                                style="margin-left: 10px;"
+                                @click="handleSearch"
+                            >
+                                <i style="margin-left: 10px" class="fa fa-search me-2"></i>
+                            </button>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
@@ -153,7 +166,8 @@
     import Swal from 'sweetalert2';
     import VueMultiselect from 'vue-multiselect';
     import 'vue-multiselect/dist/vue-multiselect.css';
-
+    //import debounce [searching]
+    import debounce from 'lodash/debounce';
 
     export default {
         //layout
@@ -195,6 +209,8 @@
                     search: search.value,
                 });
             }
+
+            const debouncedSearch = debounce(handleSearch, 1000);
 
             const data_penyebab_phk = [
                 { name: 'Affair', value: 1 },
@@ -360,7 +376,7 @@
                 nama_lengkap, id, data_penyebab_phk, karyawan_id, karyawan_id_edit, penyebab_phk, tanggal_phk,
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan, isDisabled: true,
-                deleteData,
+                deleteData, debouncedSearch,
             }
         }
     }

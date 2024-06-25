@@ -14,8 +14,21 @@
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan name permission..." @keyup="handleSearch">
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
+                            <input
+                            type="text"
+                            class="form-control"
+                            v-model="search"
+                            placeholder="Cari berdasarkan Nama permision ..."
+                            style="width: 0%"
+                            @input="debouncedSearch"
+                            >
+                            <button
+                                class="btn btn theme-bg5 text-white f-12"
+                                style="margin-left: 10px;"
+                                @click="handleSearch"
+                            >
+                                <i style="margin-left: 10px" class="fa fa-search me-2"></i>
+                            </button>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
@@ -95,6 +108,8 @@
     //import modal
     import Modal from '../../../Components/Modal.vue';
     import Swal from 'sweetalert2';
+    //import debounce [searching]
+    import debounce from 'lodash/debounce';
 
     export default {
         //layout
@@ -122,7 +137,7 @@
             const judul = ref(null);
             const id = ref(null);
             const name = ref();
-            
+
             //define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
 
@@ -133,6 +148,8 @@
                     search: search.value,
                 });
             }
+
+            const debouncedSearch = debounce(handleSearch, 1000);
 
              //membuat kategori
             const buatBaruKategori = () =>{
@@ -158,11 +175,11 @@
             //method edit show modal
             const editData = (pe) => {
                 // console.log(pe.name);
-                
+
                 if (updateSubmit.value == false) {
                     updateSubmit.value = !updateSubmit.value
                 }
-                
+
                 judul.value = 'Edit Permissions'
                 id.value = pe.id
                 name.value = pe.name
@@ -220,7 +237,7 @@
                     Inertia.post('/apps/permissions', {
                         //data
                         name: name.value,
-                        
+
                     }, {
                         onSuccess: () => {
                             tutupModal()
@@ -248,7 +265,7 @@
                 updateSubmit,
                 name,
                 tutupModal, buatBaruKategori, updateData,
-                storeData, peringatan
+                storeData, peringatan, debouncedSearch,
             }
 
         }

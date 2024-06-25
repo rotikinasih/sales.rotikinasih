@@ -25,8 +25,21 @@
                         {{ session.success }}
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Lengkap, Nomor Induk Karyawan..." style="width: 0%" @keyup="handleSearch">
-                        <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"><i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="search"
+                            placeholder="Cari berdasarkan Nama Lengkap, Nomor Induk Karyawan..."
+                            style="width: 0%"
+                            @input="debouncedSearch"
+                        >
+                        <button
+                            class="btn btn theme-bg5 text-white f-12"
+                            style="margin-left: 10px;"
+                            @click="handleSearch"
+                        >
+                            <i style="margin-left: 10px" class="fa fa-search me-2"></i>
+                        </button>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered">
@@ -48,10 +61,10 @@
                                     <td style="text-align: center;">{{ index + karyawan.from }}</td>
                                     <td>{{ kar.nama_lengkap }}</td>
                                     <td>{{ kar.nik_karyawan }}</td>
-                                    <td v-if="(kar.perusahaan == null)"> </td> 
+                                    <td v-if="(kar.perusahaan == null)"> </td>
                                     <td v-else>{{ kar.perusahaan.nama_pt}}</td>
                                     <td v-if="(kar.divisi == null)"> </td>
-                                    <td v-else>{{ kar.divisi.nama_divisi}}</td>                                    
+                                    <td v-else>{{ kar.divisi.nama_divisi}}</td>
                                     <td v-if="(kar.jabatan == null)"> </td>
                                     <td v-else>{{ kar.jabatan.nama_jabatan }}</td>
                                     <td v-if="(kar.posisi == null)"> </td>
@@ -415,8 +428,8 @@
                         <label class="col-form-label">Nama Lengkap :</label>
                         <input type="text" class="form-control" placeholder="PT Name" v-model="nama" readonly>
                     </div>
-                    
-                        
+
+
                     <div class="form-group mb-3">
                         <label class="col-form-label">Entitas :</label>
                         <VueMultiselect
@@ -429,7 +442,7 @@
                             placeholder="Pilih Entitas"
                         ></VueMultiselect>
                     </div>
-                
+
                     <div class="form-group mb-3">
                         <label class="col-form-label">Divisi :</label>
                         <VueMultiselect
@@ -442,7 +455,7 @@
                             placeholder="Pilih Devisi"
                         ></VueMultiselect>
                     </div>
-                
+
                     <div class="form-group mb-3">
                         <label class="col-form-label">Posisi :</label>
                         <VueMultiselect
@@ -455,7 +468,7 @@
                             placeholder="Pilih Posisi"
                         ></VueMultiselect>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
@@ -518,7 +531,7 @@
                         <label class="col-form-label">Catatan : </label>
                         <textarea type="text" class="form-control" placeholder="Notes" v-model="catatan" required></textarea>
                     </div>
-                    
+
                     <div class="form-group mb-3">
                         <label class="col-form-label">Status Tindakan : </label>
                         <VueMultiselect
@@ -531,7 +544,7 @@
                             placeholder="Pilih Status"
                         ></VueMultiselect>
                     </div>
-                        
+
                 </template>
                 <template #footer>
 					<form @submit.prevent="storePelanggaran">
@@ -592,6 +605,8 @@
     import VueMultiselect from 'vue-multiselect';
     import 'vue-multiselect/dist/vue-multiselect.css';
     import axios from 'axios';
+    //import debounce [searching]
+    import debounce from 'lodash/debounce';
 
     export default {
         //layout
@@ -607,7 +622,7 @@
             VueMultiselect,
             Swal
         },
-        
+
         //props
         props: {
             karyawan: Object,
@@ -622,7 +637,7 @@
         //         Inertia.get('/karyawan/download-pdf');
         //     }
         // },
-        
+
         setup() {
             const showModalKarirDetail = ref(false);
             const showModalKarir = ref(false);
@@ -686,11 +701,11 @@
             const pengalaman_kerja_terakhir= ref();
             const jabatan_kerja_terakhir= ref();
             const foto = ref();
-            
+
             const tgl_masuk = ref();
             const tgl_berakhir = ref();
-            
-            
+
+
             //save nama karyawan di add history organisasi
             const nama = ref();
             const idnya = ref();
@@ -705,9 +720,10 @@
 
             //import excel
             const file_excel = ref();
-            
+
             // define state search
             const search = ref('' || (new URL(document.location)).searchParams.get('search'));
+
 
             //tutup modal
             const tutupModalDetail = () => {
@@ -766,6 +782,8 @@
                 });
             }
 
+            const debouncedSearch = debounce(handleSearch, 1000); // Menunggu 300ms setelah pengguna berhenti mengetik
+
             //method destroy
             const destroy = (id) => {
                 Swal.fire({
@@ -797,7 +815,7 @@
                 // var lahir = new Date(kar['tanggal_lahir'])
                 // var today = new Date();
 		        // var age = Math.floor((today-lahir) / (365.25 * 24 * 60 * 60 * 1000));
-                
+
                 //detail data pribadi
                 id.value = kar['id']
                 nama_lengkap.value = kar['nama_lengkap']
@@ -822,7 +840,7 @@
                 hubungan_keluarga.value = kar['hubungan_keluarga']
                 jenis_sosmed.value = kar['jenis_sosmed']
                 nama_sosmed.value = kar['nama_sosmed']
-                
+
                 //detail data di perusahaan
                 nik_karyawan.value = kar['nik_karyawan']
                 divisi_id.value = kar['divisi'] == null ? "" : kar['divisi']['nama_divisi']
@@ -938,8 +956,8 @@
                 idnya, nama, tgl_gabung_grup, tgl_masuk, tgl_berakhir, storeKarir, status, daftar_status,
                 showModalPelanggaran, addPelanggaran, tutupModalPelanggaran, storePelanggaran, catatan, tanggal, tingkatan, daftar_tingkatan,
                 showModalImport, tutupModalImport, importExcel, selectedTaskFile, file_excel, storeExcel, selectedOption: null,
+                debouncedSearch,
             }
-
         }
     }
 </script>

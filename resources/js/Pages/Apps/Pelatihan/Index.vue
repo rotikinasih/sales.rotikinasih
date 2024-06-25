@@ -19,9 +19,21 @@
                     <div class="table-responsive">
 
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="search" placeholder="Cari berdasarkan Nama Karyawan..." @keyup="handleSearch">
-                            <!-- <input type="text" v-model="search" @input="searchPelatihan" placeholder="Cari Karyawan" /> -->
-                            <button class="btn btn theme-bg5 text-white f-12" style="margin-left: 10px;" @click="handleSearch"> <i style="margin-left: 10px" class="fa fa-search me-2"></i></button>
+                            <input
+                            type="text"
+                            class="form-control"
+                            v-model="search"
+                            placeholder="Cari berdasarkan Nama Pelatihan..."
+                            style="width: 0%"
+                            @input="debouncedSearch"
+                            >
+                            <button
+                                class="btn btn theme-bg5 text-white f-12"
+                                style="margin-left: 10px;"
+                                @click="handleSearch"
+                            >
+                                <i style="margin-left: 10px" class="fa fa-search me-2"></i>
+                            </button>
                         </div>
                         <table class="table table-bordered table-hover">
                             <thead>
@@ -162,6 +174,9 @@
     import Swal from 'sweetalert2';
     import VueMultiselect from 'vue-multiselect';
     import 'vue-multiselect/dist/vue-multiselect.css';
+    //import debounce [searching]
+    import debounce from 'lodash/debounce';
+
 
 
     export default {
@@ -218,6 +233,8 @@
                     search: search.value,
                 });
             }
+
+            const debouncedSearch = debounce(handleSearch, 1000);
 
             const data_kategori_pelatihan = [
                 { name: 'Internal Perusahaan', value: 1 },
@@ -397,6 +414,7 @@
                 nama_lengkap, id, karyawan_id, kategori_pelatihan, nama_pelatihan, tanggal_mulai, tanggal_selesai, durasi_pelatihan, karyawan_id_edit,
                 tutupModal, buatBaruKategori, updateData,
                 storeData, peringatan, data_kategori_pelatihan, deleteData,
+                debouncedSearch,
             }
 
 
