@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 class PelatihanController extends Controller
 {
     public function index(){
-        $search = request()->serach;
+        $search = request()->search;
 
         //ambil pelatihan
         $pelatihan = Pelatihan::with('karyawan')
