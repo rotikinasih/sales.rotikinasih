@@ -74,7 +74,7 @@
                         <span class="text-muted mt-4 mb-0">
                             <br>
                             <i class="fa fa-file-excel fa-5x"></i><br><br>
-                            Data Kosong 
+                            Data Kosong
                         </span>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                         <span class="text-muted mt-4 mb-0">
                             <br>
                             <i class="fa fa-file-excel fa-5x"></i><br><br>
-                            Data Kosong 
+                            Data Kosong
                         </span>
                     </div>
                 </div>
@@ -469,8 +469,13 @@
     //register chart
     Chart.register(...registerables);
     // Impor plugin Datalabels
-    import 'chartjs-plugin-datalabels'; 
+    import 'chartjs-plugin-datalabels';
     // Impor plugin tooltip
+
+    // Import Datalabels plugin
+    import ChartDataLabels from 'chartjs-plugin-datalabels';
+    // Register Datalabels plugin
+    Chart.register(ChartDataLabels);
 
     import Pagination from '../../../Components/Pagination.vue';
 
@@ -520,7 +525,7 @@
             komposisi_generasi: Array,
             total_komposisi_generasi: Array,
 
-            
+
             //chart berdasarkan komposisi peran
             komposisi_peran: Array,
             total_komposisi_peran: Array,
@@ -545,7 +550,7 @@
             umur: Array,
             total_umur: Array,
 
-            
+
             //chart berdasarkan alasan resign
             alasan_resign: Array,
             total_alasan_resign: Array,
@@ -580,6 +585,18 @@
                     title: {
                         display: false,
                     },
+                    datalabels: {
+                        borderRadius: 4,
+                        color: 'black',
+                        font: {
+                            weight: 'bold'
+                        },
+                        formatter: Math.round,
+                        padding: 6,
+                        anchor: 'end',
+                        align: 'start',
+                        offset: -20,
+                    }
                 },
                 beginZero: true
             });
@@ -599,8 +616,8 @@
                 datasets: [{
                     data: props.total_divisi,
                     backgroundColor: randomBackgroundColor(5),
-                }, 
-                
+                },
+
                 ],
             };
 
@@ -631,7 +648,7 @@
                 }, ],
             };
 
-            
+
             //chart karyawan berdasarkan jenis kelamin
             const chartStatusKerja = {
                 labels: props.status_kerja,
@@ -641,7 +658,7 @@
                 }, ],
             };
 
-        
+
             //chart karyawan berdasarkan komposisi generasi
             const chartKomposisiGenerasi = {
                 labels: props.komposisi_generasi,
