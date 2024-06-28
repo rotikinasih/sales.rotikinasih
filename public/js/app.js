@@ -20470,7 +20470,64 @@ __webpack_require__.r(__webpack_exports__);
     perusahaan: Array,
     karyawan: Array,
     jabatan: Array,
-    posisi: Array
+    posisi: Array,
+    pelatihan: Array,
+    catatanPelanggaran: Array,
+    riwayatOrganisasi: Array
+  },
+  methods: {
+    getKategori: function getKategori(kategori) {
+      switch (kategori) {
+        case 1:
+          return 'Internal Perusahaan';
+        case 2:
+          return 'Personal (Individu)';
+        case 3:
+          return 'Pemerintah';
+        default:
+          return 'Unknown';
+      }
+    },
+    getTingkatan: function getTingkatan(tingkatan) {
+      switch (tingkatan) {
+        case 1:
+          return 'Teguran Lisan';
+        case 2:
+          return 'Teguran Tertulis';
+        case 3:
+          return 'SP 1';
+        case 4:
+          return 'SP 2';
+        case 5:
+          return 'SP 3';
+        default:
+          return 'Unknown';
+      }
+    },
+    getStatus: function getStatus(status) {
+      switch (status) {
+        case 1:
+          return 'Diproses';
+        case 2:
+          return 'Selesai';
+        default:
+          return 'Unknown';
+      }
+    },
+    getKategoriKarir: function getKategoriKarir(kategoriKarir) {
+      switch (kategoriKarir) {
+        case 1:
+          return 'Awal Diterima';
+        case 2:
+          return 'Promosi';
+        case 3:
+          return 'Demosi';
+        case 4:
+          return 'Mutasi';
+        default:
+          return 'Unknown';
+      }
+    }
   },
   setup: function setup(props) {
     //define state search
@@ -28119,7 +28176,7 @@ var _hoisted_13 = {
   "class": "row"
 };
 var _hoisted_14 = {
-  "class": "col-md-6"
+  "class": "col-md-3"
 };
 var _hoisted_15 = {
   "class": "mb-3"
@@ -28180,13 +28237,13 @@ var _hoisted_28 = {
 };
 var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "fw-bold"
-}, "Golongan Darah", -1 /* HOISTED */);
+}, "Status Pernikahan", -1 /* HOISTED */);
 var _hoisted_30 = {
   key: 0,
   disabled: "",
   type: "text",
   "class": "form-control",
-  value: "",
+  value: " ",
   placeholder: ""
 };
 var _hoisted_31 = {
@@ -28194,7 +28251,7 @@ var _hoisted_31 = {
   disabled: "",
   type: "text",
   "class": "form-control",
-  value: "A",
+  value: "Belum Menikah",
   placeholder: ""
 };
 var _hoisted_32 = {
@@ -28202,7 +28259,7 @@ var _hoisted_32 = {
   disabled: "",
   type: "text",
   "class": "form-control",
-  value: "B",
+  value: "Menikah",
   placeholder: ""
 };
 var _hoisted_33 = {
@@ -28210,7 +28267,7 @@ var _hoisted_33 = {
   disabled: "",
   type: "text",
   "class": "form-control",
-  value: "O",
+  value: "Janda",
   placeholder: ""
 };
 var _hoisted_34 = {
@@ -28218,182 +28275,19 @@ var _hoisted_34 = {
   disabled: "",
   type: "text",
   "class": "form-control",
-  value: "AB",
+  value: "Duda",
   placeholder: ""
 };
 var _hoisted_35 = {
+  "class": "col-md-3"
+};
+var _hoisted_36 = {
   "class": "mb-3"
 };
-var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "fw-bold"
-}, "Riwayat Penyakit", -1 /* HOISTED */);
-var _hoisted_37 = {
-  "class": "mb-3"
-};
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "No. KK", -1 /* HOISTED */);
-var _hoisted_39 = {
-  "class": "mb-3"
-};
-var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Kode Pos", -1 /* HOISTED */);
-var _hoisted_41 = {
-  "class": "mb-3"
-};
-var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "No. KTP", -1 /* HOISTED */);
-var _hoisted_43 = {
-  "class": "mb-3"
-};
-var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Alamat KTP", -1 /* HOISTED */);
-var _hoisted_45 = {
-  "class": "mb-3"
-};
-var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Alamat Domisili", -1 /* HOISTED */);
-var _hoisted_47 = {
-  "class": "mb-3"
-};
-var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Pendidikan", -1 /* HOISTED */);
-var _hoisted_49 = {
-  key: 0,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: " ",
-  placeholder: ""
-};
-var _hoisted_50 = {
-  key: 1,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "SD",
-  placeholder: ""
-};
-var _hoisted_51 = {
-  key: 2,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "SMP",
-  placeholder: ""
-};
-var _hoisted_52 = {
-  key: 3,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "SMA",
-  placeholder: ""
-};
-var _hoisted_53 = {
-  key: 4,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "D1",
-  placeholder: ""
-};
-var _hoisted_54 = {
-  key: 5,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "D2",
-  placeholder: ""
-};
-var _hoisted_55 = {
-  key: 6,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "D3",
-  placeholder: ""
-};
-var _hoisted_56 = {
-  key: 7,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "D4",
-  placeholder: ""
-};
-var _hoisted_57 = {
-  key: 8,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "S1",
-  placeholder: ""
-};
-var _hoisted_58 = {
-  key: 9,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "S2",
-  placeholder: ""
-};
-var _hoisted_59 = {
-  key: 10,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "S3",
-  placeholder: ""
-};
-var _hoisted_60 = {
-  "class": "mb-3"
-};
-var _hoisted_61 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Nama Sekolah/Universitas", -1 /* HOISTED */);
-var _hoisted_62 = {
-  "class": "mb-3"
-};
-var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Jurusan", -1 /* HOISTED */);
-var _hoisted_64 = {
-  "class": "mb-3"
-};
-var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Email Pribadi", -1 /* HOISTED */);
-var _hoisted_66 = {
-  "class": "mb-3"
-};
-var _hoisted_67 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "No. Telp/HP", -1 /* HOISTED */);
-var _hoisted_68 = {
-  "class": "mb-3"
-};
-var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "No. WA", -1 /* HOISTED */);
-var _hoisted_70 = {
-  "class": "mb-3"
-};
-var _hoisted_71 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "No. Keluarga", -1 /* HOISTED */);
-var _hoisted_72 = {
-  "class": "mb-3"
-};
-var _hoisted_73 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Hubungan Keluarga", -1 /* HOISTED */);
-var _hoisted_74 = {
+}, "Golongan Darah", -1 /* HOISTED */);
+var _hoisted_38 = {
   key: 0,
   disabled: "",
   type: "text",
@@ -28401,107 +28295,69 @@ var _hoisted_74 = {
   value: "",
   placeholder: ""
 };
-var _hoisted_75 = {
+var _hoisted_39 = {
   key: 1,
   disabled: "",
   type: "text",
   "class": "form-control",
-  value: "Suami/Istri",
+  value: "A",
   placeholder: ""
 };
-var _hoisted_76 = {
+var _hoisted_40 = {
   key: 2,
   disabled: "",
   type: "text",
   "class": "form-control",
-  value: "Ayah",
+  value: "B",
   placeholder: ""
 };
-var _hoisted_77 = {
+var _hoisted_41 = {
   key: 3,
   disabled: "",
   type: "text",
   "class": "form-control",
-  value: "Ibu",
+  value: "O",
   placeholder: ""
 };
-var _hoisted_78 = {
+var _hoisted_42 = {
   key: 4,
   disabled: "",
   type: "text",
   "class": "form-control",
-  value: "Kakak/Adik",
+  value: "AB",
   placeholder: ""
 };
-var _hoisted_79 = {
-  key: 5,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Paman/Bibi",
-  placeholder: ""
-};
-var _hoisted_80 = {
-  key: 6,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Kakek/Nenek",
-  placeholder: ""
-};
-var _hoisted_81 = {
+var _hoisted_43 = {
   "class": "mb-3"
 };
-var _hoisted_82 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "fw-bold"
-}, "Status Pernikahan", -1 /* HOISTED */);
-var _hoisted_83 = {
-  key: 0,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: " ",
-  placeholder: ""
-};
-var _hoisted_84 = {
-  key: 1,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Belum Menikah",
-  placeholder: ""
-};
-var _hoisted_85 = {
-  key: 2,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Menikah",
-  placeholder: ""
-};
-var _hoisted_86 = {
-  key: 3,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Janda",
-  placeholder: ""
-};
-var _hoisted_87 = {
-  key: 4,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Duda",
-  placeholder: ""
-};
-var _hoisted_88 = {
+}, "Riwayat Penyakit", -1 /* HOISTED */);
+var _hoisted_45 = {
   "class": "mb-3"
 };
-var _hoisted_89 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "No. KK", -1 /* HOISTED */);
+var _hoisted_47 = {
+  "class": "mb-3"
+};
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Kode Pos", -1 /* HOISTED */);
+var _hoisted_49 = {
+  "class": "mb-3"
+};
+var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "No. KTP", -1 /* HOISTED */);
+var _hoisted_51 = {
+  "class": "mb-3"
+};
+var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "fw-bold"
 }, "Status Keluarga", -1 /* HOISTED */);
-var _hoisted_90 = {
+var _hoisted_53 = {
   key: 0,
   disabled: "",
   type: "text",
@@ -28509,7 +28365,7 @@ var _hoisted_90 = {
   value: " ",
   placeholder: ""
 };
-var _hoisted_91 = {
+var _hoisted_54 = {
   key: 1,
   disabled: "",
   type: "text",
@@ -28517,7 +28373,7 @@ var _hoisted_91 = {
   value: "Kepala Keluarga",
   placeholder: ""
 };
-var _hoisted_92 = {
+var _hoisted_55 = {
   key: 2,
   disabled: "",
   type: "text",
@@ -28525,7 +28381,7 @@ var _hoisted_92 = {
   value: "Istri",
   placeholder: ""
 };
-var _hoisted_93 = {
+var _hoisted_56 = {
   key: 3,
   disabled: "",
   type: "text",
@@ -28533,7 +28389,7 @@ var _hoisted_93 = {
   value: "Anak ke 1",
   placeholder: ""
 };
-var _hoisted_94 = {
+var _hoisted_57 = {
   key: 4,
   disabled: "",
   type: "text",
@@ -28541,7 +28397,7 @@ var _hoisted_94 = {
   value: "Anak ke 2",
   placeholder: ""
 };
-var _hoisted_95 = {
+var _hoisted_58 = {
   key: 5,
   disabled: "",
   type: "text",
@@ -28549,7 +28405,7 @@ var _hoisted_95 = {
   value: "Anak ke 3",
   placeholder: ""
 };
-var _hoisted_96 = {
+var _hoisted_59 = {
   key: 6,
   disabled: "",
   type: "text",
@@ -28557,7 +28413,7 @@ var _hoisted_96 = {
   value: "Anak ke 4",
   placeholder: ""
 };
-var _hoisted_97 = {
+var _hoisted_60 = {
   key: 7,
   disabled: "",
   type: "text",
@@ -28565,262 +28421,28 @@ var _hoisted_97 = {
   value: "Anak ke 5",
   placeholder: ""
 };
-var _hoisted_98 = {
+var _hoisted_61 = {
+  "class": "col-md-3"
+};
+var _hoisted_62 = {
   "class": "mb-3"
 };
-var _hoisted_99 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "fw-bold"
-}, "Jenis Sosmed", -1 /* HOISTED */);
-var _hoisted_100 = {
-  key: 0,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "",
-  placeholder: ""
-};
-var _hoisted_101 = {
-  key: 1,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Instagram",
-  placeholder: ""
-};
-var _hoisted_102 = {
-  key: 2,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Facebook",
-  placeholder: ""
-};
-var _hoisted_103 = {
-  key: 3,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Tiktok",
-  placeholder: ""
-};
-var _hoisted_104 = {
-  key: 4,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Youtube",
-  placeholder: ""
-};
-var _hoisted_105 = {
+}, "Alamat KTP", -1 /* HOISTED */);
+var _hoisted_64 = {
   "class": "mb-3"
 };
-var _hoisted_106 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "fw-bold"
-}, "Nama Akun Sosmed", -1 /* HOISTED */);
-var _hoisted_107 = {
-  "class": "col-md-6"
-};
-var _hoisted_108 = {
+}, "Alamat Domisili", -1 /* HOISTED */);
+var _hoisted_66 = {
   "class": "mb-3"
 };
-var _hoisted_109 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_67 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "fw-bold"
-}, "NIK (Karyawan)", -1 /* HOISTED */);
-var _hoisted_110 = {
-  "class": "mb-3"
-};
-var _hoisted_111 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Entitas", -1 /* HOISTED */);
-var _hoisted_112 = {
-  "class": "mb-3"
-};
-var _hoisted_113 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Divisi", -1 /* HOISTED */);
-var _hoisted_114 = {
-  "class": "mb-3"
-};
-var _hoisted_115 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Jabatan", -1 /* HOISTED */);
-var _hoisted_116 = {
-  "class": "mb-3"
-};
-var _hoisted_117 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Posisi", -1 /* HOISTED */);
-var _hoisted_118 = {
-  "class": "mb-3"
-};
-var _hoisted_119 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Grade", -1 /* HOISTED */);
-var _hoisted_120 = {
-  "class": "mb-3"
-};
-var _hoisted_121 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Status Kerja", -1 /* HOISTED */);
-var _hoisted_122 = {
-  key: 0,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "",
-  placeholder: ""
-};
-var _hoisted_123 = {
-  key: 1,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Kontrak",
-  placeholder: ""
-};
-var _hoisted_124 = {
-  key: 2,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Tetap",
-  placeholder: ""
-};
-var _hoisted_125 = {
-  key: 3,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Training",
-  placeholder: ""
-};
-var _hoisted_126 = {
-  "class": "mb-3"
-};
-var _hoisted_127 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Komposisi Peran", -1 /* HOISTED */);
-var _hoisted_128 = {
-  key: 0,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "",
-  placeholder: ""
-};
-var _hoisted_129 = {
-  key: 1,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Support",
-  placeholder: ""
-};
-var _hoisted_130 = {
-  key: 2,
-  disabled: "",
-  type: "text",
-  "class": "form-control",
-  value: "Core",
-  placeholder: ""
-};
-var _hoisted_131 = {
-  "class": "mb-3"
-};
-var _hoisted_132 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Tanggal Masuk", -1 /* HOISTED */);
-var _hoisted_133 = {
-  "class": "mb-3"
-};
-var _hoisted_134 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Tanggal Kontrak", -1 /* HOISTED */);
-var _hoisted_135 = {
-  "class": "mb-3"
-};
-var _hoisted_136 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Masa Kontrak (Bulan)", -1 /* HOISTED */);
-var _hoisted_137 = {
-  "class": "mb-3"
-};
-var _hoisted_138 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Akhir Kontrak", -1 /* HOISTED */);
-var _hoisted_139 = {
-  "class": "mb-3"
-};
-var _hoisted_140 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Tanggal Karyawan Tetap", -1 /* HOISTED */);
-var _hoisted_141 = {
-  "class": "mb-3"
-};
-var _hoisted_142 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Masa Kerja", -1 /* HOISTED */);
-var _hoisted_143 = {
-  "class": "mb-3"
-};
-var _hoisted_144 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Posisi Awal Diterima", -1 /* HOISTED */);
-var _hoisted_145 = {
-  "class": "mb-3"
-};
-var _hoisted_146 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Kota Rekruitmen", -1 /* HOISTED */);
-var _hoisted_147 = {
-  "class": "mb-3"
-};
-var _hoisted_148 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Kota Penugasan", -1 /* HOISTED */);
-var _hoisted_149 = {
-  "class": "mb-3"
-};
-var _hoisted_150 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Nama Bank", -1 /* HOISTED */);
-var _hoisted_151 = {
-  "class": "mb-3"
-};
-var _hoisted_152 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Rekening Bank", -1 /* HOISTED */);
-var _hoisted_153 = {
-  "class": "mb-3"
-};
-var _hoisted_154 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "No. NPWP", -1 /* HOISTED */);
-var _hoisted_155 = {
-  "class": "mb-3"
-};
-var _hoisted_156 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Email Internal", -1 /* HOISTED */);
-var _hoisted_157 = {
-  "class": "mb-3"
-};
-var _hoisted_158 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "No. BPJS Kesehatan", -1 /* HOISTED */);
-var _hoisted_159 = {
-  "class": "mb-3"
-};
-var _hoisted_160 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "No. BPJS Ketenagakerjaan", -1 /* HOISTED */);
-var _hoisted_161 = {
-  "class": "mb-3"
-};
-var _hoisted_162 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Ukuran Baju", -1 /* HOISTED */);
-var _hoisted_163 = {
+}, "Pendidikan", -1 /* HOISTED */);
+var _hoisted_68 = {
   key: 0,
   disabled: "",
   type: "text",
@@ -28828,7 +28450,472 @@ var _hoisted_163 = {
   value: " ",
   placeholder: ""
 };
-var _hoisted_164 = {
+var _hoisted_69 = {
+  key: 1,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "SD",
+  placeholder: ""
+};
+var _hoisted_70 = {
+  key: 2,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "SMP",
+  placeholder: ""
+};
+var _hoisted_71 = {
+  key: 3,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "SMA",
+  placeholder: ""
+};
+var _hoisted_72 = {
+  key: 4,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "D1",
+  placeholder: ""
+};
+var _hoisted_73 = {
+  key: 5,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "D2",
+  placeholder: ""
+};
+var _hoisted_74 = {
+  key: 6,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "D3",
+  placeholder: ""
+};
+var _hoisted_75 = {
+  key: 7,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "D4",
+  placeholder: ""
+};
+var _hoisted_76 = {
+  key: 8,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "S1",
+  placeholder: ""
+};
+var _hoisted_77 = {
+  key: 9,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "S2",
+  placeholder: ""
+};
+var _hoisted_78 = {
+  key: 10,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "S3",
+  placeholder: ""
+};
+var _hoisted_79 = {
+  "class": "mb-3"
+};
+var _hoisted_80 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Nama Sekolah/Universitas", -1 /* HOISTED */);
+var _hoisted_81 = {
+  "class": "mb-3"
+};
+var _hoisted_82 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Jurusan", -1 /* HOISTED */);
+var _hoisted_83 = {
+  "class": "mb-3"
+};
+var _hoisted_84 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Jenis Sosmed", -1 /* HOISTED */);
+var _hoisted_85 = {
+  key: 0,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "",
+  placeholder: ""
+};
+var _hoisted_86 = {
+  key: 1,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Instagram",
+  placeholder: ""
+};
+var _hoisted_87 = {
+  key: 2,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Facebook",
+  placeholder: ""
+};
+var _hoisted_88 = {
+  key: 3,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Tiktok",
+  placeholder: ""
+};
+var _hoisted_89 = {
+  key: 4,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Youtube",
+  placeholder: ""
+};
+var _hoisted_90 = {
+  "class": "col-md-3"
+};
+var _hoisted_91 = {
+  "class": "mb-3"
+};
+var _hoisted_92 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Email Pribadi", -1 /* HOISTED */);
+var _hoisted_93 = {
+  "class": "mb-3"
+};
+var _hoisted_94 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "No. Telp/HP", -1 /* HOISTED */);
+var _hoisted_95 = {
+  "class": "mb-3"
+};
+var _hoisted_96 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "No. WA", -1 /* HOISTED */);
+var _hoisted_97 = {
+  "class": "mb-3"
+};
+var _hoisted_98 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "No. Keluarga", -1 /* HOISTED */);
+var _hoisted_99 = {
+  "class": "mb-3"
+};
+var _hoisted_100 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Hubungan Keluarga", -1 /* HOISTED */);
+var _hoisted_101 = {
+  key: 0,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "",
+  placeholder: ""
+};
+var _hoisted_102 = {
+  key: 1,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Suami/Istri",
+  placeholder: ""
+};
+var _hoisted_103 = {
+  key: 2,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Ayah",
+  placeholder: ""
+};
+var _hoisted_104 = {
+  key: 3,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Ibu",
+  placeholder: ""
+};
+var _hoisted_105 = {
+  key: 4,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Kakak/Adik",
+  placeholder: ""
+};
+var _hoisted_106 = {
+  key: 5,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Paman/Bibi",
+  placeholder: ""
+};
+var _hoisted_107 = {
+  key: 6,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Kakek/Nenek",
+  placeholder: ""
+};
+var _hoisted_108 = {
+  "class": "mb-3"
+};
+var _hoisted_109 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Nama Akun Sosmed", -1 /* HOISTED */);
+var _hoisted_110 = {
+  "class": "col-md-3"
+};
+var _hoisted_111 = {
+  "class": "mb-3"
+};
+var _hoisted_112 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "NIK (Karyawan)", -1 /* HOISTED */);
+var _hoisted_113 = {
+  "class": "mb-3"
+};
+var _hoisted_114 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Entitas", -1 /* HOISTED */);
+var _hoisted_115 = {
+  "class": "mb-3"
+};
+var _hoisted_116 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Divisi", -1 /* HOISTED */);
+var _hoisted_117 = {
+  "class": "mb-3"
+};
+var _hoisted_118 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Jabatan", -1 /* HOISTED */);
+var _hoisted_119 = {
+  "class": "mb-3"
+};
+var _hoisted_120 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Posisi", -1 /* HOISTED */);
+var _hoisted_121 = {
+  "class": "mb-3"
+};
+var _hoisted_122 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Jabatan Kerja Terakhir", -1 /* HOISTED */);
+var _hoisted_123 = {
+  "class": "mb-3"
+};
+var _hoisted_124 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Email Internal", -1 /* HOISTED */);
+var _hoisted_125 = {
+  "class": "col-md-3"
+};
+var _hoisted_126 = {
+  "class": "mb-3"
+};
+var _hoisted_127 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Grade", -1 /* HOISTED */);
+var _hoisted_128 = {
+  "class": "mb-3"
+};
+var _hoisted_129 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Status Kerja", -1 /* HOISTED */);
+var _hoisted_130 = {
+  key: 0,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "",
+  placeholder: ""
+};
+var _hoisted_131 = {
+  key: 1,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Kontrak",
+  placeholder: ""
+};
+var _hoisted_132 = {
+  key: 2,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Tetap",
+  placeholder: ""
+};
+var _hoisted_133 = {
+  key: 3,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Training",
+  placeholder: ""
+};
+var _hoisted_134 = {
+  "class": "mb-3"
+};
+var _hoisted_135 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Komposisi Peran", -1 /* HOISTED */);
+var _hoisted_136 = {
+  key: 0,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "",
+  placeholder: ""
+};
+var _hoisted_137 = {
+  key: 1,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Support",
+  placeholder: ""
+};
+var _hoisted_138 = {
+  key: 2,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: "Core",
+  placeholder: ""
+};
+var _hoisted_139 = {
+  "class": "mb-3"
+};
+var _hoisted_140 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Tanggal Masuk", -1 /* HOISTED */);
+var _hoisted_141 = {
+  "class": "mb-3"
+};
+var _hoisted_142 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Tanggal Kontrak", -1 /* HOISTED */);
+var _hoisted_143 = {
+  "class": "mb-3"
+};
+var _hoisted_144 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "No. BPJS Kesehatan", -1 /* HOISTED */);
+var _hoisted_145 = {
+  "class": "mb-3"
+};
+var _hoisted_146 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Pengalaman Kerja Terakhir", -1 /* HOISTED */);
+var _hoisted_147 = {
+  "class": "col-md-3"
+};
+var _hoisted_148 = {
+  "class": "mb-3"
+};
+var _hoisted_149 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Masa Kontrak (Bulan)", -1 /* HOISTED */);
+var _hoisted_150 = {
+  "class": "mb-3"
+};
+var _hoisted_151 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Akhir Kontrak", -1 /* HOISTED */);
+var _hoisted_152 = {
+  "class": "mb-3"
+};
+var _hoisted_153 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Tanggal Karyawan Tetap", -1 /* HOISTED */);
+var _hoisted_154 = {
+  "class": "mb-3"
+};
+var _hoisted_155 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Masa Kerja", -1 /* HOISTED */);
+var _hoisted_156 = {
+  "class": "mb-3"
+};
+var _hoisted_157 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Posisi Awal Diterima", -1 /* HOISTED */);
+var _hoisted_158 = {
+  "class": "mb-3"
+};
+var _hoisted_159 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "No. BPJS Ketenagakerjaan", -1 /* HOISTED */);
+var _hoisted_160 = {
+  "class": "col-md-3"
+};
+var _hoisted_161 = {
+  "class": "mb-3"
+};
+var _hoisted_162 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Kota Rekruitmen", -1 /* HOISTED */);
+var _hoisted_163 = {
+  "class": "mb-3"
+};
+var _hoisted_164 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Kota Penugasan", -1 /* HOISTED */);
+var _hoisted_165 = {
+  "class": "mb-3"
+};
+var _hoisted_166 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Nama Bank", -1 /* HOISTED */);
+var _hoisted_167 = {
+  "class": "mb-3"
+};
+var _hoisted_168 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Rekening Bank", -1 /* HOISTED */);
+var _hoisted_169 = {
+  "class": "mb-3"
+};
+var _hoisted_170 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "No. NPWP", -1 /* HOISTED */);
+var _hoisted_171 = {
+  "class": "mb-3"
+};
+var _hoisted_172 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "fw-bold"
+}, "Ukuran Baju", -1 /* HOISTED */);
+var _hoisted_173 = {
+  key: 0,
+  disabled: "",
+  type: "text",
+  "class": "form-control",
+  value: " ",
+  placeholder: ""
+};
+var _hoisted_174 = {
   key: 1,
   disabled: "",
   type: "text",
@@ -28836,7 +28923,7 @@ var _hoisted_164 = {
   value: "S",
   placeholder: ""
 };
-var _hoisted_165 = {
+var _hoisted_175 = {
   key: 2,
   disabled: "",
   type: "text",
@@ -28844,7 +28931,7 @@ var _hoisted_165 = {
   value: "M",
   placeholder: ""
 };
-var _hoisted_166 = {
+var _hoisted_176 = {
   key: 3,
   disabled: "",
   type: "text",
@@ -28852,7 +28939,7 @@ var _hoisted_166 = {
   value: "L",
   placeholder: ""
 };
-var _hoisted_167 = {
+var _hoisted_177 = {
   key: 4,
   disabled: "",
   type: "text",
@@ -28860,7 +28947,7 @@ var _hoisted_167 = {
   value: "XL",
   placeholder: ""
 };
-var _hoisted_168 = {
+var _hoisted_178 = {
   key: 5,
   disabled: "",
   type: "text",
@@ -28868,7 +28955,7 @@ var _hoisted_168 = {
   value: "XXL",
   placeholder: ""
 };
-var _hoisted_169 = {
+var _hoisted_179 = {
   key: 6,
   disabled: "",
   type: "text",
@@ -28876,22 +28963,40 @@ var _hoisted_169 = {
   value: "Jumbo",
   placeholder: ""
 };
-var _hoisted_170 = {
-  "class": "mb-3"
-};
-var _hoisted_171 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Pengalaman Kerja Terakhir", -1 /* HOISTED */);
-var _hoisted_172 = {
-  "class": "mb-3"
-};
-var _hoisted_173 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "class": "fw-bold"
-}, "Jabatan Kerja Terakhir", -1 /* HOISTED */);
-var _hoisted_174 = {
+var _hoisted_180 = {
   "class": "row"
 };
-var _hoisted_175 = {
+var _hoisted_181 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "card-header"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Pelatihan")], -1 /* HOISTED */);
+var _hoisted_182 = {
+  "class": "table"
+};
+var _hoisted_183 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Nama Pelatihan"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Kategori"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Tanggal Mulai"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Tanggal Selesai"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Durasi")])], -1 /* HOISTED */);
+var _hoisted_184 = {
+  "class": "row"
+};
+var _hoisted_185 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "card-header"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Pelanggaran")], -1 /* HOISTED */);
+var _hoisted_186 = {
+  "class": "table"
+};
+var _hoisted_187 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Catatan"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Tanggal"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sanksi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Status")])], -1 /* HOISTED */);
+var _hoisted_188 = {
+  "class": "row"
+};
+var _hoisted_189 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "card-header"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Riwayat Karir")], -1 /* HOISTED */);
+var _hoisted_190 = {
+  "class": "table"
+};
+var _hoisted_191 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Kategori Karir"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Entitas"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Divisi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Jabatan"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Posisi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Tanggal Masuk"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Tanggal Berakhir")])], -1 /* HOISTED */);
+var _hoisted_192 = {
+  "class": "row"
+};
+var _hoisted_193 = {
   "class": "col-md-12"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -28902,7 +29007,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_1];
     }),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h5>Edit Karyawan</h5>\r\n                        <hr> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [$setup.activePhase == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h5>Edit Karyawan</h5>\n                        <hr> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [$setup.activePhase == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [$setup.form['foto'] != null && $setup.foto == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
     key: 0,
@@ -28911,7 +29016,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "width": "20%"
     }
-  }, null, 8 /* PROPS */, _hoisted_11)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_12])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 8 /* PROPS */, _hoisted_11)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_12])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6\">\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Nama Lengkap : </label>\n                                                <input class=\"form-control\" v-model=\"form.nama_lengkap\" type=\"text\"  disabled>\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Nama Panggilan</label>\n                                                <input disabled class=\"form-control\" v-model=\"form.nama_panggilan\" type=\"text\" >\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Tempat Lahir</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.tempat_lahir\" >\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Tanggal Lahir</label>\n                                                <input disabled type=\"date\" class=\"form-control\" v-model=\"form.tanggal_lahir\" >\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Jenis Kelamin</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.jenis_kelamin == null\" value=\" \" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.jenis_kelamin.value == 1\" value=\"Laki-laki\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.jenis_kelamin.value == 2\" value=\"Perempuan\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Golongan Darah</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.gol_darah == null\" value=\"\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.gol_darah.value == 1\" value=\"A\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.gol_darah.value == 2\" value=\"B\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.gol_darah.value == 3\" value=\"O\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.gol_darah.value == 4\" value=\"AB\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Riwayat Penyakit</label>\n                                                <input disabled class=\"form-control\" v-model=\"form.riwayat_penyakit\" type=\"text\" >\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">No. KK</label>\n                                                <input disabled type=\"number\" class=\"form-control\" v-model=\"form.no_kk\" >\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Kode Pos</label>\n                                                <input disabled type=\"number\" class=\"form-control\" v-model=\"form.kode_pos\" >\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">No. KTP</label>\n                                                <input disabled type=\"number\" class=\"form-control\" v-model=\"form.nik_penduduk\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Alamat KTP</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.alamat_ktp\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Alamat Domisili</label>\n                                                <input disabled class=\"form-control\" v-model=\"form.alamat_domisili\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Pendidikan</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.pendidikan == null\" value=\" \" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 1\" value=\"SD\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 2\" value=\"SMP\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 3\" value=\"SMA\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 4\" value=\"D1\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 5\" value=\"D2\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 6\" value=\"D3\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 7\" value=\"D4\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 8\" value=\"S1\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 9\" value=\"S2\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.pendidikan.value == 10\" value=\"S3\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Nama Sekolah/Universitas</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.nama_sekolah\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Jurusan</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.jurusan\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Email Pribadi</label>\n                                                <input disabled type=\"email\" class=\"form-control\" v-model=\"form.email_pribadi\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">No. Telp/HP</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.no_telp\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">No. WA</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.no_wa\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">No. Keluarga</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.no_keluarga\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Hubungan Keluarga</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.hubungan_keluarga == null\" value=\"\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.hubungan_keluarga.value == 1\" value=\"Suami/Istri\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.hubungan_keluarga.value == 2\" value=\"Ayah\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.hubungan_keluarga.value == 3\" value=\"Ibu\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.hubungan_keluarga.value == 4\" value=\"Kakak/Adik\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.hubungan_keluarga.value == 5\" value=\"Paman/Bibi\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.hubungan_keluarga.value == 6\" value=\"Kakek/Nenek\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Status Pernikahan</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.status_pernikahan == null\" value=\" \" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_pernikahan.value == 1\" value=\"Belum Menikah\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_pernikahan.value == 2\" value=\"Menikah\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_pernikahan.value == 3\" value=\"Janda\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_pernikahan.value == 4\" value=\"Duda\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Status Keluarga</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.status_keluarga == null\" value=\" \" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_keluarga.value == 1\" value=\"Kepala Keluarga\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_keluarga.value == 2\" value=\"Istri\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_keluarga.value == 3\" value=\"Anak ke 1\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_keluarga.value == 4\" value=\"Anak ke 2\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_keluarga.value == 5\" value=\"Anak ke 3\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_keluarga.value == 6\" value=\"Anak ke 4\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_keluarga.value == 7\" value=\"Anak ke 5\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Jenis Sosmed</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.jenis_sosmed == null\" value=\"\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.jenis_sosmed.value == 1\" value=\"Instagram\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.jenis_sosmed.value == 2\" value=\"Facebook\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.jenis_sosmed.value == 3\" value=\"Tiktok\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.jenis_sosmed.value == 4\" value=\"Youtube\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Nama Akun Sosmed</label>\n                                                <input disabled class=\"form-control\" v-model=\"form.nama_sosmed\" type=\"text\" placeholder=\"\">\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-control",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.form.nama_lengkap = $event;
@@ -28939,90 +29044,90 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $setup.form.tanggal_lahir = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.tanggal_lahir]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_hoisted_24, $setup.form.jenis_kelamin == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_25)) : $setup.form.jenis_kelamin.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_26)) : $setup.form.jenis_kelamin.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_27)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_hoisted_29, $setup.form.gol_darah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_30)) : $setup.form.gol_darah.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_31)) : $setup.form.gol_darah.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_32)) : $setup.form.gol_darah.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_33)) : $setup.form.gol_darah.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_34)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.tanggal_lahir]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_hoisted_24, $setup.form.jenis_kelamin == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_25)) : $setup.form.jenis_kelamin.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_26)) : $setup.form.jenis_kelamin.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_27)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_hoisted_29, $setup.form.status_pernikahan == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_30)) : $setup.form.status_pernikahan.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_31)) : $setup.form.status_pernikahan.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_32)) : $setup.form.status_pernikahan.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_33)) : $setup.form.status_pernikahan.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_34)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_hoisted_37, $setup.form.gol_darah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_38)) : $setup.form.gol_darah.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_39)) : $setup.form.gol_darah.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_40)) : $setup.form.gol_darah.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_41)) : $setup.form.gol_darah.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_42)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     "class": "form-control",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $setup.form.riwayat_penyakit = $event;
     }),
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.riwayat_penyakit]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.riwayat_penyakit]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "number",
     "class": "form-control",
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $setup.form.no_kk = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_kk]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_kk]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "number",
     "class": "form-control",
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $setup.form.kode_pos = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.kode_pos]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.kode_pos]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [_hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "number",
     "class": "form-control",
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $setup.form.nik_penduduk = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nik_penduduk]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nik_penduduk]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_hoisted_52, $setup.form.status_keluarga == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_53)) : $setup.form.status_keluarga.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_54)) : $setup.form.status_keluarga.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_55)) : $setup.form.status_keluarga.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_56)) : $setup.form.status_keluarga.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_57)) : $setup.form.status_keluarga.value == 5 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_58)) : $setup.form.status_keluarga.value == 6 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_59)) : $setup.form.status_keluarga.value == 7 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_60)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [_hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $setup.form.alamat_ktp = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.alamat_ktp]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.alamat_ktp]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [_hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     "class": "form-control",
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       return $setup.form.alamat_domisili = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.alamat_domisili]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_hoisted_48, $setup.form.pendidikan == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_49)) : $setup.form.pendidikan.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_50)) : $setup.form.pendidikan.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_51)) : $setup.form.pendidikan.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_52)) : $setup.form.pendidikan.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_53)) : $setup.form.pendidikan.value == 5 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_54)) : $setup.form.pendidikan.value == 6 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_55)) : $setup.form.pendidikan.value == 7 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_56)) : $setup.form.pendidikan.value == 8 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_57)) : $setup.form.pendidikan.value == 9 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_58)) : $setup.form.pendidikan.value == 10 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_59)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [_hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.alamat_domisili]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [_hoisted_67, $setup.form.pendidikan == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_68)) : $setup.form.pendidikan.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_69)) : $setup.form.pendidikan.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_70)) : $setup.form.pendidikan.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_71)) : $setup.form.pendidikan.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_72)) : $setup.form.pendidikan.value == 5 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_73)) : $setup.form.pendidikan.value == 6 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_74)) : $setup.form.pendidikan.value == 7 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_75)) : $setup.form.pendidikan.value == 8 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_76)) : $setup.form.pendidikan.value == 9 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_77)) : $setup.form.pendidikan.value == 10 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_78)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [_hoisted_80, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
       return $setup.form.nama_sekolah = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nama_sekolah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [_hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nama_sekolah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [_hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $setup.form.jurusan = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.jurusan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [_hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.jurusan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [_hoisted_84, $setup.form.jenis_sosmed == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_85)) : $setup.form.jenis_sosmed.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_86)) : $setup.form.jenis_sosmed.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_87)) : $setup.form.jenis_sosmed.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_88)) : $setup.form.jenis_sosmed.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_89)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [_hoisted_92, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "email",
     "class": "form-control",
     "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $setup.form.email_pribadi = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.email_pribadi]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [_hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.email_pribadi]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [_hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $setup.form.no_telp = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_telp]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [_hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_telp]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [_hoisted_96, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
       return $setup.form.no_wa = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_wa]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [_hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_wa]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [_hoisted_98, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
       return $setup.form.no_keluarga = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_keluarga]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_hoisted_73, $setup.form.hubungan_keluarga == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_74)) : $setup.form.hubungan_keluarga.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_75)) : $setup.form.hubungan_keluarga.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_76)) : $setup.form.hubungan_keluarga.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_77)) : $setup.form.hubungan_keluarga.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_78)) : $setup.form.hubungan_keluarga.value == 5 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_79)) : $setup.form.hubungan_keluarga.value == 6 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_80)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [_hoisted_82, $setup.form.status_pernikahan == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_83)) : $setup.form.status_pernikahan.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_84)) : $setup.form.status_pernikahan.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_85)) : $setup.form.status_pernikahan.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_86)) : $setup.form.status_pernikahan.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_87)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [_hoisted_89, $setup.form.status_keluarga == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_90)) : $setup.form.status_keluarga.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_91)) : $setup.form.status_keluarga.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_92)) : $setup.form.status_keluarga.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_93)) : $setup.form.status_keluarga.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_94)) : $setup.form.status_keluarga.value == 5 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_95)) : $setup.form.status_keluarga.value == 6 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_96)) : $setup.form.status_keluarga.value == 7 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_97)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [_hoisted_99, $setup.form.jenis_sosmed == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_100)) : $setup.form.jenis_sosmed.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_101)) : $setup.form.jenis_sosmed.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_102)) : $setup.form.jenis_sosmed.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_103)) : $setup.form.jenis_sosmed.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_104)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [_hoisted_106, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_keluarga]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [_hoisted_100, $setup.form.hubungan_keluarga == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_101)) : $setup.form.hubungan_keluarga.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_102)) : $setup.form.hubungan_keluarga.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_103)) : $setup.form.hubungan_keluarga.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_104)) : $setup.form.hubungan_keluarga.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_105)) : $setup.form.hubungan_keluarga.value == 5 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_106)) : $setup.form.hubungan_keluarga.value == 6 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_107)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [_hoisted_109, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     "class": "form-control",
     "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
@@ -29030,186 +29135,198 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     type: "text",
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nama_sosmed]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" data di perusahaan "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [_hoisted_109, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nama_sosmed]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" data di perusahaan "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6\">\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">NIK (Karyawan)</label>\n                                                <input disabled class=\"form-control\" v-model=\"form.nik_karyawan\" type=\"text\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Entitas</label>\n                                                <input disabled class=\"form-control\" v-model=\"nama_pt\" type=\"text\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Divisi</label>\n                                                <input disabled class=\"form-control\" v-model=\"nama_divisi\" type=\"text\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Jabatan</label>\n                                                <input disabled class=\"form-control\" v-model=\"nama_jabatan\" type=\"text\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Posisi</label>\n                                                <input disabled class=\"form-control\" v-model=\"nama_posisi\" type=\"text\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Grade</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"grade\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Status Kerja</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.status_kerja == null\" value=\"\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_kerja.value == 1\" value=\"Kontrak\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_kerja.value == 2\" value=\"Tetap\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.status_kerja.value == 3\" value=\"Training\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Komposisi Peran</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.komposisi_peran == null\" value=\"\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.komposisi_peran.value == 1\" value=\"Support\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.komposisi_peran.value == 2\" value=\"Core\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Tanggal Masuk</label>\n                                                <input disabled type=\"date\" class=\"form-control\" v-model=\"form.tanggal_masuk\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Tanggal Kontrak</label>\n                                                <input disabled type=\"date\" class=\"form-control\" v-model=\"form.tanggal_kontrak\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Masa Kontrak (Bulan)</label>\n                                                <input disabled type=\"number\" class=\"form-control\" v-model=\"form.masa_kontrak\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Akhir Kontrak</label>\n                                                <input disabled type=\"date\" class=\"form-control\" v-model=\"form.akhir_kontrak\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Tanggal Karyawan Tetap</label>\n                                                <input disabled type=\"date\" class=\"form-control\" v-model=\"form.tanggal_karyawan_tetap\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Masa Kerja</label>\n                                                <input disabled class=\"form-control\" v-model=\"masa_kerja_tahun\" type=\"text\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Posisi Awal Diterima</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.posisi_awal_diterima\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Kota Rekruitmen</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.kota_rekruitmen\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Kota Penugasan</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.kota_penugasan\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Nama Bank</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.nama_bank\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Rekening Bank</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.rekening\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">No. NPWP</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.no_npwp\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Email Internal</label>\n                                                <input disabled type=\"email\" class=\"form-control\" v-model=\"form.email_internal\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">No. BPJS Kesehatan</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.no_bpjs_kesehatan\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">No. BPJS Ketenagakerjaan</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.no_bpjs_ketenagakerjaan\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Ukuran Baju</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-if=\"form.ukuran_baju == null\" value=\" \" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.ukuran_baju.value == 1\" value=\"S\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.ukuran_baju.value == 2\" value=\"M\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.ukuran_baju.value == 3\" value=\"L\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.ukuran_baju.value == 4\" value=\"XL\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.ukuran_baju.value == 5\" value=\"XXL\" placeholder=\"\">\n                                                <input disabled type=\"text\" class=\"form-control\" v-else-if=\"form.ukuran_baju.value == 6\" value=\"Jumbo\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Pengalaman Kerja Terakhir</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.pengalaman_kerja_terakhir\" placeholder=\"\">\n                                            </div>\n                                            <div class=\"mb-3\">\n                                                <label class=\"fw-bold\">Jabatan Kerja Terakhir</label>\n                                                <input disabled type=\"text\" class=\"form-control\" v-model=\"form.jabatan_kerja_terakhir\" placeholder=\"\">\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [_hoisted_112, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     "class": "form-control",
     "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
       return $setup.form.nik_karyawan = $event;
     }),
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nik_karyawan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [_hoisted_111, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nik_karyawan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [_hoisted_114, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     "class": "form-control",
     "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
       return $setup.nama_pt = $event;
     }),
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nama_pt]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_112, [_hoisted_113, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nama_pt]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [_hoisted_116, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     "class": "form-control",
     "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
       return $setup.nama_divisi = $event;
     }),
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nama_divisi]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_114, [_hoisted_115, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nama_divisi]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [_hoisted_118, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     "class": "form-control",
     "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
       return $setup.nama_jabatan = $event;
     }),
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nama_jabatan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_116, [_hoisted_117, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nama_jabatan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [_hoisted_120, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     "class": "form-control",
     "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
       return $setup.nama_posisi = $event;
     }),
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nama_posisi]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [_hoisted_119, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.nama_posisi]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_121, [_hoisted_122, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
+      return $setup.form.jabatan_kerja_terakhir = $event;
+    }),
+    placeholder: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.jabatan_kerja_terakhir]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [_hoisted_124, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    disabled: "",
+    type: "email",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
+      return $setup.form.email_internal = $event;
+    }),
+    placeholder: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.email_internal]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_126, [_hoisted_127, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    disabled: "",
+    type: "text",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
       return $setup.grade = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.grade]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [_hoisted_121, $setup.form.status_kerja == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_122)) : $setup.form.status_kerja.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_123)) : $setup.form.status_kerja.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_124)) : $setup.form.status_kerja.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_125)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_126, [_hoisted_127, $setup.form.komposisi_peran == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_128)) : $setup.form.komposisi_peran.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_129)) : $setup.form.komposisi_peran.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_130)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [_hoisted_132, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.grade]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [_hoisted_129, $setup.form.status_kerja == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_130)) : $setup.form.status_kerja.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_131)) : $setup.form.status_kerja.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_132)) : $setup.form.status_kerja.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_133)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_134, [_hoisted_135, $setup.form.komposisi_peran == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_136)) : $setup.form.komposisi_peran.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_137)) : $setup.form.komposisi_peran.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_138)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [_hoisted_140, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "date",
     "class": "form-control",
-    "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
+    "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
       return $setup.form.tanggal_masuk = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.tanggal_masuk]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, [_hoisted_134, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    disabled: "",
-    type: "date",
-    "class": "form-control",
-    "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
-      return $setup.form.tanggal_kontrak = $event;
-    }),
-    placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.tanggal_kontrak]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_135, [_hoisted_136, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    disabled: "",
-    type: "number",
-    "class": "form-control",
-    "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
-      return $setup.form.masa_kontrak = $event;
-    }),
-    placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.masa_kontrak]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, [_hoisted_138, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.tanggal_masuk]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [_hoisted_142, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "date",
     "class": "form-control",
     "onUpdate:modelValue": _cache[26] || (_cache[26] = function ($event) {
-      return $setup.form.akhir_kontrak = $event;
+      return $setup.form.tanggal_kontrak = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.akhir_kontrak]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [_hoisted_140, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.tanggal_kontrak]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [_hoisted_144, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    disabled: "",
+    type: "text",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[27] || (_cache[27] = function ($event) {
+      return $setup.form.no_bpjs_kesehatan = $event;
+    }),
+    placeholder: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_bpjs_kesehatan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_145, [_hoisted_146, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    disabled: "",
+    type: "text",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[28] || (_cache[28] = function ($event) {
+      return $setup.form.pengalaman_kerja_terakhir = $event;
+    }),
+    placeholder: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.pengalaman_kerja_terakhir]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_148, [_hoisted_149, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    disabled: "",
+    type: "number",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[29] || (_cache[29] = function ($event) {
+      return $setup.form.masa_kontrak = $event;
+    }),
+    placeholder: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.masa_kontrak]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, [_hoisted_151, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "date",
     "class": "form-control",
-    "onUpdate:modelValue": _cache[27] || (_cache[27] = function ($event) {
+    "onUpdate:modelValue": _cache[30] || (_cache[30] = function ($event) {
+      return $setup.form.akhir_kontrak = $event;
+    }),
+    placeholder: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.akhir_kontrak]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_152, [_hoisted_153, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    disabled: "",
+    type: "date",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[31] || (_cache[31] = function ($event) {
       return $setup.form.tanggal_karyawan_tetap = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.tanggal_karyawan_tetap]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [_hoisted_142, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.tanggal_karyawan_tetap]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_154, [_hoisted_155, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     "class": "form-control",
-    "onUpdate:modelValue": _cache[28] || (_cache[28] = function ($event) {
+    "onUpdate:modelValue": _cache[32] || (_cache[32] = function ($event) {
       return $setup.masa_kerja_tahun = $event;
     }),
     type: "text",
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.masa_kerja_tahun]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [_hoisted_144, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    disabled: "",
-    type: "text",
-    "class": "form-control",
-    "onUpdate:modelValue": _cache[29] || (_cache[29] = function ($event) {
-      return $setup.form.posisi_awal_diterima = $event;
-    }),
-    placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.posisi_awal_diterima]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_145, [_hoisted_146, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    disabled: "",
-    type: "text",
-    "class": "form-control",
-    "onUpdate:modelValue": _cache[30] || (_cache[30] = function ($event) {
-      return $setup.form.kota_rekruitmen = $event;
-    }),
-    placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.kota_rekruitmen]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [_hoisted_148, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    disabled: "",
-    type: "text",
-    "class": "form-control",
-    "onUpdate:modelValue": _cache[31] || (_cache[31] = function ($event) {
-      return $setup.form.kota_penugasan = $event;
-    }),
-    placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.kota_penugasan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_149, [_hoisted_150, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    disabled: "",
-    type: "text",
-    "class": "form-control",
-    "onUpdate:modelValue": _cache[32] || (_cache[32] = function ($event) {
-      return $setup.form.nama_bank = $event;
-    }),
-    placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nama_bank]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [_hoisted_152, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.masa_kerja_tahun]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [_hoisted_157, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[33] || (_cache[33] = function ($event) {
-      return $setup.form.rekening = $event;
+      return $setup.form.posisi_awal_diterima = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.rekening]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [_hoisted_154, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.posisi_awal_diterima]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [_hoisted_159, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[34] || (_cache[34] = function ($event) {
-      return $setup.form.no_npwp = $event;
+      return $setup.form.no_bpjs_ketenagakerjaan = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_npwp]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_155, [_hoisted_156, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_bpjs_ketenagakerjaan]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_161, [_hoisted_162, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
-    type: "email",
+    type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[35] || (_cache[35] = function ($event) {
-      return $setup.form.email_internal = $event;
+      return $setup.form.kota_rekruitmen = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.email_internal]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_157, [_hoisted_158, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.kota_rekruitmen]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, [_hoisted_164, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[36] || (_cache[36] = function ($event) {
-      return $setup.form.no_bpjs_kesehatan = $event;
+      return $setup.form.kota_penugasan = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_bpjs_kesehatan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_159, [_hoisted_160, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.kota_penugasan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [_hoisted_166, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[37] || (_cache[37] = function ($event) {
-      return $setup.form.no_bpjs_ketenagakerjaan = $event;
+      return $setup.form.nama_bank = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_bpjs_ketenagakerjaan]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_161, [_hoisted_162, $setup.form.ukuran_baju == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_163)) : $setup.form.ukuran_baju.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_164)) : $setup.form.ukuran_baju.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_165)) : $setup.form.ukuran_baju.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_166)) : $setup.form.ukuran_baju.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_167)) : $setup.form.ukuran_baju.value == 5 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_168)) : $setup.form.ukuran_baju.value == 6 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_169)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_170, [_hoisted_171, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.nama_bank]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [_hoisted_168, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[38] || (_cache[38] = function ($event) {
-      return $setup.form.pengalaman_kerja_terakhir = $event;
+      return $setup.form.rekening = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.pengalaman_kerja_terakhir]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_172, [_hoisted_173, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.rekening]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_169, [_hoisted_170, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     disabled: "",
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[39] || (_cache[39] = function ($event) {
-      return $setup.form.jabatan_kerja_terakhir = $event;
+      return $setup.form.no_npwp = $event;
     }),
     placeholder: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.jabatan_kerja_terakhir]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button type=\"submit\" class=\"btn btn-warning mt-3\" @click.prevent=\"storeData\" style=\"float:right\">Update</button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.no_npwp]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_171, [_hoisted_172, $setup.form.ukuran_baju == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_173)) : $setup.form.ukuran_baju.value == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_174)) : $setup.form.ukuran_baju.value == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_175)) : $setup.form.ukuran_baju.value == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_176)) : $setup.form.ukuran_baju.value == 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_177)) : $setup.form.ukuran_baju.value == 5 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_178)) : $setup.form.ukuran_baju.value == 6 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_179)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [_hoisted_181, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_182, [_hoisted_183, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.pelatihan, function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: item.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.nama_pelatihan), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getKategori(item.kategori_pelatihan)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tanggal_mulai), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tanggal_selesai), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.durasi_pelatihan), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_184, [_hoisted_185, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_186, [_hoisted_187, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.catatanPelanggaran, function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: item.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.catatan), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tanggal), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getTingkatan(item.tingkatan)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getStatus(item.status)), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [_hoisted_189, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_190, [_hoisted_191, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.riwayatOrganisasi, function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: item.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getKategoriKarir(item.kategori_karir)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.perusahaan.nama_pt), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.divisi.nama_divisi), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.jabatan.nama_jabatan), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.posisi.nama_posisi), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tgl_masuk), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.tgl_berakhir), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_192, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_193, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button type=\"submit\" class=\"btn btn-warning mt-3\" @click.prevent=\"storeData\" style=\"float:right\">Update</button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     href: "/apps/karyawan",
     "class": "btn btn-secondary shadow-sm rounded-sm-5 mt-3",
     style: {
@@ -29217,7 +29334,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Kembali")];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Kembali")];
     }),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button type=\"button\" class=\"btn btn-primary mt-3\" @click.prevent=\"goToStep(4)\" style=\"float:right\">Previous</button> ")])])], 64 /* STABLE_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])])])], 64 /* STABLE_FRAGMENT */);
