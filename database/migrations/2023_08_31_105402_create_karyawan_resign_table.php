@@ -18,7 +18,7 @@ class CreateKaryawanResignTable extends Migration
             $table->unsignedBigInteger('karyawan_id');
             $table->foreign('karyawan_id')->references('id')->on('karyawan')->onDelete('cascade');
             $table->tinyInteger('alasan_resign');
-            $table->date('tanggal_resign');
+            $table->date('tanggal');
             $table->tinyInteger('created_id')->nullable();
             $table->timestamps();
         });

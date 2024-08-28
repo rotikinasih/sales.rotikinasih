@@ -33,7 +33,7 @@
                             </svg></span>
                         <span class="pcoded-mtext">Karyawan</span></Link>
                     </li>
-                    
+
                     <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item" :class="{ 'active': $page.url.startsWith('/apps/perusahaan') }" v-if="hasAnyPermission(['pt.index'])">
                         <Link href="/apps/perusahaan" ><span class="pcoded-micon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
@@ -66,6 +66,17 @@
                             <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm9 1.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 0-1h-4a.5.5 0 0 0-.5.5ZM9 8a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 0-1h-4A.5.5 0 0 0 9 8Zm1 2.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5Zm-1 2C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 0 2 13h6.96c.026-.163.04-.33.04-.5ZM7 6a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z"/>
                             </svg></span>
                         <span class="pcoded-mtext">Posisi</span></Link>
+                    </li>
+
+                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item" :class="{ 'active': $page.url.startsWith('/apps/karyawan-expired') }" v-if="hasAnyPermission(['karyawan.expiredKaryawan'])">
+                        <Link href="/apps/karyawan-expired" >
+                            <span class="pcoded-micon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-badge-fill" viewBox="0 0 16 16">
+                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-.245z"/>
+                                </svg>
+                            </span>
+                            <span class="pcoded-mtext">Karyawan Expired</span>
+                        </Link>
                     </li>
 
                     <li class="nav-item pcoded-menu-caption">
@@ -190,7 +201,7 @@
     export default {
         components:{
             Link
-        },
+        }, 
         props:{
             auth: Object
         },

@@ -8,16 +8,19 @@ use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Karyawan;
 use App\Models\Pelatihan;
+use App\Models\KaryawanPHK;
 use Illuminate\Support\Str;
 use App\Models\MasterDivisi;
 use App\Models\MasterPosisi;
 use Illuminate\Http\Request;
 use App\Models\MasterJabatan;
+use App\Models\KaryawanResign;
 use App\Exports\KaryawanExport;
 use App\Imports\KaryawanImport;
 use App\Models\MasterPerusahaan;
 use App\Models\RiwayatOrganisasi;
 use App\Models\CatatanPelanggaran;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -669,6 +672,35 @@ class KaryawanController extends Controller
         return Response::make($pdf->output(), 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="detail_karyawan.pdf"',
+        ]);
+    }
+
+    public function indexExpKaryawan(Request $request){
+        $search = $request->input('search');
+        $karyawan_resign = DB::table('karyawan_resign')
+            ->join('karyawan', 'karyawan.id', '=', 'karyawan_resign.karyawan_id')
+            ->select('karyawan_resign.id', 'karyawan.nama_lengkap', 'karyawan.nik_karyawan', 'karyawan_resign.alasan_resign as alasan', 'karyawan_resign.tanggal_resign as tanggal', DB::raw("'resign' as type"));
+
+        $karyawan_phk = DB::table('karyawan_phk')
+            ->join('karyawan', 'karyawan.id', '=', 'karyawan_phk.karyawan_id')
+            ->select('karyawan_phk.id', 'karyawan.nama_lengkap', 'karyawan.nik_karyawan', 'karyawan_phk.penyebab_phk as alasan', 'karyawan_phk.tanggal_phk as tanggal', DB::raw("'phk' as type"));
+
+        if ($search) {
+            $karyawan_resign->where('karyawan.nama_lengkap', 'like', '%' . $search . '%')
+                ->orWhere('karyawan.nik_karyawan', 'like', '%' . $search . '%');
+
+            $karyawan_phk->where('karyawan.nama_lengkap', 'like', '%' . $search . '%')
+                ->orWhere('karyawan.nik_karyawan', 'like', '%' . $search . '%');
+        }
+
+        $karyawan_status = $karyawan_resign->union($karyawan_phk)
+            ->orderBy('tanggal', 'desc')
+            ->paginate(10);
+
+        return inertia('Apps/ExpiredEmploye/Index', [
+            'karyawan_status' => $karyawan_status,
+            'karyawan' => Karyawan::all(),
+            'karyawan_edit' => Karyawan::all()
         ]);
     }
 }

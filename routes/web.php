@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Apps\KaryawanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -152,8 +153,12 @@ Route::prefix('apps')->group(function () {
                 'create' => 'apps.karyawan.create',
                 'edit' => 'apps.karyawan.edit',
                 'delete' => 'apps.karyawan.delete',
+
             ],
         ]);
+
+        // Route khusus untuk method indexExpKaryawan
+        Route::get('/karyawan-expired', [KaryawanController::class, 'indexExpKaryawan'])->name('apps.karyawan.expired');
 
         //route resign
         Route::resource('/resign', App\Http\Controllers\Apps\ResignController::class, [
