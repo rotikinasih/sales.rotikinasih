@@ -10,7 +10,7 @@
             <img src="/images/logo.png" alt="Logo" style="height: 60px;">
           </div>
           <h2 class="mb-1">Login</h2>
-          <p class="mb-3 text-muted">Website Penjualan</p>
+          <p class="mb-3 text-muted">Website</p>
         </div>
         <form @submit.prevent="submit">
           <div class="form-group mb-3">
