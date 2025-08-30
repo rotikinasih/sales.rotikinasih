@@ -1,121 +1,148 @@
 <template>
-<head>
-    <title>Login - Database Karyawan</title>
-</head>
-
-<div class="auth-wrapper">
-        <div class="auth-content">
-            <div class="auth-bg">
-                <span class="r"></span>
-                <span class="r s"></span>
-                <span class="r s"></span>
-                <span class="r"></span>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="mb-4">
-                        <i class="feather icon-unlock auth-icon"></i>
-                    </div>
-                    <h3 class="mb-4">Login</h3>
-                    <h5 class="mb-4">Database Karyawan</h5>
-                    <form @submit.prevent="submit">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" v-model="form.username" :class="{ 'is-invalid': errors.username }"  placeholder="Username">
-                        </div>
-                        <div v-if="errors.username" class="alert alert-danger">
-                            {{ errors.username }}
-                        </div>
-                        <div class="input-group mb-4">
-                            <input v-if="showPassword" type="text" class="form-control" v-model="form.password" :class="{ 'is-invalid': errors.password }" placeholder="Password"/>
-                            <input v-else type="password" class="form-control" v-model="form.password" :class="{ 'is-invalid': errors.password }" placeholder="Password">
-                            <div class="input-group-append" style="cursor:pointer">
-                                <a class="input-group-text" @click="toggleShow">
-                                    <span class="icon is-small is-right">
-                                        <i class="fas" :class="{ 'fa-eye-slash': showPassword, 'fa-eye': !showPassword }"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div v-if="errors.password" class="alert alert-danger">
-                            {{ errors.password }}
-                        </div>
-                        <button class="btn btn-primary shadow-2 mb-4" type="submit">Login</button>
-                    </form>
-                </div>
-            </div>
+  <Head>
+    <title>Login - Website Penjualan</title>
+  </Head>
+  <div class="login-bg">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="login-icon">
+            <img src="/images/logo.png" alt="Logo" style="height: 60px;">
+          </div>
+          <h2 class="mb-1">Login</h2>
+          <p class="mb-3 text-muted">Website Penjualan</p>
         </div>
+        <form @submit.prevent="submit">
+          <div class="form-group mb-3">
+            <label class="form-label">Username</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-user"></i></span>
+              <input type="text" class="form-control" v-model="form.username" :class="{ 'is-invalid': errors.username }" placeholder="Username">
+            </div>
+            <div v-if="errors.username" class="invalid-feedback d-block">
+              {{ errors.username }}
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-lock"></i></span>
+              <input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="form.password" :class="{ 'is-invalid': errors.password }" placeholder="Password">
+              <button type="button" class="btn btn-outline-secondary" @click="toggleShow" tabindex="-1">
+                <i class="fas" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+              </button>
+            </div>
+            <div v-if="errors.password" class="invalid-feedback d-block">
+              {{ errors.password }}
+            </div>
+          </div>
+          <button class="btn btn-primary w-100 shadow-sm py-2 mt-2" type="submit">
+            <i class="fas fa-sign-in-alt me-2"></i> Login
+          </button>
+        </form>
+      </div>
     </div>
-
+  </div>
 </template>
 
 <script>
-    //import layout
-    import LayoutAuth from '../../Layouts/Auth.vue';
-    //import reactive
-    import { onMounted, reactive, ref } from 'vue';
-    //import inertia adapter
-    import { Inertia } from '@inertiajs/inertia';
-    //import Head and useform from inertia
-    import { Head, Link } from '@inertiajs/inertia-vue3';
+import LayoutAuth from '../../Layouts/Auth.vue';
+import { onMounted, reactive, ref } from 'vue';
+import { Inertia } from '@inertiajs/inertia';
+import { Head, Link } from '@inertiajs/inertia-vue3';
 
-    export default {
-        //layout
-        layout: LayoutAuth,
-        //register component
-        components: {
-            Head,
-            Link
+export default {
+  layout: LayoutAuth,
+  components: { Head, Link },
+  props: {
+    errors: Object,
+    session: Object
+  },
+  setup() {
+    const showPassword = ref(false);
+    const toggleShow = () => { showPassword.value = !showPassword.value; };
+    const form = reactive({ username: '', password: '' });
+    const submit = () => {
+      Inertia.post('/login', {
+        username: form.username,
+        password: form.password,
+      }, {
+        onSuccess: () => {
+          setTimeout(() => { location.reload(); }, 50);
         },
-        props: {
-            errors: Object,
-            session: Object
-        },
-
-        //define composition API
-        setup() {
-            const showPassword = ref(false);
-
-            onMounted(() => {
-                return (showPassword.value) ? "Hide" : "Show";
-            })
-            //show hide password
-            const toggleShow = () => {
-                showPassword.value = !showPassword.value;
-            }
-
-            //define form state
-            const form = reactive({
-                username: '',
-                password: '',
-            });
-
-            //submit method
-            const submit = () => {
-                //send data to server
-                Inertia.post('/login', {
-                    //data
-                    username: form.username,
-                    password: form.password,
-                }, {
-                    onSuccess: () => {
-                        setTimeout(() => {
-                            // reload page
-                            location.reload();
-                        }, 50);
-                    },
-                });
-            }
-
-            //return form state and submit method
-            return {
-                form,
-                toggleShow, showPassword,
-                submit,
-            };
-        }
-
-    }
+      });
+    };
+    return { form, toggleShow, showPassword, submit };
+  }
+}
 </script>
 
-<style>
+<style scoped>
+.login-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+.login-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
+  padding: 2.5rem 2rem 2rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.login-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.login-icon {
+  background: linear-gradient(135deg, #6366f1 0%, #60a5fa 100%);
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto 1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.15);
+}
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.input-group-text {
+  background: #f1f5f9;
+  border: none;
+}
+.form-control:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 0.15rem rgba(99,102,241,.15);
+}
+.btn-primary {
+  background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.btn-outline-secondary {
+  border: none;
+  background: transparent;
+  color: #6366f1;
+}
+.invalid-feedback {
+  font-size: 0.95em;
+}
+@media (max-width: 500px) {
+  .login-card { padding: 1.5rem 0.5rem; }
+  .login-container { max-width: 98vw; }
+}
 </style>

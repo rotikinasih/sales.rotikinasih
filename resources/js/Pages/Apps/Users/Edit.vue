@@ -12,19 +12,9 @@
                                 <span class="font-weight-bold"><i class="fa fa-user"></i> EDIT USER</span>
                             </div>
                             <div class="card-body">
-
                                 <form @submit.prevent="submit">
 
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="fw-bold">Full Name</label>
-                                                <input class="form-control" v-model="form.name" :class="{ 'is-invalid': errors.name }" type="text" placeholder="Full Name">
-                                            </div>
-                                            <div v-if="errors.name" class="alert alert-danger">
-                                                {{ errors.name }}
-                                            </div>
-                                        </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="fw-bold">Email Address</label>
@@ -35,6 +25,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -57,7 +48,7 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="fw-bold">Username</label>
-                                                <input class="form-control" v-model="form.username" :class="{ 'is-invalid': errors.username }" type="username" placeholder="Username">
+                                                <input class="form-control" v-model="form.username" :class="{ 'is-invalid': errors.username }" type="text" placeholder="Username">
                                             </div>
                                             <div v-if="errors.username" class="alert alert-danger">
                                                 {{ errors.username }}
@@ -79,14 +70,28 @@
                                     </div>
 
                                     <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="fw-bold">Outlet (boleh lebih dari satu)</label>
+                                                <div v-for="outlet in outlets" :key="outlet.id" class="form-check">
+                                                    <input class="form-check-input" type="checkbox" :id="'outlet-'+outlet.id"
+                                                        :value="outlet.id" v-model="form.outlet_ids">
+                                                    <label class="form-check-label" :for="'outlet-'+outlet.id">{{ outlet.lokasi }}</label>
+                                                </div>
+                                                <div v-if="errors.outlet_ids" class="alert alert-danger">
+                                                    {{ errors.outlet_ids }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
                                         <div class="col-12">
                                             <button class="btn btn-primary shadow-sm rounded-sm" type="submit">Update</button>
-                                            <button class="btn btn-warning shadow-sm rounded-sm ms-3" type="reset">Reset</button>
-                                            <Link href="/apps/users" class="btn btn-secondary shadow-sm rounded-sm-5" style="float:right">Kembali</Link>
+                                            <Link href="/apps/users" class="btn btn-secondary shadow-sm rounded-sm-5 ms-3" style="float:right">Kembali</Link>
                                         </div>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -97,82 +102,70 @@
 </template>
 
 <script>
-    //import layout
-    import LayoutApp from '../../../Layouts/App.vue';
-    //import Heade and Link from Inertia
-    import { Head, Link } from '@inertiajs/inertia-vue3';
-    //import reactive from vue
-    import { reactive } from 'vue';
-    //import inerita adapter
-    import { Inertia } from '@inertiajs/inertia';
-    //import sweet alert2
-    import Swal from 'sweetalert2';
+import LayoutApp from '../../../Layouts/App.vue';
+import { Head, Link } from '@inertiajs/inertia-vue3';
+import { reactive } from 'vue';
+import { Inertia } from '@inertiajs/inertia';
+import Swal from 'sweetalert2';
+import VueMultiselect from 'vue-multiselect';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
 
-    export default {
-        //layout
-        layout: LayoutApp,
+export default {
+    layout: LayoutApp,
+    components: {
+        Head,
+        Link,
+        VueMultiselect
+    },
+    props: {
+        errors: Object,
+        user: Object,
+        roles: Array,
+        outlets: Array // <-- tambahkan ini
+    },
+    setup(props) {
+        const form = reactive({
+            name: props.user.name,
+            email: props.user.email,
+            username: props.user.username,
+            password: '',
+            password_confirmation: '',
+            roles: props.user.roles.map(role => role.name),
+            outlet_ids: props.user.outlets.map(o => o.id) // <-- penting!
+        });
 
-        //register component
-        components: {
-            Head,
-            Link
-        },
-
-        //props
-        props: {
-            errors: Object,
-            user: Object,
-            roles: Array,
-        },
-
-        //composition API
-        setup(props) {
-
-            //define form with reactive
-            const form = reactive({
-                name: props.user.name,
-                email: props.user.email,
-                username: props.user.username,
-                password: '',
-                password_confirmation: '',
-                roles: props.user.roles.map(obj => obj.name),
+        const submit = () => {
+            Inertia.put(`/apps/users/${props.user.id}`, {
+                email: form.email,
+                username: form.username,
+                password: form.password,
+                password_confirmation: form.password_confirmation,
+                roles: form.roles,
+                name: form.name,
+                outlet_ids: form.outlet_ids // <-- pastikan ini dikirim
+            }, {
+                onSuccess: () => {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'User updated successfully.',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                },
             });
+        };
 
-            //method "submit"
-            const submit = () => {
-                //send data to server
-                Inertia.put(`/apps/users/${props.user.id}`, {
-                    //data
-                    name: form.name,
-                    email: form.email,
-                    username: form.username,
-                    password: form.password,
-                    password_confirmation: form.password_confirmation,
-                    roles: form.roles
-                }, {
-                    onSuccess: () => {
-                        //show success alert
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'User updated successfully.',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    },
-                });
-
-            }
-
-            return {
-                form,
-                submit,
-            };
-
-        }
+        return {
+            form,
+            submit
+        };
     }
+}
 </script>
 
-<style>
-
+<style scoped>
+.multiselect {
+    width: 100%;
+}
 </style>

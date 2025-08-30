@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\Apps\DistribusiProdukController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Apps\KaryawanController;
+use App\Http\Controllers\Apps\KasirController;
+use App\Http\Controllers\Apps\MasterKendaraanController;
+use App\Http\Controllers\Apps\MonitoringOrderController;
+use App\Http\Controllers\Apps\OrderPenjualanController;
+use App\Http\Controllers\Apps\MonitoringStokController;
+use App\Http\Controllers\Apps\ReturProdukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,152 +31,59 @@ Route::get('/', function () {
 
 //prefix "apps"
 Route::prefix('apps')->group(function () {
-
-    //middleware "auth"
     Route::group(['middleware' => ['auth']], function () {
-
         //route dashboard
         Route::get('dashboard', App\Http\Controllers\Apps\DashboardController::class)->name('apps.dashboard');
 
+
         //route pt
-        Route::resource('/perusahaan', App\Http\Controllers\Apps\PerusahaanController::class, [
+        Route::resource('/orderpenjualan', App\Http\Controllers\Apps\OrderPenjualanController::class, [
             'names' => [
-                'index' => 'apps.perusahaan.index',
+                'index' => 'apps.orderpenjualan.index',
+            ],
+        ]);
+        Route::post('orderpenjualan/{id}/cicilan', [OrderPenjualanController::class, 'cicilan']);
+
+        //route produk
+        Route::resource('/produk', App\Http\Controllers\Apps\MasterProdukController::class, [
+            'names' => [
+                'index' => 'apps.produk.index',
             ],
         ]);
 
-        //route divisi
-        Route::resource('/divisi', App\Http\Controllers\Apps\DivisiController::class, [
+        //route katproduk
+        Route::resource('/katproduk', App\Http\Controllers\Apps\KategoriProdukController::class, [
             'names' => [
-                'index' => 'apps.divisi.index',
+                'index' => 'apps.katproduk.index',
             ],
         ]);
 
-        //route jabatan
-        Route::resource('/jabatan', App\Http\Controllers\Apps\JabatanController::class, [
+        //route tipe outlet
+        Route::resource('/toutlet', App\Http\Controllers\Apps\TipeOutletController::class, [
             'names' => [
-                'index' => 'apps.jabatan.index',
+                'index' => 'apps.toutlet.index',
             ],
         ]);
 
-        //route posisi
-        Route::resource('/posisi', App\Http\Controllers\Apps\PosisiController::class, [
+        // Route kasir lengkap
+        Route::prefix('/kasir')->name('kasir.')->group(function () {
+            Route::get('/', [KasirController::class, 'index'])->name('index');
+            Route::post('/tambah-stok', [KasirController::class, 'tambahStok'])->name('tambah-stok');
+            Route::post('/checkout', [KasirController::class, 'checkout'])->name('checkout');
+            Route::post('/edit-stok', [KasirController::class, 'editStok'])->name('edit-stok');
+            Route::get('/rekap', [KasirController::class, 'rekap'])->name('rekap');
+            Route::get('/export', [KasirController::class, 'export'])->name('export');
+        });
+
+        Route::get('/order-produksi-kasir', [OrderPenjualanController::class, 'orderProduksiKasir'])->name('apps.orderproduksi.kasir');
+        Route::post('/order-produksi-kasir', [OrderPenjualanController::class, 'storeOrderProduksiKasir'])->name('apps.orderproduksi.kasir.store');
+
+
+
+        //route Master Outlet
+        Route::resource('/outlet', App\Http\Controllers\Apps\MasterOutletController::class, [
             'names' => [
-                'index' => 'apps.posisi.index',
-            ],
-        ]);
-
-        //route karyawan export excel
-        Route::get('/karyawan/export', [App\Http\Controllers\Apps\KaryawanController::class, 'export'])->name('apps.karyawan.export');
-
-        //route karyawan import excel
-        Route::post('/karyawan/import', [App\Http\Controllers\Apps\KaryawanController::class, 'import'])->name('apps.karyawan.import');
-
-        //route karyawan format excel
-        Route::get('/karyawan/format', [App\Http\Controllers\Apps\KaryawanController::class, 'format'])->name('apps.karyawan.format');
-
-        //route karyawan show detail
-        Route::get('/karyawan/detail', [App\Http\Controllers\Apps\KaryawanController::class, 'detail'])->name('apps.karyawan.detail');
-
-        Route::get('/karyawan/{id}/detail', [App\Http\Controllers\Apps\KaryawanController::class, 'detail'])->name('apps.karyawan.detail');
-
-        //route download pdf detail karyawan
-        Route::get('/karyawan/download-pdf/{id}', [App\Http\Controllers\Apps\KaryawanController::class, 'downloadPDF'])->name('apps.karyawan.downloadPDF');
-
-        //route storeKarir
-        Route::post('/karyawan/storeKarir', [App\Http\Controllers\Apps\KaryawanController::class, 'storeKarir'])->name('apps.karyawan.storeKarir');
-
-        //route storePelanggaran
-        Route::post('/karyawan/storePelanggaran', [App\Http\Controllers\Apps\KaryawanController::class, 'storePelanggaran'])->name('apps.karyawan.storePelanggaran');
-
-        //route listOrganisasi
-        Route::get('/karyawan/{id}/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'index'])->name('apps.organisasi.index');
-
-        //route listOrganisasiAll
-        Route::get('/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'indexAll'])->name('apps.organisasi.indexAll');
-
-        //route store listKarir
-        Route::post('list-organisasi/store', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'store'])->name('apps.organisasi.store');
-
-        //route update listKarir
-        Route::put('list-organisasi/{id}/update', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'update'])->name('apps.organisasi.update');
-
-        //route update listKarir
-        // Route::put('/karyawan/{id}/list-organisasi', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'update'])->name('apps.organisasi.update');
-
-        //route organisasi export excel
-        Route::get('/list-organisasi/export', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'export'])->name('apps.organisasi.export');
-
-        //route listPelanggaran dihalaman karyawan
-        Route::get('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'index'])->name('apps.pelanggaran.index');
-
-        //route listPelanggaranAll
-        Route::get('/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'indexAll'])->name('apps.pelanggaran.indexAll');
-
-        //route store list pelanggaran
-        Route::post('list-pelanggaran/store', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'store'])->name('apps.pelanggaran.store');
-
-        //route update listKarir
-        Route::put('list-pelanggaran/{id}/update', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.organisasi.update');
-
-        //route update listPelanggaran
-        // Route::put('/karyawan/{id}/list-pelanggaran', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'update'])->name('apps.pelanggaran.update');
-
-        //route organisasi export excel
-        Route::get('/list-pelanggaran/export', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'export'])->name('apps.pelanggaran.export');
-
-        //route pelatihan export excel
-        Route::get('/pelatihan/export', [App\Http\Controllers\Apps\PelatihanController::class, 'export'])->name('apps.pelatihan.export');
-
-        //route phk export excel
-        Route::get('/phk/export', [App\Http\Controllers\Apps\PHKController::class, 'export'])->name('apps.phk.export');
-
-        //route resign export excel
-        Route::get('/resign/export', [App\Http\Controllers\Apps\ResignController::class, 'export'])->name('apps.resign.export');
-
-        //route listPelatihan
-        Route::get('/karyawan/{id}/list-pelatihan', [App\Http\Controllers\Apps\PelatihanController::class, 'list_pelatihan'])->name('apps.organisasi.list_pelatihan');
-
-        //route delete pelatihan
-        Route::post('/pelatihan/{id}/delete', [App\Http\Controllers\Apps\PelatihanController::class, 'delete'])->name('apps.pelatihan.delete');
-
-        //route delete list-organisasi
-        Route::post('/list-organisasi/{id}/delete', [App\Http\Controllers\Apps\RiwayatOrganisasiController::class, 'delete'])->name('apps.list-organisasi.delete');
-
-        //route delete pelanggaran
-        Route::post('/pelanggaran/{id}/delete', [App\Http\Controllers\Apps\CatatanPelanggaranController::class, 'delete'])->name('apps.pelanggaran.delete');
-
-        //route delete resign
-        Route::post('/resign/{id}/delete', [App\Http\Controllers\Apps\ResignController::class, 'delete'])->name('apps.resign.delete');
-
-        //route delete phk
-        Route::post('/phk/{id}/delete', [App\Http\Controllers\Apps\PHKController::class, 'delete'])->name('apps.phk.delete');
-
-        //route karyawan
-        Route::resource('/karyawan', App\Http\Controllers\Apps\KaryawanController::class, [
-            'names' => [
-                'index' => 'apps.karyawan.index',
-                'create' => 'apps.karyawan.create',
-                'edit' => 'apps.karyawan.edit',
-                'delete' => 'apps.karyawan.delete',
-
-            ],
-        ]);
-
-        // Route khusus untuk method indexExpKaryawan
-        Route::get('/karyawan-expired', [KaryawanController::class, 'indexExpKaryawan'])->name('apps.karyawan.expired');
-
-        //route resign
-        Route::resource('/resign', App\Http\Controllers\Apps\ResignController::class, [
-            'names' => [
-                'index' => 'apps.resign.index',
-            ],
-        ]);
-
-        //route phk
-        Route::resource('/phk', App\Http\Controllers\Apps\PHKController::class, [
-            'names' => [
-                'index' => 'apps.phk.index',
+                'index' => 'apps.outlet.index',
             ],
         ]);
 
@@ -182,11 +95,45 @@ Route::prefix('apps')->group(function () {
         ]);
 
         //route pelatihan
-        Route::resource('/pelatihan', App\Http\Controllers\Apps\PelatihanController::class, [
+
+
+        // Monitoring Stok
+        Route::get('/monitoring-stok/export', [MonitoringStokController::class, 'export'])
+            ->name('apps.monitoringstok.export');
+
+        Route::get('/monitoring-stok/print', [MonitoringStokController::class, 'print'])
+            ->name('apps.monitoringstok.print');
+
+        Route::resource('/monitoring-stok', MonitoringStokController::class, [
             'names' => [
-                'index' => 'apps.pelatihan.index',
+                'index' => 'apps.monitoringstok.index',
             ],
         ]);
+
+        Route::resource('/distribusi-produk', App\Http\Controllers\Apps\DistribusiProdukController::class, [
+            'names' => [
+                'index' => 'apps.distribusiproduk.index',
+                'store' => 'apps.distribusiproduk.store',
+                'update' => 'apps.distribusiproduk.update',
+            ],
+        ]);
+
+        Route::get('/distribusi-produk/{orderId}/export-surat-jalan', [App\Http\Controllers\Apps\DistribusiProdukController::class, 'exportSuratJalan'])
+            ->name('apps.distribusiproduk.exportSuratJalan');
+
+        Route::get('/print/surat-jalan/{orderId}', [DistribusiProdukController::class, 'printSuratJalan'])->name('surat-jalan.print');
+
+        Route::get('/list-purchase-order', [\App\Http\Controllers\Apps\DistribusiProdukController::class, 'listPurchaseOrder'])->name('apps.listpurchaseorder.index');
+
+
+        //route master kendaraan
+        Route::resource('/masterkendaraan', MasterKendaraanController::class, [
+            'names' => [
+                'index' => 'apps.masterkendaraan.index',
+                // ...
+            ],
+        ]);
+
 
         //route permission
         // Route::get('/permissions', App\Http\Controllers\Apps\PermissionController::class)->name('apps.permissions');
@@ -198,6 +145,61 @@ Route::prefix('apps')->group(function () {
         //route resource users
         Route::resource('/users', \App\Http\Controllers\Apps\UserController::class, ['as' => 'apps'])
             ->middleware('permission:users.index|users.create|users.edit|users.delete');
+
+        //route monitoring order
+        Route::get('/monitoringorder/print', [MonitoringOrderController::class, 'print'])
+            ->name('apps.monitoringorder.print');
+
+        Route::get('/monitoringorder/export', [MonitoringOrderController::class, 'export'])
+            ->name('apps.monitoringorder.export');
+
+
+
+        Route::resource('/monitoringorder', App\Http\Controllers\Apps\MonitoringOrderController::class, [
+            'names' => [
+                'index' => 'apps.monitoringorder.index',
+            ],
+        ]);
+
+        //route pelatihan (hapus/komentar jika sudah tidak dipakai)
+        // Route::resource('/pelatihan', App\Http\Controllers\Apps\PelatihanController::class, [
+        //     'names' => [
+        //         'index' => 'apps.pelatihan.index',
+        //     ],
+        // ]);
+
+        // Konfirmasi Distribusi Kasir (pindahkan ke sini)
+        Route::get('/konfirmasi-distribusi-kasir', [\App\Http\Controllers\Apps\KonfirmasiDistribusiKasirController::class, 'index'])->name('apps.konfirmasi-distribusi-kasir.index');
+        Route::put('/konfirmasi-distribusi-kasir/{id}', [\App\Http\Controllers\Apps\KonfirmasiDistribusiKasirController::class, 'update'])->name('apps.konfirmasi-distribusi-kasir.update');
+
+
+        //route retur produk
+        Route::resource('/returproduk', ReturProdukController::class, [
+            'names' => [
+                'index' => 'apps.retur.index',
+                // ...
+            ],
+        ]);
+
+        Route::get('/retur-produk/cetak-pdf', [ReturProdukController::class, 'cetakPdf'])->name('retur.cetakPdf');
+        Route::get('/retur-produk/export-excel', [ReturProdukController::class, 'exportExcel'])->name('retur.exportExcel');
+        Route::get('/retur-produk/print', [ReturProdukController::class, 'print'])->name('retur.print');
+        Route::post('/retur-produk/store', [ReturProdukController::class, 'store'])->name('retur.store');
+        Route::post('/retur-produk/store-multi', [ReturProdukController::class, 'storeMulti'])->name('retur.storeMulti');
+        Route::get('/retur-produk', [ReturProdukController::class, 'index'])->name('retur.index');
+
+
+        Route::get('/laporan-keuangan-harian', [\App\Http\Controllers\Apps\LaporanKeuanganController::class, 'index'])->name('apps.laporankeuangan.index');
+        Route::get('/laporan-keuangan-harian/export', [\App\Http\Controllers\Apps\LaporanKeuanganController::class, 'export'])
+            ->name('apps.laporankeuangan.export');
+        Route::get('/laporan-keuangan-harian/print', [\App\Http\Controllers\Apps\LaporanKeuanganController::class, 'print'])
+            ->name('apps.laporankeuangan.print');
+
+            Route::resource('/mastercs', \App\Http\Controllers\Apps\MasterCSController::class, [
+    'names' => [
+        'index' => 'apps.mastercs.index',
+    ],
+]);
 
     });
 });

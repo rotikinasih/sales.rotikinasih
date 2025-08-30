@@ -50,4 +50,9 @@ class User extends Authenticatable
             return [$pr['name'] => true];
         });
     }
+    
+    public function outlets()
+    {
+        return $this->belongsToMany(\App\Models\MasterOutlet::class, 'user_outlet', 'user_id', 'outlet_id')->withTimestamps();
+    }
 }
