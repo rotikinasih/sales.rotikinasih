@@ -158,6 +158,7 @@ class KasirController extends Controller
 
         $userOutletIds = auth()->user()->outlets->pluck('id')->toArray();
 
+        // Filter transaksi sesuai outlet yang dipilih
         $transaksis = \App\Models\Transaksi::with('items.produk')
             ->whereDate('created_at', $tanggal)
             ->whereIn('outlet_id', $userOutletIds)
@@ -165,7 +166,7 @@ class KasirController extends Controller
             ->get()
             ->map(function($trx) {
                 return [
-                    'id' => $trx->id, // <-- tambahkan ini!
+                    'id' => $trx->id,
                     'kode_transaksi' => $trx->kode_transaksi,
                     'created_at' => $trx->created_at,
                     'pembayaran' => $trx->pembayaran,
@@ -177,12 +178,13 @@ class KasirController extends Controller
                 ];
             });
 
-        // Ambil order penjualan hanya untuk outlet user dan metode_pembayaran tidak null/kosong
+        // Filter order penjualan sesuai outlet yang dipilih
         $orderPenjualan = \App\Models\OrderPenjualan::with('details.master_produk')
             ->whereDate('created_at', $tanggal)
             ->whereIn('outlet_id', $userOutletIds)
             ->whereNotNull('metode_pembayaran')
             ->where('metode_pembayaran', '!=', '')
+            ->when($outlet_id && $outlet_id != 0, fn($q) => $q->where('outlet_id', $outlet_id))
             ->get()
             ->map(function($order) {
                 $kode = 'TRX-' . \Carbon\Carbon::parse($order->created_at)->format('YmdHis');
@@ -191,7 +193,7 @@ class KasirController extends Controller
                     'created_at' => $order->created_at,
                     'pembayaran' => $order->metode_pembayaran ?? '-',
                     'total' => $order->total_bayar,
-                    'diskon' => 0, // order penjualan tidak ada diskon
+                    'diskon' => 0,
                     'items' => $order->details->map(function($d) {
                         return [
                             'produk' => $d->master_produk,

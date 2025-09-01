@@ -30779,7 +30779,7 @@ var _hoisted_3 = {
 var _hoisted_4 = {
   "class": "login-card"
 };
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"login-header\" data-v-a2ac2cea><div class=\"login-icon\" data-v-a2ac2cea><img src=\"/images/logo.png\" alt=\"Logo\" style=\"height:60px;\" data-v-a2ac2cea></div><h2 class=\"mb-1\" data-v-a2ac2cea>Login</h2><p class=\"mb-3 text-muted\" data-v-a2ac2cea>Website Penjualan</p></div>", 1);
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"login-header\" data-v-a2ac2cea><div class=\"login-icon\" data-v-a2ac2cea><img src=\"/images/logo.png\" alt=\"Logo\" style=\"height:60px;\" data-v-a2ac2cea></div><h2 class=\"mb-1\" data-v-a2ac2cea>Login</h2><p class=\"mb-3 text-muted\" data-v-a2ac2cea>Manajemen Penjualan</p></div>", 1);
 var _hoisted_6 = {
   "class": "form-group mb-3"
 };
