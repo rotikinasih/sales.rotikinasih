@@ -90,7 +90,7 @@
 
                         <!-- Kolom Keranjang -->
                         <div class="col-lg-4 col-12">
-                            <div class="card shadow border-0 h-100">
+                            <div class="card shadow border-0">
                                 <div class="card-header text-white d-flex align-items-center justify-content-between"
                                     style="background-color: #3c8dbc;">
                                     <h5 class="mb-0 text-white">Keranjang</h5>
@@ -460,9 +460,8 @@ export default {
 
         const checkout = () => {
             let jumlahBayarFinal = jumlahBayar.value;
-            // Jika metode bank, isi otomatis
             if (pembayaran.value === 'bank') {
-                jumlahBayarFinal = totalHarga.value; // atau totalHarga.value - diskon.value jika diskon sudah dikurangi
+                jumlahBayarFinal = totalHarga.value;
             }
             Inertia.post('/apps/kasir/checkout', {
                 keranjang: keranjang.value,
@@ -472,12 +471,33 @@ export default {
                 diskon: diskon.value,
                 outlet_id: outlet_id.value,
             }, {
-                onSuccess: () => {
+                onSuccess: (res) => {
                     keranjang.value = [];
                     jumlahBayar.value = 0;
                     diskon.value = 0;
-                    Swal.fire('Sukses', 'Transaksi berhasil disimpan!', 'success');
+                    Swal.fire({
+                        title: 'Transaksi Berhasil',
+                        text: 'Pilih aksi nota:',
+                        icon: 'success',
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Download PDF',
+                        denyButtonText: 'Print Struk',
+                        cancelButtonText: 'Tutup',
+                    }).then((result) => {
+                        // Download PDF
+                        if (result.isConfirmed && res.props.transaksi_id) {
+                            window.open(`/kasir/download-nota/${res.props.transaksi_id}`, '_blank');
+                        }
+                        // Print Struk (thermal)
+                        else if (result.isDenied && res.props.transaksi_id) {
+                            window.open(`/kasir/print-nota/${res.props.transaksi_id}`, '_blank');
+                        }
+                    });
                 },
+                onError: (err) => {
+                    Swal.fire('Gagal', err.message || 'Gagal transaksi!', 'error');
+                }
             });
         };
 
@@ -587,6 +607,7 @@ export default {
                     produk_id: row.produkId,
                     jumlah: row.jumlah,
                 })),
+                outlet_id: outlet_id.value, // <-- tambahkan ini!
             }, {
                 onSuccess: () => {
                     showReturModal.value = false;
@@ -595,9 +616,25 @@ export default {
                     Inertia.reload({ only: ['produk'] });
                 },
                 onError: (err) => {
-                    Swal.fire("Gagal", err.msg || "Gagal retur produk!", "error");
+                    Swal.fire("Gagal!", err.msg || "Gagal retur produk!", "error");
                 }
             });
+        };
+
+        const submitRetur = () => {
+          Inertia.post('/apps/returproduk', {
+            produk_id: selectedProduk.value,
+            jumlah: jumlah.value,
+            outlet_id: outlet_id.value, // <-- tambahkan ini!
+          }, {
+            onSuccess: () => {
+              Swal.fire("Berhasil!", "Retur produk berhasil ditambahkan.", "success");
+              getData();
+            },
+            onError: () => {
+              Swal.fire("Gagal!", "Retur produk gagal ditambahkan.", "error");
+            },
+          });
         };
 
         return {
@@ -639,6 +676,7 @@ export default {
             submitReturProdukMulti,
             outlet_id,
             getData,
+            submitRetur,
         };
     },
 };

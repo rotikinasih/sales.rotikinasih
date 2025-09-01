@@ -341,4 +341,12 @@ public function cicilan(Request $request, $id)
 
     return back()->with('success', 'Cicilan berhasil disimpan.');
 }
+
+public function destroy($id)
+{
+    $order = \App\Models\OrderPenjualan::findOrFail($id);
+    $order->delete();
+
+    return redirect()->back()->with('success', 'Order berhasil dihapus');
+}
 }

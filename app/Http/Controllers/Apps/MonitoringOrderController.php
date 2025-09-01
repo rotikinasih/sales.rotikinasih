@@ -44,7 +44,7 @@ class MonitoringOrderController extends Controller
                 });
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(25);
 
         $orders = OrderPenjualan::with('details.master_produk')->get();
 

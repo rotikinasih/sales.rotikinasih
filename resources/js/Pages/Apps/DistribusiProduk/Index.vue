@@ -1,5 +1,4 @@
 <template>
-
   <Head>
     <title>Distribusi Produk</title>
   </Head>
@@ -8,14 +7,23 @@
       <div class="card">
         <div class="card-header d-flex justify-between align-items-center flex-wrap">
           <h5 class="mb-2">Distribusi Produk</h5>
-          <div class="input-group">
-            <span class="input-group-text bg-white">
-              <i class="fa fa-calendar"></i>
-            </span>
-            <flat-pickr v-model="filters.tanggal" @on-change="getData" class="form-control"
-              :config="{ dateFormat: 'Y-m-d', allowInput: true }" placeholder="Pilih tanggal distribusi" />
+          <div class="d-flex align-items-center gap-2">
+            <div class="input-group">
+              <span class="input-group-text bg-white">
+                <i class="fa fa-calendar"></i>
+              </span>
+              <flat-pickr v-model="filters.tanggal" @on-change="getData" class="form-control"
+                :config="{ dateFormat: 'Y-m-d', allowInput: true }" placeholder="Pilih tanggal distribusi" />
+            </div>
+            <button class="btn btn-outline-primary btn-sm ms-2 ml-3"
+              @click="printHarian">
+              <i class="fa fa-print"></i> Print Harian
+            </button>
+            <button class="btn btn-outline-danger btn-sm ms-2"
+              @click="exportPdfHarian">
+              <i class="fa fa-file-pdf"></i> Export PDF Harian
+            </button>
           </div>
-
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -53,20 +61,19 @@
                     </ul>
                   </td>
                   <td class="text-center">
-  <span v-if="item.distribusi_produk?.status_distribusi == 1"
-        class="badge bg-warning text-dark px-3 py-1 rounded-pill d-inline-flex align-items-center gap-2">
-    <i class="fas fa-truck-moving"></i> Sedang Distribusi
-  </span>
-  <span v-else-if="item.distribusi_produk?.status_distribusi == 2"
-        class="badge bg-success text-white px-3 py-1 rounded-pill d-inline-flex align-items-center gap-2">
-    <i class="fas fa-check-circle"></i> Selesai Distribusi
-  </span>
-  <span v-else
-        class="badge bg-secondary text-white px-3 py-1 rounded-pill d-inline-flex align-items-center gap-2">
-    <i class="fas fa-minus-circle"></i> Belum Distribusi
-  </span>
-</td>
-
+                    <span v-if="item.distribusi_produk?.status_distribusi == 1"
+                          class="badge bg-warning text-dark px-3 py-1 rounded-pill d-inline-flex align-items-center gap-2">
+                      <i class="fas fa-truck-moving"></i> Sedang Distribusi
+                    </span>
+                    <span v-else-if="item.distribusi_produk?.status_distribusi == 2"
+                          class="badge bg-success text-white px-3 py-1 rounded-pill d-inline-flex align-items-center gap-2">
+                      <i class="fas fa-check-circle"></i> Selesai Distribusi
+                    </span>
+                    <span v-else
+                          class="badge bg-secondary text-white px-3 py-1 rounded-pill d-inline-flex align-items-center gap-2">
+                      <i class="fas fa-minus-circle"></i> Belum Distribusi
+                    </span>
+                  </td>
                   <td>
                     {{ item.distribusi_produk?.master_kendaraan?.kode_kendaraan || '-' }}<br>
                     <small>{{ item.distribusi_produk?.master_kendaraan?.merk_kendaraan || '' }} - {{
@@ -77,14 +84,10 @@
                       style="cursor:pointer; border-radius:10px">
                       <i class="fa fa-pencil-alt"></i> Edit
                     </a>
-
-                    <!-- Tombol Print -->
                     <a :href="`/apps/print/surat-jalan/${item.order_penjualan?.id}`" target="_blank"
                       class="label theme-bg9 text-white f-12" style="cursor:pointer; border-radius:10px">
                       <i class="fa fa-print"></i> Print
                     </a>
-
-                    <!-- Tombol Export PDF -->
                     <a :href="`/apps/distribusi-produk/${item.order_penjualan?.id}/export-surat-jalan`" target="_blank"
                       class="label theme-bg5 text-white f-12" style="cursor:pointer; border-radius:10px"
                       v-if="item.distribusi_produk?.status_distribusi == 1 || item.distribusi_produk?.status_distribusi == 2">
@@ -93,7 +96,7 @@
                   </td>
                 </tr>
                 <tr v-if="distribusiProduks.data.length === 0">
-                  <td colspan="9" class="text-center">Data Kosong</td>
+                  <td colspan="10" class="text-center">Data Kosong</td>
                 </tr>
               </tbody>
             </table>
@@ -135,6 +138,7 @@
       </Modal>
     </Teleport>
 
+    <!-- Refresh button removed -->
 
   </main>
 </template>
@@ -145,7 +149,6 @@ import LayoutApp from "../../../Layouts/App.vue";
 import Pagination from "../../../Components/Pagination.vue";
 import Modal from "../../../Components/Modal.vue";
 import FlatPickr from "vue-flatpickr-component";
-
 import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import Swal from "sweetalert2";
@@ -178,74 +181,41 @@ export default {
       master_kendaraan_id: ''
     });
 
-    const printSuratJalan = (item) => {
-      selectedOrderPenjualan.value = item.order_penjualan;
-      selectedKendaraan.value = item.distribusi_produk?.master_kendaraan;
-      showSuratJalanModal.value = true;
-
-      // Cetak setelah tampilan selesai render
-      setTimeout(() => {
-        window.print();
-      }, 500); // jeda waktu untuk memastikan komponen tampil
-    };
-
-    const showSuratJalanModal = ref(false);
-    const selectedOrderPenjualan = ref(null);
-    const selectedKendaraan = ref(null);
-
-    const getData = () => {
+    const getData = (page = 1) => {
       Inertia.get('/apps/distribusi-produk', {
-        tanggal: filters.value.tanggal
+        tanggal: filters.value.tanggal,
+        page: page
       }, {
         preserveState: true,
         replace: true
       });
     };
 
+    const printHarian = () => {
+      if (!filters.value.tanggal) {
+        Swal.fire("Perhatian", "Pilih tanggal distribusi terlebih dahulu!", "warning");
+        return;
+      }
+      window.open(`/apps/distribusi-produk/print-harian?tanggal=${filters.value.tanggal}`, "_blank");
+    };
+    const exportPdfHarian = () => {
+      window.open(`/apps/distribusi-produk/export-harian?tanggal=${filters.value.tanggal}`, "_blank");
+    };
+
     const editData = (item) => {
-      // Jika distribusi_produk sudah ada, edit. Jika belum, siapkan untuk create.
       selectedId.value = item.distribusi_produk?.id ?? null;
       form.value.status_distribusi = item.distribusi_produk?.status_distribusi || 1;
       form.value.master_kendaraan_id = item.distribusi_produk?.master_kendaraan_id || '';
-      // Simpan juga monitoring_order_id untuk create distribusi baru
       form.value.monitoring_order_id = item.id;
       showModal.value = true;
     };
 
-    const showSuratJalan = (item) => {
-      selectedOrderPenjualan.value = item.order_penjualan;
-      selectedKendaraan.value = item.distribusi_produk?.master_kendaraan;
-      showSuratJalanModal.value = true;
-    };
-
-    const updateData = () => {
-      if (!form.value.master_kendaraan_id) {
-        Swal.fire("Perhatian", "Pilih kendaraan terlebih dahulu!", "warning");
-        return;
-      }
-      if (selectedId.value) {
-        // Sudah ada distribusi_produk, update (PUT)
-        Inertia.put(`/apps/distribusi-produk/${selectedId.value}`, {
-          status_distribusi: form.value.status_distribusi,
-          master_kendaraan_id: form.value.master_kendaraan_id
-        }, {
-          onSuccess: () => {
-            Swal.fire("Sukses", "Status distribusi diperbarui!", "success");
-            showModal.value = false;
-          },
-        });
-      } else {
-        // Belum ada distribusi_produk, create baru (POST)
-        Inertia.post(`/apps/distribusi-produk`, {
-          monitoring_order_id: form.value.monitoring_order_id,
-          status_distribusi: form.value.status_distribusi,
-          master_kendaraan_id: form.value.master_kendaraan_id
-        }, {
-          onSuccess: () => {
-            Swal.fire("Sukses", "Distribusi berhasil dibuat!", "success");
-            showModal.value = false;
-          },
-        });
+    // Pagination handler
+    const handlePageChange = (link) => {
+      if (link.url) {
+        const url = new URL(link.url);
+        const page = url.searchParams.get("page") || 1;
+        getData(page);
       }
     };
 
@@ -253,14 +223,11 @@ export default {
       showModal,
       form,
       editData,
-      updateData,
       filters,
       getData,
-      selectedOrderPenjualan,
-      selectedKendaraan,
-      showSuratJalan,
-      printSuratJalan, // <-- pastikan ini ada!
-      showSuratJalanModal,
+      printHarian,
+      exportPdfHarian,
+      handlePageChange
     };
   },
 };

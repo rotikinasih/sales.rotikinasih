@@ -70,11 +70,12 @@ class KasirController extends Controller
             'jumlah_bayar' => 'nullable|numeric',
             'pelanggan' => 'nullable|string|max:255',
             'diskon' => 'nullable|numeric|min:0',
+            'outlet_id' => 'required|exists:master_outlet,id', // <-- tambahkan validasi outlet
         ]);
 
-        $outletId = auth()->user()->outlets()->first()->id ?? null;
+        $outletId = $request->outlet_id; // <-- ambil dari request
         if (!$outletId) {
-            return back()->withErrors(['outlet_id' => 'User belum terhubung ke outlet manapun!']);
+            return back()->withErrors(['outlet_id' => 'User belum memilih outlet!']);
         }
 
         DB::beginTransaction();
@@ -82,15 +83,14 @@ class KasirController extends Controller
             $totalAwal = collect($request->keranjang)->sum(fn($item) => $item['jumlah'] * $item['harga_jual']);
             $diskon = $request->diskon ?? 0;
 
-            // Simpan diskon ke database terlebih dahulu
             $transaksi = Transaksi::create([
                 'kode_transaksi' => 'TRX-' . now()->format('YmdHis'),
-                'total' => $totalAwal, // simpan total awal dulu
+                'total' => $totalAwal,
                 'pembayaran' => $request->pembayaran,
                 'jumlah_bayar' => $request->jumlah_bayar,
                 'pelanggan' => $request->pelanggan,
                 'diskon' => $diskon,
-                'outlet_id' => $outletId,
+                'outlet_id' => $outletId, // <-- simpan outlet yang dipilih
             ]);
 
             foreach ($request->keranjang as $item) {
@@ -98,7 +98,7 @@ class KasirController extends Controller
                 $stok = InventoryStok::firstOrCreate(
                     [
                         'master_produk_id' => $produk->id,
-                        'outlet_id' => $outletId
+                        'outlet_id' => $outletId // <-- cek stok di outlet yang dipilih
                     ],
                     ['stok' => 0]
                 );
@@ -118,7 +118,6 @@ class KasirController extends Controller
                 $stok->save();
             }
 
-            // Setelah diskon tersimpan, update total transaksi
             $totalAkhir = max(0, $transaksi->total - $diskon);
             $transaksi->total = $totalAkhir;
             $transaksi->save();
@@ -148,22 +147,31 @@ class KasirController extends Controller
     public function rekap(Request $request)
     {
         $tanggal = $request->tanggal ?? now()->toDateString();
+        $outlet_id = $request->outlet_id ?? 0;
+        $outlets = auth()->user()->outlets()->get();
+
+        // Tambahkan opsi "Semua Outlet" di awal
+        $outlets->prepend((object)[
+            'id' => 0,
+            'lokasi' => 'Semua Outlet'
+        ]);
 
         $userOutletIds = auth()->user()->outlets->pluck('id')->toArray();
 
-        // Ambil transaksi kasir hanya untuk outlet user
         $transaksis = \App\Models\Transaksi::with('items.produk')
             ->whereDate('created_at', $tanggal)
             ->whereIn('outlet_id', $userOutletIds)
+            ->when($outlet_id && $outlet_id != 0, fn($q) => $q->where('outlet_id', $outlet_id))
             ->get()
             ->map(function($trx) {
                 return [
+                    'id' => $trx->id, // <-- tambahkan ini!
                     'kode_transaksi' => $trx->kode_transaksi,
                     'created_at' => $trx->created_at,
                     'pembayaran' => $trx->pembayaran,
                     'total' => $trx->total,
                     'diskon' => $trx->diskon,
-                    'jumlah_bayar' => $trx->jumlah_bayar, // <-- tambahkan ini
+                    'jumlah_bayar' => $trx->jumlah_bayar,
                     'items' => $trx->items,
                     'jenis_penjualan' => 'Reguler',
                 ];
@@ -204,6 +212,8 @@ class KasirController extends Controller
             'tanggal' => $tanggal,
             'total' => $total,
             'total_diskon' => $total_diskon,
+            'outlets' => $outlets,
+            'outlet_id' => $outlet_id,
         ]);
     }
 
@@ -246,5 +256,43 @@ class KasirController extends Controller
 
 
         return back()->withErrors(['message' => 'Format export tidak dikenali.']);
+    }
+
+    public function downloadNota($transaksi_id)
+    {
+        $transaksi = \App\Models\Transaksi::with('items.produk')->findOrFail($transaksi_id);
+        $outlet_id = $transaksi->outlet_id;
+        $tanggal = $transaksi->created_at->format('Y-m-d');
+
+        // Render struk_print.blade.php untuk PDF
+        $view = view('exports.struk_print', [
+            'transaksi' => $transaksi,
+            'outlet_id' => $outlet_id,
+            'tanggal' => $tanggal,
+        ])->render();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadHTML($view)->setPaper('A6', 'portrait');
+        if (ob_get_contents()) ob_end_clean();
+
+        return $pdf->download('nota-'.$transaksi->kode_transaksi.'.pdf');
+    }
+    public function printNota($transaksi_id)
+    {
+        $transaksi = \App\Models\Transaksi::with('items.produk')->findOrFail($transaksi_id);
+        $outlet_id = $transaksi->outlet_id;
+        $tanggal = $transaksi->created_at->format('Y-m-d');
+
+        return view('exports.struk_print', [
+            'transaksi' => $transaksi,
+            'outlet_id' => $outlet_id,
+            'tanggal' => $tanggal,
+        ]);
+    }
+    public function destroyTransaksi($id)
+    {
+        $trx = \App\Models\Transaksi::findOrFail($id);
+        $trx->items()->delete();
+        $trx->delete();
+        return redirect()->back()->with('success', 'Transaksi berhasil dihapus');
     }
 }

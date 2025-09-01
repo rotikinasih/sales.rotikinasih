@@ -10,13 +10,20 @@
           <h5 class="mb-0">Rekap Penjualan</h5>
 
           <div class="d-flex align-items-center gap-3 flex-nowrap">
+            <!-- Dropdown Outlet -->
+            <select v-model="outlet_id" class="form-select" style="max-width:220px;" @change="filterData">
+              <option v-for="o in outlets" :key="o.id" :value="o.id">
+                {{ o.lokasi }}
+              </option>
+            </select>
+
             <!-- Input Tanggal -->
-            <div class="input-group" style="min-width: 230px; max-width: 230px;">
+            <div class="input-group ml-4" style="min-width: 230px; max-width: 230px;">
               <span class="input-group-text bg-white px-3">
                 <i class="fa fa-calendar"></i>
               </span>
               <flat-pickr v-model="tanggal" :config="{ dateFormat: 'Y-m-d', allowInput: true }"
-                class="form-control form-control-sm" @on-change="filterTanggal" placeholder="Pilih tanggal" />
+                class="form-control form-control-sm" @on-change="filterData" placeholder="Pilih tanggal" />
             </div>
 
             <!-- Tombol Export -->
@@ -47,6 +54,7 @@
                   <th>Jumlah Bayar</th> <!-- Tambahkan kolom ini -->
                   <th>Detail</th>
                   <th>Jenis Penjualan</th>
+                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -77,9 +85,20 @@
                     <span v-if="trx.jenis_penjualan">{{ trx.jenis_penjualan }}</span>
                     <span v-else>-</span>
                   </td>
+                  <td>
+  <a
+    v-if="trx.jenis_penjualan === 'Reguler'"
+    @click="deleteTransaksi(trx.id)"
+    class="label bg-danger text-white f-12 ms-2"
+    style="cursor: pointer; border-radius: 10px;"
+  >
+    <i class="fa fa-trash"></i> Delete
+  </a>
+</td>
+
                 </tr>
                 <tr v-if="transaksis.length === 0">
-                  <td colspan="8" class="text-center">
+                  <td colspan="9" class="text-center">
                     <br>
                     <i class="fa fa-receipt fa-3x text-muted"></i>
                     <p class="mt-2 mb-0 text-muted">Tidak ada transaksi untuk tanggal ini.</p>
@@ -108,6 +127,7 @@ import { Inertia } from "@inertiajs/inertia";
 import { ref } from "vue";
 import FlatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+import Swal from "sweetalert2";
 
 export default {
   layout: LayoutApp,
@@ -116,9 +136,12 @@ export default {
     transaksis: Array,
     tanggal: String,
     total: Number,
+    outlets: Array,
+    outlet_id: [String, Number],
   },
   setup(props) {
     const tanggal = ref(props.tanggal);
+    const outlet_id = ref(props.outlet_id ?? 0);
 
     const formatHarga = (angka) =>
       angka == null ? "0" : parseInt(angka).toLocaleString("id-ID");
@@ -134,25 +157,52 @@ export default {
       });
     };
 
-    const filterTanggal = () => {
-      Inertia.get("/apps/kasir/rekap", { tanggal: tanggal.value });
+    const filterData = () => {
+      Inertia.get("/apps/kasir/rekap", {
+        tanggal: tanggal.value,
+        outlet_id: outlet_id.value,
+      });
     };
 
     const exportExcel = () => {
-      window.open(`/apps/kasir/export?tanggal=${tanggal.value}&type=excel`, "_blank");
+      window.open(`/apps/kasir/export?tanggal=${tanggal.value}&outlet_id=${outlet_id.value}&type=excel`, "_blank");
     };
 
     const exportPdf = () => {
-      window.open(`/apps/kasir/export?tanggal=${tanggal.value}&type=pdf`, "_blank");
+      window.open(`/apps/kasir/export?tanggal=${tanggal.value}&outlet_id=${outlet_id.value}&type=pdf`, "_blank");
+    };
+
+    const deleteTransaksi = (id) => {
+      Swal.fire({
+        title: "Hapus Transaksi?",
+        text: "Data transaksi akan dihapus permanen!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, hapus!",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Inertia.delete(`/apps/kasir/rekap/${id}`, {
+            onSuccess: () => {
+              Swal.fire("Berhasil!", "Transaksi sudah dihapus.", "success");
+            },
+            onError: () => {
+              Swal.fire("Gagal!", "Transaksi gagal dihapus.", "error");
+            },
+          });
+        }
+      });
     };
 
     return {
       tanggal,
+      outlet_id,
       formatHarga,
-      filterTanggal,
       formatTanggal,
+      filterData,
       exportExcel,
       exportPdf,
+      deleteTransaksi,
     };
   },
 };

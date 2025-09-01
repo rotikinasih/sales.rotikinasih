@@ -9,7 +9,7 @@
                     <h5 class="mb-2">Retur Produk</h5>
                     <div class="d-flex gap-2 align-items-center">
                         <!-- Dropdown Outlet -->
-                        <select v-model="outlet_id" class="form-select mr-3" style="max-width:220px;" @change="getData">
+                        <select v-model="outlet_id" class="form-select mr-3 " style="max-width:220px;" @change="getData">
                             <option v-for="o in outlets" :key="o.id" :value="o.id">
                                 {{ o.lokasi }}
                             </option>
@@ -32,6 +32,7 @@
                                 <th>Jumlah</th>
                                 <th>Harga</th>
                                 <th>Total</th>
+                                <th>Aksi</th> <!-- Tambahkan kolom aksi -->
                             </tr>
                         </thead>
                         <tbody>
@@ -40,9 +41,17 @@
                                 <td>{{ item.jumlah }}</td>
                                 <td>Rp {{ formatHarga(item.harga) }}</td>
                                 <td>Rp {{ formatHarga(item.total) }}</td>
+                                <td>
+  <a @click="deleteRetur(item.id)"
+     class="label bg-danger text-white f-12 ms-2"
+     style="cursor: pointer; border-radius: 10px; padding: 5px 10px; display: inline-block;">
+    <i class="fa fa-trash"></i> Delete
+  </a>
+</td>
+
                             </tr>
                             <tr v-if="data.length === 0">
-                                <td colspan="4" class="text-center">Data Kosong</td>
+                                <td colspan="5" class="text-center">Data Kosong</td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -67,6 +76,7 @@ import "flatpickr/dist/flatpickr.css";
 import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import LayoutApp from "../../../Layouts/App.vue";
+import Swal from "sweetalert2";
 
 export default {
   layout: LayoutApp,
@@ -98,7 +108,29 @@ export default {
       return parseInt(angka).toLocaleString("id-ID");
     };
 
-    return { formatHarga, tanggal, outlet_id, getData };
+    const deleteRetur = (id) => {
+      Swal.fire({
+        title: "Hapus Retur?",
+        text: "Data retur akan dihapus permanen!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, hapus!",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Inertia.delete(`/apps/returproduk/${id}`, {
+            onSuccess: () => {
+              Swal.fire("Berhasil!", "Retur produk sudah dihapus.", "success");
+            },
+            onError: () => {
+              Swal.fire("Gagal!", "Retur produk gagal dihapus.", "error");
+            },
+          });
+        }
+      });
+    };
+
+    return { formatHarga, tanggal, outlet_id, getData, deleteRetur };
   },
 };
 </script>

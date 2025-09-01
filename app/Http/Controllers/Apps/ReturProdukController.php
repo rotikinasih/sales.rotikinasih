@@ -66,19 +66,19 @@ class ReturProdukController extends Controller
         $request->validate([
             'produk_id' => 'required|exists:master_produk,id',
             'jumlah' => 'required|integer|min:1',
+            'outlet_id' => 'required|exists:master_outlet,id', // <-- tambahkan validasi outlet_id
         ]);
 
         $produk = MasterProduk::findOrFail($request->produk_id);
         $harga = $produk->outlet_price ?? 0;
         $total = $harga * $request->jumlah;
 
-        // Ambil outlet aktif user
-        $outlet_id = auth()->user()->outlets()->first()->id ?? null;
+        $outlet_id = $request->outlet_id; // <-- ambil dari request
 
         // Kurangi stok
         $stok = InventoryStok::firstOrCreate([
             'master_produk_id' => $produk->id,
-            'outlet_id' => $outlet_id // <-- pastikan outlet_id benar!
+            'outlet_id' => $outlet_id // <-- pakai outlet_id dari request
         ], ['stok' => 0]);
         if ($stok->stok < $request->jumlah) {
             return back()->withErrors(['msg' => 'Stok tidak cukup untuk retur!']);
@@ -86,14 +86,13 @@ class ReturProdukController extends Controller
         $stok->stok -= $request->jumlah;
         $stok->save();
 
-        // Simpan retur
         ReturProduk::create([
             'tanggal' => now()->toDateString(),
             'produk_id' => $produk->id,
             'jumlah' => $request->jumlah,
             'harga' => $harga,
             'total' => $total,
-            'outlet_id' => $outlet_id, // <-- simpan outlet_id!
+            'outlet_id' => $outlet_id, // <-- simpan outlet_id yang dipilih
         ]);
 
         return back()->with('success', 'Retur produk berhasil!');
@@ -108,7 +107,7 @@ class ReturProdukController extends Controller
     public function storeMulti(Request $request)
     {
         $items = $request->input('items', []);
-        $outlet_id = auth()->user()->outlets()->first()->id ?? null; // <-- ambil outlet aktif user
+        $outlet_id = $request->input('outlet_id'); // <-- ambil dari request
 
         foreach ($items as $item) {
             if (!isset($item['produk_id']) || !isset($item['jumlah'])) continue;
@@ -121,7 +120,7 @@ class ReturProdukController extends Controller
 
             $stok = InventoryStok::firstOrCreate([
                 'master_produk_id' => $produk->id,
-                'outlet_id' => $outlet_id // <-- pastikan outlet_id benar!
+                'outlet_id' => $outlet_id // <-- pakai outlet_id dari request
             ], ['stok' => 0]);
             if ($stok->stok < $item['jumlah']) continue;
 
@@ -134,7 +133,7 @@ class ReturProdukController extends Controller
                 'jumlah' => $item['jumlah'],
                 'harga' => $harga,
                 'total' => $total,
-                'outlet_id' => $outlet_id, // <-- simpan outlet_id!
+                'outlet_id' => $outlet_id, // <-- simpan outlet_id yang dipilih
             ]);
         }
         return back()->with('success', 'Retur produk berhasil!');
@@ -182,7 +181,9 @@ class ReturProdukController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $retur = \App\Models\ReturProduk::findOrFail($id);
+        $retur->delete();
+        return redirect()->back()->with('success', 'Retur produk berhasil dihapus');
     }
 
     // Cetak PDF, Export Excel, Print: gunakan logic seperti monitoring stok

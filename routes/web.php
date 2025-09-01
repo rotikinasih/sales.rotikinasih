@@ -64,6 +64,9 @@ Route::prefix('apps')->group(function () {
                 'index' => 'apps.toutlet.index',
             ],
         ]);
+        Route::get('/kasir/download-nota/{transaksi_id}', [KasirController::class, 'downloadNota'])->name('kasir.downloadNota');
+Route::get('/kasir/print-nota/{transaksi_id}', [KasirController::class, 'printNota'])->name('kasir.printNota');
+
 
         // Route kasir lengkap
         Route::prefix('/kasir')->name('kasir.')->group(function () {
@@ -73,6 +76,7 @@ Route::prefix('apps')->group(function () {
             Route::post('/edit-stok', [KasirController::class, 'editStok'])->name('edit-stok');
             Route::get('/rekap', [KasirController::class, 'rekap'])->name('rekap');
             Route::get('/export', [KasirController::class, 'export'])->name('export');
+            Route::delete('/rekap/{id}', [KasirController::class, 'destroyTransaksi'])->name('rekap.delete');
         });
 
         Route::get('/order-produksi-kasir', [OrderPenjualanController::class, 'orderProduksiKasir'])->name('apps.orderproduksi.kasir');
@@ -109,6 +113,9 @@ Route::prefix('apps')->group(function () {
                 'index' => 'apps.monitoringstok.index',
             ],
         ]);
+
+        Route::get('/distribusi-produk/print-harian', [DistribusiProdukController::class, 'printHarian'])->name('apps.distribusiproduk.printHarian');
+Route::get('/distribusi-produk/export-harian', [DistribusiProdukController::class, 'exportHarian'])->name('apps.distribusiproduk.exportHarian');
 
         Route::resource('/distribusi-produk', App\Http\Controllers\Apps\DistribusiProdukController::class, [
             'names' => [
@@ -161,12 +168,6 @@ Route::prefix('apps')->group(function () {
             ],
         ]);
 
-        //route pelatihan (hapus/komentar jika sudah tidak dipakai)
-        // Route::resource('/pelatihan', App\Http\Controllers\Apps\PelatihanController::class, [
-        //     'names' => [
-        //         'index' => 'apps.pelatihan.index',
-        //     ],
-        // ]);
 
         // Konfirmasi Distribusi Kasir (pindahkan ke sini)
         Route::get('/konfirmasi-distribusi-kasir', [\App\Http\Controllers\Apps\KonfirmasiDistribusiKasirController::class, 'index'])->name('apps.konfirmasi-distribusi-kasir.index');
@@ -187,6 +188,7 @@ Route::prefix('apps')->group(function () {
         Route::post('/retur-produk/store', [ReturProdukController::class, 'store'])->name('retur.store');
         Route::post('/retur-produk/store-multi', [ReturProdukController::class, 'storeMulti'])->name('retur.storeMulti');
         Route::get('/retur-produk', [ReturProdukController::class, 'index'])->name('retur.index');
+        Route::delete('/returproduk/{id}', [ReturProdukController::class, 'destroy'])->name('returproduk.delete');
 
 
         Route::get('/laporan-keuangan-harian', [\App\Http\Controllers\Apps\LaporanKeuanganController::class, 'index'])->name('apps.laporankeuangan.index');
@@ -200,6 +202,6 @@ Route::prefix('apps')->group(function () {
         'index' => 'apps.mastercs.index',
     ],
 ]);
-
     });
 });
+

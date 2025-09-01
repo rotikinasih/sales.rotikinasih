@@ -166,6 +166,13 @@
        style="cursor: pointer; border-radius: 10px;">
         <i class="fa fa-history"></i> Riwayat DP
     </a>
+
+    <!-- Tombol Delete -->
+    <a @click="deleteOrder(item.id)"
+       class="label bg-danger text-white f-12 ms-2"
+       style="cursor: pointer; border-radius: 10px;">
+        <i class="fa fa-trash"></i> Delete
+    </a>
 </td>
 
                                 </tr>
@@ -659,6 +666,28 @@ export default {
             total_bayar.value = total;
         }, { deep: true });
 
+        const deleteOrder = (id) => {
+            Swal.fire({
+                title: "Hapus Order?",
+                text: "Data order akan dihapus permanen!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Inertia.delete(`/apps/orderpenjualan/${id}`, {
+                        onSuccess: () => {
+                            Swal.fire("Berhasil!", "Order sudah dihapus.", "success");
+                        },
+                        onError: () => {
+                            Swal.fire("Gagal!", "Order gagal dihapus.", "error");
+                        },
+                    });
+                }
+            });
+        };
+
         return {
             showModal,
             updateSubmit,
@@ -704,6 +733,7 @@ export default {
             showRiwayatCicilan,
             formatRupiah,
             outlet_id,
+            deleteOrder
         };
     },
 };

@@ -151,7 +151,7 @@
                 </tr>
               </tbody>
             </table>
-            <Pagination v-if="monitoringOrders.links" :links="monitoringOrders.links" align="end" />
+            <Pagination v-if="monitoringOrders.links" :links="monitoringOrders.links" @page-change="handlePageChange" />
 
             <!-- Tambahkan di sini -->
             
@@ -526,6 +526,25 @@ export default {
       window.open(`/apps/monitoringorder/print?tanggal=${tanggalExport}&kode=${selectedKode.value || ''}`, "_blank");
     };
 
+    const handlePageChange = (link) => {
+      if (link.url) {
+        const url = new URL(link.url);
+        const page = url.searchParams.get("page") || 1;
+        getData(page);
+      }
+    };
+
+    const getData = (page = 1) => {
+      Inertia.get('/apps/monitoring-order', {
+        tanggal: filters.value.tanggal,
+        outlet_id: filters.value.outlet_id,
+        page: page
+      }, {
+        preserveState: true,
+        replace: true
+      });
+    };
+
     onMounted(() => {
       tambahMonitoringOtomatis();
     });
@@ -564,6 +583,7 @@ export default {
       exportExcel,
       exportPdf,
       printPage,
+      handlePageChange,
     };
   },
 };

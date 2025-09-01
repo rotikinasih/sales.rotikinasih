@@ -28,7 +28,7 @@
                         <span class="pcoded-mtext">Dashboard</span></Link>
                     </li>
 
-                    <li class="nav-item pcoded-menu-caption">
+                    <li class="nav-item pcoded-menu-caption" v-if="hasAnyPermission(['apps.outlet.index'])">
                         <label>Outlet</label>
                     </li>
 
@@ -71,43 +71,44 @@
                     </li>
 
 
-                    <li class="nav-item"
-    :class="{ 'active': $page.url.startsWith('/apps/monitoring-stok') }"
-    v-if="hasAnyPermission(['apps.monitoringstok.index'])">
-    <Link href="/apps/monitoring-stok">
-        <span class="pcoded-micon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10l9-6 9 6M4 10v10a1 1 0 001 1h14a1 1 0 001-1V10M10 14h4" />
-            </svg>
-        </span>
-        <span class="pcoded-mtext">Monitoring Stok</span>
-    </Link>
-</li>
+                    <li class="nav-item" :class="{ 'active': $page.url.startsWith('/apps/monitoring-stok') }"
+                        v-if="hasAnyPermission(['apps.monitoringstok.index'])">
+                        <Link href="/apps/monitoring-stok">
+                        <span class="pcoded-micon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 10l9-6 9 6M4 10v10a1 1 0 001 1h14a1 1 0 001-1V10M10 14h4" />
+                            </svg>
+                        </span>
+                        <span class="pcoded-mtext">Monitoring Stok</span>
+                        </Link>
+                    </li>
 
-<li data-username="retur produk" class="nav-item"
-    :class="{ 'active': $page.url.startsWith('/apps/returproduk') }"
-    v-if="hasAnyPermission(['apps.retur.index'])">
-    <Link href="/apps/returproduk">
-        <span class="pcoded-micon">
-            <i class="fa fa-undo"></i>
-        </span>
-        <span class="pcoded-mtext">Retur Produk</span>
-    </Link>
-</li>
+                    <li data-username="retur produk" class="nav-item"
+                        :class="{ 'active': $page.url.startsWith('/apps/returproduk') }"
+                        v-if="hasAnyPermission(['apps.retur.index'])">
+                        <Link href="/apps/returproduk">
+                        <span class="pcoded-micon">
+                            <i class="fa fa-undo"></i>
+                        </span>
+                        <span class="pcoded-mtext">Retur Produk</span>
+                        </Link>
+                    </li>
 
-<li data-username="laporan keuangan harian" class="nav-item"
-    :class="{ 'active': $page.url.startsWith('/apps/laporan-keuangan-harian') }"
-    v-if="hasAnyPermission(['apps.laporankeuangan.index'])">
-    <Link :href="`/apps/laporan-keuangan-harian?tanggal=${(new Date()).toISOString().slice(0,10)}`">
-        <span class="pcoded-micon">
-            <i class="fa fa-chart-bar"></i>
-        </span>
-        <span class="pcoded-mtext">Laporan Keuangan Harian</span>
-    </Link>
-</li>
+                    <li data-username="laporan keuangan harian" class="nav-item"
+                        :class="{ 'active': $page.url.startsWith('/apps/laporan-keuangan-harian') }"
+                        v-if="hasAnyPermission(['apps.laporankeuangan.index'])">
+                        <Link :href="`/apps/laporan-keuangan-harian?tanggal=${(new Date()).toISOString().slice(0, 10)}`">
+                        <span class="pcoded-micon">
+                            <i class="fa fa-chart-bar"></i>
+                        </span>
+                        <span class="pcoded-mtext">Laporan Keuangan Harian</span>
+                        </Link>
+                    </li>
 
 
-                    <li class="nav-item pcoded-menu-caption">
+                    <li class="nav-item pcoded-menu-caption" v-if="hasAnyPermission(['apps.purchase.index'])">
                         <label>Purchase</label>
                     </li>
 
@@ -150,7 +151,7 @@
                     </li>
 
 
-                    <li class="nav-item pcoded-menu-caption">
+                    <li class="nav-item pcoded-menu-caption" v-if="hasAnyPermission(['apps.manufacture.index'])">
                         <label>Manufacture</label>
                     </li>
 
@@ -168,7 +169,7 @@
 
 
 
-                    <li class="nav-item pcoded-menu-caption">
+                    <li class="nav-item pcoded-menu-caption" v-if="hasAnyPermission(['apps.transporter.index'])">
                         <label>Transporter</label>
                     </li>
 
@@ -185,77 +186,9 @@
                         <span class="pcoded-mtext">Distribusi Produk</span></Link>
                     </li>
 
-
-
-                    <!-- 
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item"
-                        :class="{ 'active': $page.url.startsWith('/apps/list-organisasi') }"
-                        v-if="hasAnyPermission(['apps.organisasi.indexAll'])">
-                        <Link href="/apps/list-organisasi"><span class="pcoded-micon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-briefcase-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M6.5 0a1 1 0 0 0-1 1v1H2a2 2 0 0 0-2 2v1h16V4a2 2 0 0 0-2-2h-3.5V1a1 1 0 0 0-1-1h-2zm3 2V1a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 0-.5.5v1h3z" />
-                                <path
-                                    d="M0 5v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5H0zm8 3.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5z" />
-                            </svg></span>
-                        <span class="pcoded-mtext">Karir</span></Link>
-                    </li>
-
-                    
-
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item"
-                        :class="{ 'active': $page.url.startsWith('/apps/list-pelanggaran') }"
-                        v-if="hasAnyPermission(['apps.pelanggaran.indexAll'])">
-                        <Link href="/apps/list-pelanggaran"><span class="pcoded-micon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-patch-exclamation-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                            </svg></span>
-                        <span class="pcoded-mtext">Pelanggaran</span></Link>
-                    </li>
-
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item"
-                        :class="{ 'active': $page.url.startsWith('/apps/resign') }"
-                        v-if="hasAnyPermission(['apps.resign.index'])">
-                        <Link href="/apps/resign"><span class="pcoded-micon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z" />
-                                <path fill-rule="evenodd"
-                                    d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />
-                            </svg></span>
-                        <span class="pcoded-mtext">Mengundurkan Diri</span></Link>
-                    </li> -->
-
-                    <!-- <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item" :class="{ 'active': $page.url.startsWith('/apps/phk') }" v-if="hasAnyPermission(['apps.phk.index'])">
-                        <Link href="/apps/phk" ><span class="pcoded-micon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5Z"/>
-                            </svg></span>
-                        <span class="pcoded-mtext">PHK</span></Link>
-                    </li> -->
-
-                    <li class="nav-item pcoded-menu-caption">
+                    <li class="nav-item pcoded-menu-caption" v-if="hasAnyPermission(['apps.admin.index'])">
                         <label>Admin</label>
                     </li>
-
-
-                    <!-- <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item"
-                        :class="{ 'active': $page.url.startsWith('/apps/karyawan') }"
-                        v-if="hasAnyPermission(['karyawan.index'])">
-                        <Link href="/apps/karyawan"><span class="pcoded-micon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-person-badge-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-.245z" />
-                            </svg></span>
-                        <span class="pcoded-mtext">Karyawan</span></Link>
-                    </li>
-
-                    -->
 
                     <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item"
                         :class="{ 'active': $page.url.startsWith('/apps/katproduk') }"
@@ -327,45 +260,15 @@
                     </li>
 
                     <li data-username="master cs" class="nav-item"
-    :class="{ 'active': $page.url.startsWith('/apps/mastercs') }"
-    v-if="hasAnyPermission(['apps.mastercs.index'])">
-    <Link href="/apps/mastercs">
-        <span class="pcoded-micon">
-            <i class="fa fa-user"></i>
-        </span>
-        <span class="pcoded-mtext">Master CS</span>
-    </Link>
-</li>
-                    <!-- <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item"
-                        :class="{ 'active': $page.url.startsWith('/apps/presensi') }"
-                        v-if="hasAnyPermission(['presensi.index'])">
-                        <Link href="/apps/presensi">
+                        :class="{ 'active': $page.url.startsWith('/apps/mastercs') }"
+                        v-if="hasAnyPermission(['apps.mastercs.index'])">
+                        <Link href="/apps/mastercs">
                         <span class="pcoded-micon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-clipboard-check" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 10.293l2.646-2.647a.5.5 0 0 1 .708 0z" />
-                                <path
-                                    d="M4 1.5A1.5 1.5 0 0 1 5.5 0h5A1.5 1.5 0 0 1 12 1.5V2h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h1v-.5zm1.5-.5a.5.5 0 0 0-.5.5V2h6v-.5a.5.5 0 0 0-.5-.5h-5zM3 3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3z" />
-                            </svg>
+                            <i class="fa fa-user"></i>
                         </span>
-                        <span class="pcoded-mtext">Presensi</span>
+                        <span class="pcoded-mtext">Master CS</span>
                         </Link>
-                    </li> -->
-
-                    <!-- <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item"
-                        :class="{ 'active': $page.url.startsWith('/apps/karyawan-expired') }"
-                        v-if="hasAnyPermission(['karyawan.expiredKaryawan'])">
-                        <Link href="/apps/karyawan-expired">
-                        <span class="pcoded-micon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-person-badge-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-.245z" />
-                            </svg></span>
-                        <span class="pcoded-mtext">Karyawan Expired</span>
-                        </Link>
-                    </li> -->
+                    </li>
 
                     <li class="nav-item pcoded-menu-caption"
                         v-if="hasAnyPermission(['roles.index']) || hasAnyPermission(['permissions.index'] || hasAnyPermission(['users.index']))">
@@ -410,8 +313,6 @@
                             </svg></span>
                         <span class="pcoded-mtext">Users</span></Link>
                     </li>
-
-                    
                 </ul>
             </div>
         </div>

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class DistribusiProdukController extends Controller
 {
@@ -38,7 +39,7 @@ class DistribusiProdukController extends Controller
         });
     })
     ->orderBy('created_at', 'desc')
-    ->paginate(10);
+    ->paginate(25);
 
     $produkKodes = MasterProduk::select('kode', 'nama_produk')
         ->groupBy('kode', 'nama_produk')
@@ -214,5 +215,52 @@ public function listPurchaseOrder(Request $request)
             'tanggal' => $tanggal,
         ],
     ]);
+}
+
+public function printHarian(Request $request)
+{
+    $tanggal = $request->tanggal;
+    if (!$tanggal) {
+        abort(400, 'Tanggal distribusi wajib diisi!');
+    }
+
+    $monitoringOrders = MonitoringOrder::with([
+        'orderPenjualan.details.master_produk',
+        'distribusiProduk.master_kendaraan'
+    ])
+    ->where('status_produksi', 2)
+    ->whereHas('orderPenjualan', function ($q) use ($tanggal) {
+        $q->whereDate('tanggal_pengiriman', $tanggal);
+    })
+    ->orderBy('created_at', 'desc')
+    ->get();
+
+    return view('exports.distribusi_produk_print_harian', [
+        'monitoringOrders' => $monitoringOrders,
+        'tanggal' => $tanggal,
+    ]);
+}
+
+public function exportHarian(Request $request)
+{
+    $tanggal = $request->tanggal ?? Carbon::now()->toDateString();
+
+    $monitoringOrders = MonitoringOrder::with([
+        'orderPenjualan.details.master_produk',
+        'distribusiProduk.master_kendaraan'
+    ])
+    ->where('status_produksi', 2)
+    ->whereHas('orderPenjualan', function ($q) use ($tanggal) {
+        $q->whereDate('tanggal_pengiriman', $tanggal);
+    })
+    ->orderBy('created_at', 'desc')
+    ->get();
+
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('exports.distribusi_produk_pdf_harian', [
+        'monitoringOrders' => $monitoringOrders,
+        'tanggal' => $tanggal,
+    ])->setPaper('A4', 'landscape');
+
+    return $pdf->download('distribusi-produk-'.$tanggal.'.pdf');
 }
 }
