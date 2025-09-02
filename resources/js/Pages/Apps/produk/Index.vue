@@ -192,7 +192,6 @@ const formatHarga = (angka) => {
             //define method search
             const handleSearch = () => {
                 Inertia.get('/apps/produk', {
-                    //send params "search" with value from state "search"
                     search: search.value,
                 });
             }

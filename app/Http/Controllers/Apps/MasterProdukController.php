@@ -17,8 +17,11 @@ $userOutletIds = auth()->user()->outlets->pluck('id')->toArray();
         $search = request()->search;
         //get produk
         $produk = MasterProduk::with('tipe_outlet') // <-- tambahkan ini
-            ->when($search, function($produk, $search) {
-                $produk = $produk->where('nama_produk', 'kode', 'like', '%'. $search . '%');
+            ->when($search, function($query, $search) {
+                $query->where(function($q) use ($search) {
+                    $q->where('nama_produk', 'like', '%' . $search . '%')
+                      ->orWhere('kode', 'like', '%' . $search . '%');
+                });
             })
             ->latest()->paginate(10)->onEachSide(1);
 

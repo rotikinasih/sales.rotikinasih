@@ -92,7 +92,12 @@ class OrderPenjualanController extends Controller
         DB::beginTransaction();
 
         try {
-            $kodeDistribusi = 'CUST-' . now()->format('YmdHis');
+            // Ambil outlet
+            $outlet = \App\Models\MasterOutlet::find($request->outlet_id);
+            // Buat singkatan outlet (ambil 2 huruf pertama, uppercase)
+            $singkatanOutlet = $outlet && $outlet->lokasi ? strtoupper(substr(preg_replace('/\s+/', '', $outlet->lokasi), 0, 2)) : 'XX';
+            // Kode distribusi
+            $kodeDistribusi = 'CUST-' . $singkatanOutlet . '-' . now()->format('YmdHis');
             $last = OrderPenjualan::orderBy('id', 'desc')->first();
             $noFraktur = 'OP' . str_pad(($last ? $last->id + 1 : 1), 6, '0', STR_PAD_LEFT);
 
@@ -123,7 +128,7 @@ class OrderPenjualanController extends Controller
                 'penginput' => $request->penginput,
                 'lokasi' => $request->lokasi,
                 'kode_distribusi' => $kodeDistribusi,
-                'outlet_id' => $request->outlet_id, // <-- PENTING: simpan outlet_id!
+                'outlet_id' => $request->outlet_id,
             ]);
 
             foreach ($request->produkList as $produk) {
@@ -242,13 +247,15 @@ class OrderPenjualanController extends Controller
     return back()->with('success', 'Stok berhasil ditambah.');
 }
 
-public function orderProduksiKasir()
+public function orderProduksiKasir(Request $request)
 {
     $produk = \App\Models\MasterProduk::all();
-    $outlet = \App\Models\MasterOutlet::where('status', 1)->get();
+    $outlets = auth()->user()->outlets()->get();
+    $outlet_id = $request->outlet_id ?? $outlets->first()->id ?? null;
     return Inertia::render('Apps/orderpenjualan/OrderProduksiKasir', [
         'produk' => $produk,
-        'outlet' => $outlet,
+        'outlet' => $outlets,
+        'outlet_id' => $outlet_id,
     ]);
 }
 

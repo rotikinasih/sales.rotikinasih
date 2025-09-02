@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="utf-8">
-    <!-- <title>Surat Jalan</title> -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,7 +10,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
             padding: 24px;
         }
@@ -44,7 +43,7 @@
         th,
         td {
             border: 1px solid #333;
-            padding: 6px 8px;
+            padding: 10px 12px;
             vertical-align: top;
         }
 
@@ -84,39 +83,48 @@
 <body>
     <div class="container">
         <div class="header" style="margin-bottom: 50px;">
-    <h2>PESANAN PENJUALAN</h2>
-</div>
-
+            <h2>PESANAN PENJUALAN</h2>
+        </div>
         <div>
             @php
             $logo = base64_encode(file_get_contents(public_path('images/logo.png')));
+            use Carbon\Carbon;
             @endphp
-
             <img src="data:image/png;base64,{{ $logo }}" style="width: 100px;">
-
             <div class="info">
-                <div><b>Tanggal Pemesanan:</b> {{ \Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</div>
                 <div><b>Pelanggan:</b> {{ $order->nama }}</div>
                 <div><b>Alamat:</b> {{ $order->alamat_pengiriman }}</div>
                 <div><b>Telepon:</b> {{ $order->no_telp }}</div>
+                <div><b>Outlet:</b> {{ $order->outlet->lokasi ?? '-' }}</div>
+                <div>
+                    <b>Tanggal Pengiriman:</b>
+                    @php
+                        $hari = Carbon::parse($order->tanggal_pengiriman)->locale('id')->isoFormat('dddd');
+                    @endphp
+                    {{ $hari }}, {{ $order->tanggal_pengiriman ?? '-' }}
+                    @if($order->jam_pengiriman)
+                        ({{ $order->jam_pengiriman }})
+                    @endif
+                </div>
             </div>
             <div class="clearfix"></div>
         </div>
         <table>
             <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>Tanggal</th>
-                    <th>Nama</th>
-                    <th>Produk</th>
-                    <th>Status</th>
-                    <th>Pengiriman</th>
+                    <th style="width:40px;">No.</th>
+                    <th style="width:180px;">Alamat</th>
+                    <th style="width:110px;">Nama</th>
+                    <th style="width:220px;">Produk</th>
+                    <th style="width:90px;">Status</th>
+                    <th style="width:140px;">Pengiriman</th>
+                    <th style="width:120px;">Catatan Admin</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>{{ \Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</td>
+                    <td>{{ $order->alamat_pengiriman }}</td>
                     <td>{{ $order->nama }}</td>
                     <td>
                         <ul>
@@ -133,47 +141,47 @@
                         @endif
                     </td>
                     <td>
-                        {{ $order->tanggal_pengiriman ?? '-' }}
+                        @php
+                            $hari = Carbon::parse($order->tanggal_pengiriman)->locale('id')->isoFormat('dddd');
+                        @endphp
+                        {{ $hari }}, {{ $order->tanggal_pengiriman ?? '-' }}
                         @if($order->jam_pengiriman)
                         ({{ $order->jam_pengiriman }})
                         @endif
                     </td>
+                    <td>
+                        {{ $order->keterangan_staf ?? '-' }}
+                    </td>
                 </tr>
             </tbody>
         </table>
-
         <div class="footer">
             <div style="text-align:center; margin-top:24px; font-weight:bold;">
                 Terima kasih telah berbelanja dan sampai jumpa
             </div>
-
             <table class="ttd-table">
-                 <tr>
-                        <td>
-                            <div style="margin-bottom: 75px;">
-                                Penerima,
-                            </div>
-
-                            <div>
-                                ( {{ $distribusi->nama_penerima ?? '___________________' }} )
-                            </div>
-                        </td>
-
-                        <td>
-                            <div style="margin-bottom: 60px;">
-                                Hormat Kami, <br>
-                                Driver
-                            </div>
-                            <div>
-                                <span>( {{ $kendaraan->driver ?? '___________________' }} )</span>
-
-                            </div>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        <div style="margin-bottom: 75px;">
+                            Penerima,
+                        </div>
+                        <div>
+                            ( {{ $distribusi->nama_penerima ?? '___________________' }} )
+                        </div>
+                    </td>
+                    <td>
+                        <div style="margin-bottom: 60px;">
+                            Hormat Kami, <br>
+                            Driver
+                        </div>
+                        <div>
+                            <span>( {{ $kendaraan->driver ?? '___________________' }} )</span>
+                        </div>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
-
     <script>
         window.onload = function() {
             window.print();

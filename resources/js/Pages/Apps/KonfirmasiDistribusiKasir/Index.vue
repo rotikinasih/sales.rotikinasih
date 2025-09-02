@@ -2,12 +2,15 @@
   <Head>
     <title>Konfirmasi Distribusi</title>
   </Head>
-
   <main>
     <div class="col-xl-12">
       <div class="card">
         <div class="card-header">
           <h5>Konfirmasi Purchase Order</h5>
+          <!-- Dropdown Outlet -->
+          <select class="form-control mt-2" v-model="outlet_id" @change="getData">
+            <option v-for="o in outlets" :key="o.id" :value="o.id">{{ o.lokasi }}</option>
+          </select>
         </div>
         <div class="card-body">
           <div v-if="distribusi.length">
@@ -54,15 +57,24 @@ import { Head } from '@inertiajs/inertia-vue3'
 import Swal from 'sweetalert2'
 import { Inertia } from '@inertiajs/inertia'
 import LayoutApp from '../../../Layouts/App.vue'
+import { ref } from 'vue'
 
 export default {
   layout: LayoutApp,
   components: { Head },
   props: {
     distribusi: Array,
+    outlets: Array,
+    outlet_id: [String, Number],
   },
-  methods: {
-    konfirmasi(id, status) {
+  setup(props) {
+    const outlet_id = ref(props.outlet_id || (props.outlets?.[0]?.id ?? ''))
+    const getData = () => {
+      Inertia.get('/apps/konfirmasi-distribusi-kasir', {
+        outlet_id: outlet_id.value,
+      }, { preserveState: true, replace: true })
+    }
+    const konfirmasi = (id, status) => {
       const actionText = status === 2 ? 'menerima' : 'menolak'
       Swal.fire({
         title: `Yakin ingin ${actionText} distribusi ini?`,
@@ -84,7 +96,14 @@ export default {
           })
         }
       })
-    },
+    }
+    return {
+      distribusi: props.distribusi,
+      outlets: props.outlets,
+      outlet_id,
+      getData,
+      konfirmasi,
+    }
   },
 }
 </script>

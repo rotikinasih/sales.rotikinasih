@@ -22,6 +22,7 @@ class DistribusiProdukController extends Controller
 
     $monitoringOrders = MonitoringOrder::with([
         'orderPenjualan.details.master_produk',
+        'orderPenjualan.outlet', // <-- tambahkan relasi outlet
         'distribusiProduk.master_kendaraan'
     ])
     ->where('status_produksi', 2)
@@ -147,7 +148,7 @@ class DistribusiProdukController extends Controller
 
     public function exportSuratJalan(Request $request, $orderId)
 {
-    $order = \App\Models\OrderPenjualan::with(['details.master_produk'])->findOrFail($orderId);
+    $order = \App\Models\OrderPenjualan::with(['details.master_produk', 'outlet'])->findOrFail($orderId);
     $kendaraan = null;
     // Cari kendaraan dari distribusi_produk
     $distribusi = \App\Models\DistribusiProduk::where('order_penjualan_id', $orderId)
@@ -181,13 +182,16 @@ public function listPurchaseOrder(Request $request)
 {
     $search = $request->search;
     $tanggal = $request->tanggal;
+    $outlet_id = $request->outlet_id ?? auth()->user()->outlets->first()->id ?? null;
+    $outlets = auth()->user()->outlets()->get();
 
     $monitoringOrders = \App\Models\MonitoringOrder::with([
         'orderPenjualan.details.master_produk',
         'distribusiProduk.master_kendaraan'
     ])
-    ->whereHas('orderPenjualan', function ($q) {
-        $q->where('kode_distribusi', 'like', 'PO-%');
+    ->whereHas('orderPenjualan', function ($q) use ($outlet_id) {
+        $q->where('kode_distribusi', 'like', 'PO-%')
+          ->where('outlet_id', $outlet_id);
     })
     ->whereHas('distribusiProduk', function ($q) {
         $q->where('status_distribusi', 2); // Selesai Distribusi
@@ -210,6 +214,8 @@ public function listPurchaseOrder(Request $request)
     return Inertia::render('Apps/DistribusiProduk/ListPurchaseOrder', [
         'distribusiProduks' => $monitoringOrders,
         'kendaraanOptions' => $kendaraanOptions,
+        'outlets' => $outlets,
+        'outlet_id' => $outlet_id,
         'filters' => [
             'search' => $search,
             'tanggal' => $tanggal,

@@ -10,9 +10,12 @@ use Inertia\Inertia;
 
 class KonfirmasiDistribusiKasirController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $userOutletIds = auth()->user()->outlets->pluck('id')->toArray();
+        $outlet_id = $request->outlet_id ?? auth()->user()->outlets->first()->id ?? null;
+        $outlets = auth()->user()->outlets()->get();
+
+        $userOutletIds = [$outlet_id];
 
         $distribusi = DistribusiProduk::with(['orderPenjualan.details.master_produk'])
             ->whereHas('orderPenjualan', function ($q) use ($userOutletIds) {
@@ -24,6 +27,8 @@ class KonfirmasiDistribusiKasirController extends Controller
 
         return Inertia::render('Apps/KonfirmasiDistribusiKasir/Index', [
             'distribusi' => $distribusi,
+            'outlets' => $outlets,
+            'outlet_id' => $outlet_id,
         ]);
     }
 

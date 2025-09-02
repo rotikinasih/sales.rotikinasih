@@ -7,6 +7,10 @@
       <div class="card">
         <div class="card-header">
           <h5>Order Produksi ke Produksi</h5>
+          <!-- Dropdown Outlet -->
+          <select class="form-control mt-2" v-model="outlet_id" @change="getData">
+            <option v-for="o in outlet" :key="o.id" :value="o.id">{{ o.lokasi }}</option>
+          </select>
         </div>
         <div class="card-body">
           <form @submit.prevent="storeData">
@@ -82,13 +86,19 @@ import LayoutApp from '../../../Layouts/App.vue'
 export default {
   layout: LayoutApp,
   components: { Head },
-  props: { produk: Array, outlet: Array },
+  props: { produk: Array, outlet: Array, outlet_id: [String, Number] },
   setup(props) {
-    const outlet_id = ref('')
+    const outlet_id = ref(props.outlet_id || (props.outlet?.[0]?.id ?? ''))
     const produkList = ref([{ master_produk_id: null, jumlah_beli: 1 }])
     const tanggal_pengiriman = ref('')
     const jam_pengiriman = ref('')
     const tanggal_pembuatan = ref('')
+
+    const getData = () => {
+      Inertia.get('/apps/order-produksi-kasir', {
+        outlet_id: outlet_id.value,
+      }, { preserveState: true, replace: true })
+    }
 
     const tambahProduk = () => produkList.value.push({ master_produk_id: null, jumlah_beli: 1 })
     const hapusProduk = (idx) => { if (produkList.value.length > 1) produkList.value.splice(idx, 1) }
@@ -135,6 +145,8 @@ export default {
       tanggal_pengiriman,
       jam_pengiriman,
       tanggal_pembuatan,
+      outlet: props.outlet,
+      getData,
     }
   },
 }

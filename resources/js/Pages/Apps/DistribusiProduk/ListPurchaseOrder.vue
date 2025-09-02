@@ -9,6 +9,10 @@
                 <div class="card-header d-flex justify-between align-items-center flex-wrap">
                     <h5 class="mb-2">List Purchase Order</h5>
                     <div class="input-group">
+                        <!-- Dropdown Outlet -->
+                        <select class="form-control me-2" v-model="filters.outlet_id" @change="getData">
+                            <option v-for="o in outlets" :key="o.id" :value="o.id">{{ o.lokasi }}</option>
+                        </select>
                         <span class="input-group-text bg-white">
                             <i class="fa fa-calendar"></i>
                         </span>
@@ -83,15 +87,19 @@ export default {
         distribusiProduks: Object,
         filters: Object,
         kendaraanOptions: Array,
+        outlets: Array,
+        outlet_id: [String, Number],
     },
     setup(props) {
         const filters = ref({
             tanggal: props.filters?.tanggal || "",
+            outlet_id: props.outlet_id || (props.outlets?.[0]?.id ?? ""),
         });
 
         const getData = () => {
             Inertia.get("/apps/list-purchase-order", {
                 tanggal: filters.value.tanggal,
+                outlet_id: filters.value.outlet_id,
             }, {
                 preserveState: true,
                 replace: true
@@ -101,6 +109,7 @@ export default {
         return {
             filters,
             getData,
+            outlets: props.outlets,
         };
     },
 };
