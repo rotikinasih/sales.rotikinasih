@@ -278,7 +278,7 @@ export default {
     orders: Array,
     produkKodes: Array,
     filters: Object,
-    masterKendaraan: Array, // <-- tambahkan ini di props dari controller
+    masterKendaraan: Array,
   },
   setup(props) {
     const showModal = ref(false);
@@ -433,6 +433,13 @@ export default {
         onSuccess: () => {
           tutupModal();
           Swal.fire({ icon: "success", title: "Sukses", text: "Update berhasil!", timer: 2000 });
+          // Reload ke halaman terakhir
+          Inertia.get('/apps/monitoringorder', {
+            search: search.value,
+            tanggal: tanggalFilter.value,
+            kode: selectedKode.value,
+            page: currentPage.value,
+          });
         },
       });
     };
@@ -528,21 +535,19 @@ export default {
 
     const handlePageChange = (link) => {
       if (link.url) {
-        const url = new URL(link.url);
+        const url = new URL(link.url, window.location.origin);
         const page = url.searchParams.get("page") || 1;
-        getData(page);
+        Inertia.get("/apps/monitoringorder", {
+          search: search.value,
+          tanggal: tanggalFilter.value,
+          kode: selectedKode.value,
+          page: page,
+        }, {
+          preserveState: true,
+          preserveScroll: true,
+          replace: true,
+        });
       }
-    };
-
-    const getData = (page = 1) => {
-      Inertia.get('/apps/monitoring-order', {
-        tanggal: filters.value.tanggal,
-        outlet_id: filters.value.outlet_id,
-        page: page
-      }, {
-        preserveState: true,
-        replace: true
-      });
     };
 
     onMounted(() => {

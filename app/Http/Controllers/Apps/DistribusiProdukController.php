@@ -40,7 +40,7 @@ class DistribusiProdukController extends Controller
         });
     })
     ->orderBy('created_at', 'desc')
-    ->paginate(25);
+    ->paginate(100);
 
     $produkKodes = MasterProduk::select('kode', 'nama_produk')
         ->groupBy('kode', 'nama_produk')

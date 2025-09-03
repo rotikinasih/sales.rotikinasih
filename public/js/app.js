@@ -20436,7 +20436,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     orders: Array,
     produkKodes: Array,
     filters: Object,
-    masterKendaraan: Array // <-- tambahkan ini di props dari controller
+    masterKendaraan: Array
   },
   setup: function setup(props) {
     var showModal = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(false);
@@ -20594,6 +20594,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             text: "Update berhasil!",
             timer: 2000
           });
+          // Reload ke halaman terakhir
+          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get('/apps/monitoringorder', {
+            search: search.value,
+            tanggal: tanggalFilter.value,
+            kode: selectedKode.value,
+            page: currentPage.value
+          });
         }
       });
     };
@@ -20692,21 +20699,19 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     };
     var handlePageChange = function handlePageChange(link) {
       if (link.url) {
-        var url = new URL(link.url);
+        var url = new URL(link.url, window.location.origin);
         var page = url.searchParams.get("page") || 1;
-        getData(page);
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get("/apps/monitoringorder", {
+          search: search.value,
+          tanggal: tanggalFilter.value,
+          kode: selectedKode.value,
+          page: page
+        }, {
+          preserveState: true,
+          preserveScroll: true,
+          replace: true
+        });
       }
-    };
-    var getData = function getData() {
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get('/apps/monitoring-order', {
-        tanggal: filters.value.tanggal,
-        outlet_id: filters.value.outlet_id,
-        page: page
-      }, {
-        preserveState: true,
-        replace: true
-      });
     };
     (0,vue__WEBPACK_IMPORTED_MODULE_6__.onMounted)(function () {
       tambahMonitoringOtomatis();
