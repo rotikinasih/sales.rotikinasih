@@ -230,23 +230,23 @@ export default {
       }
 
       Inertia.put(
-        `/apps/distribusi-produk/${selectedId.value}`,
-        {
-          status_distribusi: form.value.status_distribusi,
-          master_kendaraan_id: form.value.master_kendaraan_id,
-        },
-        {
-          onSuccess: () => {
-            showModal.value = false;
-            Swal.fire("Sukses", "Distribusi berhasil diupdate!", "success");
-            getData();
-          },
-          onError: (errors) => {
-            Swal.fire("Error", "Gagal menyimpan distribusi!", "error");
-            console.error(errors);
-          },
-        }
-      );
+  `/apps/distribusi-produk/${selectedId.value ?? form.value.monitoring_order_id}`,
+  {
+    status_distribusi: form.value.status_distribusi,
+    master_kendaraan_id: form.value.master_kendaraan_id,
+  },
+  {
+    onSuccess: () => {
+      showModal.value = false;
+      Swal.fire("Sukses", "Distribusi berhasil diupdate!", "success");
+      getData();
+    },
+    onError: (errors) => {
+      Swal.fire("Error", "Gagal menyimpan distribusi!", "error");
+      console.error(errors);
+    },
+  }
+);
     };
 
     const handlePageChange = (link) => {

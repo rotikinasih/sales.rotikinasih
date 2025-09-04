@@ -19380,11 +19380,12 @@ __webpack_require__.r(__webpack_exports__);
       showModal.value = true;
     };
     var updateData = function updateData() {
+      var _selectedId$value;
       if (!form.value.status_distribusi || form.value.master_kendaraan_id === null || form.value.master_kendaraan_id === "" || !selectedId.value) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire("Perhatian", "Status dan kendaraan wajib diisi!", "warning");
         return;
       }
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__.Inertia.put("/apps/distribusi-produk/".concat(selectedId.value), {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__.Inertia.put("/apps/distribusi-produk/".concat((_selectedId$value = selectedId.value) !== null && _selectedId$value !== void 0 ? _selectedId$value : form.value.monitoring_order_id), {
         status_distribusi: form.value.status_distribusi,
         master_kendaraan_id: form.value.master_kendaraan_id
       }, {

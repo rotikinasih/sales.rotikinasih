@@ -108,27 +108,31 @@ class DistribusiProdukController extends Controller
         'master_kendaraan_id' => 'nullable|exists:master_kendaraan,id',
     ]);
 
-    $data = DistribusiProduk::findOrFail($id);
-    $data->status_distribusi = $request->status_distribusi;
-    $data->master_kendaraan_id = $request->master_kendaraan_id;
-    $data->save();
+    // cari distribusi berdasarkan ID
+    $data = DistribusiProduk::find($id);
 
-    // Jika status selesai distribusi, tambahkan stok ke kasir
-    // Hanya jika kode_distribusi bukan PO-
-    if ($data->status_distribusi == 2 && !str_starts_with($data->orderPenjualan->kode_distribusi, 'PO-')) {
-        $order = $data->orderPenjualan;
-        foreach ($order->details as $detail) {
-            $stok = \App\Models\InventoryStok::firstOrCreate(
-                ['master_produk_id' => $detail->master_produk_id],
-                ['stok' => 0]
-            );
-            $stok->stok += $detail->jumlah_beli;
-            $stok->save();
-        }
+    if (!$data) {
+        // kalau tidak ada, berarti $id = monitoring_order_id
+        $monitoring = MonitoringOrder::findOrFail($id);
+
+        $data = DistribusiProduk::create([
+            'monitoring_order_id' => $monitoring->id,
+            'order_penjualan_id' => $monitoring->order_penjualan_id,
+            'master_kendaraan_id' => $request->master_kendaraan_id,
+            'status_distribusi' => $request->status_distribusi,
+            'tanggal_pengiriman' => $monitoring->orderPenjualan->tanggal_pengiriman,
+            'jam_pengiriman' => $monitoring->orderPenjualan->jam_pengiriman,
+            'created_id' => Auth::id(),
+        ]);
+    } else {
+        $data->status_distribusi = $request->status_distribusi;
+        $data->master_kendaraan_id = $request->master_kendaraan_id;
+        $data->save();
     }
 
     return back()->with('success', 'Distribusi produk berhasil diperbarui.');
 }
+
 
     public function orderDistribusi(Request $request)
     {
