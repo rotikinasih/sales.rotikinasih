@@ -208,115 +208,132 @@
                 </template>
                 <template #body>
                     <div style="max-height: 60vh; overflow-y: auto; padding-right: 10px;">
-                        <div class="form-group mb-2">
-                            <label>Nama</label>
-                            <input type="text" class="form-control" v-model="nama" required />
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>No Telp</label>
-                            <input type="text" class="form-control" v-model="no_telp" />
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Alamat Pengiriman</label>
-                            <textarea class="form-control" v-model="alamat_pengiriman"></textarea>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Produk & Jumlah</label>
-                            <div v-for="(p, index) in produkList" :key="index"
-                                class="d-flex gap-2 align-items-center mb-2">
-                                <select class="form-control" v-model="p.master_produk_id" required style="width: 60%;">
-                                    <option :value="null">Pilih Produk</option>
-                                    <option v-for="prd in produk" :key="prd.id" :value="prd.id">
-                                        {{ prd.nama_produk }}
-                                    </option>
-                                </select>
-                                <input type="number" class="form-control" v-model="p.jumlah_beli" min="1" required
-                                    placeholder="Jumlah" style="width: 30%;" />
-                                <button type="button" class="btn btn-danger" @click="hapusProduk(index)">
-                                    <i class="fa fa-times"></i>
-                                </button>
-                            </div>
-                            <button type="button" class="btn btn-sm btn-primary" @click="tambahProduk">
-                                <i class="fa fa-plus"></i> Tambah Produk
-                            </button>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Tanggal Pengiriman</label>
-                            <flat-pickr v-model="tanggal_pengiriman" :config="{ dateFormat: 'Y-m-d', allowInput: true }"
-                                class="form-control" placeholder="Pilih tanggal pengiriman" />
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Waktu Pengiriman</label>
-                            <select class="form-control" v-model="jam_pengiriman">
-                                <option :value="null">Pilih Waktu</option>
-                                <option value="Pagi">Pagi</option>
-                                <option value="Siang">Siang</option>
-                                <option value="Sore">Sore</option>
-                                <option value="Malam">Malam</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Tanggal Pembuatan</label>
-                            <flat-pickr v-model="tanggal_pembuatan" :config="{ dateFormat: 'Y-m-d', allowInput: true }"
-                                class="form-control" placeholder="Pilih tanggal pembuatan" />
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Status Pembayaran</label>
-                            <select class="form-control" v-model="status_pembayaran">
-                                <option :value="null">Pilih</option>
-                                <option value="1">DP</option>
-                                <option value="2">Lunas</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Keterangan</label>
-                            <textarea class="form-control" v-model="keterangan"></textarea>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Metode Pembayaran</label>
-                            <select class="form-control" v-model="metode_pembayaran">
-                                <option value="Tunai">Tunai</option>
-                                <option value="Qris">Qris</option>
-                                <option value="Debit">Debit</option>
-                                <option value="Transfer">Transfer</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2" v-if="status_pembayaran == 1">
-                            <label>Tanggal DP</label>
-                            <flat-pickr v-model="tanggal_dp" :config="{ dateFormat: 'Y-m-d', allowInput: true }"
-                                class="form-control" placeholder="Pilih tanggal DP" />
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Catatan Admin</label>
-                            <textarea class="form-control" v-model="keterangan_staf"></textarea>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Penginput</label>
-                            <select class="form-control" v-model="penginput">
-                                <option :value="null">Pilih Penginput</option>
-                                <option v-for="cs in masterCS" :key="cs.id" :value="cs.nama">
-                                    {{ cs.nama }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Lokasi</label>
-                            <select class="form-control" v-model="lokasi">
-                                <option :value="null">Pilih Lokasi</option>
-                                <option v-for="out in masterOutlet" :key="out.id" :value="out.lokasi">{{ out.lokasi }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label>Outlet</label>
-                            <select class="form-control" v-model="outlet_id" required>
-                                <option :value="null">Pilih Outlet</option>
-                                <option v-for="out in masterOutlet" :key="out.id" :value="out.id">
-                                    {{ out.lokasi }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
+
+  <div class="form-group mb-2">
+    <label>Nama</label>
+    <input type="text" class="form-control" v-model="nama" required />
+  </div>
+
+  <div class="form-group mb-2">
+    <label>No Telp</label>
+    <input type="text" class="form-control" v-model="no_telp" required />
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Alamat Pengiriman</label>
+    <textarea class="form-control" v-model="alamat_pengiriman" required></textarea>
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Produk & Jumlah</label>
+    <div v-for="(p, index) in produkList" :key="index"
+      class="d-flex gap-2 align-items-center mb-2">
+      <select class="form-control" v-model="p.master_produk_id" required style="width: 60%;">
+        <option :value="null">Pilih Produk</option>
+        <option v-for="prd in produk" :key="prd.id" :value="prd.id">
+          {{ prd.nama_produk }}
+        </option>
+      </select>
+      <input type="number" class="form-control" v-model="p.jumlah_beli" 
+        min="1" required placeholder="Jumlah" style="width: 30%;" />
+      <button type="button" class="btn btn-danger" @click="hapusProduk(index)">
+        <i class="fa fa-times"></i>
+      </button>
+    </div>
+    <button type="button" class="btn btn-sm btn-primary" @click="tambahProduk">
+      <i class="fa fa-plus"></i> Tambah Produk
+    </button>
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Tanggal Pengiriman</label>
+    <flat-pickr v-model="tanggal_pengiriman" 
+      :config="{ dateFormat: 'Y-m-d', allowInput: true }"
+      class="form-control" placeholder="Pilih tanggal pengiriman" required />
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Waktu Pengiriman</label>
+    <select class="form-control" v-model="jam_pengiriman" required>
+      <option :value="null">Pilih Waktu</option>
+      <option value="Pagi">Pagi</option>
+      <option value="Siang">Siang</option>
+      <option value="Sore">Sore</option>
+      <option value="Malam">Malam</option>
+    </select>
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Tanggal Pembuatan</label>
+    <flat-pickr v-model="tanggal_pembuatan" 
+      :config="{ dateFormat: 'Y-m-d', allowInput: true }"
+      class="form-control" placeholder="Pilih tanggal pembuatan" required />
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Status Pembayaran</label>
+    <select class="form-control" v-model="status_pembayaran" required>
+      <option :value="null">Pilih</option>
+      <option value="1">DP</option>
+      <option value="2">Lunas</option>
+    </select>
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Keterangan</label>
+    <textarea class="form-control" v-model="keterangan" required></textarea>
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Metode Pembayaran</label>
+    <select class="form-control" v-model="metode_pembayaran" required>
+      <option value="Tunai">Tunai</option>
+      <option value="Qris">Qris</option>
+      <option value="Debit">Debit</option>
+      <option value="Transfer">Transfer</option>
+    </select>
+  </div>
+
+  <div class="form-group mb-2" v-if="status_pembayaran == 1">
+    <label>Tanggal DP</label>
+    <flat-pickr v-model="tanggal_dp" 
+      :config="{ dateFormat: 'Y-m-d', allowInput: true }"
+      class="form-control" placeholder="Pilih tanggal DP" required />
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Catatan Admin</label>
+    <textarea class="form-control" v-model="keterangan_staf" required></textarea>
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Penginput</label>
+    <select class="form-control" v-model="penginput" required>
+      <option :value="null">Pilih Penginput</option>
+      <option v-for="cs in masterCS" :key="cs.id" :value="cs.nama">
+        {{ cs.nama }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Lokasi</label>
+    <select class="form-control" v-model="lokasi" required>
+      <option :value="null">Pilih Lokasi</option>
+      <option v-for="out in masterOutlet" :key="out.id" :value="out.lokasi">{{ out.lokasi }}</option>
+    </select>
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Outlet</label>
+    <select class="form-control" v-model="outlet_id" required>
+      <option :value="null">Pilih Outlet</option>
+      <option v-for="out in masterOutlet" :key="out.id" :value="out.id">
+        {{ out.lokasi }}
+      </option>
+    </select>
+  </div>
+</div>
                 </template>
                 <template #footer>
                     <form @submit.prevent="updateSubmit ? updateData() : storeData()">
