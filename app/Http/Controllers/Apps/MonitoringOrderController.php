@@ -18,29 +18,37 @@ class MonitoringOrderController extends Controller
     public function index()
 {
     session(['monitoring_order_last_url' => request()->fullUrl()]);
-    $search  = request()->search;
+    $search = request()->search;
     $tanggal = request()->tanggal;
 
+    // Default tanggal = hari ini WIB
     if (!$tanggal) {
         $tanggal = now()->setTimezone('Asia/Jakarta')->toDateString();
     }
 
-    $allOrders = OrderPenjualan::with('details.master_produk')->get();
+    // Ambil semua order penjualan sesuai tanggal (atau semua kalau tidak difilter)
+    $orders = OrderPenjualan::with('details.master_produk')
+        ->when($tanggal, fn($q) => $q->whereDate('tanggal_pembuatan', $tanggal))
+        ->get();
 
-    foreach ($allOrders as $order) {
-        MonitoringOrder::firstOrCreate(
-            ['order_penjualan_id' => $order->id],
-            [
-                'status_produksi'   => 1, // default "Belum produksi"
-                'tanggal_pembuatan' => $order->tanggal_pembuatan,
-                'jam_pengiriman'    => $order->jam_pengiriman,
-                'keterangan'        => $order->keterangan,
-                'keterangan_staf'   => $order->keterangan_staf,
-                'created_id'        => Auth::id(),
-            ]
-        );
+    // Sinkronisasi: buat monitoring hanya kalau belum ada
+    foreach ($orders as $order) {
+        $monitoring = MonitoringOrder::firstOrNew([
+            'order_penjualan_id' => $order->id,
+        ]);
+
+        if (!$monitoring->exists) {
+            $monitoring->status_produksi   = 1; // default "Belum produksi"
+            $monitoring->tanggal_pembuatan = $order->tanggal_pembuatan;
+            $monitoring->jam_pengiriman    = $order->jam_pengiriman;
+            $monitoring->keterangan        = $order->keterangan;
+            $monitoring->keterangan_staf   = $order->keterangan_staf;
+            $monitoring->created_id        = Auth::id();
+            $monitoring->save();
+        }
     }
 
+    // Ambil monitoring orders setelah sinkronisasi
     $monitoringOrders = MonitoringOrder::with('orderPenjualan.details.master_produk')
         ->when($search, function ($q) use ($search) {
             $q->where(function ($query) use ($search) {
@@ -61,11 +69,12 @@ class MonitoringOrderController extends Controller
         ->paginate(25)
         ->appends(request()->query());
 
-
+    // Kumpulan kode & nama produk
     $produkKodes = MasterProduk::select('kode', 'nama_produk')
         ->groupBy('kode', 'nama_produk')
         ->get();
 
+    // Rekap total jumlah per produk (untuk hari ini)
     $today = now()->setTimezone('Asia/Jakarta')->toDateString();
     $totalJumlahPerProduk = [];
     foreach ($monitoringOrders as $monitoring) {
@@ -73,16 +82,17 @@ class MonitoringOrderController extends Controller
             foreach ($monitoring->orderPenjualan->details as $detail) {
                 $kode = $detail->master_produk->kode ?? '-';
                 $nama = $detail->master_produk->nama_produk ?? '-';
-                $key  = $nama . ' (' . $kode . ')';
+                $key = $nama . ' (' . $kode . ')';
                 $totalJumlahPerProduk[$key] = ($totalJumlahPerProduk[$key] ?? 0) + $detail->jumlah_beli;
             }
         }
     }
+
     $masterKendaraan = MasterKendaraan::where('status', 2)->get();
 
     return Inertia::render('Apps/MonitoringOrder/Index', [
         'monitoringOrders'     => $monitoringOrders,
-        'orders'               => $allOrders, // kirim semua orders (bukan hanya yang hari ini)
+        'orders'               => $orders,
         'produkKodes'          => $produkKodes,
         'totalJumlahPerProduk' => $totalJumlahPerProduk,
         'filters'              => [
