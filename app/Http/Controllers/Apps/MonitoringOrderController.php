@@ -128,16 +128,23 @@ class MonitoringOrderController extends Controller
         ]);
 
         $monitoringOrder = MonitoringOrder::findOrFail($id);
-        $monitoringOrder->update([
-            'status_produksi'   => $request->status_produksi,
-            'tanggal_pembuatan' => $request->tanggal_pembuatan,
-            'jam_pengiriman'    => $request->jam_pengiriman,
-            'keterangan'        => $request->keterangan,
-            'keterangan_staf'   => $request->keterangan_staf,
-        ]);
+        $monitoringOrder->status_produksi = $request->status_produksi;
+        if ($request->filled('tanggal_pembuatan')) {
+            $monitoringOrder->tanggal_pembuatan = $request->tanggal_pembuatan;
+        }
+        if ($request->filled('jam_pengiriman')) {
+            $monitoringOrder->jam_pengiriman = $request->jam_pengiriman;
+        }
+        if ($request->filled('keterangan')) {
+            $monitoringOrder->keterangan = $request->keterangan;
+        }
+        if ($request->filled('keterangan_staf')) {
+            $monitoringOrder->keterangan_staf = $request->keterangan_staf;
+        }
+        $monitoringOrder->save();
 
         return redirect(session('monitoring_order_last_url', route('apps.monitoringorder.index')))
-    ->with('success', 'Monitoring order berhasil diperbarui.');
+            ->with('success', 'Monitoring order berhasil diperbarui.');
     }
 
     public function orderProduksi(Request $request)

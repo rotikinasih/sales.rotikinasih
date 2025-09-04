@@ -8,7 +8,15 @@
         <div class="card-header d-flex justify-between align-items-center flex-wrap">
           <h5 class="mb-2">Distribusi Produk</h5>
           <div class="d-flex align-items-center gap-2">
-            <div class="input-group">
+            <!-- Tambahkan input search -->
+            <div class="input-group me-2">
+              <input type="text" class="form-control" v-model="filters.search"
+                placeholder="Cari nama, kode distribusi, alamat, produk..." @input="debouncedSearch" />
+              <button class="btn btn-primary" @click="getData">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+            <div class="input-group ml-3">
               <span class="input-group-text bg-white">
                 <i class="fa fa-calendar"></i>
               </span>
@@ -158,6 +166,7 @@ import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import Swal from "sweetalert2";
 import "flatpickr/dist/flatpickr.css";
+import { debounce } from "lodash";
 
 export default {
   layout: LayoutApp,
@@ -176,6 +185,7 @@ export default {
     const showModal = ref(false);
     const selectedId = ref(null);
     const filters = ref({
+      search: props.filters?.search || "",
       tanggal: props.filters?.tanggal || "",
     });
 
@@ -184,10 +194,12 @@ export default {
       master_kendaraan_id: "",
     });
 
+    const debouncedSearch = debounce(() => getData(), 600);
+
     const getData = (page = 1) => {
       Inertia.get(
         "/apps/distribusi-produk",
-        { tanggal: filters.value.tanggal, page: page },
+        { search: filters.value.search, tanggal: filters.value.tanggal, page },
         { preserveState: true, replace: true }
       );
     };
@@ -267,6 +279,7 @@ export default {
       exportPdfHarian,
       handlePageChange,
       updateData,
+      debouncedSearch,
     };
   },
 };

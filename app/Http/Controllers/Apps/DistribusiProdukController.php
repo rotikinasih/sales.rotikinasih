@@ -32,8 +32,11 @@ class DistribusiProdukController extends Controller
     ->when($search, function ($q) use ($search) {
         $q->where(function ($query) use ($search) {
             $query->whereHas('orderPenjualan', function ($sub) use ($search) {
-                $sub->where('nama', 'like', '%' . $search . '%');
-            })->orWhereHas('orderPenjualan.details.master_produk', function ($sub2) use ($search) {
+                $sub->where('nama', 'like', '%' . $search . '%')
+                    ->orWhere('kode_distribusi', 'like', '%' . $search . '%')
+                    ->orWhere('alamat_pengiriman', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('orderPenjualan.details.master_produk', function ($sub2) use ($search) {
                 $sub2->where('nama_produk', 'like', '%' . $search . '%')
                      ->orWhere('kode', 'like', '%' . $search . '%');
             });

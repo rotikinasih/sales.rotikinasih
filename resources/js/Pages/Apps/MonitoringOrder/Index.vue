@@ -418,27 +418,22 @@ export default {
     };
 
     const updateData = () => {
-      if (!order_penjualan_id.value || !status_produksi.value) {
+      if (!id.value || !status_produksi.value) {
         return Swal.fire({ icon: "warning", title: "Perhatian", text: "Mohon lengkapi isian!" });
       }
       Inertia.put(`/apps/monitoringorder/${id.value}`, {
-        order_penjualan_id: order_penjualan_id.value,
         status_produksi: status_produksi.value,
-        // tanggal_pembuatan: tanggal_pembuatan.value, // hapus
-        // jam_pengiriman: jam_pengiriman.value, // hapus
-        // keterangan: keterangan.value, // hapus
+        // tambahkan field lain jika perlu
       }, {
         preserveState: false,
         replace: true,
         onSuccess: () => {
           tutupModal();
           Swal.fire({ icon: "success", title: "Sukses", text: "Update berhasil!", timer: 2000 });
-          // Reload ke halaman terakhir
           Inertia.get('/apps/monitoringorder', {
             search: search.value,
             tanggal: tanggalFilter.value,
             kode: selectedKode.value,
-            page: currentPage.value,
           });
         },
       });
