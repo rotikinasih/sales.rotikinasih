@@ -17,21 +17,26 @@ class DistribusiProdukController extends Controller
 {
     public function index()
 {
+    // simpan URL terakhir (supaya redirect balik ke sini)
+    session(['distribusi_produk_last_url' => request()->fullUrl()]);
+
     $search = request()->search;
     $tanggal = request()->tanggal;
 
     $monitoringOrders = MonitoringOrder::with([
         'orderPenjualan.details.master_produk',
-        'orderPenjualan.outlet', // <-- tambahkan relasi outlet
+        'orderPenjualan.outlet',
         'distribusiProduk.master_kendaraan'
     ])
     ->where('status_produksi', 2)
     ->when($search, function ($q) use ($search) {
-        $q->whereHas('orderPenjualan', function ($sub) use ($search) {
-            $sub->where('nama', 'like', '%' . $search . '%');
-        })->orWhereHas('orderPenjualan.details.master_produk', function ($sub2) use ($search) {
-            $sub2->where('nama_produk', 'like', '%' . $search . '%')
-                 ->orWhere('kode', 'like', '%' . $search . '%');
+        $q->where(function ($query) use ($search) {
+            $query->whereHas('orderPenjualan', function ($sub) use ($search) {
+                $sub->where('nama', 'like', '%' . $search . '%');
+            })->orWhereHas('orderPenjualan.details.master_produk', function ($sub2) use ($search) {
+                $sub2->where('nama_produk', 'like', '%' . $search . '%')
+                     ->orWhere('kode', 'like', '%' . $search . '%');
+            });
         });
     })
     ->when($tanggal, function ($q) use ($tanggal) {
@@ -40,7 +45,8 @@ class DistribusiProdukController extends Controller
         });
     })
     ->orderBy('created_at', 'desc')
-    ->paginate(100);
+    ->paginate(25) // samakan 25 biar konsisten
+    ->appends(request()->query()); // supaya query string tetap
 
     $produkKodes = MasterProduk::select('kode', 'nama_produk')
         ->groupBy('kode', 'nama_produk')
@@ -71,6 +77,7 @@ class DistribusiProdukController extends Controller
 }
 
 
+
     public function store(Request $request)
     {
         $request->validate([
@@ -98,7 +105,8 @@ class DistribusiProdukController extends Controller
             'created_id' => Auth::id(),
         ]);
 
-        return redirect()->route('apps.distribusiproduk.index')->with('message', 'Distribusi berhasil dibuat.');
+        return redirect(session('distribusi_produk_last_url', route('apps.distribusiproduk.index')))
+    ->with('message', 'Distribusi berhasil dibuat.');
     }
 
     public function update(Request $request, $id)
@@ -130,7 +138,8 @@ class DistribusiProdukController extends Controller
         $data->save();
     }
 
-    return back()->with('success', 'Distribusi produk berhasil diperbarui.');
+    return redirect(session('distribusi_produk_last_url', route('apps.distribusiproduk.index')))
+    ->with('success', 'Distribusi produk berhasil diperbarui.');
 }
 
 
