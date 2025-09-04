@@ -19345,15 +19345,15 @@ __webpack_require__.r(__webpack_exports__);
     var showModal = (0,vue__WEBPACK_IMPORTED_MODULE_5__.ref)(false);
     var selectedId = (0,vue__WEBPACK_IMPORTED_MODULE_5__.ref)(null);
     var filters = (0,vue__WEBPACK_IMPORTED_MODULE_5__.ref)({
-      tanggal: ((_props$filters = props.filters) === null || _props$filters === void 0 ? void 0 : _props$filters.tanggal) || ''
+      tanggal: ((_props$filters = props.filters) === null || _props$filters === void 0 ? void 0 : _props$filters.tanggal) || ""
     });
     var form = (0,vue__WEBPACK_IMPORTED_MODULE_5__.ref)({
       status_distribusi: 1,
-      master_kendaraan_id: ''
+      master_kendaraan_id: ""
     });
     var getData = function getData() {
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__.Inertia.get('/apps/distribusi-produk', {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__.Inertia.get("/apps/distribusi-produk", {
         tanggal: filters.value.tanggal,
         page: page
       }, {
@@ -19375,12 +19375,30 @@ __webpack_require__.r(__webpack_exports__);
       var _item$distribusi_prod, _item$distribusi_prod2, _item$distribusi_prod3, _item$distribusi_prod4;
       selectedId.value = (_item$distribusi_prod = (_item$distribusi_prod2 = item.distribusi_produk) === null || _item$distribusi_prod2 === void 0 ? void 0 : _item$distribusi_prod2.id) !== null && _item$distribusi_prod !== void 0 ? _item$distribusi_prod : null;
       form.value.status_distribusi = ((_item$distribusi_prod3 = item.distribusi_produk) === null || _item$distribusi_prod3 === void 0 ? void 0 : _item$distribusi_prod3.status_distribusi) || 1;
-      form.value.master_kendaraan_id = ((_item$distribusi_prod4 = item.distribusi_produk) === null || _item$distribusi_prod4 === void 0 ? void 0 : _item$distribusi_prod4.master_kendaraan_id) || '';
+      form.value.master_kendaraan_id = ((_item$distribusi_prod4 = item.distribusi_produk) === null || _item$distribusi_prod4 === void 0 ? void 0 : _item$distribusi_prod4.master_kendaraan_id) || "";
       form.value.monitoring_order_id = item.id;
       showModal.value = true;
     };
-
-    // Pagination handler
+    var updateData = function updateData() {
+      if (!form.value.status_distribusi || form.value.master_kendaraan_id === null || form.value.master_kendaraan_id === "" || !selectedId.value) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire("Perhatian", "Status dan kendaraan wajib diisi!", "warning");
+        return;
+      }
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__.Inertia.put("/apps/distribusi-produk/".concat(selectedId.value), {
+        status_distribusi: form.value.status_distribusi,
+        master_kendaraan_id: form.value.master_kendaraan_id
+      }, {
+        onSuccess: function onSuccess() {
+          showModal.value = false;
+          sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire("Sukses", "Distribusi berhasil diupdate!", "success");
+          getData();
+        },
+        onError: function onError(errors) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire("Error", "Gagal menyimpan distribusi!", "error");
+          console.error(errors);
+        }
+      });
+    };
     var handlePageChange = function handlePageChange(link) {
       if (link.url) {
         var url = new URL(link.url);
@@ -19396,7 +19414,8 @@ __webpack_require__.r(__webpack_exports__);
       getData: getData,
       printHarian: printHarian,
       exportPdfHarian: exportPdfHarian,
-      handlePageChange: handlePageChange
+      handlePageChange: handlePageChange,
+      updateData: updateData
     };
   }
 });
@@ -24403,7 +24422,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
         onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-          return _ctx.updateData && _ctx.updateData.apply(_ctx, arguments);
+          return $setup.updateData && $setup.updateData.apply($setup, arguments);
         }, ["prevent"]))
       }, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
@@ -24415,7 +24434,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["show"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Refresh button removed ")])], 64 /* STABLE_FRAGMENT */);
+  }, 8 /* PROPS */, ["show"])]))])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),

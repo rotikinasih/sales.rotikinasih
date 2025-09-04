@@ -113,8 +113,8 @@
             <thead>
                 <tr>
                     <th style="width:40px;">No.</th>
-                    <th style="width:180px;">Alamat</th>
                     <th style="width:110px;">Nama</th>
+                    <th style="width:180px;">Alamat</th>
                     <th style="width:220px;">Produk</th>
                     <th style="width:90px;">Status</th>
                     <th style="width:140px;">Pengiriman</th>
@@ -124,8 +124,8 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>{{ $order->alamat_pengiriman }}</td>
                     <td>{{ $order->nama }}</td>
+                    <td>{{ $order->alamat_pengiriman }}</td>
                     <td>
                         <ul>
                             @foreach($order->details as $detail)
@@ -135,9 +135,11 @@
                     </td>
                     <td>
                         @if($order->status_pembayaran == 2)
-                        <span style="color:green;font-weight:bold;">Lunas</span>
+                            <span style="color:green;font-weight:bold;">Lunas</span>
+                        @elseif($order->jumlah_bayar == 0)
+                            <span style="color:red;font-weight:bold;">Belum Bayar</span>
                         @else
-                        <span style="color:orange;font-weight:bold;">DP</span>
+                            <span style="color:orange;font-weight:bold;">DP</span>
                         @endif
                     </td>
                     <td>
