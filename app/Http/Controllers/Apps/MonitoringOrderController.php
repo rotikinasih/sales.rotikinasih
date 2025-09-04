@@ -16,88 +16,83 @@ use Maatwebsite\Excel\Facades\Excel;
 class MonitoringOrderController extends Controller
 {
     public function index()
-    {
-        $search = request()->search;
-        $tanggal = request()->tanggal;
+{
+    session(['monitoring_order_last_url' => request()->fullUrl()]);
+    $search  = request()->search;
+    $tanggal = request()->tanggal;
 
-        // Default tanggal = hari ini WIB
-        if (!$tanggal) {
-            $tanggal = now()->setTimezone('Asia/Jakarta')->toDateString();
-        }
+    if (!$tanggal) {
+        $tanggal = now()->setTimezone('Asia/Jakarta')->toDateString();
+    }
 
-        // Ambil semua order penjualan sesuai tanggal (atau semua kalau tidak difilter)
-        $orders = OrderPenjualan::with('details.master_produk')
-            ->when($tanggal, fn($q) => $q->whereDate('tanggal_pembuatan', $tanggal))
-            ->get();
+    $allOrders = OrderPenjualan::with('details.master_produk')->get();
 
-        // Sinkronisasi: pastikan setiap order punya record di MonitoringOrder
-        foreach ($orders as $order) {
-            MonitoringOrder::firstOrCreate(
-                ['order_penjualan_id' => $order->id],
-                [
-                    'status_produksi'   => 1, // default "Belum produksi"
-                    'tanggal_pembuatan' => $order->tanggal_pembuatan,
-                    'jam_pengiriman'    => $order->jam_pengiriman,
-                    'keterangan'        => $order->keterangan,
-                    'keterangan_staf'   => $order->keterangan_staf,
-                    'created_id'        => Auth::id(),
-                ]
-            );
-        }
+    foreach ($allOrders as $order) {
+        MonitoringOrder::firstOrCreate(
+            ['order_penjualan_id' => $order->id],
+            [
+                'status_produksi'   => 1, // default "Belum produksi"
+                'tanggal_pembuatan' => $order->tanggal_pembuatan,
+                'jam_pengiriman'    => $order->jam_pengiriman,
+                'keterangan'        => $order->keterangan,
+                'keterangan_staf'   => $order->keterangan_staf,
+                'created_id'        => Auth::id(),
+            ]
+        );
+    }
 
-        // Ambil monitoring orders setelah sinkronisasi
-        $monitoringOrders = MonitoringOrder::with('orderPenjualan.details.master_produk')
-            ->when($search, function ($q) use ($search) {
-                $q->where(function ($query) use ($search) {
-                    $query->whereHas('orderPenjualan', function ($sub) use ($search) {
-                        $sub->where('nama', 'like', '%' . $search . '%');
-                    })->orWhereHas('orderPenjualan.details.master_produk', function ($sub2) use ($search) {
-                        $sub2->where('nama_produk', 'like', '%' . $search . '%')
-                             ->orWhere('kode', 'like', '%' . $search . '%');
-                    });
+    $monitoringOrders = MonitoringOrder::with('orderPenjualan.details.master_produk')
+        ->when($search, function ($q) use ($search) {
+            $q->where(function ($query) use ($search) {
+                $query->whereHas('orderPenjualan', function ($sub) use ($search) {
+                    $sub->where('nama', 'like', '%' . $search . '%');
+                })->orWhereHas('orderPenjualan.details.master_produk', function ($sub2) use ($search) {
+                    $sub2->where('nama_produk', 'like', '%' . $search . '%')
+                         ->orWhere('kode', 'like', '%' . $search . '%');
                 });
-            })
-            ->when($tanggal, function ($q) use ($tanggal) {
-                $q->whereHas('orderPenjualan', function ($sub) use ($tanggal) {
-                    $sub->whereDate('tanggal_pembuatan', $tanggal);
-                });
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(100);
+            });
+        })
+        ->when($tanggal, function ($q) use ($tanggal) {
+            $q->whereHas('orderPenjualan', function ($sub) use ($tanggal) {
+                $sub->whereDate('tanggal_pembuatan', $tanggal);
+            });
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(25)
+        ->appends(request()->query());
 
-        // Kumpulan kode & nama produk
-        $produkKodes = MasterProduk::select('kode', 'nama_produk')
-            ->groupBy('kode', 'nama_produk')
-            ->get();
 
-        // Rekap total jumlah per produk (untuk hari ini)
-        $today = now()->setTimezone('Asia/Jakarta')->toDateString();
-        $totalJumlahPerProduk = [];
-        foreach ($monitoringOrders as $monitoring) {
-            if ($monitoring->orderPenjualan->tanggal_pembuatan == $today) {
-                foreach ($monitoring->orderPenjualan->details as $detail) {
-                    $kode = $detail->master_produk->kode ?? '-';
-                    $nama = $detail->master_produk->nama_produk ?? '-';
-                    $key = $nama . ' (' . $kode . ')';
-                    $totalJumlahPerProduk[$key] = ($totalJumlahPerProduk[$key] ?? 0) + $detail->jumlah_beli;
-                }
+    $produkKodes = MasterProduk::select('kode', 'nama_produk')
+        ->groupBy('kode', 'nama_produk')
+        ->get();
+
+    $today = now()->setTimezone('Asia/Jakarta')->toDateString();
+    $totalJumlahPerProduk = [];
+    foreach ($monitoringOrders as $monitoring) {
+        if ($monitoring->orderPenjualan->tanggal_pembuatan == $today) {
+            foreach ($monitoring->orderPenjualan->details as $detail) {
+                $kode = $detail->master_produk->kode ?? '-';
+                $nama = $detail->master_produk->nama_produk ?? '-';
+                $key  = $nama . ' (' . $kode . ')';
+                $totalJumlahPerProduk[$key] = ($totalJumlahPerProduk[$key] ?? 0) + $detail->jumlah_beli;
             }
         }
-
-        $masterKendaraan = MasterKendaraan::where('status', 2)->get();
-
-        return Inertia::render('Apps/MonitoringOrder/Index', [
-            'monitoringOrders'     => $monitoringOrders,
-            'orders'               => $orders,
-            'produkKodes'          => $produkKodes,
-            'totalJumlahPerProduk' => $totalJumlahPerProduk,
-            'filters'              => [
-                'search'  => $search,
-                'tanggal' => $tanggal,
-            ],
-            'masterKendaraan'      => $masterKendaraan,
-        ]);
     }
+    $masterKendaraan = MasterKendaraan::where('status', 2)->get();
+
+    return Inertia::render('Apps/MonitoringOrder/Index', [
+        'monitoringOrders'     => $monitoringOrders,
+        'orders'               => $allOrders, // kirim semua orders (bukan hanya yang hari ini)
+        'produkKodes'          => $produkKodes,
+        'totalJumlahPerProduk' => $totalJumlahPerProduk,
+        'filters'              => [
+            'search'  => $search,
+            'tanggal' => $tanggal,
+        ],
+        'masterKendaraan'      => $masterKendaraan,
+    ]);
+}
+
 
     public function store(Request $request)
     {
@@ -120,7 +115,8 @@ class MonitoringOrderController extends Controller
             ]
         );
 
-        return redirect()->route('apps.monitoringorder.index');
+        return redirect(session('monitoring_order_last_url', route('apps.monitoringorder.index')))
+    ->with('success', 'Monitoring order berhasil diperbarui.');
     }
 
     public function update(Request $request, $id)
@@ -140,7 +136,8 @@ class MonitoringOrderController extends Controller
             'keterangan_staf'   => $request->keterangan_staf,
         ]);
 
-        return redirect()->route('apps.monitoringorder.index');
+        return redirect(session('monitoring_order_last_url', route('apps.monitoringorder.index')))
+    ->with('success', 'Monitoring order berhasil diperbarui.');
     }
 
     public function orderProduksi(Request $request)
