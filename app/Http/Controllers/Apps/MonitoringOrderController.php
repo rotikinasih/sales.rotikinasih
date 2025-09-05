@@ -33,7 +33,7 @@ class MonitoringOrderController extends Controller
             })
             ->get();
 
-        // Sinkronisasi MonitoringOrder
+        // Sinkronisasi MonitoringOrder (tanpa menyimpan tanggal_pembuatan)
         foreach ($orders as $order) {
             $monitoring = MonitoringOrder::firstOrNew([
                 'order_penjualan_id' => $order->id,
@@ -41,7 +41,6 @@ class MonitoringOrderController extends Controller
 
             if (!$monitoring->exists) {
                 $monitoring->status_produksi   = 1; // default "Belum produksi"
-                $monitoring->tanggal_pembuatan = $order->tanggal_pembuatan;
                 $monitoring->jam_pengiriman    = $order->jam_pengiriman;
                 $monitoring->keterangan        = $order->keterangan;
                 $monitoring->keterangan_staf   = $order->keterangan_staf;
@@ -118,7 +117,6 @@ class MonitoringOrderController extends Controller
             ['order_penjualan_id' => $order->id],
             [
                 'status_produksi'   => $request->status_produksi,
-                'tanggal_pembuatan' => $order->tanggal_pembuatan,
                 'jam_pengiriman'    => $order->jam_pengiriman,
                 'keterangan'        => $request->keterangan,
                 'keterangan_staf'   => $request->keterangan_staf,
@@ -140,9 +138,6 @@ class MonitoringOrderController extends Controller
 
         $monitoringOrder = MonitoringOrder::findOrFail($id);
         $monitoringOrder->status_produksi = $request->status_produksi;
-        if ($request->filled('tanggal_pembuatan')) {
-            $monitoringOrder->tanggal_pembuatan = $request->tanggal_pembuatan;
-        }
         if ($request->filled('jam_pengiriman')) {
             $monitoringOrder->jam_pengiriman = $request->jam_pengiriman;
         }
