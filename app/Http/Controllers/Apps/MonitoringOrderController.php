@@ -19,39 +19,17 @@ class MonitoringOrderController extends Controller
 {
     session(['monitoring_order_last_url' => $request->fullUrl()]);
     $search  = $request->search;
-    $tanggal = $request->tanggal;
+    $tanggal = $request->tanggal ?? now()->setTimezone('Asia/Jakarta')->toDateString();
 
-    // Default tanggal = hari ini WIB
-    if (!$tanggal) {
-        $tanggal = now()->setTimezone('Asia/Jakarta')->toDateString();
-    }
-
-    // Ambil semua order penjualan sesuai tanggal
-    $orders = OrderPenjualan::with('details.master_produk')
-        ->when($tanggal, fn($q) => $q->whereDate('tanggal_pembuatan', $tanggal))
-        ->get();
-
-    // Sinkronisasi MonitoringOrder: hanya buat baru jika belum ada
-    foreach ($orders as $order) {
-        $monitoring = MonitoringOrder::firstOrNew(['order_penjualan_id' => $order->id]);
-        if (!$monitoring->exists) {
-            $monitoring->status_produksi = 1; // default "Sedang Diproduksi"
-            $monitoring->created_id      = Auth::id();
-            $monitoring->save();
-        }
-    }
-
-    // Ambil monitoring orders (tanpa merubah status lama)
+    // Ambil monitoring orders sesuai filter (tanpa merubah status lama)
     $monitoringOrders = MonitoringOrder::with('orderPenjualan.details.master_produk')
         ->when($search, function ($q) use ($search) {
-            $q->where(function ($query) use ($search) {
-                $query->whereHas('orderPenjualan', fn($sub) => 
-                    $sub->where('nama', 'like', "%{$search}%")
-                )->orWhereHas('orderPenjualan.details.master_produk', fn($sub2) =>
-                    $sub2->where('nama_produk', 'like', "%{$search}%")
-                         ->orWhere('kode', 'like', "%{$search}%")
-                );
-            });
+            $q->whereHas('orderPenjualan', fn($sub) =>
+                $sub->where('nama', 'like', "%{$search}%")
+            )->orWhereHas('orderPenjualan.details.master_produk', fn($sub2) =>
+                $sub2->where('nama_produk', 'like', "%{$search}%")
+                     ->orWhere('kode', 'like', "%{$search}%")
+            );
         })
         ->when($tanggal, fn($q) => $q->whereHas('orderPenjualan', fn($sub) =>
             $sub->whereDate('tanggal_pembuatan', $tanggal)
@@ -83,7 +61,6 @@ class MonitoringOrderController extends Controller
 
     return Inertia::render('Apps/MonitoringOrder/Index', [
         'monitoringOrders'     => $monitoringOrders,
-        'orders'               => $orders,
         'produkKodes'          => $produkKodes,
         'totalJumlahPerProduk' => $totalJumlahPerProduk,
         'filters'              => [
