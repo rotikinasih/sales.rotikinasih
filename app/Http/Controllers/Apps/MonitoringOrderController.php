@@ -35,14 +35,12 @@ class MonitoringOrderController extends Controller
 
         // Sinkronisasi MonitoringOrder (tanpa menyimpan tanggal_pembuatan)
    foreach ($orders as $order) {
-    MonitoringOrder::firstOrCreate(
+    MonitoringOrder::updateOrCreate(
         ['order_penjualan_id' => $order->id],
-        [
-            'status_produksi' => 1,
-            'created_id'      => Auth::id(),
-        ]
+        ['created_id' => Auth::id()] // jangan overwrite status_produksi
     );
 }
+
 
 
         // Ambil monitoring orders setelah sinkronisasi
