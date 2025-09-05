@@ -41,8 +41,7 @@ class MonitoringOrderController extends Controller
 
     if (!$monitoring->exists) {
         $monitoring->status_produksi = 1; // default "Belum produksi"
-        $monitoring->keterangan       = $order->keterangan;
-        $monitoring->keterangan_staf  = $order->keterangan_staf;
+
         $monitoring->created_id       = Auth::id();
         $monitoring->save();
     }
@@ -116,8 +115,7 @@ class MonitoringOrderController extends Controller
     ['order_penjualan_id' => $order->id],
     [
         'status_produksi'   => $request->status_produksi,
-        'keterangan'        => $request->keterangan,
-        'keterangan_staf'   => $request->keterangan_staf,
+       
         'created_id'        => Auth::id(),
     ]
 );
@@ -136,12 +134,7 @@ class MonitoringOrderController extends Controller
 
         $monitoringOrder = MonitoringOrder::findOrFail($id);
 $monitoringOrder->status_produksi = $request->status_produksi;
-if ($request->filled('keterangan')) {
-    $monitoringOrder->keterangan = $request->keterangan;
-}
-if ($request->filled('keterangan_staf')) {
-    $monitoringOrder->keterangan_staf = $request->keterangan_staf;
-}
+
 $monitoringOrder->save();
 
 
