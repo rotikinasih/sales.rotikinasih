@@ -34,20 +34,19 @@ class MonitoringOrderController extends Controller
             ->get();
 
         // Sinkronisasi MonitoringOrder (tanpa menyimpan tanggal_pembuatan)
-        foreach ($orders as $order) {
-            $monitoring = MonitoringOrder::firstOrNew([
-                'order_penjualan_id' => $order->id,
-            ]);
+   foreach ($orders as $order) {
+    $monitoring = MonitoringOrder::firstOrNew([
+        'order_penjualan_id' => $order->id,
+    ]);
 
-            if (!$monitoring->exists) {
-                $monitoring->status_produksi   = 1; // default "Belum produksi"
-                $monitoring->jam_pengiriman    = $order->jam_pengiriman;
-                $monitoring->keterangan        = $order->keterangan;
-                $monitoring->keterangan_staf   = $order->keterangan_staf;
-                $monitoring->created_id        = Auth::id();
-                $monitoring->save();
-            }
-        }
+    if (!$monitoring->exists) {
+        $monitoring->status_produksi = 1; // default "Belum produksi"
+        $monitoring->keterangan       = $order->keterangan;
+        $monitoring->keterangan_staf  = $order->keterangan_staf;
+        $monitoring->created_id       = Auth::id();
+        $monitoring->save();
+    }
+}
 
         // Ambil monitoring orders setelah sinkronisasi
         $monitoringOrders = MonitoringOrder::with('orderPenjualan.details.master_produk')
@@ -114,15 +113,14 @@ class MonitoringOrderController extends Controller
         $order = OrderPenjualan::findOrFail($request->order_penjualan_id);
 
         MonitoringOrder::updateOrCreate(
-            ['order_penjualan_id' => $order->id],
-            [
-                'status_produksi'   => $request->status_produksi,
-                'jam_pengiriman'    => $order->jam_pengiriman,
-                'keterangan'        => $request->keterangan,
-                'keterangan_staf'   => $request->keterangan_staf,
-                'created_id'        => Auth::id(),
-            ]
-        );
+    ['order_penjualan_id' => $order->id],
+    [
+        'status_produksi'   => $request->status_produksi,
+        'keterangan'        => $request->keterangan,
+        'keterangan_staf'   => $request->keterangan_staf,
+        'created_id'        => Auth::id(),
+    ]
+);
 
         return redirect(session('monitoring_order_last_url', route('apps.monitoringorder.index')))
             ->with('success', 'Monitoring order berhasil diperbarui.');
@@ -137,17 +135,15 @@ class MonitoringOrderController extends Controller
         ]);
 
         $monitoringOrder = MonitoringOrder::findOrFail($id);
-        $monitoringOrder->status_produksi = $request->status_produksi;
-        if ($request->filled('jam_pengiriman')) {
-            $monitoringOrder->jam_pengiriman = $request->jam_pengiriman;
-        }
-        if ($request->filled('keterangan')) {
-            $monitoringOrder->keterangan = $request->keterangan;
-        }
-        if ($request->filled('keterangan_staf')) {
-            $monitoringOrder->keterangan_staf = $request->keterangan_staf;
-        }
-        $monitoringOrder->save();
+$monitoringOrder->status_produksi = $request->status_produksi;
+if ($request->filled('keterangan')) {
+    $monitoringOrder->keterangan = $request->keterangan;
+}
+if ($request->filled('keterangan_staf')) {
+    $monitoringOrder->keterangan_staf = $request->keterangan_staf;
+}
+$monitoringOrder->save();
+
 
         return redirect(session('monitoring_order_last_url', route('apps.monitoringorder.index')))
             ->with('success', 'Monitoring order berhasil diperbarui.');
