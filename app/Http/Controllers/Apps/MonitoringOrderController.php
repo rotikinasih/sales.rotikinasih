@@ -58,7 +58,7 @@ class MonitoringOrderController extends Controller
             $sub->whereDate('tanggal_pembuatan', $tanggal)
         ))
         ->orderByDesc('id')
-        ->paginate(100)
+        ->paginate(50)
         ->appends($request->query());
 
     // Kumpulan kode & nama produk

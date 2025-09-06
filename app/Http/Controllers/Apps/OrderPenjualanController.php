@@ -55,7 +55,8 @@ class OrderPenjualanController extends Controller
                 }
             })
             ->orderBy($sort, request()->order ?? 'desc')
-            ->paginate(10);
+            ->paginate(25)
+            ->appends(request()->query()); // <-- tambahkan ini agar query string tetap
 
         foreach ($orderpenjualan as $order) {
             // Ambil tanggal dari cicilan pertama jika ada

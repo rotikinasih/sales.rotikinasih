@@ -20461,15 +20461,38 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     FlatPickr: vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
   props: {
-    monitoringOrders: Object,
-    orders: Array,
-    produkKodes: Array,
-    filters: Object,
-    masterKendaraan: Array
+    monitoringOrders: {
+      type: Object,
+      required: true
+    },
+    orders: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    produkKodes: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    filters: {
+      type: Object,
+      "default": function _default() {
+        return {};
+      }
+    },
+    masterKendaraan: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    }
   },
   setup: function setup(props) {
+    // --- State dasar ---
     var showModal = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(false);
-    var updateSubmit = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(false);
     var judul = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)("Edit Monitoring");
     var id = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(null);
     var order_penjualan_id = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(null);
@@ -20477,44 +20500,68 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     var search = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(new URL(document.location).searchParams.get("search") || "");
     var selectedKode = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(null);
     var tanggalFilter = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(new URL(document.location).searchParams.get("tanggal") || null);
+
+    // Distribusi
     var showDistribusiModal = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(false);
     var distribusiItem = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(null);
     var formDistribusi = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)({
       master_kendaraan_id: null
     });
+
+    // Edit Produk
     var showEditProdukModal = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(false);
     var editProdukData = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(null);
     var editProdukStatus = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(1);
+
+    // List master produk untuk select (diambil dari orders yang dikirim server)
     var produkList = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)(props.orders.flatMap(function (order) {
       return order.details.map(function (d) {
         return d.master_produk;
-      });
+      }).filter(Boolean);
+    })
+    // optional: remove duplicate by id
+    .filter(function (v, i, arr) {
+      return v !== null && v !== void 0 && v.id ? arr.findIndex(function (x) {
+        return (x === null || x === void 0 ? void 0 : x.id) === v.id;
+      }) === i : true;
     }));
+
+    // --- Search / Filter ---
     var handleSearch = function handleSearch() {
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get("/apps/monitoringorder", {
-        search: search.value,
-        tanggal: tanggalFilter.value
+        search: search.value || undefined,
+        tanggal: tanggalFilter.value || undefined,
+        // simpan juga kode di url jika ingin persist (meski backend index tidak filter kode, tidak masalah)
+        kode: selectedKode.value || undefined
       }, {
         preserveState: true,
         preserveScroll: true,
-        replace: true
+        replace: true,
+        onError: function onError(errors) {
+          console.error("Search error:", errors);
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Error", "Gagal memuat data filter.", "error");
+        }
       });
     };
-    var debouncedSearch = lodash_debounce__WEBPACK_IMPORTED_MODULE_5___default()(handleSearch, 1000);
+    var debouncedSearch = lodash_debounce__WEBPACK_IMPORTED_MODULE_5___default()(handleSearch, 600);
     var filteredOrders = (0,vue__WEBPACK_IMPORTED_MODULE_6__.computed)(function () {
-      if (!selectedKode.value) return props.monitoringOrders.data;
-      return props.monitoringOrders.data.filter(function (item) {
-        return item.order_penjualan.details.some(function (d) {
+      var _props$monitoringOrde;
+      var rows = ((_props$monitoringOrde = props.monitoringOrders) === null || _props$monitoringOrde === void 0 ? void 0 : _props$monitoringOrde.data) || [];
+      if (!selectedKode.value) return rows;
+      return rows.filter(function (item) {
+        var _item$order_penjualan;
+        return (_item$order_penjualan = item.order_penjualan) === null || _item$order_penjualan === void 0 || (_item$order_penjualan = _item$order_penjualan.details) === null || _item$order_penjualan === void 0 ? void 0 : _item$order_penjualan.some(function (d) {
           var _d$master_produk;
           return ((_d$master_produk = d.master_produk) === null || _d$master_produk === void 0 ? void 0 : _d$master_produk.kode) === selectedKode.value;
         });
       }).map(function (item) {
-        var filteredDetails = item.order_penjualan.details.filter(function (d) {
+        var _item$order_penjualan2;
+        var filteredDetails = (((_item$order_penjualan2 = item.order_penjualan) === null || _item$order_penjualan2 === void 0 ? void 0 : _item$order_penjualan2.details) || []).filter(function (d) {
           var _d$master_produk2;
           return ((_d$master_produk2 = d.master_produk) === null || _d$master_produk2 === void 0 ? void 0 : _d$master_produk2.kode) === selectedKode.value;
         });
         return _objectSpread(_objectSpread({}, item), {}, {
-          order_penjualan: _objectSpread(_objectSpread({}, item.order_penjualan), {}, {
+          order_penjualan: _objectSpread(_objectSpread({}, item.order_penjualan || {}), {}, {
             details: filteredDetails
           })
         });
@@ -20522,155 +20569,218 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     });
     var totalJumlahPerProduk = (0,vue__WEBPACK_IMPORTED_MODULE_6__.computed)(function () {
       var result = {};
-      filteredOrders.value.forEach(function (item) {
-        item.order_penjualan.details.forEach(function (detail) {
-          var _detail$master_produk, _detail$master_produk2;
-          var kode = ((_detail$master_produk = detail.master_produk) === null || _detail$master_produk === void 0 ? void 0 : _detail$master_produk.kode) || '-';
-          var nama = ((_detail$master_produk2 = detail.master_produk) === null || _detail$master_produk2 === void 0 ? void 0 : _detail$master_produk2.nama_produk) || '-';
-          var key = "".concat(nama, " (").concat(kode, ")"); // gabungkan nama dan kode
-          result[key] = (result[key] || 0) + detail.jumlah_beli;
-        });
-      });
-      return result;
-    });
-    var uniqueProdukKodes = (0,vue__WEBPACK_IMPORTED_MODULE_6__.computed)(function () {
-      var seen = new Set();
-      return props.produkKodes.filter(function (item) {
-        if (seen.has(item.kode)) return false;
-        seen.add(item.kode);
-        return true;
-      });
-    });
-    var keOrderProduksi = function keOrderProduksi() {
-      var monitoring = props.monitoringOrders.data.find(function (item) {
-        return item.order_penjualan.details.some(function (d) {
-          var _d$master_produk3;
-          return ((_d$master_produk3 = d.master_produk) === null || _d$master_produk3 === void 0 ? void 0 : _d$master_produk3.kode) === selectedKode.value;
-        });
-      });
-      if (!monitoring) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Gagal", "Data monitoring tidak ditemukan!", "warning");
-        return;
-      }
-      var produkDetail = monitoring.order_penjualan.details.find(function (d) {
-        var _d$master_produk4;
-        return ((_d$master_produk4 = d.master_produk) === null || _d$master_produk4 === void 0 ? void 0 : _d$master_produk4.kode) === selectedKode.value;
-      });
-      if (!produkDetail) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Gagal", "Detail produk tidak ditemukan!", "warning");
-        return;
-      }
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post("/apps/order-produksi", {
-        monitoring_order_id: monitoring.id,
-        kode_produk: selectedKode.value,
-        jumlah: produkDetail.jumlah_beli,
-        tanggal_pembuatan: new Date().toISOString().slice(0, 10),
-        status_produksi: 'belum diproses'
-      }, {
-        onSuccess: function onSuccess() {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Sukses", "Order produksi berhasil dibuat!", "success");
-        }
-      });
-    };
-    var tambahMonitoringOtomatis = function tambahMonitoringOtomatis() {
-      var monitoredIds = props.monitoringOrders.data.map(function (item) {
-        return item.order_penjualan_id;
-      });
-      var belumDimonitoring = props.orders.filter(function (order) {
-        return !monitoredIds.includes(order.id);
-      });
-      if (belumDimonitoring.length > 0) {
-        belumDimonitoring.forEach(function (order) {
-          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post('/apps/monitoringorder', {
-            order_penjualan_id: order.id,
-            status_produksi: 1
-          });
-        });
-      }
-    };
-    var editData = function editData(item) {
-      updateSubmit.value = true;
-      id.value = item.id;
-      order_penjualan_id.value = item.order_penjualan_id;
-      status_produksi.value = item.status_produksi;
-      showModal.value = true;
-    };
-    var tutupModal = function tutupModal() {
-      showModal.value = false;
-    };
-    var updateData = function updateData() {
-      if (!id.value || !status_produksi.value) {
-        return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-          icon: "warning",
-          title: "Perhatian",
-          text: "Mohon lengkapi isian!"
-        });
-      }
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.put("/apps/monitoringorder/".concat(id.value), {
-        status_produksi: status_produksi.value
-        // tambahkan field lain jika perlu
-      }, {
-        preserveState: false,
-        replace: true,
-        onSuccess: function onSuccess() {
-          tutupModal();
-          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-            icon: "success",
-            title: "Sukses",
-            text: "Update berhasil!",
-            timer: 2000
-          });
-          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get('/apps/monitoringorder', {
-            search: search.value,
-            tanggal: tanggalFilter.value,
-            kode: selectedKode.value
-          });
-        }
-      });
-    };
-    var openDistribusiModal = function openDistribusiModal(item) {
-      distribusiItem.value = item;
-      formDistribusi.value.master_kendaraan_id = null;
-      showDistribusiModal.value = true;
-    };
-    var submitDistribusi = function submitDistribusi() {
-      if (!formDistribusi.value.master_kendaraan_id) {
-        return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Perhatian", "Pilih kendaraan terlebih dahulu!", "warning");
-      }
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post("/apps/distribusi-produk", {
-        monitoring_order_id: distribusiItem.value.id,
-        status_distribusi: 1,
-        master_kendaraan_id: Number(formDistribusi.value.master_kendaraan_id) // <-- paksa jadi number
-      }, {
-        onSuccess: function onSuccess() {
-          showDistribusiModal.value = false;
-          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Sukses", "Distribusi berhasil dibuat!", "success");
-        }
-      });
-    };
-    var editProduk = function editProduk(item) {
-      editProdukData.value = JSON.parse(JSON.stringify(item.order_penjualan));
-      editProdukStatus.value = item.status_produksi;
-      showEditProdukModal.value = true;
-    };
-    var tutupEditProdukModal = function tutupEditProdukModal() {
-      showEditProdukModal.value = false;
-    };
-    var updateProdukData = function updateProdukData() {
-      if (editProdukStatus.value != 1) return;
-      var _iterator = _createForOfIteratorHelper(editProdukData.value.details),
+      var _iterator = _createForOfIteratorHelper(filteredOrders.value),
         _step;
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var p = _step.value;
-          if (!p.master_produk_id || p.jumlah_beli < 1) {
-            return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Perhatian", "Semua produk dan jumlah beli wajib diisi.", "warning");
+          var _item$order_penjualan3;
+          var item = _step.value;
+          var _iterator2 = _createForOfIteratorHelper(((_item$order_penjualan3 = item.order_penjualan) === null || _item$order_penjualan3 === void 0 ? void 0 : _item$order_penjualan3.details) || []),
+            _step2;
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var _detail$master_produk, _detail$master_produk2;
+              var detail = _step2.value;
+              var kode = ((_detail$master_produk = detail.master_produk) === null || _detail$master_produk === void 0 ? void 0 : _detail$master_produk.kode) || "-";
+              var nama = ((_detail$master_produk2 = detail.master_produk) === null || _detail$master_produk2 === void 0 ? void 0 : _detail$master_produk2.nama_produk) || "-";
+              var key = "".concat(nama, " (").concat(kode, ")");
+              result[key] = (result[key] || 0) + Number(detail.jumlah_beli || 0);
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
           }
         }
       } catch (err) {
         _iterator.e(err);
       } finally {
         _iterator.f();
+      }
+      return result;
+    });
+    var uniqueProdukKodes = (0,vue__WEBPACK_IMPORTED_MODULE_6__.computed)(function () {
+      var seen = new Set();
+      return (props.produkKodes || []).filter(function (item) {
+        if (!(item !== null && item !== void 0 && item.kode)) return false;
+        if (seen.has(item.kode)) return false;
+        seen.add(item.kode);
+        return true;
+      });
+    });
+
+    // --- Order Produksi (opsional, mengikuti perilaku awal) ---
+    var keOrderProduksi = function keOrderProduksi() {
+      var _props$monitoringOrde2, _row$order_penjualan;
+      if (!selectedKode.value) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Perhatian", "Pilih kode produk terlebih dahulu.", "warning");
+      }
+      var row = (((_props$monitoringOrde2 = props.monitoringOrders) === null || _props$monitoringOrde2 === void 0 ? void 0 : _props$monitoringOrde2.data) || []).find(function (item) {
+        var _item$order_penjualan4;
+        return (((_item$order_penjualan4 = item.order_penjualan) === null || _item$order_penjualan4 === void 0 ? void 0 : _item$order_penjualan4.details) || []).some(function (d) {
+          var _d$master_produk3;
+          return ((_d$master_produk3 = d.master_produk) === null || _d$master_produk3 === void 0 ? void 0 : _d$master_produk3.kode) === selectedKode.value;
+        });
+      });
+      if (!row) return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Gagal", "Data monitoring tidak ditemukan!", "warning");
+      var produkDetail = (((_row$order_penjualan = row.order_penjualan) === null || _row$order_penjualan === void 0 ? void 0 : _row$order_penjualan.details) || []).find(function (d) {
+        var _d$master_produk4;
+        return ((_d$master_produk4 = d.master_produk) === null || _d$master_produk4 === void 0 ? void 0 : _d$master_produk4.kode) === selectedKode.value;
+      });
+      if (!produkDetail) return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Gagal", "Detail produk tidak ditemukan!", "warning");
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post("/apps/order-produksi", {
+        monitoring_order_id: row.id,
+        kode_produk: selectedKode.value,
+        jumlah: Number(produkDetail.jumlah_beli || 0),
+        tanggal_pembuatan: new Date().toISOString().slice(0, 10),
+        status_produksi: 1 // 1 = sedang diproduksi
+      }, {
+        onSuccess: function onSuccess() {
+          return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Sukses", "Order produksi berhasil dibuat!", "success");
+        },
+        onError: function onError(errors) {
+          console.error(errors);
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Error", "Gagal membuat order produksi.", "error");
+        }
+      });
+    };
+
+    // --- Tambah Monitoring Otomatis untuk order yang belum termonitor ---
+    var tambahMonitoringOtomatis = function tambahMonitoringOtomatis() {
+      var _props$monitoringOrde3;
+      var monitoredIds = (((_props$monitoringOrde3 = props.monitoringOrders) === null || _props$monitoringOrde3 === void 0 ? void 0 : _props$monitoringOrde3.data) || []).map(function (item) {
+        return item.order_penjualan_id;
+      });
+      var belumDimonitoring = (props.orders || []).filter(function (order) {
+        return !monitoredIds.includes(order.id);
+      });
+
+      // Hindari spam request: kirim satu per satu, tetap sederhana sesuai kode awal
+      belumDimonitoring.forEach(function (order) {
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post("/apps/monitoringorder", {
+          order_penjualan_id: order.id,
+          status_produksi: 1
+        }, {
+          onError: function onError(errors) {
+            return console.error("Autocreate monitoring error:", errors);
+          }
+        });
+      });
+    };
+
+    // --- Edit Status Monitoring ---
+    var editData = function editData(item) {
+      var _item$id, _item$order_penjualan5, _item$status_produksi;
+      id.value = (_item$id = item === null || item === void 0 ? void 0 : item.id) !== null && _item$id !== void 0 ? _item$id : null;
+      order_penjualan_id.value = (_item$order_penjualan5 = item === null || item === void 0 ? void 0 : item.order_penjualan_id) !== null && _item$order_penjualan5 !== void 0 ? _item$order_penjualan5 : null;
+      status_produksi.value = Number((_item$status_produksi = item === null || item === void 0 ? void 0 : item.status_produksi) !== null && _item$status_produksi !== void 0 ? _item$status_produksi : 1);
+      showModal.value = true;
+    };
+    var tutupModal = function tutupModal() {
+      return showModal.value = false;
+    };
+    var updateData = function updateData() {
+      if (!id.value) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Perhatian", "Data tidak valid.", "warning");
+      }
+      if (![1, 2].includes(Number(status_produksi.value))) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Perhatian", "Status produksi tidak valid.", "warning");
+      }
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.put("/apps/monitoringorder/".concat(id.value), {
+        status_produksi: Number(status_produksi.value)
+        // Field opsional lain bisa ditambahkan jika diperlukan form-nya
+        // keterangan,
+        // keterangan_staf,
+        // tanggal_pembuatan,
+        // jam_pengiriman,
+      }, {
+        preserveState: false,
+        replace: true,
+        onSuccess: function onSuccess() {
+          showModal.value = false;
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+            icon: "success",
+            title: "Sukses",
+            text: "Update berhasil!",
+            timer: 1800
+          });
+          // Pastikan reload agar data benar-benar fresh
+          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.reload({
+            only: ["monitoringOrders", "orders"]
+          });
+        },
+        onError: function onError(errors) {
+          console.error(errors);
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Error", "Gagal memperbarui monitoring.", "error");
+        }
+      });
+    };
+
+    // --- Distribusi ---
+    var openDistribusiModal = function openDistribusiModal(item) {
+      distribusiItem.value = item;
+      formDistribusi.value.master_kendaraan_id = null;
+      showDistribusiModal.value = true;
+    };
+    var submitDistribusi = function submitDistribusi() {
+      var _distribusiItem$value;
+      var kendaraanId = Number(formDistribusi.value.master_kendaraan_id);
+      if (!kendaraanId) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Perhatian", "Pilih kendaraan terlebih dahulu!", "warning");
+      }
+      if (!((_distribusiItem$value = distribusiItem.value) !== null && _distribusiItem$value !== void 0 && _distribusiItem$value.id)) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Perhatian", "Data monitoring tidak valid!", "warning");
+      }
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.post("/apps/distribusi-produk", {
+        monitoring_order_id: distribusiItem.value.id,
+        status_distribusi: 1,
+        master_kendaraan_id: kendaraanId
+      }, {
+        onSuccess: function onSuccess() {
+          showDistribusiModal.value = false;
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Sukses", "Distribusi berhasil dibuat!", "success");
+          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.reload({
+            only: ["monitoringOrders"]
+          });
+        },
+        onError: function onError(errors) {
+          console.error(errors);
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Error", "Gagal membuat distribusi.", "error");
+        }
+      });
+    };
+
+    // --- Edit Produk (Order Penjualan) ---
+    var editProduk = function editProduk(item) {
+      // Deep copy agar aman diedit
+      editProdukData.value = JSON.parse(JSON.stringify(item.order_penjualan || {}));
+      editProdukStatus.value = Number(item.status_produksi || 1);
+      showEditProdukModal.value = true;
+    };
+    var tutupEditProdukModal = function tutupEditProdukModal() {
+      return showEditProdukModal.value = false;
+    };
+    var updateProdukData = function updateProdukData() {
+      var _editProdukData$value;
+      if (Number(editProdukStatus.value) !== 1) return; // hanya boleh edit saat status 1
+      if (!((_editProdukData$value = editProdukData.value) !== null && _editProdukData$value !== void 0 && _editProdukData$value.id)) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Perhatian", "Order penjualan tidak valid.", "warning");
+      }
+
+      // Validasi minimal
+      var _iterator3 = _createForOfIteratorHelper(editProdukData.value.details || []),
+        _step3;
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var p = _step3.value;
+          if (!p.master_produk_id || Number(p.jumlah_beli) < 1) {
+            return sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Perhatian", "Semua produk dan jumlah beli wajib diisi.", "warning");
+          }
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
       }
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.put("/apps/orderpenjualan/".concat(editProdukData.value.id), {
         nama: editProdukData.value.nama,
@@ -20681,10 +20791,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         status_pembayaran: editProdukData.value.status_pembayaran,
         keterangan: editProdukData.value.keterangan,
         keterangan_staf: editProdukData.value.keterangan_staf,
-        produkList: editProdukData.value.details.map(function (p) {
+        produkList: (editProdukData.value.details || []).map(function (p) {
           return {
-            master_produk_id: p.master_produk_id,
-            jumlah_beli: p.jumlah_beli
+            master_produk_id: Number(p.master_produk_id),
+            jumlah_beli: Number(p.jumlah_beli)
           };
         })
       }, {
@@ -20693,76 +20803,105 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         onSuccess: function onSuccess() {
           showEditProdukModal.value = false;
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Sukses", "Update berhasil!", "success");
-          // Redirect manual agar data tabel langsung refresh
-          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get('/apps/monitoringorder');
+          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get("/apps/monitoringorder", {
+            search: search.value || undefined,
+            tanggal: tanggalFilter.value || undefined,
+            kode: selectedKode.value || undefined
+          });
+        },
+        onError: function onError(errors) {
+          console.error(errors);
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire("Error", "Gagal mengupdate order penjualan.", "error");
         }
       });
     };
     var tambahProdukEdit = function tambahProdukEdit() {
-      if (editProdukStatus.value != 1) return;
+      var _editProdukData$value2;
+      if (Number(editProdukStatus.value) !== 1) return;
+      if (!((_editProdukData$value2 = editProdukData.value) !== null && _editProdukData$value2 !== void 0 && _editProdukData$value2.details)) editProdukData.value.details = [];
       editProdukData.value.details.push({
         master_produk_id: null,
         jumlah_beli: 1
       });
     };
     var hapusProdukEdit = function hapusProdukEdit(idx) {
-      if (editProdukStatus.value != 1) return;
-      if (editProdukData.value.details.length > 1) {
+      var _editProdukData$value3;
+      if (Number(editProdukStatus.value) !== 1) return;
+      if ((((_editProdukData$value3 = editProdukData.value) === null || _editProdukData$value3 === void 0 ? void 0 : _editProdukData$value3.details) || []).length > 1) {
         editProdukData.value.details.splice(idx, 1);
       }
     };
-    var tanggalExport = tanggalFilter.value || new Date().toISOString().slice(0, 10);
+
+    // --- Export / Print ---
+    var buildTanggalExport = function buildTanggalExport() {
+      return tanggalFilter.value || new Date().toISOString().slice(0, 10);
+    };
     var exportExcel = function exportExcel() {
-      window.open("/apps/monitoringorder/export?tanggal=".concat(tanggalExport, "&type=excel&kode=").concat(selectedKode.value || ''), "_blank");
+      var tgl = buildTanggalExport();
+      var kodeParam = selectedKode.value ? encodeURIComponent(selectedKode.value) : "";
+      window.open("/apps/monitoringorder/export?tanggal=".concat(tgl, "&type=excel&kode=").concat(kodeParam), "_blank");
     };
     var exportPdf = function exportPdf() {
-      window.open("/apps/monitoringorder/export?tanggal=".concat(tanggalExport, "&type=pdf&kode=").concat(selectedKode.value || ''), "_blank");
+      var tgl = buildTanggalExport();
+      var kodeParam = selectedKode.value ? encodeURIComponent(selectedKode.value) : "";
+      window.open("/apps/monitoringorder/export?tanggal=".concat(tgl, "&type=pdf&kode=").concat(kodeParam), "_blank");
     };
     var printPage = function printPage() {
-      window.open("/apps/monitoringorder/print?tanggal=".concat(tanggalExport, "&kode=").concat(selectedKode.value || ''), "_blank");
+      var tgl = buildTanggalExport();
+      var kodeParam = selectedKode.value ? encodeURIComponent(selectedKode.value) : "";
+      window.open("/apps/monitoringorder/print?tanggal=".concat(tgl, "&kode=").concat(kodeParam), "_blank");
     };
+
+    // --- Pagination ---
     var handlePageChange = function handlePageChange(link) {
-      if (link.url) {
-        var url = new URL(link.url, window.location.origin);
-        var page = url.searchParams.get("page") || 1;
-        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get("/apps/monitoringorder", {
-          search: search.value,
-          tanggal: tanggalFilter.value,
-          kode: selectedKode.value,
-          page: page
-        }, {
-          preserveState: true,
-          preserveScroll: true,
-          replace: true
-        });
-      }
+      if (!(link !== null && link !== void 0 && link.url)) return;
+      var url = new URL(link.url, window.location.origin);
+      var page = url.searchParams.get("page") || 1;
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get("/apps/monitoringorder", {
+        page: page,
+        search: search.value || undefined,
+        tanggal: tanggalFilter.value || undefined,
+        kode: selectedKode.value || undefined
+      }, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true,
+        onError: function onError(errors) {
+          return console.error("Pagination error:", errors);
+        }
+      });
     };
     (0,vue__WEBPACK_IMPORTED_MODULE_6__.onMounted)(function () {
+      // otomatis buat monitoring untuk order yang belum ada monitoring
       tambahMonitoringOtomatis();
     });
     return {
+      // state
       showModal: showModal,
-      updateSubmit: updateSubmit,
       judul: judul,
       order_penjualan_id: order_penjualan_id,
       status_produksi: status_produksi,
+      search: search,
       selectedKode: selectedKode,
+      tanggalFilter: tanggalFilter,
+      // computed
       filteredOrders: filteredOrders,
       uniqueProdukKodes: uniqueProdukKodes,
+      totalJumlahPerProduk: totalJumlahPerProduk,
+      // actions
+      debouncedSearch: debouncedSearch,
+      handleSearch: handleSearch,
       keOrderProduksi: keOrderProduksi,
       editData: editData,
       updateData: updateData,
       tutupModal: tutupModal,
-      search: search,
-      tanggalFilter: tanggalFilter,
-      totalJumlahPerProduk: totalJumlahPerProduk,
-      debouncedSearch: debouncedSearch,
-      handleSearch: handleSearch,
+      // distribusi
       showDistribusiModal: showDistribusiModal,
       openDistribusiModal: openDistribusiModal,
       submitDistribusi: submitDistribusi,
       formDistribusi: formDistribusi,
       masterKendaraan: props.masterKendaraan,
+      // edit produk
       editProduk: editProduk,
       showEditProdukModal: showEditProdukModal,
       editProdukData: editProdukData,
@@ -20771,9 +20910,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       updateProdukData: updateProdukData,
       tambahProdukEdit: tambahProdukEdit,
       hapusProdukEdit: hapusProdukEdit,
+      // export/print
       exportExcel: exportExcel,
       exportPdf: exportPdf,
       printPage: printPage,
+      // pagination
       handlePageChange: handlePageChange
     };
   }
@@ -22242,6 +22383,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             }
           });
         }
+      });
+    };
+    var handlePageChange = function handlePageChange(link) {
+      if (!(link !== null && link !== void 0 && link.url)) return;
+      var url = new URL(link.url, window.location.origin);
+      var page = url.searchParams.get("page") || 1;
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_7__.Inertia.get("/apps/orderpenjualan", {
+        page: page,
+        search: search.value,
+        searchTanggalInput: searchTanggalInput.value,
+        searchTanggalPembuatan: searchTanggalPembuatan.value,
+        searchTanggalPengiriman: searchTanggalPengiriman.value,
+        searchStatusPembayaran: searchStatusPembayaran.value
+      }, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true
       });
     };
     return {
@@ -26514,7 +26672,7 @@ var _hoisted_32 = {
 var _hoisted_33 = {
   "class": "table table-bordered table-hover"
 };
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "#"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Kode Distribusi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Nama Pemesan"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tambahkan ini "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Produk"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Tanggal Produksi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Jam"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Keterangan"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Catatan Admin"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Status Produksi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Aksi")])], -1 /* HOISTED */);
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "#"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Kode Distribusi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Nama Pemesan"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Produk"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Tanggal Produksi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Jam"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Keterangan"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Catatan Admin"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Status Produksi"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Aksi")])], -1 /* HOISTED */);
 var _hoisted_35 = {
   key: 0
 };
@@ -26570,7 +26728,7 @@ var _hoisted_51 = {
   key: 0
 };
 var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  colspan: "7",
+  colspan: "10",
   "class": "text-center"
 }, "Data Kosong", -1 /* HOISTED */);
 var _hoisted_53 = [_hoisted_52];
@@ -26641,7 +26799,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_1];
     }),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pencarian "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "class": "form-control",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -26656,7 +26814,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = function () {
       return $setup.handleSearch && $setup.handleSearch.apply($setup, arguments);
     })
-  }, [].concat(_hoisted_9))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, [].concat(_hoisted_9))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter kode produk "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $setup.selectedKode = $event;
@@ -26666,7 +26824,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: kode.kode,
       value: kode.kode
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(kode.kode), 9 /* TEXT, PROPS */, _hoisted_13);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedKode]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_flat_pickr, {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedKode]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter tanggal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_flat_pickr, {
     modelValue: $setup.tanggalFilter,
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $setup.tanggalFilter = $event;
@@ -26693,20 +26851,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[7] || (_cache[7] = function () {
       return $setup.printPage && $setup.printPage.apply($setup, arguments);
     })
-  }, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cetak ")])])]), $setup.selectedKode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cetak ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tombol produksi "), $setup.selectedKode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-primary",
     onClick: _cache[8] || (_cache[8] = function () {
       return $setup.keOrderProduksi && $setup.keOrderProduksi.apply($setup, arguments);
     })
-  }, "Produksi Sekarang")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), Object.keys($setup.totalJumlahPerProduk).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.totalJumlahPerProduk, function (jumlah, label) {
+  }, "Produksi Sekarang")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ringkasan jumlah "), Object.keys($setup.totalJumlahPerProduk).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.totalJumlahPerProduk, function (jumlah, label) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col-md-6 col-lg-4",
       key: label
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(label), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(jumlah) + " item", 1 /* TEXT */)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.filteredOrders, function (item, index) {
+  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tabel utama "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.filteredOrders, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: item.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + $props.monitoringOrders.from), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.order_penjualan.kode_distribusi || '-'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.order_penjualan.nama || '-'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tampilkan nama pemesan "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [item.order_penjualan.details.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_35, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.order_penjualan.details, function (p, i) {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + $props.monitoringOrders.from), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.order_penjualan.kode_distribusi || '-'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.order_penjualan.nama || '-'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [item.order_penjualan.details.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_35, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.order_penjualan.details, function (p, i) {
       var _p$master_produk;
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: i
@@ -26741,11 +26899,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "border-radius": "10px"
       }
     }, [_hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Distribusi Sekarang ")], 8 /* PROPS */, _hoisted_49)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
-  }), 128 /* KEYED_FRAGMENT */)), $props.monitoringOrders.data.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_51, [].concat(_hoisted_53))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $props.monitoringOrders.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Pagination, {
+  }), 128 /* KEYED_FRAGMENT */)), $props.monitoringOrders.data.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_51, [].concat(_hoisted_53))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $props.monitoringOrders.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Pagination, {
     key: 2,
     links: $props.monitoringOrders.links,
     onPageChange: $setup.handlePageChange
-  }, null, 8 /* PROPS */, ["links", "onPageChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tambahkan di sini ")])])])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, null, 8 /* PROPS */, ["links", "onPageChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal update status "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Modal, {
     show: $setup.showModal,
@@ -26791,7 +26949,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["show"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal Distribusi "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, 8 /* PROPS */, ["show"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal distribusi "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Modal, {
     show: $setup.showDistribusiModal,
@@ -26830,7 +26988,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["show"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal Edit Produk "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, 8 /* PROPS */, ["show"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal edit produk "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Modal, {
     show: $setup.showEditProdukModal,
@@ -29514,8 +29672,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */)), $props.orderpenjualan.data.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_74, [].concat(_hoisted_76))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [$props.orderpenjualan.total ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("label", _hoisted_79, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.orderpenjualan.from) + " to " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.orderpenjualan.to) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.orderpenjualan.total) + " items ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [$props.orderpenjualan.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Pagination, {
     key: 0,
     links: $props.orderpenjualan.links,
+    onPageChange: _ctx.handlePageChange,
     align: "end"
-  }, null, 8 /* PROPS */, ["links"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, null, 8 /* PROPS */, ["links", "onPageChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Modal, {
     show: $setup.showModal,

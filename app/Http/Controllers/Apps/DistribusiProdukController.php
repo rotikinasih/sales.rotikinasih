@@ -48,7 +48,7 @@ class DistribusiProdukController extends Controller
         });
     })
     ->orderBy('created_at', 'desc')
-    ->paginate(25) // samakan 25 biar konsisten
+    ->paginate(50) // samakan 25 biar konsisten
     ->appends(request()->query()); // supaya query string tetap
 
     $produkKodes = MasterProduk::select('kode', 'nama_produk')

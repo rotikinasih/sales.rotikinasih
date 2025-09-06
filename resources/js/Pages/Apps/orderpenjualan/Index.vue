@@ -192,7 +192,7 @@
                                 </label>
                             </div>
                             <div class="col-md-8">
-                                <Pagination v-if="orderpenjualan.links" :links="orderpenjualan.links" align="end" />
+                                <Pagination v-if="orderpenjualan.links" :links="orderpenjualan.links" @page-change="handlePageChange" align="end" />
                             </div>
                         </div>
                     </div>
@@ -703,6 +703,28 @@ export default {
                     });
                 }
             });
+        };
+
+        const handlePageChange = (link) => {
+            if (!link?.url) return;
+            const url = new URL(link.url, window.location.origin);
+            const page = url.searchParams.get("page") || 1;
+            Inertia.get(
+                "/apps/orderpenjualan",
+                {
+                    page,
+                    search: search.value,
+                    searchTanggalInput: searchTanggalInput.value,
+                    searchTanggalPembuatan: searchTanggalPembuatan.value,
+                    searchTanggalPengiriman: searchTanggalPengiriman.value,
+                    searchStatusPembayaran: searchStatusPembayaran.value,
+                },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    replace: true,
+                }
+            );
         };
 
         return {
