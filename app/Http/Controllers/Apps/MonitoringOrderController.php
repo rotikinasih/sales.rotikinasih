@@ -33,12 +33,13 @@ class MonitoringOrderController extends Controller
 
     // Sinkronisasi MonitoringOrder: hanya buat record baru jika belum ada
     foreach ($orders as $order) {
-        $monitoring = MonitoringOrder::firstOrNew(['order_penjualan_id' => $order->id]);
-        if (!$monitoring->exists) {
-            $monitoring->status_produksi = 1; // default "Sedang Diproduksi"
-            $monitoring->created_id      = Auth::id();
-            $monitoring->save();
-        }
+        MonitoringOrder::firstOrCreate(
+        ['order_penjualan_id' => $order->id],
+        [
+            'status_produksi' => 1, // default "Sedang Diproduksi"
+            'created_id'      => Auth::id(),
+        ]
+    );
         // jika sudah ada, jangan ubah apapun (biarkan status_produksi tetap seperti di database)
     }
 
