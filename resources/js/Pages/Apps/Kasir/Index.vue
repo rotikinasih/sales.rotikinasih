@@ -353,7 +353,8 @@ import Swal from "sweetalert2";
 import { Inertia } from "@inertiajs/inertia";
 import { ref, computed, watch, onMounted } from "vue";
 import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.min.css'
+import 'vue-multiselect/dist/vue-multiselect.min.css';
+import axios from "axios";
 
 export default {
     layout: LayoutApp,
@@ -458,48 +459,50 @@ export default {
             });
         };
 
-        const checkout = () => {
-            let jumlahBayarFinal = jumlahBayar.value;
-            if (pembayaran.value === 'bank') {
-                jumlahBayarFinal = totalHarga.value;
-            }
-            Inertia.post('/apps/kasir/checkout', {
-                keranjang: keranjang.value,
-                pembayaran: pembayaran.value,
-                jumlah_bayar: jumlahBayarFinal,
-                pelanggan: pelanggan.value,
-                diskon: diskon.value,
-                outlet_id: outlet_id.value,
-            }, {
-                onSuccess: (res) => {
-                    keranjang.value = [];
-                    jumlahBayar.value = 0;
-                    diskon.value = 0;
-                    Swal.fire({
-                        title: 'Transaksi Berhasil',
-                        text: 'Pilih aksi nota:',
-                        icon: 'success',
-                        showDenyButton: true,
-                        showCancelButton: true,
-                        confirmButtonText: 'Download PDF',
-                        denyButtonText: 'Print Struk',
-                        cancelButtonText: 'Tutup',
-                    }).then((result) => {
-                        // Download PDF
-                        if (result.isConfirmed && res.props.transaksi_id) {
-                            window.open(`/kasir/download-nota/${res.props.transaksi_id}`, '_blank');
-                        }
-                        // Print Struk (thermal)
-                        else if (result.isDenied && res.props.transaksi_id) {
-                            window.open(`/kasir/print-nota/${res.props.transaksi_id}`, '_blank');
-                        }
-                    });
-                },
-                onError: (err) => {
-                    Swal.fire('Gagal', err.message || 'Gagal transaksi!', 'error');
-                }
-            });
-        };
+const checkout = () => {
+    let jumlahBayarFinal = jumlahBayar.value;
+    if (pembayaran.value === 'bank') {
+        jumlahBayarFinal = totalSetelahDiskon.value;
+    }
+
+    axios.post('/apps/kasir/checkout', {
+        keranjang: keranjang.value,
+        pembayaran: pembayaran.value,
+        jumlah_bayar: jumlahBayarFinal,
+        pelanggan: pelanggan.value,
+        diskon: diskon.value,
+        outlet_id: outlet_id.value,
+    })
+    .then((res) => {
+    const transaksiId = res.data.transaksi_id;
+    Swal.fire({
+        title: "Transaksi Berhasil!",
+        text: "Apakah ingin cetak nota?",
+        icon: "success",
+        showCancelButton: true,
+        confirmButtonText: "Cetak Nota",
+        cancelButtonText: "Tidak",
+    }).then((result) => {
+        if (result.isConfirmed && transaksiId) {
+            window.open(`/apps/kasir/print-nota/${transaksiId}`, "_blank");
+        }
+        // ⬇️ Tambahkan ini agar halaman kasir auto refresh setelah print/tidak print
+        setTimeout(() => {
+            window.location.reload();
+        }, 500); // beri jeda agar print window sempat terbuka
+    });
+
+    // reset keranjang
+    keranjang.value = [];
+    jumlahBayar.value = 0;
+    diskon.value = 0;
+    pelanggan.value = "";
+    localStorage.removeItem('kasirKeranjang');
+})
+};
+
+
+// ...existing code...
 
         const cetakStruk = () => {
             window.print();

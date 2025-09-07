@@ -60,75 +60,81 @@ class KasirController extends Controller
     }
 
     public function checkout(Request $request)
-    {
-        $request->validate([
-            'keranjang' => 'required|array|min:1',
-            'keranjang.*.id' => 'required|exists:master_produk,id',
-            'keranjang.*.jumlah' => 'required|integer|min:1',
-            'keranjang.*.harga_jual' => 'required|numeric|min:0',
-            'pembayaran' => 'required|in:cash,bank',
-            'jumlah_bayar' => 'nullable|numeric',
-            'pelanggan' => 'nullable|string|max:255',
-            'diskon' => 'nullable|numeric|min:0',
-            'outlet_id' => 'required|exists:master_outlet,id', // <-- tambahkan validasi outlet
+{
+    $request->validate([
+        'keranjang' => 'required|array|min:1',
+        'keranjang.*.id' => 'required|exists:master_produk,id',
+        'keranjang.*.jumlah' => 'required|integer|min:1',
+        'keranjang.*.harga_jual' => 'required|numeric|min:0',
+        'pembayaran' => 'required|in:cash,bank',
+        'jumlah_bayar' => 'nullable|numeric',
+        'pelanggan' => 'nullable|string|max:255',
+        'diskon' => 'nullable|numeric|min:0',
+        'outlet_id' => 'required|exists:master_outlet,id',
+    ]);
+
+    $outletId = $request->outlet_id;
+    if (!$outletId) {
+        return back()->withErrors(['outlet_id' => 'User belum memilih outlet!']);
+    }
+
+    DB::beginTransaction();
+    try {
+        $totalAwal = collect($request->keranjang)->sum(fn($item) => $item['jumlah'] * $item['harga_jual']);
+        $diskon = $request->diskon ?? 0;
+
+        $transaksi = Transaksi::create([
+            'kode_transaksi' => 'TRX-' . now()->format('YmdHis'),
+            'total' => $totalAwal,
+            'pembayaran' => $request->pembayaran,
+            'jumlah_bayar' => $request->jumlah_bayar,
+            'pelanggan' => $request->pelanggan,
+            'diskon' => $diskon,
+            'outlet_id' => $outletId,
         ]);
 
-        $outletId = $request->outlet_id; // <-- ambil dari request
-        if (!$outletId) {
-            return back()->withErrors(['outlet_id' => 'User belum memilih outlet!']);
-        }
+        foreach ($request->keranjang as $item) {
+            $produk = MasterProduk::findOrFail($item['id']);
+            $stok = InventoryStok::firstOrCreate(
+                ['master_produk_id' => $produk->id, 'outlet_id' => $outletId],
+                ['stok' => 0]
+            );
 
-        DB::beginTransaction();
-        try {
-            $totalAwal = collect($request->keranjang)->sum(fn($item) => $item['jumlah'] * $item['harga_jual']);
-            $diskon = $request->diskon ?? 0;
-
-            $transaksi = Transaksi::create([
-                'kode_transaksi' => 'TRX-' . now()->format('YmdHis'),
-                'total' => $totalAwal,
-                'pembayaran' => $request->pembayaran,
-                'jumlah_bayar' => $request->jumlah_bayar,
-                'pelanggan' => $request->pelanggan,
-                'diskon' => $diskon,
-                'outlet_id' => $outletId, // <-- simpan outlet yang dipilih
-            ]);
-
-            foreach ($request->keranjang as $item) {
-                $produk = MasterProduk::findOrFail($item['id']);
-                $stok = InventoryStok::firstOrCreate(
-                    [
-                        'master_produk_id' => $produk->id,
-                        'outlet_id' => $outletId // <-- cek stok di outlet yang dipilih
-                    ],
-                    ['stok' => 0]
-                );
-
-                if ($stok->stok < $item['jumlah']) {
-                    throw new \Exception("Stok tidak cukup untuk produk: {$produk->nama_produk}");
-                }
-
-                TransaksiItem::create([
-                    'transaksi_id' => $transaksi->id,
-                    'master_produk_id' => $produk->id,
-                    'jumlah' => $item['jumlah'],
-                    'harga_jual' => $item['harga_jual'],
-                ]);
-
-                $stok->stok -= $item['jumlah'];
-                $stok->save();
+            if ($stok->stok < $item['jumlah']) {
+                throw new \Exception("Stok tidak cukup untuk produk: {$produk->nama_produk}");
             }
 
-            $totalAkhir = max(0, $transaksi->total - $diskon);
-            $transaksi->total = $totalAkhir;
-            $transaksi->save();
+            TransaksiItem::create([
+                'transaksi_id' => $transaksi->id,
+                'master_produk_id' => $produk->id,
+                'jumlah' => $item['jumlah'],
+                'harga_jual' => $item['harga_jual'],
+            ]);
 
-            DB::commit();
-            return back()->with('success', 'Transaksi berhasil disimpan!');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['message' => 'Gagal transaksi: ' . $e->getMessage()]);
+            $stok->stok -= $item['jumlah'];
+            $stok->save();
         }
+
+        $totalAkhir = max(0, $transaksi->total - $diskon);
+        $transaksi->update(['total' => $totalAkhir]);
+
+        DB::commit();
+
+        // ✅ Kirim transaksi_id langsung ke Vue
+        return response()->json([
+            'success' => true,
+            'message' => 'Transaksi berhasil disimpan!',
+            'transaksi_id' => $transaksi->id,
+        ]);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal transaksi: ' . $e->getMessage(),
+        ], 500);
     }
+}
+
 
     public function editStok(Request $request)
     {
@@ -276,7 +282,8 @@ class KasirController extends Controller
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadHTML($view)->setPaper('A6', 'portrait');
         if (ob_get_contents()) ob_end_clean();
 
-        return $pdf->download('nota-'.$transaksi->kode_transaksi.'.pdf');
+        return $pdf->download('nota-'.$transaksi->kode_transaksi.'.pdf')
+    ->header('Refresh', '1;url='.route('kasir.index'));
     }
     public function printNota($transaksi_id)
     {
